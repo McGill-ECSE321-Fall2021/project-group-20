@@ -7,12 +7,13 @@ import java.util.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import java.sql.Date;
 
 // line 52 "../../../../../librarysystem.ump"
-//@Entity
+@Entity
 public class User
 {
 
@@ -190,7 +191,7 @@ public class User
     return lastName;
   }
 
-  //@Id
+  @Id
   public int getLibraryCardID()
   {
     return libraryCardID;
@@ -216,17 +217,19 @@ public class User
     return demeritPts;
   }
   /* Code from template association_GetOne */
-  //@ManyToOne(optional=false)
+  @ManyToOne(optional=false)
   public Address getAddress()
   {
     return address;
   }
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;
   }
   /* Code from template association_GetMany */
+  @ManyToMany(cascade=CascadeType.ALL)
   public Booking getUserbooking(int index)
   {
     Booking aUserbooking = userbooking.get(index);
