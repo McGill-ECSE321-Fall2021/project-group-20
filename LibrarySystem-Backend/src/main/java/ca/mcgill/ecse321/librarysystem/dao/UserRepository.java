@@ -6,5 +6,5 @@ import ca.mcgill.ecse321.librarysystem.model.User;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
 	
-	User findUserByID(Integer id);
+	User findByLibraryCardID(Integer libraryCardID);
 }
