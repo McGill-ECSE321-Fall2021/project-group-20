@@ -3,9 +3,17 @@
 
 package ca.mcgill.ecse321.librarysystem.model;
 import java.util.*;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
 import java.sql.Time;
 
 // line 116 "../../../../../librarysystem.ump"
+@Entity
 public class Calendar
 {
 
@@ -20,10 +28,14 @@ public class Calendar
   //------------------------
 
   //Calendar Attributes
+  @Id
+  @GeneratedValue
   private String calendarID;
 
   //Calendar Associations
+  @OneToMany(mappedBy="calendar")
   private List<Hour> hour;
+  @OneToOne(mappedBy="calendar")
   private LibrarySystem librarySystem;
 
   //------------------------

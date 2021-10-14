@@ -5,7 +5,10 @@ package ca.mcgill.ecse321.librarysystem.model;
 import java.util.*;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 // line 81 "../../../../../librarysystem.ump"
 @Entity
@@ -23,6 +26,8 @@ public class Address
   //------------------------
 
   //Address Attributes
+  @Id
+  @GeneratedValue
   private String addressID;
   private int civicNumber;
   private String street;
@@ -32,7 +37,9 @@ public class Address
   private String country;
 
   //Address Associations
+  @OneToOne(mappedBy="buisnessaddress")
   private LibrarySystem librarySystem;
+  @OneToMany(mappedBy="address")
   private List<User> users;
 
   //------------------------
@@ -146,7 +153,6 @@ public class Address
     return wasSet;
   }
 
-  @Id
   public String getAddressID()
   {
     return addressID;

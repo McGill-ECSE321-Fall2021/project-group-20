@@ -4,7 +4,13 @@
 package ca.mcgill.ecse321.librarysystem.model;
 import java.util.*;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
 // line 11 "../../../../../librarysystem.ump"
+@Entity
 public class Author
 {
 
@@ -19,11 +25,14 @@ public class Author
   //------------------------
 
   //Author Attributes
+  @Id
+  @GeneratedValue
   private String authorID;
   private String firstName;
   private String lastName;
 
   //Author Associations
+  @ManyToMany(mappedBy="author")
   private List<Title> titles;
 
   //------------------------

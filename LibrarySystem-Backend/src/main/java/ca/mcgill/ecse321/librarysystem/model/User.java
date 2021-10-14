@@ -4,16 +4,21 @@
 package ca.mcgill.ecse321.librarysystem.model;
 import java.util.*;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import java.sql.Date;
 
 // line 52 "../../../../../librarysystem.ump"
 @Entity
+@Table(name="users")
+@Inheritance(strategy=InheritanceType.JOINED)
 public class User
 {
 
@@ -34,13 +39,18 @@ public class User
   private String email;
   private String firstName;
   private String lastName;
+  @Id
+  @GeneratedValue
   private int libraryCardID;
   private boolean isVerified;
   private int demeritPts;
 
   //User Associations
+  @ManyToOne(optional=false)
   private Address address;
+  @ManyToOne(optional=false)
   private LibrarySystem librarySystem;
+  @OneToMany(mappedBy="user")
   private List<Booking> userbooking;
 
   //------------------------
@@ -191,7 +201,6 @@ public class User
     return lastName;
   }
 
-  @Id
   public int getLibraryCardID()
   {
     return libraryCardID;
@@ -217,19 +226,16 @@ public class User
     return demeritPts;
   }
   /* Code from template association_GetOne */
-  @ManyToOne(optional=false)
   public Address getAddress()
   {
     return address;
   }
   /* Code from template association_GetOne */
-  @ManyToOne(optional=false)
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;
   }
   /* Code from template association_GetMany */
-  @ManyToMany(cascade=CascadeType.ALL)
   public Booking getUserbooking(int index)
   {
     Booking aUserbooking = userbooking.get(index);

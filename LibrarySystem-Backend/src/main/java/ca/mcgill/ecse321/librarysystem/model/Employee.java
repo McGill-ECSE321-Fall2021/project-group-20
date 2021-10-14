@@ -3,9 +3,15 @@
 
 package ca.mcgill.ecse321.librarysystem.model;
 import java.util.*;
+
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+
 import java.sql.Time;
 
-// line 64 "../../../../../librarysystem.ump"
+// line 59 "model.ump"
+// line 206 "model.ump"
+@Entity
 public class Employee extends User
 {
 
@@ -16,34 +22,24 @@ public class Employee extends User
   public enum Role { Librarian, HeadLibrarian }
 
   //------------------------
-  // STATIC VARIABLES
-  //------------------------
-
-  private static Map<Integer, Employee> employeesByEmployeeID = new HashMap<Integer, Employee>();
-
-  //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Employee Attributes
   private Role role;
-  private int employeeID;
 
   //Employee Associations
+  @OneToMany(mappedBy="employee")
   private List<Hour> employeehour;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Employee(boolean aIsOnlineAcc, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress, LibrarySystem aLibrarySystem, Role aRole, int aEmployeeID)
+  public Employee(boolean aIsOnlineAcc, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress, LibrarySystem aLibrarySystem, Role aRole)
   {
     super(aIsOnlineAcc, aFirstName, aLastName, aLibraryCardID, aIsVerified, aDemeritPts, aAddress, aLibrarySystem);
     role = aRole;
-    if (!setEmployeeID(aEmployeeID))
-    {
-      throw new RuntimeException("Cannot create due to duplicate employeeID. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
     employeehour = new ArrayList<Hour>();
   }
 
@@ -59,43 +55,9 @@ public class Employee extends User
     return wasSet;
   }
 
-  public boolean setEmployeeID(int aEmployeeID)
-  {
-    boolean wasSet = false;
-    Integer anOldEmployeeID = getEmployeeID();
-    if (anOldEmployeeID != null && anOldEmployeeID.equals(aEmployeeID)) {
-      return true;
-    }
-    if (hasWithEmployeeID(aEmployeeID)) {
-      return wasSet;
-    }
-    employeeID = aEmployeeID;
-    wasSet = true;
-    if (anOldEmployeeID != null) {
-      employeesByEmployeeID.remove(anOldEmployeeID);
-    }
-    employeesByEmployeeID.put(aEmployeeID, this);
-    return wasSet;
-  }
-
   public Role getRole()
   {
     return role;
-  }
-
-  public int getEmployeeID()
-  {
-    return employeeID;
-  }
-  /* Code from template attribute_GetUnique */
-  public static Employee getWithEmployeeID(int aEmployeeID)
-  {
-    return employeesByEmployeeID.get(aEmployeeID);
-  }
-  /* Code from template attribute_HasUnique */
-  public static boolean hasWithEmployeeID(int aEmployeeID)
-  {
-    return getWithEmployeeID(aEmployeeID) != null;
   }
   /* Code from template association_GetMany */
   public Hour getEmployeehour(int index)
@@ -202,7 +164,6 @@ public class Employee extends User
 
   public void delete()
   {
-    employeesByEmployeeID.remove(getEmployeeID());
     for(int i=employeehour.size(); i > 0; i--)
     {
       Hour aEmployeehour = employeehour.get(i - 1);
@@ -214,8 +175,9 @@ public class Employee extends User
 
   public String toString()
   {
-    return super.toString() + "["+
-            "employeeID" + ":" + getEmployeeID()+ "]" + System.getProperties().getProperty("line.separator") +
+    return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "role" + "=" + (getRole() != null ? !getRole().equals(this)  ? getRole().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }
+
+

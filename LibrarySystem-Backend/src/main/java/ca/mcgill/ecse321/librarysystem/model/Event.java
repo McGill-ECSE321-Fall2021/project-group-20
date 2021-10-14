@@ -3,10 +3,17 @@
 
 package ca.mcgill.ecse321.librarysystem.model;
 import java.util.*;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 import java.sql.Date;
 import java.sql.Time;
 
 // line 108 "../../../../../librarysystem.ump"
+@Entity
 public class Event
 {
 
@@ -21,11 +28,14 @@ public class Event
   //------------------------
 
   //Event Attributes
+  @Id
+  @GeneratedValue
   private String eventID;
   private String name;
   private Date eventDate;
 
   //Event Associations
+  @OneToOne
   private Hour eventhour;
 
   //------------------------

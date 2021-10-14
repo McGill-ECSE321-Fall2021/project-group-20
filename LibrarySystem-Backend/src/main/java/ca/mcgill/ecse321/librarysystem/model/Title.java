@@ -4,7 +4,13 @@
 package ca.mcgill.ecse321.librarysystem.model;
 import java.util.*;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
 // line 19 "../../../../../librarysystem.ump"
+@Entity
 public class Title
 {
 
@@ -19,11 +25,14 @@ public class Title
   //------------------------
 
   //Title Attributes
+  @Id
   private String name;
   private String pubDate;
 
   //Title Associations
+  @OneToMany(mappedBy="title")
   private List<Item> item;
+  @ManyToMany
   private List<Author> author;
 
   //------------------------

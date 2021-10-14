@@ -5,12 +5,17 @@ package ca.mcgill.ecse321.librarysystem.model;
 import java.util.*;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import java.sql.Date;
 
 // line 97 "../../../../../librarysystem.ump"
 @Entity
+@Table(name="bookings")
 public class Booking
 {
 
@@ -31,13 +36,17 @@ public class Booking
   //------------------------
 
   //Booking Attributes
+  @Id
+  @GeneratedValue
   private String bookingID;
-  private Date start;
-  private Date end;
+  private Date startDate;
+  private Date endDate;
   private BookingType type;
 
   //Booking Associations
+  @OneToOne(mappedBy="booking")
   private Item itembooked;
+  @ManyToOne(optional=false)
   private User user;
 
   //------------------------
@@ -46,8 +55,8 @@ public class Booking
 
   public Booking(String aBookingID, Date aStart, Date aEnd, BookingType aType, Item aItembooked, User aUser)
   {
-    start = aStart;
-    end = aEnd;
+    startDate = aStart;
+    endDate = aEnd;
     type = aType;
     if (!setBookingID(aBookingID))
     {
@@ -91,7 +100,7 @@ public class Booking
   public boolean setStart(Date aStart)
   {
     boolean wasSet = false;
-    start = aStart;
+    startDate = aStart;
     wasSet = true;
     return wasSet;
   }
@@ -99,7 +108,7 @@ public class Booking
   public boolean setEnd(Date aEnd)
   {
     boolean wasSet = false;
-    end = aEnd;
+    endDate = aEnd;
     wasSet = true;
     return wasSet;
   }
@@ -112,7 +121,6 @@ public class Booking
     return wasSet;
   }
 
-  @Id
   public String getBookingID()
   {
     return bookingID;
@@ -130,12 +138,12 @@ public class Booking
 
   public Date getStart()
   {
-    return start;
+    return startDate;
   }
 
   public Date getEnd()
   {
-    return end;
+    return endDate;
   }
 
   public BookingType getType()

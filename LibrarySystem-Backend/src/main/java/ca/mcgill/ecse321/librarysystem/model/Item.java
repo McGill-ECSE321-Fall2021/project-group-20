@@ -3,9 +3,20 @@
 
 package ca.mcgill.ecse321.librarysystem.model;
 import java.util.*;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
 import java.sql.Date;
 
 // line 25 "../../../../../librarysystem.ump"
+@Entity
+@Inheritance(strategy=InheritanceType.JOINED)
 public class Item
 {
 
@@ -27,11 +38,16 @@ public class Item
 
   //Item Attributes
   private Status status;
+  @Id
+  @GeneratedValue
   private int itemBarcode;
 
   //Item Associations
+  @ManyToOne(optional=false)
   private LibrarySystem librarySystem;
+  @ManyToOne(optional=false)
   private Title title;
+  @OneToOne(optional=true)
   private Booking booking;
 
   //------------------------

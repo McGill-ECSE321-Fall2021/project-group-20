@@ -3,10 +3,19 @@
 
 package ca.mcgill.ecse321.librarysystem.model;
 import java.util.*;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import java.sql.Time;
 import java.sql.Date;
 
 // line 91 "../../../../../librarysystem.ump"
+@Entity
+@Table(name="hours")
 public class Hour
 {
 
@@ -21,13 +30,17 @@ public class Hour
   //------------------------
 
   //Hour Attributes
+  @Id
   private String weekday;
-  private Time start;
-  private Time end;
+  private Time startTime;
+  private Time endTime;
 
   //Hour Associations
+  @ManyToOne(optional=false)
   private Employee employee;
+  @OneToOne(mappedBy="eventhour")
   private Event event;
+  @ManyToOne(optional=false)
   private Calendar calendar;
 
   //------------------------
@@ -36,8 +49,8 @@ public class Hour
 
   public Hour(String aWeekday, Time aStart, Time aEnd, Employee aEmployee, Event aEvent, Calendar aCalendar)
   {
-    start = aStart;
-    end = aEnd;
+    startTime = aStart;
+    endTime = aEnd;
     if (!setWeekday(aWeekday))
     {
       throw new RuntimeException("Cannot create due to duplicate weekday. See http://manual.umple.org?RE003ViolationofUniqueness.html");
@@ -65,8 +78,8 @@ public class Hour
     {
       throw new RuntimeException("Cannot create due to duplicate weekday. See http://manual.umple.org?RE003ViolationofUniqueness.html");
     }
-    start = aStart;
-    end = aEnd;
+    startTime = aStart;
+    endTime = aEnd;
     boolean didAddEmployee = setEmployee(aEmployee);
     if (!didAddEmployee)
     {
@@ -106,7 +119,7 @@ public class Hour
   public boolean setStart(Time aStart)
   {
     boolean wasSet = false;
-    start = aStart;
+    startTime = aStart;
     wasSet = true;
     return wasSet;
   }
@@ -114,7 +127,7 @@ public class Hour
   public boolean setEnd(Time aEnd)
   {
     boolean wasSet = false;
-    end = aEnd;
+    endTime = aEnd;
     wasSet = true;
     return wasSet;
   }
@@ -136,12 +149,12 @@ public class Hour
 
   public Time getStart()
   {
-    return start;
+    return startTime;
   }
 
   public Time getEnd()
   {
-    return end;
+    return endTime;
   }
   /* Code from template association_GetOne */
   public Employee getEmployee()

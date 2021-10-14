@@ -1,7 +1,7 @@
 namespace ca.mcgill.ecse321.librarysystem.model;
 
 class LibrarySystem {
-  unique String systemID;
+  String systemID;
   1 <@>- 1 Address buisnessaddress;
   1 <@>- 1 Calendar ;
   1 <@>- * User users;
@@ -12,41 +12,37 @@ class Author {
   unique String authorID;
   String firstName;
   String lastName;
-
+  
   1..* author -- * Title titles;
 }
 
 class Title {
-  unique String name;
+  String name;
   String pubDate;
   1 title-- 1..* Item item;
 }
 
 class Item {
   class Book {
-    unique String isbn;
+    String isbn;
     String numPages;
   }
   class Movie {
-    unique String movieID;
     Integer length;
   }
   class MusicAlbum {
-    unique String musicID;
     Integer duration;
   }
   class Newspaper {
-    unique String newsID;
   }
   class Archive {
-    unique String archiveID;
   }
 
   enum Status {Available, Reserved, Borrowed, Damaged}
   Status status;
-  unique Integer itemBarcode;
-
-
+  Integer itemBarcode;
+  
+  
 }
 
 class User {
@@ -58,28 +54,26 @@ class User {
 
   String firstName;
   String lastName;
-  unique Integer libraryCardID;
+  unique Integer libraryCardID; //unique
   boolean isVerified;
 
   class Employee {
     enum Role {Librarian, HeadLibrarian}
     Role role;
-    unique Integer employeeID;
-
+    
     1 employee-- * Hour employeehour;
   }
 
   class Customer {
-    unique Integer customerID;
   }
 
   Integer demeritPts;
-
+  
   *  -- 1 Address address;
 }
 
 class Address {
-  unique String addressID;
+  String addressID;
   Integer civicNumber;
   String street;
   String city;
@@ -89,32 +83,32 @@ class Address {
 }
 
 class Hour {
-  unique String weekday;
-  Time start;
-  Time end;
+  String weekday;
+  Time startTime;
+  Time endTime;
 }
 
 class Booking {
-  unique String bookingID;
-  Date start;
-  Date end;
+  String bookingID;
+  Date startDate;
+  Date endDate;
   enum BookingType {Reservation, Borrow}
   BookingType type;
-
+  
   0..1 booking -- 1 Item itembooked;
   0..5 userbooking -- 1 User user;
 }
 
 class Event {
-  unique String eventID;
+  String eventID;
   String name;
   Date eventDate;
-
+  
   1 event -- 1 Hour eventhour;
 }
 
 class Calendar {
-  unique String calendarID;
-
+  String calendarID;
+  
   1 -- 1..* Hour hour;
 }

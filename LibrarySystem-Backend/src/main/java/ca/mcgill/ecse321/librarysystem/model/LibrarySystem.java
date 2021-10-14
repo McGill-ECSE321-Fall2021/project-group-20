@@ -5,7 +5,10 @@ package ca.mcgill.ecse321.librarysystem.model;
 import java.util.*;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 // line 3 "../../../../../librarysystem.ump"
 @Entity
@@ -23,12 +26,18 @@ public class LibrarySystem
   //------------------------
 
   //LibrarySystem Attributes
+  @Id
+  @GeneratedValue
   private String systemID;
 
   //LibrarySystem Associations
+  @OneToOne(optional=false)
   private Address buisnessaddress;
+  @OneToOne(optional=false)
   private Calendar calendar;
+  @OneToMany(mappedBy="librarySystem")
   private List<User> users;
+  @OneToMany(mappedBy="librarySystem")
   private List<Item> items;
 
   //------------------------
@@ -90,7 +99,6 @@ public class LibrarySystem
     return wasSet;
   }
 
-  @Id
   public String getSystemID()
   {
     return systemID;
