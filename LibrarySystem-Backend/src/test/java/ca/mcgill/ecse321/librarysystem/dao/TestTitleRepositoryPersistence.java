@@ -34,22 +34,22 @@ public class TestTitleRepositoryPersistence {
 		authorRepository.deleteAll();
 	}
 	
-	@Test
-	public void testPersistAndLoadTitle() {
-		//Check if a title is stored in the repository 
-		Author a1 = new Author("J.K.", "Rowling");
-		Title t1 = new Title("Harry Potter and The Philosopher's Stone", "October 31th, 2021", a1);
-		
-		this.authorRepository.save(a1);
-		this.titleRepository.save(t1);
-
-		t1 = null;
-		
-		List<Title> listTitlesByAuthor = titleRepository.findByAuthor(a1);
-		
-		for (Title t : listTitlesByAuthor) if (t.getAuthor().contains(a1)) t1 = t;
-		
-		assertNotNull(t1);
-		assertEquals(a1,t1.getAuthor(0));
-	}
+//	@Test
+//	public void testPersistAndLoadTitle() {
+//		//Check if a title is stored in the repository 
+//		Author a1 = new Author("J.K.", "Rowling");
+//		Title t1 = new Title("Harry Potter and The Philosopher's Stone", "October 31th, 2021", a1);
+//		
+//		this.authorRepository.save(a1);
+//		this.titleRepository.save(t1);
+//
+//		t1 = null;
+//		
+//		List<Title> listTitlesByAuthor = titleRepository.findByAuthor(a1);
+//		
+//		for (Title t : listTitlesByAuthor) if (t.getAuthor().contains(a1)) t1 = t;
+//		
+//		assertNotNull(t1);
+//		assertEquals(a1,t1.getAuthor(0));
+//	}
 }
