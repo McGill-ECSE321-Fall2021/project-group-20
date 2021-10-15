@@ -13,4 +13,8 @@ public interface AuthorRepository extends CrudRepository<Author, String>{
 	List<Author> findByLastName(String lastName);
 	List<Author> findByFirstNameAndLastName(String firstName,String lastName);
 	List<Author> findByTitlesIn(List<Title> titles);
+	
+	boolean existsByFirstName(String firstName);
+	boolean existsByLastName(String lastName);
+	boolean existsByFirstNameAndLastName(String firstName, String lastName);
 } 
