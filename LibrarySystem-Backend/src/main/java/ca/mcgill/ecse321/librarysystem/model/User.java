@@ -57,6 +57,29 @@ public class User
   // CONSTRUCTOR
   //------------------------
 
+  public User(boolean aIsOnlineAcc, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, Address aAddress, LibrarySystem aLibrarySystem)
+  {
+    isOnlineAcc = aIsOnlineAcc;
+    username = null;
+    password = null;
+    email = null;
+    firstName = aFirstName;
+    lastName = aLastName;
+    isVerified = aIsVerified;
+    demeritPts = aDemeritPts;
+    if (!setAddress(aAddress))
+    {
+      throw new RuntimeException("Unable to create User due to aAddress. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+    boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
+    if (!didAddLibrarySystem)
+    {
+      throw new RuntimeException("Unable to create user due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+    userbooking = new ArrayList<Booking>();
+  }
+  
+  
   public User(boolean aIsOnlineAcc, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress, LibrarySystem aLibrarySystem)
   {
     isOnlineAcc = aIsOnlineAcc;

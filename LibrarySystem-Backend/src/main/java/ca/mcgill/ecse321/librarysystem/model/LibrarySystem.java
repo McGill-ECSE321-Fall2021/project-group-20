@@ -41,6 +41,24 @@ public class LibrarySystem
   // CONSTRUCTOR
   //------------------------
 
+  public LibrarySystem(){}
+  
+  public LibrarySystem(Address aBusinessaddress, Calendar aCalendar)
+  {
+    boolean didAddBusinessaddress = setBusinessaddress(aBusinessaddress);
+    if (!didAddBusinessaddress)
+    {
+      throw new RuntimeException("Unable to create librarySystem due to businessaddress. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+    boolean didAddCalendar = setCalendar(aCalendar);
+    if (!didAddCalendar)
+    {
+      throw new RuntimeException("Unable to create librarySystem due to calendar. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+    users = new ArrayList<User>();
+    items = new ArrayList<Item>();
+  }
+  
   public LibrarySystem(String aSystemID, Address aBusinessaddress, Calendar aCalendar)
   {
     systemID = aSystemID;

@@ -46,6 +46,26 @@ public class Booking
   // CONSTRUCTOR
   //------------------------
 
+  public Booking(){}
+
+  public Booking(Date aStartDate, Date aEndDate, BookingType aType, Item aItembooked, User aUser)
+  {
+    startDate = aStartDate;
+    endDate = aEndDate;
+    type = aType;
+    boolean didAddItembooked = setItembooked(aItembooked);
+    if (!didAddItembooked)
+    {
+      throw new RuntimeException("Unable to create booking due to itembooked. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+    boolean didAddUser = setUser(aUser);
+    if (!didAddUser)
+    {
+      throw new RuntimeException("Unable to create userbooking due to user. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+  }
+  
+  
   public Booking(String aBookingID, Date aStartDate, Date aEndDate, BookingType aType, Item aItembooked, User aUser)
   {
     bookingID = aBookingID;

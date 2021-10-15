@@ -39,6 +39,11 @@ public class Calendar
   // CONSTRUCTOR
   //------------------------
 
+  public Calendar(){
+	  hour = new ArrayList<Hour>();
+  }
+	
+	
   public Calendar(String aCalendarID)
   {
     calendarID = aCalendarID;
