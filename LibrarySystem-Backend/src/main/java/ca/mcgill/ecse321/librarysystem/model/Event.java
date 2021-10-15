@@ -35,7 +35,17 @@ public class Event
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
+public Event () {}
+public Event(String aName, Date aEventDate, Hour aEventhour)
+{
+  name = aName;
+  eventDate = aEventDate;
+  boolean didAddEventhour = setEventhour(aEventhour);
+  if (!didAddEventhour)
+  {
+    throw new RuntimeException("Unable to create event due to eventhour. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+  }
+}
   public Event(String aEventID, String aName, Date aEventDate, Hour aEventhour)
   {
     eventID = aEventID;

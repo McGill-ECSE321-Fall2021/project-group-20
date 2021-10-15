@@ -45,6 +45,7 @@ public class Booking
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  public Booking(){}
 
   public Booking(){}
 
