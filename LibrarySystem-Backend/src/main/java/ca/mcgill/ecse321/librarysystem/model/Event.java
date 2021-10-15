@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.GenericGenerator;
+
 // line 102 "../../../../../librarysystem.ump"
 @Entity
 public class Event
@@ -20,7 +22,8 @@ public class Event
 
   //Event Attributes
 	@Id
-	@GeneratedValue
+	@GeneratedValue(generator="system-uuid")
+	@GenericGenerator(name="system-uuid", strategy = "uuid")
   private String eventID;
   private String name;
   private Date eventDate;

@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import org.hibernate.annotations.GenericGenerator;
+
 // line 11 "../../../../../librarysystem.ump"
 @Entity
 public class Author
@@ -26,7 +28,8 @@ public class Author
 
   //Author Attributes
   @Id
-  @GeneratedValue
+  @GeneratedValue(generator="system-uuid")
+  @GenericGenerator(name="system-uuid", strategy = "uuid")
   private String authorID;
   private String firstName;
   private String lastName;
@@ -39,6 +42,14 @@ public class Author
   // CONSTRUCTOR
   //------------------------
 
+  public Author(){}
+  public Author(String aFirstName, String aLastName)
+  {
+    firstName = aFirstName;
+    lastName = aLastName;
+    titles = new ArrayList<Title>();
+  }
+  
   public Author(String aAuthorID, String aFirstName, String aLastName)
   {
     firstName = aFirstName;

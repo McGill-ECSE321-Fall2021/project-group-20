@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.GenericGenerator;
+
 // line 75 "../../../../../librarysystem.ump"
 @Entity
 public class Address
@@ -19,7 +21,8 @@ public class Address
 
   //Address Attributes
 	@Id
-	@GeneratedValue
+	@GeneratedValue(generator="system-uuid")
+	@GenericGenerator(name="system-uuid", strategy = "uuid")
   private String addressID;
   private int civicNumber;
   private String street;
@@ -36,6 +39,20 @@ public class Address
   // CONSTRUCTOR
   //------------------------
 
+  
+  
+  public Address(){}
+	
+  public Address(int aCivicNumber, String aStreet, String aCity, String aPostalCode, String aProvince, String aCountry)
+  {
+    civicNumber = aCivicNumber;
+    street = aStreet;
+    city = aCity;
+    postalCode = aPostalCode;
+    province = aProvince;
+    country = aCountry;
+  }
+  
   public Address(String aAddressID, int aCivicNumber, String aStreet, String aCity, String aPostalCode, String aProvince, String aCountry)
   {
     addressID = aAddressID;

@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.GenericGenerator;
+
 // line 91 "../../../../../librarysystem.ump"
 @Entity
 public class Booking
@@ -27,7 +29,8 @@ public class Booking
 
   //Booking Attributes
   @Id
-  @GeneratedValue
+  @GeneratedValue(generator="system-uuid")
+  @GenericGenerator(name="system-uuid", strategy = "uuid")
   private String bookingID;
   private Date startDate;
   private Date endDate;

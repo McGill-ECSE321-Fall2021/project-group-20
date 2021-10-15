@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.GenericGenerator;
+
 // line 3 "../../../../../librarysystem.ump"
 @Entity
 public class LibrarySystem
@@ -21,7 +23,8 @@ public class LibrarySystem
 
   //LibrarySystem Attributes
 	@Id
-	@GeneratedValue
+	@GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
   private String systemID;
 
   //LibrarySystem Associations

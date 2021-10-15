@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import java.sql.Time;
 
 // line 110 "../../../../../librarysystem.ump"
@@ -23,7 +25,8 @@ public class Calendar
 
   //Calendar Attributes
 	@Id
-	@GeneratedValue
+	@GeneratedValue(generator="system-uuid")
+	@GenericGenerator(name="system-uuid", strategy = "uuid")
   private String calendarID;
 
   //Calendar Associations

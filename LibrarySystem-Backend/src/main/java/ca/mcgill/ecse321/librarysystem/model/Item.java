@@ -45,7 +45,24 @@ public class Item
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
+  public Item() {  
+  }
+  
+  public Item(Status aStatus, LibrarySystem aLibrarySystem, Title aTitle)
+  {
+    status = aStatus;
+    boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
+    if (!didAddLibrarySystem)
+    {
+      throw new RuntimeException("Unable to create item due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+    boolean didAddTitle = setTitle(aTitle);
+    if (!didAddTitle)
+    {
+      throw new RuntimeException("Unable to create item due to title. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+  }
+  
   public Item(Status aStatus, int aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle)
   {
     status = aStatus;
