@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 import java.sql.Date;
 
-// line 52 "../../../../../librarysystem.ump"
+// line 48 "../../../../../librarysystem.ump"
 @Entity
 @Table(name="users")
 @Inheritance(strategy=InheritanceType.JOINED)
@@ -71,10 +71,9 @@ public class User
     {
       throw new RuntimeException("Cannot create due to duplicate libraryCardID. See http://manual.umple.org?RE003ViolationofUniqueness.html");
     }
-    boolean didAddAddress = setAddress(aAddress);
-    if (!didAddAddress)
+    if (!setAddress(aAddress))
     {
-      throw new RuntimeException("Unable to create user due to address. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create User due to aAddress. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
@@ -201,6 +200,9 @@ public class User
     return lastName;
   }
 
+  /**
+   * unique
+   */
   public int getLibraryCardID()
   {
     return libraryCardID;
@@ -265,23 +267,15 @@ public class User
     int index = userbooking.indexOf(aUserbooking);
     return index;
   }
-  /* Code from template association_SetOneToMany */
-  public boolean setAddress(Address aAddress)
+  /* Code from template association_SetUnidirectionalOne */
+  public boolean setAddress(Address aNewAddress)
   {
     boolean wasSet = false;
-    if (aAddress == null)
+    if (aNewAddress != null)
     {
-      return wasSet;
+      address = aNewAddress;
+      wasSet = true;
     }
-
-    Address existingAddress = address;
-    address = aAddress;
-    if (existingAddress != null && !existingAddress.equals(aAddress))
-    {
-      existingAddress.removeUser(this);
-    }
-    address.addUser(this);
-    wasSet = true;
     return wasSet;
   }
   /* Code from template association_SetOneToMany */
@@ -314,7 +308,7 @@ public class User
     return 5;
   }
   /* Code from template association_AddOptionalNToOne */
-  public Booking addUserbooking(String aBookingID, Date aStart, Date aEnd, Booking.BookingType aType, Item aItembooked)
+  public Booking addUserbooking(String aBookingID, Date aStartDate, Date aEndDate, Booking.BookingType aType, Item aItembooked)
   {
     if (numberOfUserbooking() >= maximumNumberOfUserbooking())
     {
@@ -322,7 +316,7 @@ public class User
     }
     else
     {
-      return new Booking(aBookingID, aStart, aEnd, aType, aItembooked, this);
+      return new Booking(aBookingID, aStartDate, aEndDate, aType, aItembooked, this);
     }
   }
 
@@ -396,12 +390,7 @@ public class User
   public void delete()
   {
     usersByLibraryCardID.remove(getLibraryCardID());
-    Address placeholderAddress = address;
-    this.address = null;
-    if(placeholderAddress != null)
-    {
-      placeholderAddress.removeUser(this);
-    }
+    address = null;
     LibrarySystem placeholderLibrarySystem = librarySystem;
     this.librarySystem = null;
     if(placeholderLibrarySystem != null)

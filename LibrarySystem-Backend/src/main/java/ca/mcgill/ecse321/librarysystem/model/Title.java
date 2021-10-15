@@ -15,17 +15,11 @@ public class Title
 {
 
   //------------------------
-  // STATIC VARIABLES
-  //------------------------
-
-  private static Map<String, Title> titlesByName = new HashMap<String, Title>();
-
-  //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Title Attributes
-  @Id
+	@Id
   private String name;
   private String pubDate;
 
@@ -41,11 +35,8 @@ public class Title
 
   public Title(String aName, String aPubDate, Author... allAuthor)
   {
+    name = aName;
     pubDate = aPubDate;
-    if (!setName(aName))
-    {
-      throw new RuntimeException("Cannot create due to duplicate name. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
     item = new ArrayList<Item>();
     author = new ArrayList<Author>();
     boolean didAddAuthor = setAuthor(allAuthor);
@@ -62,19 +53,8 @@ public class Title
   public boolean setName(String aName)
   {
     boolean wasSet = false;
-    String anOldName = getName();
-    if (anOldName != null && anOldName.equals(aName)) {
-      return true;
-    }
-    if (hasWithName(aName)) {
-      return wasSet;
-    }
     name = aName;
     wasSet = true;
-    if (anOldName != null) {
-      titlesByName.remove(anOldName);
-    }
-    titlesByName.put(aName, this);
     return wasSet;
   }
 
@@ -89,16 +69,6 @@ public class Title
   public String getName()
   {
     return name;
-  }
-  /* Code from template attribute_GetUnique */
-  public static Title getWithName(String aName)
-  {
-    return titlesByName.get(aName);
-  }
-  /* Code from template attribute_HasUnique */
-  public static boolean hasWithName(String aName)
-  {
-    return getWithName(aName) != null;
   }
 
   public String getPubDate()
@@ -394,7 +364,6 @@ public class Title
 
   public void delete()
   {
-    titlesByName.remove(getName());
     for(int i=item.size(); i > 0; i--)
     {
       Item aItem = item.get(i - 1);

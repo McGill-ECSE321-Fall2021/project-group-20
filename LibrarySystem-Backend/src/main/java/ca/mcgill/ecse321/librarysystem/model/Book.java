@@ -5,8 +5,7 @@ package ca.mcgill.ecse321.librarysystem.model;
 
 import javax.persistence.Entity;
 
-// line 25 "model.ump"
-// line 172 "model.ump"
+// line 26 "../../../../../librarysystem.ump"
 @Entity
 public class Book extends Item
 {
@@ -73,5 +72,3 @@ public class Book extends Item
             "numPages" + ":" + getNumPages()+ "]";
   }
 }
-
-

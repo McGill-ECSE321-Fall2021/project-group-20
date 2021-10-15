@@ -6,8 +6,7 @@ import java.util.*;
 
 import javax.persistence.Entity;
 
-// line 66 "model.ump"
-// line 211 "model.ump"
+// line 67 "../../../../../librarysystem.ump"
 @Entity
 public class Customer extends User
 {
@@ -35,5 +34,3 @@ public class Customer extends User
   }
 
 }
-
-

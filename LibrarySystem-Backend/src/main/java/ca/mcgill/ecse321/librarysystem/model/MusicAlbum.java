@@ -5,8 +5,7 @@ package ca.mcgill.ecse321.librarysystem.model;
 
 import javax.persistence.Entity;
 
-// line 32 "model.ump"
-// line 182 "model.ump"
+// line 33 "../../../../../librarysystem.ump"
 @Entity
 public class MusicAlbum extends Item
 {
@@ -57,5 +56,3 @@ public class MusicAlbum extends Item
             "duration" + ":" + getDuration()+ "]";
   }
 }
-
-

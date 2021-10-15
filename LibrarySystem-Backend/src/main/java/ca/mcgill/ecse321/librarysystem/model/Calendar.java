@@ -12,58 +12,34 @@ import javax.persistence.OneToOne;
 
 import java.sql.Time;
 
-// line 116 "../../../../../librarysystem.ump"
+// line 110 "../../../../../librarysystem.ump"
 @Entity
 public class Calendar
 {
-
-  //------------------------
-  // STATIC VARIABLES
-  //------------------------
-
-  private static Map<String, Calendar> calendarsByCalendarID = new HashMap<String, Calendar>();
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Calendar Attributes
-  @Id
-  @GeneratedValue
+	@Id
+	@GeneratedValue
   private String calendarID;
 
   //Calendar Associations
-  @OneToMany(mappedBy="calendar")
+	@OneToMany(mappedBy="calendar")
   private List<Hour> hour;
-  @OneToOne(mappedBy="calendar")
+	@OneToOne(optional=true)
   private LibrarySystem librarySystem;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Calendar(String aCalendarID, LibrarySystem aLibrarySystem)
+  public Calendar(String aCalendarID)
   {
-    if (!setCalendarID(aCalendarID))
-    {
-      throw new RuntimeException("Cannot create due to duplicate calendarID. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
+    calendarID = aCalendarID;
     hour = new ArrayList<Hour>();
-    if (aLibrarySystem == null || aLibrarySystem.getCalendar() != null)
-    {
-      throw new RuntimeException("Unable to create Calendar due to aLibrarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    librarySystem = aLibrarySystem;
-  }
-
-  public Calendar(String aCalendarID, String aSystemIDForLibrarySystem, Address aBuisnessaddressForLibrarySystem)
-  {
-    if (!setCalendarID(aCalendarID))
-    {
-      throw new RuntimeException("Cannot create due to duplicate calendarID. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
-    hour = new ArrayList<Hour>();
-    librarySystem = new LibrarySystem(aSystemIDForLibrarySystem, aBuisnessaddressForLibrarySystem, this);
   }
 
   //------------------------
@@ -73,35 +49,14 @@ public class Calendar
   public boolean setCalendarID(String aCalendarID)
   {
     boolean wasSet = false;
-    String anOldCalendarID = getCalendarID();
-    if (anOldCalendarID != null && anOldCalendarID.equals(aCalendarID)) {
-      return true;
-    }
-    if (hasWithCalendarID(aCalendarID)) {
-      return wasSet;
-    }
     calendarID = aCalendarID;
     wasSet = true;
-    if (anOldCalendarID != null) {
-      calendarsByCalendarID.remove(anOldCalendarID);
-    }
-    calendarsByCalendarID.put(aCalendarID, this);
     return wasSet;
   }
 
   public String getCalendarID()
   {
     return calendarID;
-  }
-  /* Code from template attribute_GetUnique */
-  public static Calendar getWithCalendarID(String aCalendarID)
-  {
-    return calendarsByCalendarID.get(aCalendarID);
-  }
-  /* Code from template attribute_HasUnique */
-  public static boolean hasWithCalendarID(String aCalendarID)
-  {
-    return getWithCalendarID(aCalendarID) != null;
   }
   /* Code from template association_GetMany */
   public Hour getHour(int index)
@@ -138,6 +93,12 @@ public class Calendar
   {
     return librarySystem;
   }
+
+  public boolean hasLibrarySystem()
+  {
+    boolean has = librarySystem != null;
+    return has;
+  }
   /* Code from template association_IsNumberOfValidMethod */
   public boolean isNumberOfHourValid()
   {
@@ -150,9 +111,9 @@ public class Calendar
     return 1;
   }
   /* Code from template association_AddMandatoryManyToOne */
-  public Hour addHour(String aWeekday, Time aStart, Time aEnd, Employee aEmployee, Event aEvent)
+  public Hour addHour(String aWeekday, Time aStartTime, Time aEndTime, Employee aEmployee)
   {
-    Hour aNewHour = new Hour(aWeekday, aStart, aEnd, aEmployee, aEvent, this);
+    Hour aNewHour = new Hour(aWeekday, aStartTime, aEndTime, aEmployee, this);
     return aNewHour;
   }
 
@@ -230,10 +191,36 @@ public class Calendar
     }
     return wasAdded;
   }
+  /* Code from template association_SetOptionalOneToOne */
+  public boolean setLibrarySystem(LibrarySystem aNewLibrarySystem)
+  {
+    boolean wasSet = false;
+    if (librarySystem != null && !librarySystem.equals(aNewLibrarySystem) && equals(librarySystem.getCalendar()))
+    {
+      //Unable to setLibrarySystem, as existing librarySystem would become an orphan
+      return wasSet;
+    }
+
+    librarySystem = aNewLibrarySystem;
+    Calendar anOldCalendar = aNewLibrarySystem != null ? aNewLibrarySystem.getCalendar() : null;
+
+    if (!this.equals(anOldCalendar))
+    {
+      if (anOldCalendar != null)
+      {
+        anOldCalendar.librarySystem = null;
+      }
+      if (librarySystem != null)
+      {
+        librarySystem.setCalendar(this);
+      }
+    }
+    wasSet = true;
+    return wasSet;
+  }
 
   public void delete()
   {
-    calendarsByCalendarID.remove(getCalendarID());
     for(int i=hour.size(); i > 0; i--)
     {
       Hour aHour = hour.get(i - 1);

@@ -2,20 +2,16 @@
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 package ca.mcgill.ecse321.librarysystem.model;
-import java.util.*;
+import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
-import java.sql.Date;
-
-// line 97 "../../../../../librarysystem.ump"
+// line 91 "../../../../../librarysystem.ump"
 @Entity
-@Table(name="bookings")
 public class Booking
 {
 
@@ -24,12 +20,6 @@ public class Booking
   //------------------------
 
   public enum BookingType { Reservation, Borrow }
-
-  //------------------------
-  // STATIC VARIABLES
-  //------------------------
-
-  private static Map<String, Booking> bookingsByBookingID = new HashMap<String, Booking>();
 
   //------------------------
   // MEMBER VARIABLES
@@ -53,15 +43,12 @@ public class Booking
   // CONSTRUCTOR
   //------------------------
 
-  public Booking(String aBookingID, Date aStart, Date aEnd, BookingType aType, Item aItembooked, User aUser)
+  public Booking(String aBookingID, Date aStartDate, Date aEndDate, BookingType aType, Item aItembooked, User aUser)
   {
-    startDate = aStart;
-    endDate = aEnd;
+    bookingID = aBookingID;
+    startDate = aStartDate;
+    endDate = aEndDate;
     type = aType;
-    if (!setBookingID(aBookingID))
-    {
-      throw new RuntimeException("Cannot create due to duplicate bookingID. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
     boolean didAddItembooked = setItembooked(aItembooked);
     if (!didAddItembooked)
     {
@@ -81,34 +68,23 @@ public class Booking
   public boolean setBookingID(String aBookingID)
   {
     boolean wasSet = false;
-    String anOldBookingID = getBookingID();
-    if (anOldBookingID != null && anOldBookingID.equals(aBookingID)) {
-      return true;
-    }
-    if (hasWithBookingID(aBookingID)) {
-      return wasSet;
-    }
     bookingID = aBookingID;
     wasSet = true;
-    if (anOldBookingID != null) {
-      bookingsByBookingID.remove(anOldBookingID);
-    }
-    bookingsByBookingID.put(aBookingID, this);
     return wasSet;
   }
 
-  public boolean setStart(Date aStart)
+  public boolean setStartDate(Date aStartDate)
   {
     boolean wasSet = false;
-    startDate = aStart;
+    startDate = aStartDate;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setEnd(Date aEnd)
+  public boolean setEndDate(Date aEndDate)
   {
     boolean wasSet = false;
-    endDate = aEnd;
+    endDate = aEndDate;
     wasSet = true;
     return wasSet;
   }
@@ -125,23 +101,13 @@ public class Booking
   {
     return bookingID;
   }
-  /* Code from template attribute_GetUnique */
-  public static Booking getWithBookingID(String aBookingID)
-  {
-    return bookingsByBookingID.get(aBookingID);
-  }
-  /* Code from template attribute_HasUnique */
-  public static boolean hasWithBookingID(String aBookingID)
-  {
-    return getWithBookingID(aBookingID) != null;
-  }
 
-  public Date getStart()
+  public Date getStartDate()
   {
     return startDate;
   }
 
-  public Date getEnd()
+  public Date getEndDate()
   {
     return endDate;
   }
@@ -222,7 +188,6 @@ public class Booking
 
   public void delete()
   {
-    bookingsByBookingID.remove(getBookingID());
     Item existingItembooked = itembooked;
     itembooked = null;
     if (existingItembooked != null)
@@ -242,8 +207,8 @@ public class Booking
   {
     return super.toString() + "["+
             "bookingID" + ":" + getBookingID()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "start" + "=" + (getStart() != null ? !getStart().equals(this)  ? getStart().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "end" + "=" + (getEnd() != null ? !getEnd().equals(this)  ? getEnd().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "startDate" + "=" + (getStartDate() != null ? !getStartDate().equals(this)  ? getStartDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "endDate" + "=" + (getEndDate() != null ? !getEndDate().equals(this)  ? getEndDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "type" + "=" + (getType() != null ? !getType().equals(this)  ? getType().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "itembooked = "+(getItembooked()!=null?Integer.toHexString(System.identityHashCode(getItembooked())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null");

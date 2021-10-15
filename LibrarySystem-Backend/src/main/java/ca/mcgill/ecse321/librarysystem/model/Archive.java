@@ -1,13 +1,11 @@
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
+
 package ca.mcgill.ecse321.librarysystem.model;
 
 import javax.persistence.Entity;
 
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
-
-
-// line 37 "model.ump"
-// line 192 "model.ump"
+// line 38 "../../../../../librarysystem.ump"
 @Entity
 public class Archive extends Item
 {
@@ -35,5 +33,3 @@ public class Archive extends Item
   }
 
 }
-
-

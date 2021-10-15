@@ -2,35 +2,26 @@
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 package ca.mcgill.ecse321.librarysystem.model;
-import java.util.*;
+import java.sql.Time;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
-import java.sql.Time;
 import java.sql.Date;
 
-// line 91 "../../../../../librarysystem.ump"
+// line 85 "../../../../../librarysystem.ump"
 @Entity
-@Table(name="hours")
 public class Hour
 {
-
-  //------------------------
-  // STATIC VARIABLES
-  //------------------------
-
-  private static Map<String, Hour> hoursByWeekday = new HashMap<String, Hour>();
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Hour Attributes
-  @Id
+	@Id
   private String weekday;
   private Time startTime;
   private Time endTime;
@@ -47,45 +38,16 @@ public class Hour
   // CONSTRUCTOR
   //------------------------
 
-  public Hour(String aWeekday, Time aStart, Time aEnd, Employee aEmployee, Event aEvent, Calendar aCalendar)
+  public Hour(String aWeekday, Time aStartTime, Time aEndTime, Employee aEmployee, Calendar aCalendar)
   {
-    startTime = aStart;
-    endTime = aEnd;
-    if (!setWeekday(aWeekday))
-    {
-      throw new RuntimeException("Cannot create due to duplicate weekday. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
+    weekday = aWeekday;
+    startTime = aStartTime;
+    endTime = aEndTime;
     boolean didAddEmployee = setEmployee(aEmployee);
     if (!didAddEmployee)
     {
       throw new RuntimeException("Unable to create employeehour due to employee. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    if (aEvent == null || aEvent.getEventhour() != null)
-    {
-      throw new RuntimeException("Unable to create Hour due to aEvent. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    event = aEvent;
-    boolean didAddCalendar = setCalendar(aCalendar);
-    if (!didAddCalendar)
-    {
-      throw new RuntimeException("Unable to create hour due to calendar. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-  }
-
-  public Hour(String aWeekday, Time aStart, Time aEnd, Employee aEmployee, String aEventIDForEvent, String aNameForEvent, Date aEventDateForEvent, Calendar aCalendar)
-  {
-    if (!setWeekday(aWeekday))
-    {
-      throw new RuntimeException("Cannot create due to duplicate weekday. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
-    startTime = aStart;
-    endTime = aEnd;
-    boolean didAddEmployee = setEmployee(aEmployee);
-    if (!didAddEmployee)
-    {
-      throw new RuntimeException("Unable to create employeehour due to employee. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    event = new Event(aEventIDForEvent, aNameForEvent, aEventDateForEvent, this);
     boolean didAddCalendar = setCalendar(aCalendar);
     if (!didAddCalendar)
     {
@@ -100,34 +62,23 @@ public class Hour
   public boolean setWeekday(String aWeekday)
   {
     boolean wasSet = false;
-    String anOldWeekday = getWeekday();
-    if (anOldWeekday != null && anOldWeekday.equals(aWeekday)) {
-      return true;
-    }
-    if (hasWithWeekday(aWeekday)) {
-      return wasSet;
-    }
     weekday = aWeekday;
     wasSet = true;
-    if (anOldWeekday != null) {
-      hoursByWeekday.remove(anOldWeekday);
-    }
-    hoursByWeekday.put(aWeekday, this);
     return wasSet;
   }
 
-  public boolean setStart(Time aStart)
+  public boolean setStartTime(Time aStartTime)
   {
     boolean wasSet = false;
-    startTime = aStart;
+    startTime = aStartTime;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setEnd(Time aEnd)
+  public boolean setEndTime(Time aEndTime)
   {
     boolean wasSet = false;
-    endTime = aEnd;
+    endTime = aEndTime;
     wasSet = true;
     return wasSet;
   }
@@ -136,23 +87,13 @@ public class Hour
   {
     return weekday;
   }
-  /* Code from template attribute_GetUnique */
-  public static Hour getWithWeekday(String aWeekday)
-  {
-    return hoursByWeekday.get(aWeekday);
-  }
-  /* Code from template attribute_HasUnique */
-  public static boolean hasWithWeekday(String aWeekday)
-  {
-    return getWithWeekday(aWeekday) != null;
-  }
 
-  public Time getStart()
+  public Time getStartTime()
   {
     return startTime;
   }
 
-  public Time getEnd()
+  public Time getEndTime()
   {
     return endTime;
   }
@@ -165,6 +106,12 @@ public class Hour
   public Event getEvent()
   {
     return event;
+  }
+
+  public boolean hasEvent()
+  {
+    boolean has = event != null;
+    return has;
   }
   /* Code from template association_GetOne */
   public Calendar getCalendar()
@@ -187,6 +134,33 @@ public class Hour
       existingEmployee.removeEmployeehour(this);
     }
     employee.addEmployeehour(this);
+    wasSet = true;
+    return wasSet;
+  }
+  /* Code from template association_SetOptionalOneToOne */
+  public boolean setEvent(Event aNewEvent)
+  {
+    boolean wasSet = false;
+    if (event != null && !event.equals(aNewEvent) && equals(event.getEventhour()))
+    {
+      //Unable to setEvent, as existing event would become an orphan
+      return wasSet;
+    }
+
+    event = aNewEvent;
+    Hour anOldEventhour = aNewEvent != null ? aNewEvent.getEventhour() : null;
+
+    if (!this.equals(anOldEventhour))
+    {
+      if (anOldEventhour != null)
+      {
+        anOldEventhour.event = null;
+      }
+      if (event != null)
+      {
+        event.setEventhour(this);
+      }
+    }
     wasSet = true;
     return wasSet;
   }
@@ -223,7 +197,6 @@ public class Hour
 
   public void delete()
   {
-    hoursByWeekday.remove(getWeekday());
     Employee placeholderEmployee = employee;
     this.employee = null;
     if(placeholderEmployee != null)
@@ -249,8 +222,8 @@ public class Hour
   {
     return super.toString() + "["+
             "weekday" + ":" + getWeekday()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "start" + "=" + (getStart() != null ? !getStart().equals(this)  ? getStart().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "end" + "=" + (getEnd() != null ? !getEnd().equals(this)  ? getEnd().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "startTime" + "=" + (getStartTime() != null ? !getStartTime().equals(this)  ? getStartTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "endTime" + "=" + (getEndTime() != null ? !getEndTime().equals(this)  ? getEndTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "employee = "+(getEmployee()!=null?Integer.toHexString(System.identityHashCode(getEmployee())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "event = "+(getEvent()!=null?Integer.toHexString(System.identityHashCode(getEvent())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "calendar = "+(getCalendar()!=null?Integer.toHexString(System.identityHashCode(getCalendar())):"null");

@@ -9,8 +9,7 @@ import javax.persistence.OneToMany;
 
 import java.sql.Time;
 
-// line 59 "model.ump"
-// line 206 "model.ump"
+// line 60 "../../../../../librarysystem.ump"
 @Entity
 public class Employee extends User
 {
@@ -95,9 +94,9 @@ public class Employee extends User
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Hour addEmployeehour(String aWeekday, Time aStart, Time aEnd, Event aEvent, Calendar aCalendar)
+  public Hour addEmployeehour(String aWeekday, Time aStartTime, Time aEndTime, Calendar aCalendar)
   {
-    return new Hour(aWeekday, aStart, aEnd, this, aEvent, aCalendar);
+    return new Hour(aWeekday, aStartTime, aEndTime, this, aCalendar);
   }
 
   public boolean addEmployeehour(Hour aEmployeehour)
@@ -179,5 +178,3 @@ public class Employee extends User
             "  " + "role" + "=" + (getRole() != null ? !getRole().equals(this)  ? getRole().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }
-
-

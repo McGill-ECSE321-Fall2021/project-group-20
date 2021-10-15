@@ -2,40 +2,31 @@
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 package ca.mcgill.ecse321.librarysystem.model;
-import java.util.*;
+import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-import java.sql.Date;
-import java.sql.Time;
-
-// line 108 "../../../../../librarysystem.ump"
+// line 102 "../../../../../librarysystem.ump"
 @Entity
 public class Event
 {
-
-  //------------------------
-  // STATIC VARIABLES
-  //------------------------
-
-  private static Map<String, Event> eventsByEventID = new HashMap<String, Event>();
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Event Attributes
-  @Id
-  @GeneratedValue
+	@Id
+	@GeneratedValue
   private String eventID;
   private String name;
   private Date eventDate;
 
   //Event Associations
-  @OneToOne
+  @OneToOne(optional=true)
   private Hour eventhour;
 
   //------------------------
@@ -44,28 +35,14 @@ public class Event
 
   public Event(String aEventID, String aName, Date aEventDate, Hour aEventhour)
   {
+    eventID = aEventID;
     name = aName;
     eventDate = aEventDate;
-    if (!setEventID(aEventID))
+    boolean didAddEventhour = setEventhour(aEventhour);
+    if (!didAddEventhour)
     {
-      throw new RuntimeException("Cannot create due to duplicate eventID. See http://manual.umple.org?RE003ViolationofUniqueness.html");
+      throw new RuntimeException("Unable to create event due to eventhour. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    if (aEventhour == null || aEventhour.getEvent() != null)
-    {
-      throw new RuntimeException("Unable to create Event due to aEventhour. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    eventhour = aEventhour;
-  }
-
-  public Event(String aEventID, String aName, Date aEventDate, String aWeekdayForEventhour, Time aStartForEventhour, Time aEndForEventhour, Employee aEmployeeForEventhour, Calendar aCalendarForEventhour)
-  {
-    if (!setEventID(aEventID))
-    {
-      throw new RuntimeException("Cannot create due to duplicate eventID. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
-    name = aName;
-    eventDate = aEventDate;
-    eventhour = new Hour(aWeekdayForEventhour, aStartForEventhour, aEndForEventhour, aEmployeeForEventhour, this, aCalendarForEventhour);
   }
 
   //------------------------
@@ -75,19 +52,8 @@ public class Event
   public boolean setEventID(String aEventID)
   {
     boolean wasSet = false;
-    String anOldEventID = getEventID();
-    if (anOldEventID != null && anOldEventID.equals(aEventID)) {
-      return true;
-    }
-    if (hasWithEventID(aEventID)) {
-      return wasSet;
-    }
     eventID = aEventID;
     wasSet = true;
-    if (anOldEventID != null) {
-      eventsByEventID.remove(anOldEventID);
-    }
-    eventsByEventID.put(aEventID, this);
     return wasSet;
   }
 
@@ -111,16 +77,6 @@ public class Event
   {
     return eventID;
   }
-  /* Code from template attribute_GetUnique */
-  public static Event getWithEventID(String aEventID)
-  {
-    return eventsByEventID.get(aEventID);
-  }
-  /* Code from template attribute_HasUnique */
-  public static boolean hasWithEventID(String aEventID)
-  {
-    return getWithEventID(aEventID) != null;
-  }
 
   public String getName()
   {
@@ -136,15 +92,42 @@ public class Event
   {
     return eventhour;
   }
+  /* Code from template association_SetOneToOptionalOne */
+  public boolean setEventhour(Hour aNewEventhour)
+  {
+    boolean wasSet = false;
+    if (aNewEventhour == null)
+    {
+      //Unable to setEventhour to null, as event must always be associated to a eventhour
+      return wasSet;
+    }
+    
+    Event existingEvent = aNewEventhour.getEvent();
+    if (existingEvent != null && !equals(existingEvent))
+    {
+      //Unable to setEventhour, the current eventhour already has a event, which would be orphaned if it were re-assigned
+      return wasSet;
+    }
+    
+    Hour anOldEventhour = eventhour;
+    eventhour = aNewEventhour;
+    eventhour.setEvent(this);
+
+    if (anOldEventhour != null)
+    {
+      anOldEventhour.setEvent(null);
+    }
+    wasSet = true;
+    return wasSet;
+  }
 
   public void delete()
   {
-    eventsByEventID.remove(getEventID());
     Hour existingEventhour = eventhour;
     eventhour = null;
     if (existingEventhour != null)
     {
-      existingEventhour.delete();
+      existingEventhour.setEvent(null);
     }
   }
 

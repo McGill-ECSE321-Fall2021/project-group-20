@@ -16,24 +16,18 @@ public class LibrarySystem
 {
 
   //------------------------
-  // STATIC VARIABLES
-  //------------------------
-
-  private static Map<String, LibrarySystem> librarysystemsBySystemID = new HashMap<String, LibrarySystem>();
-
-  //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //LibrarySystem Attributes
-  @Id
-  @GeneratedValue
+	@Id
+	@GeneratedValue
   private String systemID;
 
   //LibrarySystem Associations
-  @OneToOne(optional=false)
-  private Address buisnessaddress;
-  @OneToOne(optional=false)
+	@OneToOne(optional=true)
+  private Address businessaddress;
+  @OneToOne(mappedBy="librarySystem")
   private Calendar calendar;
   @OneToMany(mappedBy="librarySystem")
   private List<User> users;
@@ -44,34 +38,19 @@ public class LibrarySystem
   // CONSTRUCTOR
   //------------------------
 
-  public LibrarySystem(String aSystemID, Address aBuisnessaddress, Calendar aCalendar)
+  public LibrarySystem(String aSystemID, Address aBusinessaddress, Calendar aCalendar)
   {
-    if (!setSystemID(aSystemID))
+    systemID = aSystemID;
+    boolean didAddBusinessaddress = setBusinessaddress(aBusinessaddress);
+    if (!didAddBusinessaddress)
     {
-      throw new RuntimeException("Cannot create due to duplicate systemID. See http://manual.umple.org?RE003ViolationofUniqueness.html");
+      throw new RuntimeException("Unable to create librarySystem due to businessaddress. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    if (aBuisnessaddress == null || aBuisnessaddress.getLibrarySystem() != null)
+    boolean didAddCalendar = setCalendar(aCalendar);
+    if (!didAddCalendar)
     {
-      throw new RuntimeException("Unable to create LibrarySystem due to aBuisnessaddress. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create librarySystem due to calendar. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    buisnessaddress = aBuisnessaddress;
-    if (aCalendar == null || aCalendar.getLibrarySystem() != null)
-    {
-      throw new RuntimeException("Unable to create LibrarySystem due to aCalendar. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    calendar = aCalendar;
-    users = new ArrayList<User>();
-    items = new ArrayList<Item>();
-  }
-
-  public LibrarySystem(String aSystemID, String aAddressIDForBuisnessaddress, int aCivicNumberForBuisnessaddress, String aStreetForBuisnessaddress, String aCityForBuisnessaddress, String aPostalCodeForBuisnessaddress, String aProvinceForBuisnessaddress, String aCountryForBuisnessaddress, String aCalendarIDForCalendar)
-  {
-    if (!setSystemID(aSystemID))
-    {
-      throw new RuntimeException("Cannot create due to duplicate systemID. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
-    buisnessaddress = new Address(aAddressIDForBuisnessaddress, aCivicNumberForBuisnessaddress, aStreetForBuisnessaddress, aCityForBuisnessaddress, aPostalCodeForBuisnessaddress, aProvinceForBuisnessaddress, aCountryForBuisnessaddress, this);
-    calendar = new Calendar(aCalendarIDForCalendar, this);
     users = new ArrayList<User>();
     items = new ArrayList<Item>();
   }
@@ -83,19 +62,8 @@ public class LibrarySystem
   public boolean setSystemID(String aSystemID)
   {
     boolean wasSet = false;
-    String anOldSystemID = getSystemID();
-    if (anOldSystemID != null && anOldSystemID.equals(aSystemID)) {
-      return true;
-    }
-    if (hasWithSystemID(aSystemID)) {
-      return wasSet;
-    }
     systemID = aSystemID;
     wasSet = true;
-    if (anOldSystemID != null) {
-      librarysystemsBySystemID.remove(anOldSystemID);
-    }
-    librarysystemsBySystemID.put(aSystemID, this);
     return wasSet;
   }
 
@@ -103,20 +71,10 @@ public class LibrarySystem
   {
     return systemID;
   }
-  /* Code from template attribute_GetUnique */
-  public static LibrarySystem getWithSystemID(String aSystemID)
-  {
-    return librarysystemsBySystemID.get(aSystemID);
-  }
-  /* Code from template attribute_HasUnique */
-  public static boolean hasWithSystemID(String aSystemID)
-  {
-    return getWithSystemID(aSystemID) != null;
-  }
   /* Code from template association_GetOne */
-  public Address getBuisnessaddress()
+  public Address getBusinessaddress()
   {
-    return buisnessaddress;
+    return businessaddress;
   }
   /* Code from template association_GetOne */
   public Calendar getCalendar()
@@ -182,6 +140,62 @@ public class LibrarySystem
   {
     int index = items.indexOf(aItem);
     return index;
+  }
+  /* Code from template association_SetOneToOptionalOne */
+  public boolean setBusinessaddress(Address aNewBusinessaddress)
+  {
+    boolean wasSet = false;
+    if (aNewBusinessaddress == null)
+    {
+      //Unable to setBusinessaddress to null, as librarySystem must always be associated to a businessaddress
+      return wasSet;
+    }
+    
+    LibrarySystem existingLibrarySystem = aNewBusinessaddress.getLibrarySystem();
+    if (existingLibrarySystem != null && !equals(existingLibrarySystem))
+    {
+      //Unable to setBusinessaddress, the current businessaddress already has a librarySystem, which would be orphaned if it were re-assigned
+      return wasSet;
+    }
+    
+    Address anOldBusinessaddress = businessaddress;
+    businessaddress = aNewBusinessaddress;
+    businessaddress.setLibrarySystem(this);
+
+    if (anOldBusinessaddress != null)
+    {
+      anOldBusinessaddress.setLibrarySystem(null);
+    }
+    wasSet = true;
+    return wasSet;
+  }
+  /* Code from template association_SetOneToOptionalOne */
+  public boolean setCalendar(Calendar aNewCalendar)
+  {
+    boolean wasSet = false;
+    if (aNewCalendar == null)
+    {
+      //Unable to setCalendar to null, as librarySystem must always be associated to a calendar
+      return wasSet;
+    }
+    
+    LibrarySystem existingLibrarySystem = aNewCalendar.getLibrarySystem();
+    if (existingLibrarySystem != null && !equals(existingLibrarySystem))
+    {
+      //Unable to setCalendar, the current calendar already has a librarySystem, which would be orphaned if it were re-assigned
+      return wasSet;
+    }
+    
+    Calendar anOldCalendar = calendar;
+    calendar = aNewCalendar;
+    calendar.setLibrarySystem(this);
+
+    if (anOldCalendar != null)
+    {
+      anOldCalendar.setLibrarySystem(null);
+    }
+    wasSet = true;
+    return wasSet;
   }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfUsers()
@@ -330,12 +344,11 @@ public class LibrarySystem
 
   public void delete()
   {
-    librarysystemsBySystemID.remove(getSystemID());
-    Address existingBuisnessaddress = buisnessaddress;
-    buisnessaddress = null;
-    if (existingBuisnessaddress != null)
+    Address existingBusinessaddress = businessaddress;
+    businessaddress = null;
+    if (existingBusinessaddress != null)
     {
-      existingBuisnessaddress.delete();
+      existingBusinessaddress.delete();
     }
     Calendar existingCalendar = calendar;
     calendar = null;
@@ -364,7 +377,7 @@ public class LibrarySystem
   {
     return super.toString() + "["+
             "systemID" + ":" + getSystemID()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "buisnessaddress = "+(getBuisnessaddress()!=null?Integer.toHexString(System.identityHashCode(getBuisnessaddress())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "businessaddress = "+(getBusinessaddress()!=null?Integer.toHexString(System.identityHashCode(getBusinessaddress())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "calendar = "+(getCalendar()!=null?Integer.toHexString(System.identityHashCode(getCalendar())):"null");
   }
 }

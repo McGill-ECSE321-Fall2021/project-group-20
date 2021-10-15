@@ -2,7 +2,7 @@
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 package ca.mcgill.ecse321.librarysystem.model;
-import java.util.*;
+import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +11,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-
-import java.sql.Date;
 
 // line 25 "../../../../../librarysystem.ump"
 @Entity
@@ -25,12 +23,6 @@ public class Item
   //------------------------
 
   public enum Status { Available, Reserved, Borrowed, Damaged }
-
-  //------------------------
-  // STATIC VARIABLES
-  //------------------------
-
-  private static Map<Integer, Item> itemsByItemBarcode = new HashMap<Integer, Item>();
 
   //------------------------
   // MEMBER VARIABLES
@@ -57,10 +49,7 @@ public class Item
   public Item(Status aStatus, int aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle)
   {
     status = aStatus;
-    if (!setItemBarcode(aItemBarcode))
-    {
-      throw new RuntimeException("Cannot create due to duplicate itemBarcode. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
+    itemBarcode = aItemBarcode;
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
     {
@@ -88,19 +77,8 @@ public class Item
   public boolean setItemBarcode(int aItemBarcode)
   {
     boolean wasSet = false;
-    Integer anOldItemBarcode = getItemBarcode();
-    if (anOldItemBarcode != null && anOldItemBarcode.equals(aItemBarcode)) {
-      return true;
-    }
-    if (hasWithItemBarcode(aItemBarcode)) {
-      return wasSet;
-    }
     itemBarcode = aItemBarcode;
     wasSet = true;
-    if (anOldItemBarcode != null) {
-      itemsByItemBarcode.remove(anOldItemBarcode);
-    }
-    itemsByItemBarcode.put(aItemBarcode, this);
     return wasSet;
   }
 
@@ -112,16 +90,6 @@ public class Item
   public int getItemBarcode()
   {
     return itemBarcode;
-  }
-  /* Code from template attribute_GetUnique */
-  public static Item getWithItemBarcode(int aItemBarcode)
-  {
-    return itemsByItemBarcode.get(aItemBarcode);
-  }
-  /* Code from template attribute_HasUnique */
-  public static boolean hasWithItemBarcode(int aItemBarcode)
-  {
-    return getWithItemBarcode(aItemBarcode) != null;
   }
   /* Code from template association_GetOne */
   public LibrarySystem getLibrarySystem()
@@ -223,7 +191,6 @@ public class Item
 
   public void delete()
   {
-    itemsByItemBarcode.remove(getItemBarcode());
     LibrarySystem placeholderLibrarySystem = librarySystem;
     this.librarySystem = null;
     if(placeholderLibrarySystem != null)

@@ -5,8 +5,7 @@ package ca.mcgill.ecse321.librarysystem.model;
 
 import javax.persistence.Entity;
 
-// line 35 "model.ump"
-// line 187 "model.ump"
+// line 36 "../../../../../librarysystem.ump"
 @Entity
 public class Newspaper extends Item
 {
@@ -34,5 +33,3 @@ public class Newspaper extends Item
   }
 
 }
-
-

@@ -5,8 +5,7 @@ package ca.mcgill.ecse321.librarysystem.model;
 
 import javax.persistence.Entity;
 
-// line 29 "model.ump"
-// line 177 "model.ump"
+// line 30 "../../../../../librarysystem.ump"
 @Entity
 public class Movie extends Item
 {
@@ -57,5 +56,3 @@ public class Movie extends Item
             "length" + ":" + getLength()+ "]";
   }
 }
-
-
