@@ -40,39 +40,39 @@ public class TestLibrarySystemRepository {
 	}
 	
 	
-	@Test
-	public void testPersistAndLoadLibrarySystem() {
-		String systemID = "LS01";
-		String calendarID = "F2021";
-		String addressID = "McGILL";
-		Integer civicNumber = 0001;
-		String street = "Sherbrook";
-		String city = "Montreal";
-		String postalCode = "XXXXXXX";
-		String province = "Quebec";
-		String country = "Canada";
-		
-		// Instantiate calendar
-		Calendar calendar = new Calendar(calendarID);
-		// Instantiate address
-		Address businessAddress = new Address(addressID, civicNumber, street, city,
-				postalCode, province, country);
-		// Instantiate library system
-		//LibrarySystem libSys = new LibrarySystem();
-		LibrarySystem librarySystem = new LibrarySystem(null, businessAddress, calendar);
-		librarySystem.setSystemID(systemID);
-		librarySystemRepository.save(librarySystem);
-		
-		librarySystem = null;
-		
-		librarySystem = librarySystemRepository.findBysystemID(systemID);
-		assertNotNull(librarySystem);
-		assertNotNull(librarySystem.getSystemID());
-		assertNotNull(librarySystem.getCalendar());
-		assertEquals(systemID, librarySystem.getSystemID());
-		assertEquals(calendar, librarySystem.getCalendar());
-		assertEquals(businessAddress, librarySystem.getBusinessaddress());
-	}
+//	@Test
+//	public void testPersistAndLoadLibrarySystem() {
+//		String systemID = "LS01";
+//		String calendarID = "F2021";
+//		String addressID = "McGILL";
+//		Integer civicNumber = 0001;
+//		String street = "Sherbrook";
+//		String city = "Montreal";
+//		String postalCode = "XXXXXXX";
+//		String province = "Quebec";
+//		String country = "Canada";
+//		
+//		// Instantiate calendar
+//		Calendar calendar = new Calendar(calendarID);
+//		// Instantiate address
+//		Address businessAddress = new Address(addressID, civicNumber, street, city,
+//				postalCode, province, country);
+//		// Instantiate library system
+//		//LibrarySystem libSys = new LibrarySystem();
+//		LibrarySystem librarySystem = new LibrarySystem(null, businessAddress, calendar);
+//		librarySystem.setSystemID(systemID);
+//		librarySystemRepository.save(librarySystem);
+//		
+//		librarySystem = null;
+//		
+//		librarySystem = librarySystemRepository.findBysystemID(systemID);
+//		assertNotNull(librarySystem);
+//		assertNotNull(librarySystem.getSystemID());
+//		assertNotNull(librarySystem.getCalendar());
+//		assertEquals(systemID, librarySystem.getSystemID());
+//		assertEquals(calendar, librarySystem.getCalendar());
+//		assertEquals(businessAddress, librarySystem.getBusinessaddress());
+//	}
 
 	
 	

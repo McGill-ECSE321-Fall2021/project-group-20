@@ -33,7 +33,8 @@ public class TestItemRepositoryPersistence {
 	public void clearDatabase() {
 		itemRepository.deleteAll();
 	}
-/*	@Test
+
+	/*	@Test
 	public void testPersistAndLoadItem() {
 		Address myadress = new Address("33", 51, "holu", "25", "postal", "Quebec", "Canada");
 		Calendar mycalendar = new Calendar("Jeanpail");
