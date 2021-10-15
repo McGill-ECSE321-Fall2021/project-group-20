@@ -32,7 +32,7 @@ public class Title
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
+  public Title() {}
   public Title(String aName, String aPubDate, Author... allAuthor)
   {
     name = aName;
