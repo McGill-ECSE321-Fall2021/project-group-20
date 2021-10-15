@@ -47,7 +47,6 @@ public class Booking
   //------------------------
   public Booking(){}
 
-  public Booking(){}
 
   public Booking(Date aStartDate, Date aEndDate, BookingType aType, Item aItembooked, User aUser)
   {
