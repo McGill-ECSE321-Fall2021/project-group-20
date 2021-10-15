@@ -40,25 +40,7 @@ public class TestBookingRepositoryPersistence {
 		hourRepository.deleteAll();
 	}
 	
-	@Test
-	public void testPersistenceAndLoadBooking() {
-		String bid = "ngrioqabngoe";
-		String name = "ECSE321 Tutorial";
-		Date dateS = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 2));
-		Date dateE = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
-		Item ib = new Item(Status.Available, 1891, null, null);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	}
-	
+
 	
 	
 	
