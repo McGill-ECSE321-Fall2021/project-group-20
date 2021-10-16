@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.librarysystem.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -52,7 +51,26 @@ public class TestAuthorRepositoryPersistence {
 	
 	@Test
 	public void testPersistAndLoadAuthorByFirstName() {
+		Author a1 = new Author("Ehsan", "Ahmed");
+		Title t1 = new Title("Merlin's beard", "October 22nd, 2021", a1);
+		Author a2 = new Author("Abdel", "Majid");
+		authorRepository.save(a1);
+		authorRepository.save(a2);
+		titleRepository.save(t1);
 		
+		String firstName = "Ehsan";
+		
+		String fakeFirstName = "Ferrie";
+
+		a1 = null;
+		a2 = null;
+		t1 = null;
+		
+		List<Author> listAuthors = authorRepository.findByFirstName(firstName);
+		assertEquals(firstName, listAuthors.get(0).getFirstName());
+		
+		listAuthors = authorRepository.findByFirstName(fakeFirstName);
+		assertEquals(0, listAuthors.size());
 	}
 	 
 	@Test
