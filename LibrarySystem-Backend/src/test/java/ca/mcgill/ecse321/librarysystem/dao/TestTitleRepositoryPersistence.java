@@ -39,13 +39,13 @@ public class TestTitleRepositoryPersistence {
 		this.authorRepository.save(a1);
 		this.titleRepository.save(t1);
 
-//		t1 = null;
-//		
-//		List<Title> listTitlesByAuthor = titleRepository.findByAuthor(a1);
-//		
-//		for (Title t : listTitlesByAuthor) if (t.getAuthor().contains(a1)) t1 = t;
-//		
-//		assertNotNull(t1);
-//		assertEquals(a1,t1.getAuthor(0));
+		t1 = null;
+		
+		List<Title> listTitlesByAuthor = titleRepository.findByAuthor(a1);
+		
+		for (Title t : listTitlesByAuthor) if (t.getAuthor().get(0).getAuthorID().equals(a1.getAuthorID())) t1 = t;
+		
+		assertNotNull(t1);
+		assertEquals(a1.getAuthorID(),t1.getAuthor(0).getAuthorID());
 	}
 }

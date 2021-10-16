@@ -5,6 +5,7 @@ package ca.mcgill.ecse321.librarysystem.model;
 import java.util.*;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -35,7 +36,7 @@ public class Author
   private String lastName;
 
   //Author Associations
-  @ManyToMany(mappedBy="author")
+  @ManyToMany(mappedBy="author",fetch=FetchType.EAGER)
   private List<Title> titles;
 
   //------------------------

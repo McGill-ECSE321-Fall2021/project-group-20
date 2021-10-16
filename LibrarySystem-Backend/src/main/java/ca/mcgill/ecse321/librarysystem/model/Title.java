@@ -4,7 +4,9 @@
 package ca.mcgill.ecse321.librarysystem.model;
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -26,9 +28,9 @@ public class Title
   //Title Associations
   @OneToMany(mappedBy="title")
   private List<Item> item;
-  @ManyToMany
-  private List<Author> author;
+  @ManyToMany(cascade= {CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER)
 
+  private List<Author> author;
   //------------------------
   // CONSTRUCTOR
   //------------------------
