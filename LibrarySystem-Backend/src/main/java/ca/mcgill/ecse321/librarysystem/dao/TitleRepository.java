@@ -17,4 +17,4 @@ public interface TitleRepository extends CrudRepository<Title, String>{
 	List<Title> findByPubDate(String pubDate); 
 	List<Title> findByNameAndPubDate(String name, String pubDate);
 }
- 
+  

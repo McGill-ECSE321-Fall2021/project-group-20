@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 // line 19 "../../../../../librarysystem.ump"
 @Entity
 public class Title
@@ -26,7 +29,8 @@ public class Title
   private String pubDate;
 
   //Title Associations
-  @OneToMany(mappedBy="title")
+  @OneToMany(mappedBy="title", fetch=FetchType.EAGER)
+  @Fetch(value=FetchMode.SELECT)
   private List<Item> item;
   @ManyToMany(cascade= {CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER)
 

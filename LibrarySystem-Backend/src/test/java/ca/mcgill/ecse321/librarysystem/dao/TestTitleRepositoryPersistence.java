@@ -12,23 +12,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import ca.mcgill.ecse321.librarysystem.model.Address;
 import ca.mcgill.ecse321.librarysystem.model.Author;
+import ca.mcgill.ecse321.librarysystem.model.Calendar;
 import ca.mcgill.ecse321.librarysystem.model.Item;
+import ca.mcgill.ecse321.librarysystem.model.LibrarySystem;
 import ca.mcgill.ecse321.librarysystem.model.Title;
+import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class TestTitleRepositoryPersistence {
 	
 	@Autowired
-	private TitleRepository titleRepository;
+	private CalendarRepository calendarRepository;
+	@Autowired
+	private AddressRepository addressRepository;
+	@Autowired
+	private LibrarySystemRepository librarySystemRepository;
 	@Autowired
 	private AuthorRepository authorRepository;
+	@Autowired
+	private TitleRepository titleRepository;
+	@Autowired
+	private ItemRepository itemRepository;
 	
 	@AfterEach
 	public void clearDatabase() {
+		itemRepository.deleteAll();
 		titleRepository.deleteAll();
 		authorRepository.deleteAll();
+		librarySystemRepository.deleteAll();
+		addressRepository.deleteAll();
+		calendarRepository.deleteAll();
 	}
 	
 	@Test
@@ -107,12 +123,89 @@ public class TestTitleRepositoryPersistence {
 	
 	@Test 
 	public void testPersistAndLoadTitleByItemBarCode() {	
-//		Author a1 = new Author("J.K.", "Rowling");
-//		Title t1 = new Title("Harry Potter and The Philosopher's Stone", "October 31th, 2021", a1);
+		Address myadress = new Address(13,"Elmstreet","Montreal","HeLL666","Quebec","Canada");
+		addressRepository.save(myadress);
+		Calendar c1 = new Calendar();
+		calendarRepository.save(c1);
+		LibrarySystem l1 = new LibrarySystem(myadress, c1);
+		librarySystemRepository.save(l1);
+		Author a1 = new Author("J.K.", "Rowling");
+		authorRepository.save(a1);
+		Title t1 = new Title("Hell Dragon King", "October 31th, 1999", a1);
+		titleRepository.save(t1);
+		Item myItem = new Item(Status.Available, l1, t1);
+		itemRepository.save(myItem);
+		myadress=null; 
+		c1=null;
+		l1=null;
+		String id = a1.getAuthorID();
+		a1=null;
+		t1=null;
+		
+		
+		List<Title> titles = titleRepository.findByItem(myItem);
+		
+		assertEquals(id, titles.get(0).getAuthor(0).getAuthorID());
 	}
 	
 	@Test 
 	public void testPersistAndLoadTitleByItemBarCodes() {
+
+		Address ad1 = new Address(3,"YellowBirckRoad","Montreal","Oz","Quebec","Canada");
+		addressRepository.save(ad1);
+		
+		Calendar c1 = new Calendar();
+		calendarRepository.save(c1);
+		
+		LibrarySystem l1 = new LibrarySystem(ad1, c1);
+		librarySystemRepository.save(l1);
+		
+		Author a1 = new Author("J.K.", "Rowling");
+		authorRepository.save(a1);
+		
+		Author a2 = new Author("Ehsan", "Ahmed");
+		authorRepository.save(a2);
+		
+		Title t1 = new Title("Harry Potter", "October 22nd, 1999", a1);
+		titleRepository.save(t1);
+		
+		Title t2 = new Title("Boy Wonder", "October 22nd, 2000", a2);
+		titleRepository.save(t2);
+		
+		Item i1 = new Item(Status.Available, l1, t1);
+		itemRepository.save(i1);
+		
+		Item i2 = new Item(Status.Available, l1, t1);
+		itemRepository.save(i2);
+		
+		Item i3 = new Item(Status.Available, l1, t2);
+		itemRepository.save(i3);
+		
+		ad1=null; 
+		c1=null;
+		l1=null;
+		a1=null;
+		a2=null;
+		t1=null;
+		t2=null;
+		int id1 = i1.getItemBarcode();
+		int id2 = i2.getItemBarcode();
+		int id3 = i3.getItemBarcode();
+		
+		List<Item> items = new ArrayList<Item>();
+		items.add(i1);
+		i1=null;
+		items.add(i2);
+		i2=null;
+		items.add(i3);
+		i3=null;
+		List<Title> titles = titleRepository.findByItemIn(items);
+		
+		
+		assertEquals(id1,titles.get(0).getItem(0).getItemBarcode());
+		assertEquals(id2,titles.get(0).getItem(1).getItemBarcode());
+		assertEquals(id3,titles.get(2).getItem(0).getItemBarcode());
+		
 	}
 	
 	@Test 
@@ -149,20 +242,22 @@ public class TestTitleRepositoryPersistence {
 	
 	@Test 
 	public void testPersistAndLoadTitleNameAndPubDate() {
-//		Author a1 = new Author("Ehsan", "Ahmed");
-//		Title t1 = new Title("Guide to How to Screw Up in Life","October 22nd, 2021", a1);
-//		Title t2 = new Title("Guide to How to Screw Up in Life","October 31th, 2021", a1);
-//		authorRepository.save(a1);		
-//		titleRepository.save(t1);
-//		titleRepository.save(t2);
-//		String name = "Guide to How to Screw Up in Life";
-//		String pubDate = "October 22nd, 2021"; 
-//		
-//		t1 = null; 
-//		t2 = null;
-//		
-//		List<Title> listTitlesByTitleNameAndPubDate = titleRepository.findByNameAndPubDate(name, pubDate);
-//		assertEquals(name,listTitlesByTitleNameAndPubDate.get(0).getName());  
-//		assertEquals(pubDate,listTitlesByTitleNameAndPubDate.get(0).getPubDate());
+        Author a1 = new Author("Ehsan", "Ahmed");
+        authorRepository.save(a1);
+        Title t1 = new Title("Guide to How to Screw Up in Life","October 22nd, 2021", a1);
+        titleRepository.save(t1);
+        Title t2 = new Title("Guide to How to Screw Up in Life 2","October 31th, 2021", a1);
+        titleRepository.save(t2);
+
+        String name = "Guide to How to Screw Up in Life";
+        String pubDate = "October 22nd, 2021"; 
+
+        t1 = null; 
+        t2 = null;
+
+        List<Title> listTitlesByTitleNameAndPubDate = titleRepository.findByNameAndPubDate(name, pubDate);
+
+        assertEquals(name,listTitlesByTitleNameAndPubDate.get(0).getName());
+        assertEquals(pubDate,listTitlesByTitleNameAndPubDate.get(0).getPubDate());
 	}
 }
