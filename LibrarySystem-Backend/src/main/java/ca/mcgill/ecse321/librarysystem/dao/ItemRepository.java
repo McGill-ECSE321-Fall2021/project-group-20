@@ -11,6 +11,7 @@ public interface ItemRepository extends CrudRepository<Item, Integer>{
 	Item findItemByItemBarcode(int itemBarcode);
 	List<Item> findItemByStatus(Status status);
 	List<Item> findItemByLibrarySystem(LibrarySystem systemID);
-	Item findItemByTitle (Integer name);
+	List<Item> findItemByTitle (Title name);
+	boolean existsByItemBarcode(int itemBarcode);
 	
 }
