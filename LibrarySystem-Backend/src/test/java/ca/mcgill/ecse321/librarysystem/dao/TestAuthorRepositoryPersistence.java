@@ -2,6 +2,8 @@ package ca.mcgill.ecse321.librarysystem.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -126,6 +128,34 @@ public class TestAuthorRepositoryPersistence {
 	
 	@Test
 	public void testPersistAndLoadAuthorByTitles() {
+		//List<Author> findByTitlesIn(List<Title> titles);
+		Author a1 = new Author("Alexandru", "Bangala");
+		authorRepository.save(a1);
+		Title t1 = new Title("The Goat", "June 1rst, 2021", a1);
+		titleRepository.save(t1);
+		Title t2 = new Title("The Genius", "July 1rst, 2021", a1);
+		titleRepository.save(t2);
+		Author a2 = new Author("Harsh", "Patel");
+		authorRepository.save(a2);
+		Title t3 = new Title("The Crazy", "January 1rst, 2021", a2);
+		titleRepository.save(t3);
+		
+		List<Title> titles = new ArrayList<Title>();
+		
+		titles.add(t1);
+		titles.add(t3);
+		List<Author> listAuthors = authorRepository.findByTitlesIn(titles);
+		
+		String firstNameFirstAuthor = "Alexandru";
+		String lastNameFirstAuthor = "Bangala";
+		
+		String firstNameSecondAuthor = "Harsh";
+		String lastNameSecondAuthor = "Patel";
+		
+		assertEquals(firstNameFirstAuthor,listAuthors.get(0).getFirstName());
+		assertEquals(lastNameFirstAuthor,listAuthors.get(0).getLastName());
+		assertEquals(firstNameSecondAuthor,listAuthors.get(1).getFirstName());
+		assertEquals(lastNameSecondAuthor,listAuthors.get(1).getLastName());
 	} 
 	
 	@Test
