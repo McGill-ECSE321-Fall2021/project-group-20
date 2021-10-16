@@ -34,18 +34,29 @@ public class TestTitleRepositoryPersistence {
 	public void testPersistAndLoadTitle() {
 		//Check if a title is stored in the repository 
 		Author a1 = new Author("J.K.", "Rowling");
+		Author a2 = new Author("Dan", "Hosi");
+		Author a3 = new Author("Harsh", "Patel");
 		Title t1 = new Title("Harry Potter and The Philosopher's Stone", "October 31th, 2021", a1);
+		t1.addAuthor(a2);
+		t1.addAuthor(a3);
 		
 		this.authorRepository.save(a1);
+		this.authorRepository.save(a2);
+		this.authorRepository.save(a3);
 		this.titleRepository.save(t1);
 
 		t1 = null;
 		
 		List<Title> listTitlesByAuthor = titleRepository.findByAuthor(a1);
 		
-		for (Title t : listTitlesByAuthor) if (t.getAuthor().get(0).getAuthorID().equals(a1.getAuthorID())) t1 = t;
+		for (Title t : listTitlesByAuthor) {
+			assertEquals(a1.getAuthorID(), t.getAuthor(0).getAuthorID());
+			assertEquals(a2.getAuthorID(), t.getAuthor(1).getAuthorID());
+			assertEquals(a3.getAuthorID(), t.getAuthor(2).getAuthorID());
+			//if (t.getAuthor().get(0).getAuthorID().equals(a1.getAuthorID())) t1 = t;
+		}
 		
-		assertNotNull(t1);
-		assertEquals(a1.getAuthorID(),t1.getAuthor(0).getAuthorID());
+		//assertNotNull(t1);
+		//assertEquals(a1.getAuthorID(),t1.getAuthor(0).getAuthorID());
 	}
 }
