@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.librarysystem.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -107,14 +108,30 @@ public class TestAuthorRepositoryPersistence {
 	
 	@Test
 	public void testPersistAndLoadAuthorAndSeeExistsByFirstName() {
+		Author a1 = new Author("Ehsan", "Ahmed");
+		authorRepository.save(a1);
+		String firstName = "Ehsan";
+		boolean checking = authorRepository.existsByFirstName(firstName);
+		assertTrue(checking);
 	}
 	 
 	@Test
 	public void testPersistAndLoadAuthorAndSeeExistsByLastName() {
+		Author a1 = new Author("Ehsan", "Ahmed");
+		authorRepository.save(a1);
+		String lastName = "Ahmed";
+		boolean checking = authorRepository.existsByLastName(lastName);
+		assertTrue(checking);
 	}
 	
 	@Test
 	public void testPersistAndLoadAuthorAndSeeExistsByFirstNameAndLastName() {	
+		Author a1 = new Author("Ehsan", "Ahmed");
+		authorRepository.save(a1);
+		String firstName = "Ehsan";
+		String lastName = "Ahmed";
+		boolean checking = authorRepository.existsByFirstNameAndLastName(firstName, lastName);
+		assertTrue(checking);
 	}
 
 }
