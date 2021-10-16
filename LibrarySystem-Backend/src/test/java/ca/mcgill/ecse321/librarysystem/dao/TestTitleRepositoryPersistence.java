@@ -135,9 +135,34 @@ public class TestTitleRepositoryPersistence {
 	@Test 
 	public void testPersistAndLoadTitlePubDate() {
 		
+		Author a1 = new Author("Ehsan", "Ahmed");
+		Title t1 = new Title("Guide to How to Screw Up in Life","October 22nd, 2021", a1);
+		authorRepository.save(a1);		
+		titleRepository.save(t1);
+		String pubDate = "October 22nd, 2021";
+
+		t1 = null;
+		List<Title> listTitlesByPubDate = titleRepository.findByPubDate(pubDate);
+		assertEquals(pubDate,listTitlesByPubDate.get(0).getPubDate());
+		 
 	}
 	
 	@Test 
 	public void testPersistAndLoadTitleNameAndPubDate() {
+//		Author a1 = new Author("Ehsan", "Ahmed");
+//		Title t1 = new Title("Guide to How to Screw Up in Life","October 22nd, 2021", a1);
+//		Title t2 = new Title("Guide to How to Screw Up in Life","October 31th, 2021", a1);
+//		authorRepository.save(a1);		
+//		titleRepository.save(t1);
+//		titleRepository.save(t2);
+//		String name = "Guide to How to Screw Up in Life";
+//		String pubDate = "October 22nd, 2021"; 
+//		
+//		t1 = null; 
+//		t2 = null;
+//		
+//		List<Title> listTitlesByTitleNameAndPubDate = titleRepository.findByNameAndPubDate(name, pubDate);
+//		assertEquals(name,listTitlesByTitleNameAndPubDate.get(0).getName());  
+//		assertEquals(pubDate,listTitlesByTitleNameAndPubDate.get(0).getPubDate());
 	}
 }
