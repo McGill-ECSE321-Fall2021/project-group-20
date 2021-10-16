@@ -75,32 +75,46 @@ public class TestAuthorRepositoryPersistence {
 	 
 	@Test
 	public void testPersistAndLoadAuthorByLastName() {
+		Author a1 = new Author("Ehsan", "Ahmed");
+		Title t1 = new Title("Merlin's beard", "October 22nd, 2021", a1);
+		Author a2 = new Author("Abdel", "Majid");
+		authorRepository.save(a1);
+		authorRepository.save(a2);
+		titleRepository.save(t1);
 		
+		String lastName = "Ahmed";
+		
+		String fakeLastName = "Lover";
+
+		a1 = null;
+		a2 = null;
+		t1 = null;
+		
+		List<Author> listAuthors = authorRepository.findByLastName(lastName);
+		assertEquals(lastName, listAuthors.get(0).getLastName());
+		
+		listAuthors = authorRepository.findByFirstName(fakeLastName);
+		assertEquals(0, listAuthors.size());
 	}
 	
 	@Test
 	public void testPersistAndLoadAuthorByFirstNameAndLastName() {
-		
 	}
 	
 	@Test
 	public void testPersistAndLoadAuthorByTitles() {
-		
 	} 
 	
 	@Test
 	public void testPersistAndLoadAuthorAndSeeExistsByFirstName() {
-		
 	}
 	 
 	@Test
 	public void testPersistAndLoadAuthorAndSeeExistsByLastName() {
-		
 	}
 	
 	@Test
-	public void testPersistAndLoadAuthorAndSeeExistsByFirstNameAndLastName() {
-		
+	public void testPersistAndLoadAuthorAndSeeExistsByFirstNameAndLastName() {	
 	}
 
 }
