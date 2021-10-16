@@ -5,6 +5,7 @@ package ca.mcgill.ecse321.librarysystem.model;
 import java.util.*;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -30,7 +31,7 @@ public class LibrarySystem
   //LibrarySystem Associations
 	@OneToOne(optional=true)
   private Address businessaddress;
-  @OneToOne(mappedBy="librarySystem")
+  @OneToOne(mappedBy="librarySystem",fetch=FetchType.EAGER)
   private Calendar calendar;
   @OneToMany(mappedBy="librarySystem")
   private List<User> users;

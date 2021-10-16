@@ -4,6 +4,7 @@
 package ca.mcgill.ecse321.librarysystem.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -32,7 +33,7 @@ public class Address
   private String country;
 
   //Address Associations
-  @OneToOne(mappedBy="businessaddress")
+  @OneToOne(mappedBy="businessaddress",fetch=FetchType.EAGER)
   private LibrarySystem librarySystem;
 
   //------------------------

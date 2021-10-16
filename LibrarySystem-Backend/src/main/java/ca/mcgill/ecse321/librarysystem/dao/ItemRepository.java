@@ -4,12 +4,13 @@ import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.librarysystem.model.Item;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
+import ca.mcgill.ecse321.librarysystem.model.LibrarySystem;
 import ca.mcgill.ecse321.librarysystem.model.Title;
 
-public interface ItemRepository extends CrudRepository<Item, String>{
-	Item findItemByItemBarcode(String itemBarcode);
+public interface ItemRepository extends CrudRepository<Item, Integer>{
+	Item findItemByItemBarcode(int itemBarcode);
 	List<Item> findItemByStatus(Status status);
-	List<Item> findItemByLibrarySystem(String systemID);
-	Item findItemByTitle (String name);
+	List<Item> findItemByLibrarySystem(LibrarySystem systemID);
+	Item findItemByTitle (Integer name);
 	
 }
