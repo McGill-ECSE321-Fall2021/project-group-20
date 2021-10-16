@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.mcgill.ecse321.librarysystem.model.Author;
+import ca.mcgill.ecse321.librarysystem.model.Item;
 import ca.mcgill.ecse321.librarysystem.model.Title;
 
 @ExtendWith(SpringExtension.class)
@@ -32,7 +33,7 @@ public class TestTitleRepositoryPersistence {
 	
 	@Test
 	public void testPersistAndLoadTitleByAuthorID() {
-		//Check if a title is stored in the repository 
+
 		Author a1 = new Author("J.K.", "Rowling");
 		Author a2 = new Author("Dan", "Hosi");
 		Author a3 = new Author("Harsh", "Patel");
@@ -59,7 +60,6 @@ public class TestTitleRepositoryPersistence {
 	@Test 
 	public void testPersistAndLoadTitleByAuthorIDs() {
 		
-		//Check if a title is stored in the repository 
 		Author a1 = new Author("J.K.", "Rowling");
 		Author a2 = new Author("Dan", "Hosi");
 		Author a3 = new Author("Harsh", "Patel");
@@ -106,28 +106,35 @@ public class TestTitleRepositoryPersistence {
 	}
 	
 	@Test 
-	public void testPersistAndLoadTitleByItemBarCode() {
-		
+	public void testPersistAndLoadTitleByItemBarCode() {	
 //		Author a1 = new Author("J.K.", "Rowling");
-//		Author a2 = new Author("Dan", "Hosi");
-//		Author a3 = new Author("Harsh", "Patel");
 //		Title t1 = new Title("Harry Potter and The Philosopher's Stone", "October 31th, 2021", a1);
-		
-		
-		
 	}
 	
 	@Test 
 	public void testPersistAndLoadTitleByItemBarCodes() {
 	}
 	
-	
 	@Test 
 	public void testPersistAndLoadTitleName() {
+		Author a1 = new Author("J.K.", "Rowling");
+		Title t1 = new Title("Harry Potter and The Philosopher's Stone", "October 31th, 2021", a1);
+		Author a2 = new Author("Dan", "Hosi");
+		Author a3 = new Author("Harsh", "Patel");
+		authorRepository.save(a1);
+		authorRepository.save(a2);
+		authorRepository.save(a3);
+		titleRepository.save(t1);
+		
+		String name = "Harry Potter and The Philosopher's Stone";
+		t1 = null;
+		List<Title> listTitlesByTitleName = titleRepository.findByName(name);
+		assertEquals(name,listTitlesByTitleName.get(0).getName());
 	}
 	
 	@Test 
 	public void testPersistAndLoadTitlePubDate() {
+		
 	}
 	
 	@Test 
