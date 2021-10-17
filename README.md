@@ -31,13 +31,13 @@ The website and application is accessed by two types of users: the employees whi
 
 <h3> Time Spent :hourglass_flowing_sand: </h3>
 
-|  Name | Time Spent in Hours (Sprint 1)  | Total Hours  |
-|---|---|---|
-|  Alexandra Bangala |  38|   38|
-| Harsh Patel   | 32 |  32 |
-| Ehsan Ahmed  | 32|  32 |
-| Dan Hosi  | 32  |  32 |
-| Abdelmadjid Kamli  | 32  | 32  |
+|  Name | Time Spent in Hours (Sprint 1)  |Time Spent in Hours (Sprint 2)|Time Spent in Hours (Sprint 3)|Time Spent in Hours (Sprint 4)| Total Hours  |
+|---|---|---|---|---|---|
+|  Alexandra Bangala |  38|0|0|0|   38|
+| Harsh Patel   | 32 |0|0|0|  32 |
+| Ehsan Ahmed  | 32 |0|0|0| 32 |
+| Dan Hosi  | 32  |0|0|0|  32 |
+| Abdelmadjid Kamli  | 32  |0|0|0| 32  |
 
 <h3> Sprint 1: Project Report </h3>
 
