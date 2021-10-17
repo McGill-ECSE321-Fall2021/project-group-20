@@ -261,8 +261,8 @@ public class TestLibrarySystemRepository {
 		ls.addItem(movie);
 		librarySystemRepository.save(ls);
 		
-		int itemBarcode1 = book.getItemBarcode();
-		int itemBarcode2 = movie.getItemBarcode();
+		String itemBarcode1 = book.getItemBarcode();
+		String itemBarcode2 = movie.getItemBarcode();
 		String systemID = ls.getSystemID();
 		
 		ls = null;
