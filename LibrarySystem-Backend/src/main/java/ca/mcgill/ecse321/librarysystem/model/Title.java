@@ -39,7 +39,7 @@ public class Title
   @OneToMany(mappedBy="title", fetch=FetchType.EAGER)
   @Fetch(value=FetchMode.SELECT)
   private List<Item> item;
-  @ManyToMany(cascade= {CascadeType.MERGE}, fetch=FetchType.EAGER)
+  @ManyToMany(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
 
   private List<Author> author;
   //------------------------
