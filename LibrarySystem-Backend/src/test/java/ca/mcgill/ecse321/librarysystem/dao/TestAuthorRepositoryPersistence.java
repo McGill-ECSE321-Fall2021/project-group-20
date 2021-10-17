@@ -47,8 +47,8 @@ public class TestAuthorRepositoryPersistence {
 		a3 = null;
 		t1=null;
 		
-		List<Author> listAuthors = authorRepository.findByAuthorID(id);
-		assertEquals(id, listAuthors.get(0).getAuthorID());
+		Author a = authorRepository.findByAuthorID(id);
+		assertEquals(id, a.getAuthorID());
 		
 	}
 	

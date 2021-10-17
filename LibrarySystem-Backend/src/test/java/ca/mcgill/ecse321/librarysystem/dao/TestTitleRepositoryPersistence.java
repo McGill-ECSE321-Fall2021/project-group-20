@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.librarysystem.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,19 @@ public class TestTitleRepositoryPersistence {
 		librarySystemRepository.deleteAll();
 		addressRepository.deleteAll();
 		calendarRepository.deleteAll();
+	}
+	
+	@Test
+	public void testPersistAndLoadTitleByTitleID() {
+		Author a1 = new Author("J.K.", "Rowling");
+		authorRepository.save(a1);
+		Title t1 = new Title("Harry Potter and The Philosopher's Stone", "October 31th, 2021", a1);
+		titleRepository.save(t1);
+		
+		Title PersistedTitle = titleRepository.findByTitleID(t1.getTitleID());
+		
+		assertNotNull(PersistedTitle);
+		assertEquals(PersistedTitle.getTitleID(), t1.getTitleID());
 	}
 	
 	@Test
@@ -142,10 +156,9 @@ public class TestTitleRepositoryPersistence {
 		a1=null;
 		t1=null;
 		
+		Title t = titleRepository.findByItem(myItem);
 		
-		List<Title> titles = titleRepository.findByItem(myItem);
-		
-		assertEquals(id, titles.get(0).getAuthor(0).getAuthorID());
+		assertEquals(id, t.getAuthor(0).getAuthorID());
 	}
 	
 	@Test 
@@ -254,10 +267,10 @@ public class TestTitleRepositoryPersistence {
 
         t1 = null; 
         t2 = null;
+        
+        Title titleNamePub = titleRepository.findByNameAndPubDate(name, pubDate);
 
-        List<Title> listTitlesByTitleNameAndPubDate = titleRepository.findByNameAndPubDate(name, pubDate);
-
-        assertEquals(name,listTitlesByTitleNameAndPubDate.get(0).getName());
-        assertEquals(pubDate,listTitlesByTitleNameAndPubDate.get(0).getPubDate());
+        assertEquals(name, titleNamePub.getName());
+        assertEquals(pubDate, titleNamePub.getPubDate());
 	}
 }
