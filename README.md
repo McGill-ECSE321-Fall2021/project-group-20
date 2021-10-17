@@ -2,16 +2,10 @@
 
 <h3> Project Overview :books:</h3>
 
-As a team of developer, we will be designing a website and app for a library.The system that we will develop will help support the library's users and allow them to 
-browse for items, reserve items and borrow them for a specific period.
+The Library System,that we will develop,provides free access to books, movies, archives, newspapers and music albums to users of a small town. The System allows users to browse available titles, reserve them, and then pick them up at the library afterwards. The users must create an account through the website or the application and then must be verified by the Head Librarian. In return, they will be issued a library card. Since the library mainly provides resources to the local of the small town, users who live outside of the small town must pay a small fee to use the library's services. The Head Librarian has the privilege to hire and fire Librarians, assign shifts to them and setup the library's opening and closing hours.<br/><br/>
 
-The system in question shall allow user's to take full advantage of the services of the library, by obtaining their library card ID from the librarian, with just their physical address. If they are in the same area as the library,
-then the system shall allow outside users to be able to use the Library's services but only if they sign up, pay a fee and are verified by the head librarian.
-Both have the optino to create an online account which will require a username/password and address.
+The website and application is accessed by two types of users: the employees which include the Librarians and the Head Librarian, and the local citizens.
 
-
-The system shall also provide services to employees, in the from of librarian's being able to see their schedules and the head librarian being able to fire and hire librarians,assign them their schedules
-and set opening hours/days of the library.
  
  
 <h3> The Developpers :man_technologist: </h3> 
