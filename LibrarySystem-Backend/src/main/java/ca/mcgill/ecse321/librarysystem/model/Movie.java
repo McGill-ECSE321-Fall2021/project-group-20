@@ -23,6 +23,12 @@ public class Movie extends Item
 
   public Movie() {}
   
+  public Movie(Status aStatus, LibrarySystem aLibrarySystem, Title aTitle, int aLength)
+  {
+    super(aStatus, aLibrarySystem, aTitle);
+    length = aLength;
+  }
+  
   public Movie(Status aStatus, String aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle, int aLength)
   {
     super(aStatus, aItemBarcode, aLibrarySystem, aTitle);

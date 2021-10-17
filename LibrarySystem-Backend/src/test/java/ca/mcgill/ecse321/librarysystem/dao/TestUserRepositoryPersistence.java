@@ -19,8 +19,11 @@ import ca.mcgill.ecse321.librarysystem.model.Address;
 import ca.mcgill.ecse321.librarysystem.model.Author;
 import ca.mcgill.ecse321.librarysystem.model.Booking;
 import ca.mcgill.ecse321.librarysystem.model.Booking.BookingType;
+import ca.mcgill.ecse321.librarysystem.model.Employee.Role;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 import ca.mcgill.ecse321.librarysystem.model.Calendar;
+import ca.mcgill.ecse321.librarysystem.model.Customer;
+import ca.mcgill.ecse321.librarysystem.model.Employee;
 import ca.mcgill.ecse321.librarysystem.model.Item;
 import ca.mcgill.ecse321.librarysystem.model.LibrarySystem;
 import ca.mcgill.ecse321.librarysystem.model.Title;
@@ -53,6 +56,10 @@ public class TestUserRepositoryPersistence {
 	private TitleRepository titleRepository;
 	@Autowired
 	private ItemRepository itemRepository;
+	@Autowired
+	private CustomerRepository customerRepository;
+	@Autowired
+	private EmployeeRepository employeeRepository;
 	
 	@BeforeEach
 	public void setupTest() {
@@ -87,6 +94,8 @@ public class TestUserRepositoryPersistence {
 		itemRepository.deleteAll();
 		titleRepository.deleteAll();
 		authorRepository.deleteAll();
+		customerRepository.deleteAll();
+		employeeRepository.deleteAll();
 		userRepository.deleteAll();
 		addressRepository.deleteAll();
 		librarySystemRepository.deleteAll();
@@ -115,6 +124,64 @@ public class TestUserRepositoryPersistence {
 		assertEquals(PersistedUser.getLibraryCardID(), aUser.getLibraryCardID());
 		assertEquals(PersistedUser.getUsername(), aUser.getUsername());
 		assertEquals(PersistedUser.getPassword(), aUser.getPassword());
+	}
+	
+	@Test
+	public void testPersistAndLoadCustomerByLibraryCardID() {
+		Customer aCust = new Customer(true, "Alex", "Bangala", true, 0, aAddress, aLibrary);
+		customerRepository.save(aCust);
+		aCust.setUsername("abcd");
+		aCust.setPassword("test12345");
+		aCust.setEmail("test@test.ca.org");
+		customerRepository.save(aCust);
+		
+		Customer PersistedUser = (Customer) customerRepository.findUserByLibraryCardID(aCust.getLibraryCardID());
+		aAddress = PersistedUser.getAddress();
+		aLibrary = PersistedUser.getLibrarySystem();
+		
+		assertNotNull(PersistedUser);
+		assertEquals(aAddress.getAddressID(), aCust.getAddress().getAddressID());
+		assertEquals(aLibrary.getSystemID(), aCust.getLibrarySystem().getSystemID());
+		assertEquals(PersistedUser.getDemeritPts(), aCust.getDemeritPts());
+		assertEquals(PersistedUser.getEmail(), aCust.getEmail());
+		assertEquals(PersistedUser.getFirstName(), aCust.getFirstName());
+		assertEquals(PersistedUser.getIsOnlineAcc(), aCust.getIsOnlineAcc());
+		assertEquals(PersistedUser.getIsVerified(), aCust.getIsVerified());
+		assertEquals(PersistedUser.getLastName(), aCust.getLastName());
+		assertEquals(PersistedUser.getLibraryCardID(), aCust.getLibraryCardID());
+		assertEquals(PersistedUser.getUsername(), aCust.getUsername());
+		assertEquals(PersistedUser.getPassword(), aCust.getPassword());
+		
+		aCust.delete();
+	}
+	
+	@Test
+	public void testPersistAndLoadEmployeeByLibraryCardID() {
+		Employee aEmp = new Employee(true, "Alex", "Bangala", true, 0, aAddress, aLibrary, Role.Librarian);
+		employeeRepository.save(aEmp);
+		aEmp.setUsername("abcdefg");
+		aEmp.setPassword("test1234567");
+		aEmp.setEmail("test@test.ca.org.fr");
+		userRepository.save(aEmp);
+		
+		Employee PersistedUser = (Employee) employeeRepository.findUserByLibraryCardID(aEmp.getLibraryCardID());
+		aAddress = PersistedUser.getAddress();
+		aLibrary = PersistedUser.getLibrarySystem();
+		
+		assertNotNull(PersistedUser);
+		assertEquals(aAddress.getAddressID(), aEmp.getAddress().getAddressID());
+		assertEquals(aLibrary.getSystemID(), aEmp.getLibrarySystem().getSystemID());
+		assertEquals(PersistedUser.getDemeritPts(), aEmp.getDemeritPts());
+		assertEquals(PersistedUser.getEmail(), aEmp.getEmail());
+		assertEquals(PersistedUser.getFirstName(), aEmp.getFirstName());
+		assertEquals(PersistedUser.getIsOnlineAcc(), aEmp.getIsOnlineAcc());
+		assertEquals(PersistedUser.getIsVerified(), aEmp.getIsVerified());
+		assertEquals(PersistedUser.getLastName(), aEmp.getLastName());
+		assertEquals(PersistedUser.getLibraryCardID(), aEmp.getLibraryCardID());
+		assertEquals(PersistedUser.getUsername(), aEmp.getUsername());
+		assertEquals(PersistedUser.getPassword(), aEmp.getPassword());
+		
+		aEmp.delete();
 	}
 	
 	@Test

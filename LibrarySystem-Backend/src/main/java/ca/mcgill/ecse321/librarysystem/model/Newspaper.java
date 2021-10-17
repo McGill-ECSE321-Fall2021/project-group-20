@@ -19,6 +19,11 @@ public class Newspaper extends Item
   //------------------------
 
   public Newspaper() {}
+  
+  public Newspaper(Status aStatus, LibrarySystem aLibrarySystem, Title aTitle)
+  {
+    super(aStatus, aLibrarySystem, aTitle);
+  }
 	
   public Newspaper(Status aStatus, String aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle)
   {
