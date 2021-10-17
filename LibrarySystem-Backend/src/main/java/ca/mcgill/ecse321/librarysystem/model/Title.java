@@ -7,17 +7,21 @@ import java.util.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.GenericGenerator;
 
 // line 19 "../../../../../librarysystem.ump"
 @Entity
 public class Title
 {
+	
+	private static Map<String, Title> titlesByTitleID = new HashMap<String, Title>();
 
   //------------------------
   // MEMBER VARIABLES
@@ -25,6 +29,9 @@ public class Title
 
   //Title Attributes
 	@Id
+	@GeneratedValue(generator="system-uuid")
+	@GenericGenerator(name="system-uuid", strategy = "uuid")
+	private String titleID;
   private String name;
   private String pubDate;
 
@@ -32,7 +39,7 @@ public class Title
   @OneToMany(mappedBy="title", fetch=FetchType.EAGER)
   @Fetch(value=FetchMode.SELECT)
   private List<Item> item;
-  @ManyToMany(cascade= {CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER)
+  @ManyToMany(cascade= {CascadeType.MERGE}, fetch=FetchType.EAGER)
 
   private List<Author> author;
   //------------------------
@@ -56,6 +63,40 @@ public class Title
   // INTERFACE
   //------------------------
 
+  public boolean setTitleID(String aTitleID)
+  {
+    boolean wasSet = false;
+    String anOldTitleID = getTitleID();
+    if (anOldTitleID != null && anOldTitleID.equals(aTitleID)) {
+      return true;
+    }
+    if (hasWithTitleID(aTitleID)) {
+      return wasSet;
+    }
+    titleID = aTitleID;
+    wasSet = true;
+    if (anOldTitleID != null) {
+      titlesByTitleID.remove(anOldTitleID);
+    }
+    titlesByTitleID.put(aTitleID, this);
+    return wasSet;
+  }
+  
+  public String getTitleID()
+  {
+    return titleID;
+  }
+  /* Code from template attribute_GetUnique */
+  public static Title getWithTitleID(String aTitleID)
+  {
+    return titlesByTitleID.get(aTitleID);
+  }
+  /* Code from template attribute_HasUnique */
+  public static boolean hasWithTitleID(String aTitleID)
+  {
+    return getWithTitleID(aTitleID) != null;
+  }
+  
   public boolean setName(String aName)
   {
     boolean wasSet = false;
@@ -370,6 +411,7 @@ public class Title
 
   public void delete()
   {
+    titlesByTitleID.remove(getTitleID());
     for(int i=item.size(); i > 0; i--)
     {
       Item aItem = item.get(i - 1);
