@@ -43,8 +43,6 @@ public class TestAuthorRepositoryPersistence {
 		
 		String id = a1.getAuthorID();
 
-		a1 = null;
-		a3 = null;
 		t1=null;
 		
 		Author a = authorRepository.findByAuthorID(id);
@@ -65,15 +63,15 @@ public class TestAuthorRepositoryPersistence {
 		
 		String fakeFirstName = "Ferrie";
 
-		a1 = null;
-		a2 = null;
-		t1 = null;
+		
 		
 		List<Author> listAuthors = authorRepository.findByFirstName(firstName);
 		assertEquals(firstName, listAuthors.get(0).getFirstName());
 		
 		listAuthors = authorRepository.findByFirstName(fakeFirstName);
 		assertEquals(0, listAuthors.size());
+		
+		t1.delete();
 	}
 	 
 	@Test
@@ -89,15 +87,14 @@ public class TestAuthorRepositoryPersistence {
 		
 		String fakeLastName = "Lover";
 
-		a1 = null;
-		a2 = null;
-		t1 = null;
 		
 		List<Author> listAuthors = authorRepository.findByLastName(lastName);
 		assertEquals(lastName, listAuthors.get(0).getLastName());
 		
 		listAuthors = authorRepository.findByFirstName(fakeLastName);
 		assertEquals(0, listAuthors.size());
+		
+		t1.delete();
 	}
 	
 	@Test
@@ -113,10 +110,6 @@ public class TestAuthorRepositoryPersistence {
 		String fakeFirstName = "Ferrie";
 		String lastName = "Ahmed";
 		String fakeLastName = "Lover";
-
-		a1 = null;
-		a2 = null;
-		t1 = null;
 		
 		List<Author> listAuthors = authorRepository.findByFirstNameAndLastName(firstName, lastName);
 		assertEquals(firstName, listAuthors.get(0).getFirstName());
@@ -124,6 +117,8 @@ public class TestAuthorRepositoryPersistence {
 		
 		listAuthors = authorRepository.findByFirstNameAndLastName(fakeFirstName, fakeLastName);
 		assertEquals(0, listAuthors.size());
+		
+		t1.delete();
 	}
 	
 	@Test
@@ -156,6 +151,10 @@ public class TestAuthorRepositoryPersistence {
 		assertEquals(lastNameFirstAuthor,listAuthors.get(0).getLastName());
 		assertEquals(firstNameSecondAuthor,listAuthors.get(1).getFirstName());
 		assertEquals(lastNameSecondAuthor,listAuthors.get(1).getLastName());
+		
+		t1.delete();
+		t2.delete();
+		t3.delete();
 	} 
 	
 	@Test
