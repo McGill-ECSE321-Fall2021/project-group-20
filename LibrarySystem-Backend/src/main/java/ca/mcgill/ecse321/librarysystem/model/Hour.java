@@ -27,7 +27,7 @@ public class Hour
   private Time endTime;
 
   //Hour Associations
-  @ManyToOne(optional=false)
+  @ManyToOne(optional=true)
   private Employee employee;
   @OneToOne(mappedBy="eventhour")
   private Event event;
@@ -38,6 +38,11 @@ public class Hour
   // CONSTRUCTOR
   //------------------------
 
+  
+  public Hour() {
+	  
+  }
+  
   public Hour(String aWeekday, Time aStartTime, Time aEndTime, Employee aEmployee, Calendar aCalendar)
   {
     weekday = aWeekday;
