@@ -13,7 +13,7 @@ public interface HourRepository extends CrudRepository <Hour,String> {
 	List<Hour> findBycalendar(Calendar calendar);
 	List<Hour> findByemployee(Employee employee);
 	List<Hour> findByendTime(Time endTime);
-	Hour findByevent(Event event);
+	Hour getByevent(Event event);
 	List<Hour> findBystartTime(Time startTime);
 	Hour findByweekday(String weekday);
 	boolean existsByevent(Event event);

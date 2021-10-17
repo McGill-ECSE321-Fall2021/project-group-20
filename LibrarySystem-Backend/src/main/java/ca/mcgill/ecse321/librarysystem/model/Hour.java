@@ -29,7 +29,7 @@ public class Hour
   //Hour Associations
   @ManyToOne(optional=true)
   private Employee employee;
-  @OneToOne(mappedBy="eventhour")
+  @OneToOne(optional=true)
   private Event event;
   @ManyToOne(optional=false)
   private Calendar calendar;

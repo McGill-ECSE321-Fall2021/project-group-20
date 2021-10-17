@@ -29,7 +29,7 @@ public class Event
   private Date eventDate;
 
   //Event Associations
-  @OneToOne(optional=true)
+  @OneToOne(mappedBy="event")
   private Hour eventhour;
 
   //------------------------

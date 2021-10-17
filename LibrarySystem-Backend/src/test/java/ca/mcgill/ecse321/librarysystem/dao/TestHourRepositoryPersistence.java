@@ -59,18 +59,17 @@ public class TestHourRepositoryPersistence {
 	
 	@AfterEach
 	public void clearDatabase() {
-		
-		eventRepository.deleteAll();
 		hourRepository.deleteAll();
+		eventRepository.deleteAll();
 		bookingRepository.deleteAll();
         itemRepository.deleteAll();
         titleRepository.deleteAll();
         authorRepository.deleteAll();
         userRepository.deleteAll();
-        librarySystemRepository.deleteAll();
         addressRepository.deleteAll();
         calendarRepository.deleteAll();
-        
+        librarySystemRepository.deleteAll();
+
 	}
 	
 	@Test
@@ -345,64 +344,71 @@ public class TestHourRepositoryPersistence {
 	}
 	
 	
-//	
-//	@Test
-//	public void TestPersisitenceAndLoadHourByEvent() {
-//		String str1 = "2015-03-31";
-//		Date sdate= Date.valueOf(str1);
-//		Time sTime = new Time(1, 30, 50);
-//		Time dTime = new Time(1, 30, 50);
-//		Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
-//		addressRepository.save(myadress);
-//		Calendar mycalendar = new Calendar();
-//		calendarRepository.save(mycalendar);
-//		LibrarySystem myLibrary = new LibrarySystem(myadress, mycalendar);
-//		librarySystemRepository.save(myLibrary);
-//		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, myLibrary, Role.Librarian);
-//		userRepository.save(aUser);
-//		Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
-//		hourRepository.save(myhour);
-//		Event myevent = new Event("LasFiesta", sdate , myhour);
+	
+	@Test
+	public void TestPersisitenceAndLoadHourByEvent() {
+		String str1 = "2015-03-31";
+		Date sdate= Date.valueOf(str1);
+		Time sTime = new Time(1, 30, 50);
+		Time dTime = new Time(1, 30, 50);
+		Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
+		addressRepository.save(myadress);
+		Calendar mycalendar = new Calendar();
+		calendarRepository.save(mycalendar);
+		LibrarySystem myLibrary = new LibrarySystem(myadress, mycalendar);
+		librarySystemRepository.save(myLibrary);
+		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, myLibrary, Role.Librarian);
+		userRepository.save(aUser);
+		Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
+		hourRepository.save(myhour);
+		Event myevent = new Event("LasFiesta", sdate , myhour);
+		eventRepository.save(myevent);
+	
+	
+		
+		userRepository.save(aUser);
+		librarySystemRepository.save(myLibrary);
+		calendarRepository.save(mycalendar);
+		addressRepository.save(myadress);
+		hourRepository.save(myhour);
+
+
+		
+		
+//		myhour.setEvent(myevent);
+//		myevent.setEventhour(myhour);
 //		eventRepository.save(myevent);
-////		myhour.setEvent(myevent);
-////		myevent.setEventhour(myhour);
-////		eventRepository.save(myevent);
-////		hourRepository.save(myhour);
-//
-//		myadress=null;
-//		mycalendar=null;
-//		myLibrary=null;
-//		aUser=null;
-//		
-//		Event e = eventRepository.findByEventID(myevent.getEventID());
-//		Hour HourofEvent = hourRepository.findByevent(e);
-//		assertEquals(myevent.getEventDate(),HourofEvent.getEvent().getEventDate());
-//		assertEquals(myevent.getEventhour().getStartTime(),HourofEvent.getEvent().getEventhour().getStartTime());
-//		assertEquals(myevent.getEventhour().getEndTime(),HourofEvent.getEvent().getEventhour().getEndTime());
-//		assertEquals(myevent.getEventhour().getCalendar().getCalendarID(),HourofEvent.getEvent().getEventhour().getCalendar().getCalendarID());
-//		assertEquals(myevent.getEventID(),HourofEvent.getEvent().getEventID());
-//		assertEquals(myevent.getName(),HourofEvent.getEvent().getName());
-//		assertEquals(myevent.getEventhour().getWeekday(),HourofEvent.getEvent().getEventhour().getWeekday());
-//		assertEquals(myevent.getEventhour().getEmployee().getLibraryCardID(),HourofEvent.getEvent().getEventhour().getEmployee().getLibraryCardID());
-//		assertEquals(myevent.getEventhour().getCalendar().getLibrarySystem().getSystemID(),HourofEvent.getEvent().getEventhour().getCalendar().getLibrarySystem().getSystemID());
-//		assertEquals(myevent.getEventhour().getEmployee().getAddress(),HourofEvent.getEvent().getEventhour().getEmployee().getAddress());
-//		assertEquals(myevent.getEventhour().getEmployee().getDemeritPts(),HourofEvent.getEvent().getEventhour().getEmployee().getDemeritPts());
-//		assertEquals(myevent.getEventhour().getEmployee().getFirstName(),HourofEvent.getEvent().getEventhour().getEmployee().getFirstName());
-//		assertEquals(myevent.getEventhour().getEmployee().getLastName(),HourofEvent.getEvent().getEventhour().getEmployee().getLastName());
-//		assertEquals(myevent.getEventhour().getEmployee().getIsVerified(),HourofEvent.getEvent().getEventhour().getEmployee().getIsVerified());
-//		assertEquals(myevent.getEventhour().getEmployee().getIsOnlineAcc(),HourofEvent.getEvent().getEventhour().getEmployee().getIsOnlineAcc());
-//		assertEquals(myevent.getEventhour().getEmployee().getRole(),HourofEvent.getEvent().getEventhour().getEmployee().getRole());
-//
-//
-//
-//
-//
-//		
-//
-//		
-//		
-//	}
-//	
+//		hourRepository.save(myhour);
+
+		myadress=null;
+		mycalendar=null;
+		myLibrary=null;
+		aUser=null;
+		
+		Event e = eventRepository.findByEventID(myevent.getEventID());
+		Hour HourofEvent = hourRepository.getByevent(e);
+		assertEquals(myevent.getEventDate(),HourofEvent.getEvent().getEventDate());
+		assertEquals(myevent.getEventhour().getStartTime(),HourofEvent.getEvent().getEventhour().getStartTime());
+		assertEquals(myevent.getEventhour().getEndTime(),HourofEvent.getEvent().getEventhour().getEndTime());
+		assertEquals(myevent.getEventhour().getCalendar().getCalendarID(),HourofEvent.getEvent().getEventhour().getCalendar().getCalendarID());
+		assertEquals(myevent.getEventID(),HourofEvent.getEvent().getEventID());
+		assertEquals(myevent.getName(),HourofEvent.getEvent().getName());
+		assertEquals(myevent.getEventhour().getWeekday(),HourofEvent.getEvent().getEventhour().getWeekday());
+		assertEquals(myevent.getEventhour().getEmployee().getLibraryCardID(),HourofEvent.getEvent().getEventhour().getEmployee().getLibraryCardID());
+		assertEquals(myevent.getEventhour().getCalendar().getLibrarySystem().getSystemID(),HourofEvent.getEvent().getEventhour().getCalendar().getLibrarySystem().getSystemID());
+		assertEquals(myevent.getEventhour().getEmployee().getAddress().getAddressID(),HourofEvent.getEvent().getEventhour().getEmployee().getAddress().getAddressID());
+		assertEquals(myevent.getEventhour().getEmployee().getDemeritPts(),HourofEvent.getEvent().getEventhour().getEmployee().getDemeritPts());
+		assertEquals(myevent.getEventhour().getEmployee().getFirstName(),HourofEvent.getEvent().getEventhour().getEmployee().getFirstName());
+		assertEquals(myevent.getEventhour().getEmployee().getLastName(),HourofEvent.getEvent().getEventhour().getEmployee().getLastName());
+		assertEquals(myevent.getEventhour().getEmployee().getIsVerified(),HourofEvent.getEvent().getEventhour().getEmployee().getIsVerified());
+		assertEquals(myevent.getEventhour().getEmployee().getIsOnlineAcc(),HourofEvent.getEvent().getEventhour().getEmployee().getIsOnlineAcc());
+		assertEquals(myevent.getEventhour().getEmployee().getRole(),HourofEvent.getEvent().getEventhour().getEmployee().getRole());
+
+
+		
+		
+	}
+	
 
 	
 	
