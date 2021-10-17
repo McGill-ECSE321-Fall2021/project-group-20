@@ -18,7 +18,7 @@ public class Newspaper extends Item
   // CONSTRUCTOR
   //------------------------
 
-  public Newspaper(Status aStatus, int aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle)
+  public Newspaper(Status aStatus, String aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle)
   {
     super(aStatus, aItemBarcode, aLibrarySystem, aTitle);
   }

@@ -21,7 +21,7 @@ public class Movie extends Item
   // CONSTRUCTOR
   //------------------------
 
-  public Movie(Status aStatus, int aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle, int aLength)
+  public Movie(Status aStatus, String aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle, int aLength)
   {
     super(aStatus, aItemBarcode, aLibrarySystem, aTitle);
     length = aLength;

@@ -201,9 +201,9 @@ public class TestTitleRepositoryPersistence {
 		a2=null;
 		t1=null;
 		t2=null;
-		int id1 = i1.getItemBarcode();
-		int id2 = i2.getItemBarcode();
-		int id3 = i3.getItemBarcode();
+		String id1 = i1.getItemBarcode();
+		String id2 = i2.getItemBarcode();
+		String id3 = i3.getItemBarcode();
 		
 		List<Item> items = new ArrayList<Item>();
 		items.add(i1);

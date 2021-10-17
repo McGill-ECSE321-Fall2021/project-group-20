@@ -4,13 +4,20 @@
 package ca.mcgill.ecse321.librarysystem.model;
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 // line 25 "../../../../../librarysystem.ump"
 @Entity
@@ -31,15 +38,16 @@ public class Item
   //Item Attributes
   private Status status;
   @Id
-  @GeneratedValue
-  private int itemBarcode;
+  @GeneratedValue(generator="system-uuid")
+  @GenericGenerator(name="system-uuid", strategy = "uuid")
+  private String itemBarcode;
 
   //Item Associations
   @ManyToOne(optional=false)
   private LibrarySystem librarySystem;
   @ManyToOne(optional=false)
   private Title title;
-  @OneToOne(optional=true)
+  @OneToOne(mappedBy="item")
   private Booking booking;
 
   //------------------------
@@ -63,7 +71,7 @@ public class Item
     }
   }
   
-  public Item(Status aStatus, int aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle)
+  public Item(Status aStatus, String aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle)
   {
     status = aStatus;
     itemBarcode = aItemBarcode;
@@ -91,7 +99,7 @@ public class Item
     return wasSet;
   }
 
-  public boolean setItemBarcode(int aItemBarcode)
+  public boolean setItemBarcode(String aItemBarcode)
   {
     boolean wasSet = false;
     itemBarcode = aItemBarcode;
@@ -104,7 +112,7 @@ public class Item
     return status;
   }
 
-  public int getItemBarcode()
+  public String getItemBarcode()
   {
     return itemBarcode;
   }
@@ -182,14 +190,14 @@ public class Item
   public boolean setBooking(Booking aNewBooking)
   {
     boolean wasSet = false;
-    if (booking != null && !booking.equals(aNewBooking) && equals(booking.getItembooked()))
+    if (booking != null && !booking.equals(aNewBooking) && equals(booking.getItem()))
     {
       //Unable to setBooking, as existing booking would become an orphan
       return wasSet;
     }
 
     booking = aNewBooking;
-    Item anOldItembooked = aNewBooking != null ? aNewBooking.getItembooked() : null;
+    Item anOldItembooked = aNewBooking != null ? aNewBooking.getItem() : null;
 
     if (!this.equals(anOldItembooked))
     {
@@ -199,7 +207,7 @@ public class Item
       }
       if (booking != null)
       {
-        booking.setItembooked(this);
+        booking.setItem(this);
       }
     }
     wasSet = true;

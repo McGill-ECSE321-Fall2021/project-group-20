@@ -83,13 +83,13 @@ public class TestUserRepositoryPersistence {
 	public void clearDatabase() {
 		aUser.delete();
 		user2.delete();
+		bookingRepository.deleteAll();
 		itemRepository.deleteAll();
 		titleRepository.deleteAll();
 		authorRepository.deleteAll();
-		bookingRepository.deleteAll();
 		userRepository.deleteAll();
-		librarySystemRepository.deleteAll();
 		addressRepository.deleteAll();
+		librarySystemRepository.deleteAll();
 		calendarRepository.deleteAll();
 	}
 	

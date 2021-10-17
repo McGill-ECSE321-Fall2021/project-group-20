@@ -4,11 +4,13 @@
 package ca.mcgill.ecse321.librarysystem.model;
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -37,8 +39,8 @@ public class Booking
   private BookingType type;
 
   //Booking Associations
-  @OneToOne(mappedBy="booking")
-  private Item itembooked;
+  @OneToOne(optional=true)
+  private Item item;
   @ManyToOne(optional=false)
   private User user;
 
@@ -47,15 +49,15 @@ public class Booking
   //------------------------
   public Booking(){}
 
-  public Booking(Date aStartDate, Date aEndDate, BookingType aType, Item aItembooked, User aUser)
+  public Booking(Date aStartDate, Date aEndDate, BookingType aType, Item aitem, User aUser)
   {
     startDate = aStartDate;
     endDate = aEndDate;
     type = aType;
-    boolean didAddItembooked = setItembooked(aItembooked);
-    if (!didAddItembooked)
+    boolean didAdditem = setItem(aitem);
+    if (!didAdditem)
     {
-      throw new RuntimeException("Unable to create booking due to itembooked. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create booking due to item. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     boolean didAddUser = setUser(aUser);
     if (!didAddUser)
@@ -65,16 +67,16 @@ public class Booking
   }
   
   
-  public Booking(String aBookingID, Date aStartDate, Date aEndDate, BookingType aType, Item aItembooked, User aUser)
+  public Booking(String aBookingID, Date aStartDate, Date aEndDate, BookingType aType, Item aitem, User aUser)
   {
     bookingID = aBookingID;
     startDate = aStartDate;
     endDate = aEndDate;
     type = aType;
-    boolean didAddItembooked = setItembooked(aItembooked);
-    if (!didAddItembooked)
+    boolean didAdditem = setItem(aitem);
+    if (!didAdditem)
     {
-      throw new RuntimeException("Unable to create booking due to itembooked. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create booking due to item. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     boolean didAddUser = setUser(aUser);
     if (!didAddUser)
@@ -139,9 +141,9 @@ public class Booking
     return type;
   }
   /* Code from template association_GetOne */
-  public Item getItembooked()
+  public Item getItem()
   {
-    return itembooked;
+    return item;
   }
   /* Code from template association_GetOne */
   public User getUser()
@@ -149,29 +151,29 @@ public class Booking
     return user;
   }
   /* Code from template association_SetOneToOptionalOne */
-  public boolean setItembooked(Item aNewItembooked)
+  public boolean setItem(Item aNewitem)
   {
     boolean wasSet = false;
-    if (aNewItembooked == null)
+    if (aNewitem == null)
     {
-      //Unable to setItembooked to null, as booking must always be associated to a itembooked
+      //Unable to setitem to null, as booking must always be associated to a item
       return wasSet;
     }
     
-    Booking existingBooking = aNewItembooked.getBooking();
+    Booking existingBooking = aNewitem.getBooking();
     if (existingBooking != null && !equals(existingBooking))
     {
-      //Unable to setItembooked, the current itembooked already has a booking, which would be orphaned if it were re-assigned
+      //Unable to setitem, the current item already has a booking, which would be orphaned if it were re-assigned
       return wasSet;
     }
     
-    Item anOldItembooked = itembooked;
-    itembooked = aNewItembooked;
-    itembooked.setBooking(this);
+    Item anOlditem = item;
+    item = aNewitem;
+    item.setBooking(this);
 
-    if (anOldItembooked != null)
+    if (anOlditem != null)
     {
-      anOldItembooked.setBooking(null);
+      anOlditem.setBooking(null);
     }
     wasSet = true;
     return wasSet;
@@ -210,11 +212,11 @@ public class Booking
 
   public void delete()
   {
-    Item existingItembooked = itembooked;
-    itembooked = null;
-    if (existingItembooked != null)
+    Item existingitem = item;
+    item = null;
+    if (existingitem != null)
     {
-      existingItembooked.setBooking(null);
+      existingitem.setBooking(null);
     }
     User placeholderUser = user;
     this.user = null;
@@ -232,7 +234,7 @@ public class Booking
             "  " + "startDate" + "=" + (getStartDate() != null ? !getStartDate().equals(this)  ? getStartDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "endDate" + "=" + (getEndDate() != null ? !getEndDate().equals(this)  ? getEndDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "type" + "=" + (getType() != null ? !getType().equals(this)  ? getType().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "itembooked = "+(getItembooked()!=null?Integer.toHexString(System.identityHashCode(getItembooked())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "item = "+(getItem()!=null?Integer.toHexString(System.identityHashCode(getItem())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null");
   }
 }

@@ -42,8 +42,8 @@ public class TestItemRepositoryPersistence {
 		itemRepository.deleteAll();
 		titleRepository.deleteAll();
 		authorRepository.deleteAll();
-		librarySystemRepository.deleteAll();
 		addressRepository.deleteAll();
+		librarySystemRepository.deleteAll();
 		calendarRepository.deleteAll();
 		
 		
@@ -66,6 +66,7 @@ public class TestItemRepositoryPersistence {
 		titleRepository.save(mytitle);
 		Item myItem = new Item(Status.Available, myLibrary, mytitle);
 		itemRepository.save(myItem);
+		addressRepository.save(myadress);
 		myadress=null;
 		mycalendar=null;
 		myLibrary=null;
@@ -99,6 +100,7 @@ public class TestItemRepositoryPersistence {
 		itemRepository.save(myItem);
 		Item hisItem = new Item(Status.Borrowed, myLibrary, mytitle);
 		itemRepository.save(hisItem);
+		addressRepository.save(myadress);
 		myadress=null;
 		mycalendar=null;
 		myLibrary=null;
