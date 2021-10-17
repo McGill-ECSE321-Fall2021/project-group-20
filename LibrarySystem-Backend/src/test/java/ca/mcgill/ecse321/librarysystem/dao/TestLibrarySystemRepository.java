@@ -23,57 +23,79 @@ import ca.mcgill.ecse321.librarysystem.model.*;
 public class TestLibrarySystemRepository {
 
 	@Autowired
-	private LibrarySystemRepository librarySystemRepository;
-	
-	@Autowired
 	private CalendarRepository calendarRepository;
-	
 	@Autowired
 	private AddressRepository addressRepository;
+	@Autowired
+	private LibrarySystemRepository librarySystemRepository;
+	@Autowired
+	private AuthorRepository authorRepository;
+	@Autowired
+	private TitleRepository titleRepository;
+	@Autowired
+	private ItemRepository itemRepository;
 	
 	@AfterEach
 	public void clearDatabase() {
 		// Clear the library system, calendar and address in the persistence. 
+		itemRepository.deleteAll();
+		titleRepository.deleteAll();
+		authorRepository.deleteAll();
 		librarySystemRepository.deleteAll();
-		calendarRepository.deleteAll();
 		addressRepository.deleteAll();
+		calendarRepository.deleteAll();
 	}
 	
+	@Test
+	public void testPersistAndLoadLibrarySystem() {
+		Calendar calendar = new Calendar();
+		Address busAddress = new Address();
+		calendarRepository.save(calendar);
+		addressRepository.save(busAddress);
+		
+		LibrarySystem ls = new LibrarySystem(busAddress, calendar);
+		librarySystemRepository.save(ls);
+		
+		String systemID = ls.getSystemID();
 	
-//	@Test
-//	public void testPersistAndLoadLibrarySystem() {
-//		String systemID = "LS01";
-//		String calendarID = "F2021";
-//		String addressID = "McGILL";
-//		Integer civicNumber = 0001;
-//		String street = "Sherbrook";
-//		String city = "Montreal";
-//		String postalCode = "XXXXXXX";
-//		String province = "Quebec";
-//		String country = "Canada";
-//		
-//		// Instantiate calendar
-//		Calendar calendar = new Calendar(calendarID);
-//		// Instantiate address
-//		Address businessAddress = new Address(addressID, civicNumber, street, city,
-//				postalCode, province, country);
-//		// Instantiate library system
-//		//LibrarySystem libSys = new LibrarySystem();
-//		LibrarySystem librarySystem = new LibrarySystem(null, businessAddress, calendar);
-//		librarySystem.setSystemID(systemID);
-//		librarySystemRepository.save(librarySystem);
-//		
-//		librarySystem = null;
-//		
-//		librarySystem = librarySystemRepository.findBysystemID(systemID);
-//		assertNotNull(librarySystem);
-//		assertNotNull(librarySystem.getSystemID());
-//		assertNotNull(librarySystem.getCalendar());
-//		assertEquals(systemID, librarySystem.getSystemID());
-//		assertEquals(calendar, librarySystem.getCalendar());
-//		assertEquals(businessAddress, librarySystem.getBusinessaddress());
-//	}
+		ls = null;
+		
+		ls = librarySystemRepository.findBysystemID(systemID);
+		assertNotNull(ls);
+		assertEquals(systemID, ls.getSystemID());
+	}
+	
+	@Test
+	public void testPersistAndLoadLibrarySystemWithCalendarAndAddress() {
+		Calendar calendar = new Calendar();
+		Address busAddress = new Address();
+		calendarRepository.save(calendar);
+		addressRepository.save(busAddress);
+		
+		LibrarySystem ls = new LibrarySystem(busAddress, calendar);
+		librarySystemRepository.save(ls);
+		
+		
+		String systemID = ls.getSystemID();
+		String calendarID = calendar.getCalendarID();
+		String addressID = busAddress.getAddressID();
+		
+		ls = null;
+		calendar = null;
+		busAddress = null;
+		
+		
+		ls = librarySystemRepository.findBysystemID(systemID);
+		calendar = ls.getCalendar();
+		busAddress = ls.getBusinessaddress();
+		assertNotNull(ls);
+		assertNotNull(calendar);
+		assertNotNull(busAddress);
+		
+		assertEquals(systemID, ls.getSystemID());
+	    assertEquals(calendarID, ls.getCalendar().getCalendarID());
+	    assertEquals(addressID, ls.getBusinessaddress().getAddressID());
+	}
 
-	
-	
+
 }
