@@ -246,7 +246,7 @@ public class TestTitleRepositoryPersistence {
         authorRepository.save(a1);
         Title t1 = new Title("Guide to How to Screw Up in Life","October 22nd, 2021", a1);
         titleRepository.save(t1);
-        Title t2 = new Title("Guide to How to Screw Up in Life 2","October 31th, 2021", a1);
+        Title t2 = new Title("Guide to How to Screw Up in Life","October 31th, 2021", a1);
         titleRepository.save(t2);
 
         String name = "Guide to How to Screw Up in Life";

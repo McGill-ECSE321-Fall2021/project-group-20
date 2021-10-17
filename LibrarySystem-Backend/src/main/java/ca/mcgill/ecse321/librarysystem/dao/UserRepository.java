@@ -19,6 +19,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	User findUserByEmail(String email);
 	List<User> findUserByFirstName(String firstName);
 	List<User> findUserByLastName(String lastName);
+	List<User> findUserByFirstNameAndLastName(String firstName, String lastName);
 	List<User> findUserByIsVerified(boolean isVerified);
 	List<User> findUserByDemeritPts(int demeritPts);
 	List<User> findUserByAddress(Address address);

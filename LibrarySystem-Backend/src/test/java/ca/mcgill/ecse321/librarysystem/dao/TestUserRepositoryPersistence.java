@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.librarysystem.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class TestUserRepositoryPersistence {
 		
 		aAddress2 = new Address(50,"University St.","Montreal","H4X1A5","Quebec","Canada");
 		addressRepository.save(aAddress2);
-		user2 = new User(true, "Test", "Brown", true, 0, aAddress2, aLibrary);
+		user2 = new User(true, "Test", "Brown", true, 3, aAddress2, aLibrary);
 		userRepository.save(user2);
 		user2.setUsername("test2");
 		user2.setPassword("test456");
@@ -117,23 +118,107 @@ public class TestUserRepositoryPersistence {
 	}
 	
 	@Test
-	public void testPersistAndLoadUsersByFirstName() {
+	public void testPersistByChangingRef() {
+		User user3 = new User(false, "Test", "Tester", true, 0, aAddress, aLibrary);
+		userRepository.save(user3);
 		
+		Address oldAddress = user3.getAddress();
+		Address newAdd = new Address(200,"University St.","Montreal","H4X1A5","Quebec","Canada");
+		addressRepository.save(newAdd);
+		user3.setAddress(newAdd);
+		userRepository.save(user3);
+		
+		Address newAddress = userRepository.findUserByLastName("Tester").get(0).getAddress();
+		assertNotEquals(oldAddress.getAddressID(), newAddress.getAddressID());
+		assertEquals(user3.getAddress().getAddressID(), newAddress.getAddressID());
+		
+		user3.delete();
+	}
+	
+	@Test
+	public void testPersistByChangingAttributes() {
+		User u = userRepository.findUserByUsername("ab");
+		assertEquals(u.getUsername(), aUser.getUsername());
+		
+		String oldPassword = u.getPassword();
+		u.setPassword("ThisIsChanged");
+		userRepository.save(u);
+		
+		String newPassword = userRepository.findUserByUsername("ab").getPassword();
+		assertNotEquals(oldPassword, newPassword);
+		assertEquals(u.getPassword(), newPassword);
+	}
+	
+	@Test
+	public void testPersistAndLoadUsersByFirstAndLastName() {
+		List<User> PersistedUsers = userRepository.findUserByFirstNameAndLastName("Alex", "Bangala");
+		List<User> createdUsers = new ArrayList<User>();
+		createdUsers.add(aUser);
+		
+		assertNotNull(PersistedUsers);
+		assertEquals(PersistedUsers.size(), createdUsers.size());
+		for (User u : PersistedUsers) {
+			assertEquals(u.getFirstName(), createdUsers.get(0).getFirstName());
+			assertEquals(u.getLastName(), createdUsers.get(0).getLastName());
+			createdUsers.remove(0);
+		}
+	}
+	
+	@Test
+	public void testPersistAndLoadUsersByFirstName() {
+		List<User> PersistedUsers = userRepository.findUserByFirstName("Test");
+		List<User> createdUsers = new ArrayList<User>();
+		createdUsers.add(user2);
+		
+		assertNotNull(PersistedUsers);
+		assertEquals(PersistedUsers.size(), createdUsers.size());
+		for (User u : PersistedUsers) {
+			assertEquals(u.getFirstName(), createdUsers.get(0).getFirstName());
+			createdUsers.remove(0);
+		}
 	}
 	
 	@Test
 	public void testPersistAndLoadUsersByLastName() {
+		List<User> PersistedUsers = userRepository.findUserByLastName("Bangala");
+		List<User> createdUsers = new ArrayList<User>();
+		createdUsers.add(aUser);
 		
+		assertNotNull(PersistedUsers);
+		assertEquals(PersistedUsers.size(), createdUsers.size());
+		for (User u : PersistedUsers) {
+			assertEquals(u.getLastName(), createdUsers.get(0).getLastName());
+			createdUsers.remove(0);
+		}
 	}
 	
 	@Test
 	public void testPersistAndLoadUsersByIsVerified() {
+		List<User> PersistedUsers = userRepository.findUserByIsVerified(true);
+		List<User> createdUsers = new ArrayList<User>();
+		createdUsers.add(aUser);
+		createdUsers.add(user2);
 		
+		assertNotNull(PersistedUsers);
+		assertEquals(PersistedUsers.size(), createdUsers.size());
+		for (User u : PersistedUsers) {
+			assertEquals(u.getIsVerified(), createdUsers.get(0).getIsVerified());
+			createdUsers.remove(0);
+		}
 	}
 	
 	@Test
 	public void testPersistAndLoadUsersByDemeritPts() {
+		List<User> PersistedUsers = userRepository.findUserByDemeritPts(3);
+		List<User> createdUsers = new ArrayList<User>();
+		createdUsers.add(user2);
 		
+		assertNotNull(PersistedUsers);
+		assertEquals(PersistedUsers.size(), createdUsers.size());
+		for (User u : PersistedUsers) {
+			assertEquals(u.getDemeritPts(), createdUsers.get(0).getDemeritPts());
+			createdUsers.remove(0);
+		}
 	}
 	
 	@Test
