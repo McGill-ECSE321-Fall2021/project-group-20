@@ -79,7 +79,6 @@ public class TestAddressRepository {
 		assertEquals(postalCode, address.getPostalCode());
 		assertEquals(province, address.getProvince());
 		assertEquals(country, address.getCountry());
-		
 	}
 	
 	@Test
@@ -294,33 +293,35 @@ public class TestAddressRepository {
 	public void testPersistAndLoadAddressWithStringAddress() {
 		// Address Attributes
 		String civicNumber = "4609";
-				String street = "Sherbrooke";
-				String city = "Montreal";
-				String postalCode = "H7T 2N6";
-				String province = "Quebec";
-				String country = "Canada";
-				Address address = new Address();
-				address.setCivicNumber(civicNumber);
-				address.setStreet(street);
-				address.setCity(city);
-				address.setPostalCode(postalCode);
-				address.setProvince(province);
-				address.setCountry(country);
-				addressRepository.save(address);
-				
-				String addressID = address.getAddressID();
-				
-				address = null;
-				
-				List<Address> addresses = addressRepository.findAddressByCivicNumberAndStreetAndCityAndPostalCodeAndProvinceAndCountry(civicNumber, street, city, postalCode, province, country);
-				assertNotNull(addresses);
-				assertEquals(addressID, addresses.get(0).getAddressID());
-				assertEquals(civicNumber, addresses.get(0).getCivicNumber());
-				assertEquals(street, addresses.get(0).getStreet());
-				assertEquals(city, addresses.get(0).getCity());
-				assertEquals(postalCode, addresses.get(0).getPostalCode());
-				assertEquals(province, addresses.get(0).getProvince());
-				assertEquals(country, addresses.get(0).getCountry());
+		String street = "Sherbrooke";
+		String city = "Montreal";
+		String postalCode = "H7T 2N6";
+		String province = "Quebec";
+		String country = "Canada";
+		Address address = new Address();
+		address.setCivicNumber(civicNumber);
+		address.setStreet(street);
+		address.setCity(city);
+		address.setPostalCode(postalCode);
+		address.setProvince(province);
+		address.setCountry(country);
+		addressRepository.save(address);
+
+		String addressID = address.getAddressID();
+
+		address = null;
+
+		List<Address> addresses = addressRepository
+				.findAddressByCivicNumberAndStreetAndCityAndPostalCodeAndProvinceAndCountry(civicNumber, street, city,
+						postalCode, province, country);
+		assertNotNull(addresses);
+		assertEquals(addressID, addresses.get(0).getAddressID());
+		assertEquals(civicNumber, addresses.get(0).getCivicNumber());
+		assertEquals(street, addresses.get(0).getStreet());
+		assertEquals(city, addresses.get(0).getCity());
+		assertEquals(postalCode, addresses.get(0).getPostalCode());
+		assertEquals(province, addresses.get(0).getProvince());
+		assertEquals(country, addresses.get(0).getCountry());
 	}
 	
 	@Test
