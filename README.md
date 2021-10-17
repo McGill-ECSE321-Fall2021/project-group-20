@@ -12,7 +12,7 @@ The website and application is accessed by two types of users: the employees whi
 
 |Name   | GitHub  | Major  | Year  |
 |---|---|---|---|
-|  Alexandra Bangala | [AlexandruB30](https://github.com/AlexandruB30)  | Software Engineering  |  U2 |
+|  Alexandru Bangala | [AlexandruB30](https://github.com/AlexandruB30)  | Software Engineering  |  U2 |
 |  Harsh Patel|  [HPatel999](https://github.com/HPatel999) | Software Engineering  | U2  |
 |  Ehsan Ahmed |  [royalblaster](https://github.com/royalblaster) | Software Engineering  |  U2 |
 |  Dan Hosi | [Dan4160](https://github.com/Danh4160)  | Software Engineering  | U2  |
@@ -23,7 +23,7 @@ The website and application is accessed by two types of users: the employees whi
 
 |  Name | Role  |
 |---|---|
-| Alexandra Bangala  | Documentation, Project Manager, Software Developper  |
+| Alexandru Bangala  | Documentation, Project Manager, Software Developper  |
 |  Harsh Patel | Documentation, Software Developper|
 | Ehsan Ahmed  |  Documentaion, Software Developper|
 |  Dan Hosi |   Documentaion, Software Developper|
@@ -33,7 +33,7 @@ The website and application is accessed by two types of users: the employees whi
 
 |  Name | Time Spent in Hours (Sprint 1)  |Time Spent in Hours (Sprint 2)|Time Spent in Hours (Sprint 3)|Time Spent in Hours (Sprint 4)| Total Hours  |
 |---|---|---|---|---|---|
-|  Alexandra Bangala |  38|0|0|0|   38|
+|  Alexandru Bangala |  38|0|0|0|   38|
 | Harsh Patel   | 32 |0|0|0|  32 |
 | Ehsan Ahmed  | 32 |0|0|0| 32 |
 | Dan Hosi  | 32  |0|0|0|  32 |
