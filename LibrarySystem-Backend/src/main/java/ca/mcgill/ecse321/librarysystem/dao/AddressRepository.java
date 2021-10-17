@@ -19,4 +19,7 @@ public interface AddressRepository extends CrudRepository<Address, String>{
 	List<Address> findAddressByCountry(String country);
 	List<Address> findAddressByCivicNumberAndStreetAndCityAndPostalCodeAndProvinceAndCountry(String CivicNumber, String street, String city, String postalCode, String province, String country);
 	Address findAddressByLibrarySystem(LibrarySystem librarySystem);
+	boolean existsByAddressID(String addressID);
+	boolean existsByLibrarySystem(LibrarySystem librarySystem);
+	boolean existsByCivicNumberAndStreetAndCityAndPostalCodeAndProvinceAndCountry(String CivicNumber, String street, String city, String postalCode, String province, String country);
 }

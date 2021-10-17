@@ -15,24 +15,8 @@ public interface BookingRepository extends CrudRepository <Booking , String>{
 	Booking findBookingByItem(Item item);
 	List<Booking> findBookingByUser(User user);
 	List<Booking> findBookingByType(BookingType type);
-//  List<Booking> findByStatus (Item status);
-//	List<Booking> findByfirstNameAndlastName (User firstName, User lastName );
-//	List<Booking> findByfirstName (User firstName);
-//	List<Booking> findBylastName (User lastName);
-//	List<Booking> findBylibraryCardID (User libraryCardID);
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
+	boolean existsByBookingID(String bookingID);
+	boolean existsByItem(Item item);
 }
 
 

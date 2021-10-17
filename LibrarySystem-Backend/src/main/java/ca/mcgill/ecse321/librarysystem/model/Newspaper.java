@@ -18,6 +18,8 @@ public class Newspaper extends Item
   // CONSTRUCTOR
   //------------------------
 
+  public Newspaper() {}
+	
   public Newspaper(Status aStatus, String aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle)
   {
     super(aStatus, aItemBarcode, aLibrarySystem, aTitle);

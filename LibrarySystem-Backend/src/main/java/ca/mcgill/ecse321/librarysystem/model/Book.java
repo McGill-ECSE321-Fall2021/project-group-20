@@ -21,7 +21,8 @@ public class Book extends Item
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
+  public Book() {}
+  
   public Book(Status aStatus, String aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle, String aIsbn, String aNumPages)
   {
     super(aStatus, aItemBarcode, aLibrarySystem, aTitle);

@@ -25,4 +25,9 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	List<User> findUserByAddress(Address address);
 	List<User> findUserByLibrarySystem(LibrarySystem librarySystem);
 	User findUserByUserbooking(Booking userbooking);
+	boolean existsByLibraryCardID(Integer libraryCardID);
+	boolean existsByUsername(String username);
+	boolean existsByEmail(String email);
+	boolean existsByUserbooking(Booking userbooking);
+	boolean existsByFirstNameAndLastName(String firstName, String lastName);
 }

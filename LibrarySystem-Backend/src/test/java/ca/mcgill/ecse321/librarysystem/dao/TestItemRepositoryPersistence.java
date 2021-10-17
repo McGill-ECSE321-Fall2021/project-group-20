@@ -136,6 +136,7 @@ public class TestItemRepositoryPersistence {
 		itemRepository.save(myItem);
 		Item hisItem = new Item(Status.Borrowed, myLibrary, mytitle);
 		itemRepository.save(hisItem);
+		addressRepository.save(myadress);
 		myadress=null;
 		mycalendar=null;
 		//myLibrary=null;
@@ -145,7 +146,7 @@ public class TestItemRepositoryPersistence {
 		List<Item> PersistItem = itemRepository.findItemByLibrarySystem(myLibrary);
 		assertNotNull (PersistItem);
 		for (Item PersitanceItem : PersistItem){
-			assertTrue(PersitanceItem.getItemBarcode()==(myItem.getItemBarcode()) || PersitanceItem.getItemBarcode()==(hisItem.getItemBarcode()));
+			assertTrue(PersitanceItem.getItemBarcode().equals(myItem.getItemBarcode()) || PersitanceItem.getItemBarcode().equals(hisItem.getItemBarcode()));
 			assertTrue(PersitanceItem.getStatus().equals(myItem.getStatus()) || PersitanceItem.getStatus().equals(hisItem.getStatus()));
 			assertTrue(PersitanceItem.getTitle().getAuthor().get(0).getFirstName().equals(myItem.getTitle().getAuthor().get(0).getFirstName()) ||PersitanceItem.getTitle().getAuthor().get(0).getFirstName().equals(hisItem.getTitle().getAuthor().get(0).getFirstName()) );
 			assertTrue(PersitanceItem.getLibrarySystem().getBusinessaddress().getCity().equals(myItem.getLibrarySystem().getBusinessaddress().getCity()) ||PersitanceItem.getLibrarySystem().getBusinessaddress().getCity().equals(hisItem.getLibrarySystem().getBusinessaddress().getCity()) );
@@ -173,6 +174,7 @@ public class TestItemRepositoryPersistence {
 		itemRepository.save(myItem);
 		Item hisItem = new Item(Status.Borrowed, myLibrary, mytitle);
 		itemRepository.save(hisItem);
+		addressRepository.save(myadress);
 		myadress=null;
 		mycalendar=null;
 		myLibrary=null;
@@ -183,7 +185,7 @@ public class TestItemRepositoryPersistence {
 		assertNotNull (PersistItem);
 		
 		for (Item PersitanceItem : PersistItem){
-			assertTrue(PersitanceItem.getItemBarcode()==(myItem.getItemBarcode()) || PersitanceItem.getItemBarcode()==(hisItem.getItemBarcode()));
+			assertTrue(PersitanceItem.getItemBarcode().equals(myItem.getItemBarcode()) || PersitanceItem.getItemBarcode().equals(hisItem.getItemBarcode()));
 			assertTrue(PersitanceItem.getStatus().equals(myItem.getStatus()) || PersitanceItem.getStatus().equals(hisItem.getStatus()));
 			assertTrue(PersitanceItem.getTitle().getAuthor().get(0).getFirstName().equals(myItem.getTitle().getAuthor().get(0).getFirstName()) ||PersitanceItem.getTitle().getAuthor().get(0).getFirstName().equals(hisItem.getTitle().getAuthor().get(0).getFirstName()) );
 			assertTrue(PersitanceItem.getLibrarySystem().getBusinessaddress().getCity().equals(myItem.getLibrarySystem().getBusinessaddress().getCity()) ||PersitanceItem.getLibrarySystem().getBusinessaddress().getCity().equals(hisItem.getLibrarySystem().getBusinessaddress().getCity()) );
