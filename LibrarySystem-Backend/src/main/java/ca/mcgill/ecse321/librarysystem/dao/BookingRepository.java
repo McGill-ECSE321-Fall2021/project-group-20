@@ -12,7 +12,7 @@ public interface BookingRepository extends CrudRepository <Booking , String>{
 	Booking findBybookingID(String bookingId);
 	List<Booking> findBystartDate (Date startDate);
 	List<Booking> findByendDate (Date endDate);
-	Booking findByItembooked(Item itemBarcode);
+	Booking findByItembooked(Item itembooked);
 	List<Booking> findByUser(User libraryCardID);
 	List<Booking> findByType(BookingType type);
 //  List<Booking> findByStatus (Item status);

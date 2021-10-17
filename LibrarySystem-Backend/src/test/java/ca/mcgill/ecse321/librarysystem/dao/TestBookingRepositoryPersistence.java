@@ -159,7 +159,7 @@ public class TestBookingRepositoryPersistence {
 		mytitle=null;
 		myItem=null;
 		myUser=null;
-		
+
 		List<Booking> FindBookingByStartDate = bookingRepository.findBystartDate(sdate);
 		for (Booking PersitanceBook : FindBookingByStartDate){
 
@@ -241,7 +241,6 @@ public class TestBookingRepositoryPersistence {
 	
 //	@Test
 //	public void testPersistenceAndLoadBookingByItembooked() {
-//		
 //		Address myadress = new Address(51,"Parkekx","Montreal","H5H6H7","Quebec","Canada");
 //		addressRepository.save(myadress);
 //		Calendar mycalendar = new Calendar();
@@ -249,87 +248,43 @@ public class TestBookingRepositoryPersistence {
 //		LibrarySystem myLibrary = new LibrarySystem(myadress, mycalendar);
 //		librarySystemRepository.save(myLibrary);
 //		Author myAuthor = new Author("J.K.", "Rowling");
-//		Author myAuthor1 = new Author("J.K.", "Rowling22");
-//
 //		authorRepository.save(myAuthor);
-//		authorRepository.save(myAuthor1);
-//
 //		Title mytitle = new Title("Kakao", "October 31th, 2021", myAuthor);
-//		Title mytitle1 = new Title("Kakaoko", "October 30th, 2021", myAuthor1);
-//
 //		titleRepository.save(mytitle);
-//		titleRepository.save(mytitle1);
-//
 //		Item myItem = new Item(Status.Available, myLibrary, mytitle);
-//		Item myItem1 = new Item(Status.Available, myLibrary, mytitle1);
-//
 //		itemRepository.save(myItem);
-//		itemRepository.save(myItem1);
-//
 //		User myUser = new User(true,"Harsh","Patel",true,0,myadress,myLibrary);
-//		User myUser1 = new User(true,"Hershey","Patel",true,0,myadress,myLibrary);
-//
 //		userRepository.save(myUser);
-//		userRepository.save(myUser1);
-//
 //		//public Booking(Date aStartDate, Date aEndDate, BookingType aType, Item aItembooked, User aUser)
 //		String str1 = "2015-03-31";
 //		String str2 ="2015-04-05";
 //		Date sdate= Date.valueOf(str1);
 //		Date edate = Date.valueOf(str2);
 //		Booking myBooking = new Booking (sdate,edate,BookingType.Reservation,myItem,myUser);
-//		Booking myBooking1 = new Booking (sdate,edate,BookingType.Reservation,myItem1,myUser1);
-//
 //		bookingRepository.save(myBooking);
-//		bookingRepository.save(myBooking1);
-//
+//		
 //		
 //		myadress = null;
 //		mycalendar= null;
 //		myLibrary=null;
 //		myAuthor=null;
 //		mytitle=null;
-//		myItem=null;
 //		myUser=null;
 //		
-//		
-//		List<Booking> FindBookingByitemBooked = bookingRepository.findByItembooked();
+//		Booking BABY = bookingRepository.findByItembooked(myItem);
+//		assertEquals(myBooking.getItembooked().getTitle(),BABY.getItembooked().getTitle());
+//		assertEquals(myBooking.getItembooked().getItemBarcode(),BABY.getItembooked().getItemBarcode());
+//		assertEquals(myBooking.getItembooked().getLibrarySystem(),BABY.getItembooked().getLibrarySystem());
+//		assertEquals(myBooking.getItembooked().getStatus(),BABY.getItembooked().getStatus());
+//
+//
 //
 //		
+//
 //		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//	}
 //	
 //	
 //	
 //	
-	
-	
-	
-	
+//}
 }
