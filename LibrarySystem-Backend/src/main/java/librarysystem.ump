@@ -48,9 +48,9 @@ class Item {
 class User {
 
   boolean isOnlineAcc;
-  lazy username;
+  unique lazy String username;
   lazy password;
-  lazy email;
+  unique lazy String email;
 
   String firstName;
   String lastName;
