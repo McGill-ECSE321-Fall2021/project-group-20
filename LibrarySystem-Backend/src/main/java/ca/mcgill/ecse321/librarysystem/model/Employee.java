@@ -35,6 +35,14 @@ public class Employee extends User
   // CONSTRUCTOR
   //------------------------
 
+  public Employee() {}
+  
+  public Employee(boolean aIsOnlineAcc, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, Address aAddress, LibrarySystem aLibrarySystem, Role aRole) {
+	  super(aIsOnlineAcc, aFirstName, aLastName, aIsVerified, aDemeritPts, aAddress, aLibrarySystem);
+	    role = aRole;
+	    employeehour = new ArrayList<Hour>();
+  }
+  
   public Employee(boolean aIsOnlineAcc, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress, LibrarySystem aLibrarySystem, Role aRole)
   {
     super(aIsOnlineAcc, aFirstName, aLastName, aLibraryCardID, aIsVerified, aDemeritPts, aAddress, aLibrarySystem);

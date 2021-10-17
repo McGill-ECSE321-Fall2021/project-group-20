@@ -27,6 +27,8 @@ public class User
   //------------------------
 
   private static Map<Integer, User> usersByLibraryCardID = new HashMap<Integer, User>();
+  private static Map<String, User> usersByUsername = new HashMap<String, User>();
+  private static Map<String, User> usersByEmail = new HashMap<String, User>();
 
   //------------------------
   // MEMBER VARIABLES
@@ -57,6 +59,7 @@ public class User
   // CONSTRUCTOR
   //------------------------
 
+  public User() {}
   public User(boolean aIsOnlineAcc, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, Address aAddress, LibrarySystem aLibrarySystem)
   {
     isOnlineAcc = aIsOnlineAcc;
@@ -120,10 +123,21 @@ public class User
 
   public boolean setUsername(String aUsername)
   {
-    boolean wasSet = false;
-    username = aUsername;
-    wasSet = true;
-    return wasSet;
+	  boolean wasSet = false;
+	    String anOldUsername = getUsername();
+	    if (anOldUsername != null && anOldUsername.equals(aUsername)) {
+	      return true;
+	    }
+	    if (hasWithUsername(aUsername)) {
+	      return wasSet;
+	    }
+	    username = aUsername;
+	    wasSet = true;
+	    if (anOldUsername != null) {
+	      usersByUsername.remove(anOldUsername);
+	    }
+	    usersByUsername.put(aUsername, this);
+	    return wasSet;
   }
 
   public boolean setPassword(String aPassword)
@@ -136,10 +150,21 @@ public class User
 
   public boolean setEmail(String aEmail)
   {
-    boolean wasSet = false;
-    email = aEmail;
-    wasSet = true;
-    return wasSet;
+	  boolean wasSet = false;
+	    String anOldEmail = getEmail();
+	    if (anOldEmail != null && anOldEmail.equals(aEmail)) {
+	      return true;
+	    }
+	    if (hasWithEmail(aEmail)) {
+	      return wasSet;
+	    }
+	    email = aEmail;
+	    wasSet = true;
+	    if (anOldEmail != null) {
+	      usersByEmail.remove(anOldEmail);
+	    }
+	    usersByEmail.put(aEmail, this);
+	    return wasSet;
   }
 
   public boolean setFirstName(String aFirstName)
@@ -197,6 +222,17 @@ public class User
   {
     return isOnlineAcc;
   }
+  
+  /* Code from template attribute_GetUnique */
+  public static User getWithUsername(String aUsername)
+  {
+    return usersByUsername.get(aUsername);
+  }
+  /* Code from template attribute_HasUnique */
+  public static boolean hasWithUsername(String aUsername)
+  {
+    return getWithUsername(aUsername) != null;
+  }
 
   public String getUsername()
   {
@@ -206,6 +242,17 @@ public class User
   public String getPassword()
   {
     return password;
+  }
+  
+  /* Code from template attribute_GetUnique */
+  public static User getWithEmail(String aEmail)
+  {
+    return usersByEmail.get(aEmail);
+  }
+  /* Code from template attribute_HasUnique */
+  public static boolean hasWithEmail(String aEmail)
+  {
+    return getWithEmail(aEmail) != null;
   }
 
   public String getEmail()
@@ -412,6 +459,8 @@ public class User
 
   public void delete()
   {
+    usersByUsername.remove(getUsername());
+    usersByEmail.remove(getEmail());
     usersByLibraryCardID.remove(getLibraryCardID());
     address = null;
     LibrarySystem placeholderLibrarySystem = librarySystem;

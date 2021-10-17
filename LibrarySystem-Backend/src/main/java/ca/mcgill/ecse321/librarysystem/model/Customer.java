@@ -19,6 +19,13 @@ public class Customer extends User
   // CONSTRUCTOR
   //------------------------
 
+
+	public Customer() {}
+	
+	public Customer(boolean aIsOnlineAcc, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, Address aAddress, LibrarySystem aLibrarySystem) {
+		super(aIsOnlineAcc, aFirstName, aLastName, aIsVerified, aDemeritPts, aAddress, aLibrarySystem);
+	}
+	
   public Customer(boolean aIsOnlineAcc, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress, LibrarySystem aLibrarySystem)
   {
     super(aIsOnlineAcc, aFirstName, aLastName, aLibraryCardID, aIsVerified, aDemeritPts, aAddress, aLibrarySystem);
