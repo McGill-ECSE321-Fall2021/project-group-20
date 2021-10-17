@@ -70,7 +70,7 @@ public class TestBookingRepositoryPersistence {
 
 	@Test
 	public void testPersistenceAndLoadBookingBybookingID() {
-		Address myadress = new Address(51,"Parkekx","Montreal","H5H6H7","Quebec","Canada");
+		Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
 		addressRepository.save(myadress);
 		Calendar mycalendar = new Calendar();
 		calendarRepository.save(mycalendar);
@@ -110,7 +110,7 @@ public class TestBookingRepositoryPersistence {
 	
 	@Test 
 	public void testPersistenceAndLoadBookingByStartDate() {
-		Address myadress = new Address(51,"Parkekx","Montreal","H5H6H7","Quebec","Canada");
+		Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
 		addressRepository.save(myadress);
 		Calendar mycalendar = new Calendar();
 		calendarRepository.save(mycalendar);
@@ -178,7 +178,7 @@ public class TestBookingRepositoryPersistence {
 	
 	@Test 
 	public void testPersistenceAndLoadBookingByEndDate() {
-		Address myadress = new Address(51,"Parkekx","Montreal","H5H6H7","Quebec","Canada");
+		Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
 		addressRepository.save(myadress);
 		Calendar mycalendar = new Calendar();
 		calendarRepository.save(mycalendar);

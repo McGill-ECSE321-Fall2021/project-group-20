@@ -1,18 +1,22 @@
 package ca.mcgill.ecse321.librarysystem.dao;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.librarysystem.model.Address;
+import ca.mcgill.ecse321.librarysystem.model.LibrarySystem;
 
 public interface AddressRepository extends CrudRepository<Address, String>{
 	
 	/* Returns an address object corresponding to the given attribute */
-	Address findByaddressID(String addressID);
-	Address findBycivicNumber(int CivicNumber);
-	Address findBystreet(String street);
-	Address findBycity(String city);
-	Address findBypostalCode(String postalCode);
-	Address findByprovince(String province);
-	Address findBycountry(String country);
-	Address findBysystemID(String systemID);
+	Address findByAddressID(String addressID);
+	List<Address> findAddressByCivicNumber(String civicNumber);
+	List<Address> findAddressByStreet(String street);
+	List<Address> findAddressByCity(String city);
+	List<Address> findAddressByPostalCode(String postalCode);
+	List<Address> findAddressByProvince(String province);
+	List<Address> findAddressByCountry(String country);
+	List<Address> findAddressByCivicNumberAndStreetAndCityAndPostalCodeAndProvinceAndCountry(String CivicNumber, String street, String city, String postalCode, String province, String country);
+	Address findAddressByLibrarySystem(LibrarySystem librarySystem);
 }

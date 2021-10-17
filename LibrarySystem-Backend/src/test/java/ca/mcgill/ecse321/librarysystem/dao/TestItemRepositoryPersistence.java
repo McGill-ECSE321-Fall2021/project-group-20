@@ -54,7 +54,7 @@ public class TestItemRepositoryPersistence {
 	@Test
 	public void testPersistAndLoadItemByBarCode() {
 		
-		Address myadress = new Address(51,"Parkekx","Montreal","H5H6H7","Quebec","Canada");
+		Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
 		addressRepository.save(myadress);
 		Calendar mycalendar = new Calendar();
 		calendarRepository.save(mycalendar);
@@ -85,7 +85,7 @@ public class TestItemRepositoryPersistence {
 	@Test
 	public void testPersistAndLoadItemByStatus() {
 		
-		Address myadress = new Address(51,"Parkekx","Montreal","H5H6H7","Quebec","Canada");
+		Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
 		addressRepository.save(myadress);
 		Calendar mycalendar = new Calendar();
 		calendarRepository.save(mycalendar);
@@ -120,7 +120,7 @@ public class TestItemRepositoryPersistence {
 	@Test
 	public void testPersistAndLoadItemByLibrarySystem() {
 		
-		Address myadress = new Address(51,"Parkekx","Montreal","H5H6H7","Quebec","Canada");
+		Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
 		addressRepository.save(myadress);
 		Calendar mycalendar = new Calendar();
 		calendarRepository.save(mycalendar);
@@ -157,7 +157,7 @@ public class TestItemRepositoryPersistence {
 	@Test
 	public void testPersistAndLoadItemByTitle() {
 		
-		Address myadress = new Address(51,"Parkekx","Montreal","H5H6H7","Quebec","Canada");
+		Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
 		addressRepository.save(myadress);
 		Calendar mycalendar = new Calendar();
 		calendarRepository.save(mycalendar);
@@ -195,7 +195,7 @@ public class TestItemRepositoryPersistence {
 	
 	public void testExistanceOfPersistance() {
 		
-		Address myadress = new Address(51,"Parkekx","Montreal","H5H6H7","Quebec","Canada");
+		Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
 		addressRepository.save(myadress);
 		Calendar mycalendar = new Calendar();
 		calendarRepository.save(mycalendar);

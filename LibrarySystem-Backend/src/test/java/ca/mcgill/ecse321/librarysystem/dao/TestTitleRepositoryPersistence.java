@@ -137,7 +137,7 @@ public class TestTitleRepositoryPersistence {
 	
 	@Test 
 	public void testPersistAndLoadTitleByItemBarCode() {	
-		Address myadress = new Address(13,"Elmstreet","Montreal","HeLL666","Quebec","Canada");
+		Address myadress = new Address("13","Elmstreet","Montreal","HeLL666","Quebec","Canada");
 		addressRepository.save(myadress);
 		Calendar c1 = new Calendar();
 		calendarRepository.save(c1);
@@ -164,7 +164,7 @@ public class TestTitleRepositoryPersistence {
 	@Test 
 	public void testPersistAndLoadTitleByItemBarCodes() {
 
-		Address ad1 = new Address(3,"YellowBirckRoad","Montreal","Oz","Quebec","Canada");
+		Address ad1 = new Address("3","YellowBirckRoad","Montreal","Oz","Quebec","Canada");
 		addressRepository.save(ad1);
 		
 		Calendar c1 = new Calendar();
