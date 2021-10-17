@@ -1,0 +1,11 @@
+Main success scenario:
+1.The Customer (C) browses items.
+2. C books a item.
+3. C now has the item for a specific period
+
+Alternative scenarios
+1a. C cannot book a reserved item.
+1b. C cannot book a borrowed item.
+1c. C cannot book a journal.
+1d. C cannot book , because he already has 5 items in his possesion
+1e. C cannot book, because of the demerit points on his account
