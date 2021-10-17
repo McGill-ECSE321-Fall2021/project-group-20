@@ -58,7 +58,7 @@ public class TestEventRepositoryPersistence {
 	Date sdate= Date.valueOf(str1);
 	Time sTime = new Time(1, 30, 50);
 	Time dTime = new Time(1, 30, 50);
-	Address myadress = new Address(51,"Parkekx","Montreal","H5H6H7","Quebec","Canada");
+	Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
 	addressRepository.save(myadress);
 	Calendar mycalendar = new Calendar();
 	calendarRepository.save(mycalendar);
@@ -92,7 +92,7 @@ public class TestEventRepositoryPersistence {
 	Date sdate= Date.valueOf(str1);
 	Time sTime = new Time(1, 30, 50);
 	Time dTime = new Time(1, 30, 50);
-	Address myadress = new Address(51,"Parkekx","Montreal","H5H6H7","Quebec","Canada");
+	Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
 	addressRepository.save(myadress);
 	Calendar mycalendar = new Calendar();
 	calendarRepository.save(mycalendar);
@@ -124,7 +124,7 @@ public class TestEventRepositoryPersistence {
 	Date sdate= Date.valueOf(str1);
 	Time sTime = new Time(1, 30, 50);
 	Time dTime = new Time(1, 30, 50);
-	Address myadress = new Address(51,"Parkekx","Montreal","H5H6H7","Quebec","Canada");
+	Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
 	addressRepository.save(myadress);
 	Calendar mycalendar = new Calendar();
 	calendarRepository.save(mycalendar);
@@ -155,7 +155,7 @@ public class TestEventRepositoryPersistence {
 	Date sdate= Date.valueOf(str1);
 	Time sTime = new Time(1, 30, 50);
 	Time dTime = new Time(1, 30, 50);
-	Address myadress = new Address(51,"Parkekx","Montreal","H5H6H7","Quebec","Canada");
+	Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
 	addressRepository.save(myadress);
 	Calendar mycalendar = new Calendar();
 	calendarRepository.save(mycalendar);

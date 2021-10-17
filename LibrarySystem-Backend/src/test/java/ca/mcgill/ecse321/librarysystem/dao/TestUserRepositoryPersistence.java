@@ -56,7 +56,7 @@ public class TestUserRepositoryPersistence {
 	
 	@BeforeEach
 	public void setupTest() {
-		aAddress = new Address(100,"University St.","Montreal","H4X1A5","Quebec","Canada");
+		aAddress = new Address("100","University St.","Montreal","H4X1A5","Quebec","Canada");
 		addressRepository.save(aAddress);
 		aCalendar = new Calendar();
 		calendarRepository.save(aCalendar);
@@ -69,7 +69,7 @@ public class TestUserRepositoryPersistence {
 		aUser.setEmail("test@test.ca");
 		userRepository.save(aUser);
 		
-		aAddress2 = new Address(50,"University St.","Montreal","H4X1A5","Quebec","Canada");
+		aAddress2 = new Address("50","University St.","Montreal","H4X1A5","Quebec","Canada");
 		addressRepository.save(aAddress2);
 		user2 = new User(true, "Test", "Brown", true, 3, aAddress2, aLibrary);
 		userRepository.save(user2);
@@ -123,7 +123,7 @@ public class TestUserRepositoryPersistence {
 		userRepository.save(user3);
 		
 		Address oldAddress = user3.getAddress();
-		Address newAdd = new Address(200,"University St.","Montreal","H4X1A5","Quebec","Canada");
+		Address newAdd = new Address("200","University St.","Montreal","H4X1A5","Quebec","Canada");
 		addressRepository.save(newAdd);
 		user3.setAddress(newAdd);
 		userRepository.save(user3);

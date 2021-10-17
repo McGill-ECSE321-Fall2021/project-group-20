@@ -25,7 +25,7 @@ public class Address
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
   private String addressID;
-  private int civicNumber;
+  private String civicNumber;
   private String street;
   private String city;
   private String postalCode;
@@ -44,7 +44,7 @@ public class Address
   
   public Address(){}
 	
-  public Address(int aCivicNumber, String aStreet, String aCity, String aPostalCode, String aProvince, String aCountry)
+  public Address(String aCivicNumber, String aStreet, String aCity, String aPostalCode, String aProvince, String aCountry)
   {
     civicNumber = aCivicNumber;
     street = aStreet;
@@ -54,7 +54,7 @@ public class Address
     country = aCountry;
   }
   
-  public Address(String aAddressID, int aCivicNumber, String aStreet, String aCity, String aPostalCode, String aProvince, String aCountry)
+  public Address(String aAddressID, String aCivicNumber, String aStreet, String aCity, String aPostalCode, String aProvince, String aCountry)
   {
     addressID = aAddressID;
     civicNumber = aCivicNumber;
@@ -77,7 +77,7 @@ public class Address
     return wasSet;
   }
 
-  public boolean setCivicNumber(int aCivicNumber)
+  public boolean setCivicNumber(String aCivicNumber)
   {
     boolean wasSet = false;
     civicNumber = aCivicNumber;
@@ -130,7 +130,7 @@ public class Address
     return addressID;
   }
 
-  public int getCivicNumber()
+  public String getCivicNumber()
   {
     return civicNumber;
   }
