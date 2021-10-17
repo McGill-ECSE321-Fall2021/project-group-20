@@ -42,8 +42,8 @@ public class TestAddressRepository {
 		itemRepository.deleteAll();
 		titleRepository.deleteAll();
 		authorRepository.deleteAll();
-		librarySystemRepository.deleteAll();
 		addressRepository.deleteAll();
+		librarySystemRepository.deleteAll();
 		calendarRepository.deleteAll();
 	}
 	
@@ -105,6 +105,8 @@ public class TestAddressRepository {
 		
 		LibrarySystem ls = new LibrarySystem(address, c);
 		librarySystemRepository.save(ls);
+		
+		addressRepository.save(address);
 				
 		String addressID = address.getAddressID();
 		String systemID = ls.getSystemID();

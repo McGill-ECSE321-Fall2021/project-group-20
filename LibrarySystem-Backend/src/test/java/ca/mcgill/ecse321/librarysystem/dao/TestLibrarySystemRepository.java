@@ -41,8 +41,8 @@ public class TestLibrarySystemRepository {
 		itemRepository.deleteAll();
 		titleRepository.deleteAll();
 		authorRepository.deleteAll();
-		librarySystemRepository.deleteAll();
 		addressRepository.deleteAll();
+		librarySystemRepository.deleteAll();
 		calendarRepository.deleteAll();
 	}
 	

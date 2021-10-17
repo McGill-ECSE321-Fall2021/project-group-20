@@ -22,7 +22,7 @@ public class Book extends Item
   // CONSTRUCTOR
   //------------------------
 
-  public Book(Status aStatus, int aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle, String aIsbn, String aNumPages)
+  public Book(Status aStatus, String aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle, String aIsbn, String aNumPages)
   {
     super(aStatus, aItemBarcode, aLibrarySystem, aTitle);
     isbn = aIsbn;

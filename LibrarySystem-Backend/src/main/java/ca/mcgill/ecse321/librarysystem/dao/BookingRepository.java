@@ -9,12 +9,12 @@ import ca.mcgill.ecse321.librarysystem.model.Item;
 import ca.mcgill.ecse321.librarysystem.model.User;
 
 public interface BookingRepository extends CrudRepository <Booking , String>{
-	Booking findBybookingID(String bookingId);
-	List<Booking> findBystartDate (Date startDate);
-	List<Booking> findByendDate (Date endDate);
-	Booking findByItembooked(Item itembooked);
-	List<Booking> findByUser(User libraryCardID);
-	List<Booking> findByType(BookingType type);
+	Booking findBookingByBookingID(String bookingId);
+	List<Booking> findBookingByStartDate (Date startDate);
+	List<Booking> findBookingByEndDate (Date endDate);
+	Booking findBookingByItem(Item item);
+	List<Booking> findBookingByUser(User user);
+	List<Booking> findBookingByType(BookingType type);
 //  List<Booking> findByStatus (Item status);
 //	List<Booking> findByfirstNameAndlastName (User firstName, User lastName );
 //	List<Booking> findByfirstName (User firstName);

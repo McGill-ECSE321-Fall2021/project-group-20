@@ -194,7 +194,7 @@ public class Title
     return 1;
   }
   /* Code from template association_AddMandatoryManyToOne */
-  public Item addItem(Item.Status aStatus, int aItemBarcode, LibrarySystem aLibrarySystem)
+  public Item addItem(Item.Status aStatus, String aItemBarcode, LibrarySystem aLibrarySystem)
   {
     Item aNewItem = new Item(aStatus, aItemBarcode, aLibrarySystem, this);
     return aNewItem;

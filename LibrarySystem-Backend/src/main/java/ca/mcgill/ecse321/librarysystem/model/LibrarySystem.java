@@ -4,6 +4,7 @@
 package ca.mcgill.ecse321.librarysystem.model;
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ public class LibrarySystem
   private String systemID;
 
   //LibrarySystem Associations
-	@OneToOne(optional=true)
+  @OneToOne(mappedBy="librarySystem", fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
   private Address businessaddress;
   @OneToOne(mappedBy="librarySystem",fetch=FetchType.EAGER)
   private Calendar calendar;
@@ -297,7 +298,7 @@ public class LibrarySystem
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Item addItem(Item.Status aStatus, int aItemBarcode, Title aTitle)
+  public Item addItem(Item.Status aStatus, String aItemBarcode, Title aTitle)
   {
     return new Item(aStatus, aItemBarcode, this, aTitle);
   }
