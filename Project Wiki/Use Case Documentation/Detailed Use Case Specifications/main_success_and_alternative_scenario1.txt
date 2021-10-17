@@ -1,0 +1,9 @@
+Main success scenario:
+1.The Customer (C) books the library for an event at a given time.
+2.The Head Librarian (HL) views the calender.
+3.The Head Librarian (HL) approves and finalizes the event.
+
+Alternative scenarios 
+3a. HL does not approve the event.
+3a.1 C provides another time for the event.
+3a.2 C does not provide another time for the event.
