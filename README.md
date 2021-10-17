@@ -12,11 +12,11 @@ The website and application is accessed by two types of users: the employees whi
 
 |Name   | GitHub  | Major  | Year  |
 |---|---|---|---|
-|  Alexandra Bangala | https://github.com/AlexandruB30  | Software Engineering  |  U2 |
-|  Harsh Patel|  https://github.com/HPatel999 | Software Engineering  | U2  |
-|  Ehsan Ahmed |  https://github.com/royalblaster | Software Engineering  |  U2 |
-|  Dan Hosi | https://github.com/Danh4160  | Software Engineering  | U2  |
-|  Abdelmadjid Kamli | https://github.com/Majdoub90  |Software Engineering   |   U2|
+|  Alexandra Bangala | [AlexandruB30](https://github.com/AlexandruB30)  | Software Engineering  |  U2 |
+|  Harsh Patel|  [HPatel999](https://github.com/HPatel999) | Software Engineering  | U2  |
+|  Ehsan Ahmed |  [royalblaster](https://github.com/royalblaster) | Software Engineering  |  U2 |
+|  Dan Hosi | [Dan4160](https://github.com/Danh4160)  | Software Engineering  | U2  |
+|  Abdelmadjid Kamli | [Majdoub90](https://github.com/Majdoub90)  |Software Engineering   |   U2|
 
 <h3> Member Roles :label:</h3>
 
