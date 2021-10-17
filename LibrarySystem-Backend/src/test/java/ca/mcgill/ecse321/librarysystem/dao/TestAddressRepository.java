@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.librarysystem.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -45,6 +46,75 @@ public class TestAddressRepository {
 		addressRepository.deleteAll();
 		librarySystemRepository.deleteAll();
 		calendarRepository.deleteAll();
+	}
+	
+	@Test
+	public void testPersistAndExistByID() {
+		String civicNumber = "4609";
+		String street = "Sherbrooke";
+		String city = "Montreal";
+		String postalCode = "H7T 2N6";
+		String province = "Quebec";
+		String country = "Canada";
+		Address address = new Address();
+		address.setCivicNumber(civicNumber);
+		address.setStreet(street);
+		address.setCity(city);
+		address.setPostalCode(postalCode);
+		address.setProvince(province);
+		address.setCountry(country);
+		
+		addressRepository.save(address);
+		
+		assertTrue(addressRepository.existsByAddressID(address.getAddressID()));
+	}
+	
+	@Test
+	public void testPersistAndExistByLibrary() {
+		String civicNumber = "4609";
+		String street = "Sherbrooke";
+		String city = "Montreal";
+		String postalCode = "H7T 2N6";
+		String province = "Quebec";
+		String country = "Canada";
+		Address address = new Address();
+		address.setCivicNumber(civicNumber);
+		address.setStreet(street);
+		address.setCity(city);
+		address.setPostalCode(postalCode);
+		address.setProvince(province);
+		address.setCountry(country);
+		addressRepository.save(address);
+		
+		Calendar c = new Calendar();
+		calendarRepository.save(c);
+		
+		LibrarySystem ls = new LibrarySystem(address, c);
+		librarySystemRepository.save(ls);
+		
+		addressRepository.save(address);
+		
+		assertTrue(addressRepository.existsByLibrarySystem(ls));
+	}
+	
+	@Test
+	public void testPersistAndExistByStringAddress() {
+		String civicNumber = "4609";
+		String street = "Sherbrooke";
+		String city = "Montreal";
+		String postalCode = "H7T 2N6";
+		String province = "Quebec";
+		String country = "Canada";
+		Address address = new Address();
+		address.setCivicNumber(civicNumber);
+		address.setStreet(street);
+		address.setCity(city);
+		address.setPostalCode(postalCode);
+		address.setProvince(province);
+		address.setCountry(country);
+		addressRepository.save(address);
+		
+		assertTrue(addressRepository.existsByCivicNumberAndStreetAndCityAndPostalCodeAndProvinceAndCountry(civicNumber, street, city, postalCode, province, country));
 	}
 	
 	

@@ -45,10 +45,10 @@ public class TestCalendarRepositoryPersistence {
 		itemRepository.deleteAll();
 		titleRepository.deleteAll();
 		authorRepository.deleteAll();
+		calendarRepository.deleteAll();
 		librarySystemRepository.deleteAll();
 		hourRepository.deleteAll();
 		addressRepository.deleteAll();
-		calendarRepository.deleteAll();
 	}
 	
 	@Test
@@ -61,7 +61,7 @@ public class TestCalendarRepositoryPersistence {
 		
 		calendar = null;
 		
-		calendar = calendarRepository.findBycalendarID(calendarID);
+		calendar = calendarRepository.findByCalendarID(calendarID);
 		assertNotNull(calendar);
 		assertEquals(calendarID, calendar.getCalendarID());
 	}

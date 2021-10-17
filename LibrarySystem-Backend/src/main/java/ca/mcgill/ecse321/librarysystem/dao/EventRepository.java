@@ -9,11 +9,9 @@ import ca.mcgill.ecse321.librarysystem.model.Hour;
 
 
 public interface  EventRepository extends CrudRepository<Event, String> {
-	Event findByeventDate(Date eventDate);
-    Event findByeventID(String eventID);
-    Event findByeventhour(Hour eventhour);
+	Event findByEventDate(Date eventDate);
+    Event findByEventID(String eventID);
+    Event findByEventhour(Hour eventhour);
     List<Event> findByName(String name);
-	
-	
-
+    boolean existsByEventID(String eventID);
 }

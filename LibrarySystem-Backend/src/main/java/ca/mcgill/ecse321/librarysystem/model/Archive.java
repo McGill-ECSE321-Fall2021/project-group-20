@@ -18,6 +18,12 @@ public class Archive extends Item
   // CONSTRUCTOR
   //------------------------
 
+  public Archive() {}
+  
+  public Archive(Status aStatus, LibrarySystem aLibrarySystem, Title aTitle) {
+	  super(aStatus, aLibrarySystem, aTitle);
+  }
+	
   public Archive(Status aStatus, String aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle)
   {
     super(aStatus, aItemBarcode, aLibrarySystem, aTitle);

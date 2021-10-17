@@ -21,6 +21,14 @@ public class MusicAlbum extends Item
   // CONSTRUCTOR
   //------------------------
 
+  public MusicAlbum() {}
+  
+  public MusicAlbum(Status aStatus, LibrarySystem aLibrarySystem, Title aTitle, int aDuration)
+  {
+    super(aStatus, aLibrarySystem, aTitle);
+    duration = aDuration;
+  }
+  
   public MusicAlbum(Status aStatus, String aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle, int aDuration)
   {
     super(aStatus, aItemBarcode, aLibrarySystem, aTitle);

@@ -16,6 +16,6 @@ public interface HourRepository extends CrudRepository <Hour,String> {
 	Hour findByevent(Event event);
 	List<Hour> findBystartTime(Time startTime);
 	Hour findByweekday(String weekday);
-	
-
+	boolean existsByevent(Event event);
+	boolean existsByweekday(String weekday);
 }

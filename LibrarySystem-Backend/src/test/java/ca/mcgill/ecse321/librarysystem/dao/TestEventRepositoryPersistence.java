@@ -76,7 +76,7 @@ public class TestEventRepositoryPersistence {
 	aUser=null;
 	myhour=null;
 	
-	Event evento = eventRepository.findByeventDate(sdate);
+	Event evento = eventRepository.findByEventDate(sdate);
 	assertNotNull (evento);
 
 		assertEquals (evento.getEventDate(),myevent.getEventDate());
@@ -110,7 +110,7 @@ public class TestEventRepositoryPersistence {
 	aUser=null;
 	myhour=null;
 	
-	Event evento = eventRepository.findByeventID(myevent.getEventID());
+	Event evento = eventRepository.findByEventID(myevent.getEventID());
 	assertNotNull (evento);
 
 		assertEquals (evento.getEventDate(),myevent.getEventDate());
@@ -142,7 +142,7 @@ public class TestEventRepositoryPersistence {
 	aUser=null;
 	//myhour=null;
 	
-	Event evento = eventRepository.findByeventhour(myhour);
+	Event evento = eventRepository.findByEventhour(myhour);
 		assertNotNull (evento);
 		assertEquals (evento.getEventDate(),myevent.getEventDate());
 		assertEquals (evento.getName(),myevent.getName());

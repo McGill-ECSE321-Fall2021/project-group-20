@@ -16,4 +16,5 @@ public interface AuthorRepository extends CrudRepository<Author, String>{
 	boolean existsByFirstName(String firstName);
 	boolean existsByLastName(String lastName);
 	boolean existsByFirstNameAndLastName(String firstName, String lastName);
+	boolean existsByAuthorID(String authorID);
 } 

@@ -17,5 +17,8 @@ public interface TitleRepository extends CrudRepository<Title, String>{
 	List<Title> findByName(String name);
 	List<Title> findByPubDate(String pubDate); 
 	Title findByNameAndPubDate(String name, String pubDate);
+	boolean existsByTitleID(String titleID);
+	boolean existsByItem(Item itemBarcode);
+	boolean existsByNameAndPubDate(String name, String pubDate);
 }
   

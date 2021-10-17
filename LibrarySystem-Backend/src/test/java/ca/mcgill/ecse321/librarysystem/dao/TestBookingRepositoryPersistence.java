@@ -294,9 +294,6 @@ public class TestBookingRepositoryPersistence {
 		assertEquals(myBooking.getItem().getStatus(),b.getItem().getStatus());
 	}
 	
-	
-	
-	
 	@Test 
 	public void testPersistenceAndLoadBookingByUser() {
 		Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
@@ -433,22 +430,4 @@ public class TestBookingRepositoryPersistence {
 		
 			
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
