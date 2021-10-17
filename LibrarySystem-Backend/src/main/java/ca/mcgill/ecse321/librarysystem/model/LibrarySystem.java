@@ -43,7 +43,10 @@ public class LibrarySystem
   // CONSTRUCTOR
   //------------------------
 
-  public LibrarySystem(){}
+  public LibrarySystem(){
+	  users = new ArrayList<User>();
+	  items = new ArrayList<Item>();
+  }
   
   public LibrarySystem(Address aBusinessaddress, Calendar aCalendar)
   {
