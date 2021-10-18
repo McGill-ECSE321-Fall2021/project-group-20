@@ -24,9 +24,9 @@ public class Address
   //------------------------
 
   //Address Attributes
-	@Id
-	@GeneratedValue(generator="system-uuid")
-	@GenericGenerator(name="system-uuid", strategy = "uuid")
+  @Id
+  @GeneratedValue(generator="system-uuid")
+  @GenericGenerator(name="system-uuid", strategy = "uuid")
   private String addressID;
   private String civicNumber;
   private String street;
@@ -44,8 +44,6 @@ public class Address
   // CONSTRUCTOR
   //------------------------
 
-  
-  
   public Address(){}
 	
   public Address(String aCivicNumber, String aStreet, String aCity, String aPostalCode, String aProvince, String aCountry)
@@ -211,7 +209,6 @@ public class Address
       existingLibrarySystem.delete();
     }
   }
-
 
   public String toString()
   {

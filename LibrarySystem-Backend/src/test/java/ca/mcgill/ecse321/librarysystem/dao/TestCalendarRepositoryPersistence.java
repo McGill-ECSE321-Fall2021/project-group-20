@@ -43,9 +43,11 @@ public class TestCalendarRepositoryPersistence {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
+	/*
+	 * After each test, clear every table in the database.
+	 */
 	@AfterEach
 	public void clearDatabase() {
-		// Clear the library system, calendar and address in the persistence. 
 		itemRepository.deleteAll();
 		titleRepository.deleteAll();
 		authorRepository.deleteAll();
@@ -57,6 +59,9 @@ public class TestCalendarRepositoryPersistence {
 		addressRepository.deleteAll();
 	}
 	
+	/*
+	 * Test 1: Persists a calendar to the database, then checks if a querried address based on a calendar is the same as the persisted calendar.
+	 */
 	@Test
 	public void testPersistAndLoadCalendar() {
 		
@@ -73,6 +78,9 @@ public class TestCalendarRepositoryPersistence {
 		assertEquals(calendarID, calendar.getCalendarID());
 	}
 	
+	/*
+	 * Test 3: Persists a calendar to the database, then checks if a querried address based on library system is the same as the persisted calendar.
+	 */
 	@Test
 	public void testPersistAndLoadCalendarWithLibrarySystem() {
 		LibrarySystem ls = new LibrarySystem();
@@ -93,6 +101,9 @@ public class TestCalendarRepositoryPersistence {
 		assertEquals(systemID, calendar.getLibrarySystem().getSystemID());
 	}
 	
+	/*
+	 * Test 2: Persists a calendar to the database, then checks if a querried address based on a list of hours is the same as the persisted calendar.
+	 */
 	@Test
 	public void testPersistAndLoadCalendarWithListOfHours() {
 		LibrarySystem ls = new LibrarySystem();
@@ -102,7 +113,7 @@ public class TestCalendarRepositoryPersistence {
 		calendar.setLibrarySystem(ls);
 		calendarRepository.save(calendar);
 		
-		// First Time slot	
+		// Create an employee to associate shifts/timeslots in the calendar
 		Employee u1 = new Employee();
 		Address address1 = new Address();
 		addressRepository.save(address1);
@@ -112,6 +123,7 @@ public class TestCalendarRepositoryPersistence {
 		u1.setLibrarySystem(ls);
 		employeeRepository.save(u1);
 		
+		// First shift/timeslot of employee u1
 		Hour timeSlot1 = new Hour();
 		timeSlot1.setWeekday("Monday");
 		Time startTime1 = new Time(9, 0, 0);
@@ -122,36 +134,36 @@ public class TestCalendarRepositoryPersistence {
 		timeSlot1.setEmployee(u1);
 		hourRepository.save(timeSlot1);
 		
-		// Second Time slot
-//		Hour timeSlot2 = new Hour();
-//		timeSlot2.setWeekday("Tueday");
-//		Time startTime2 = new Time(9, 0, 0);
-//		Time endTime2 = new Time(18, 0, 0);
-//		timeSlot2.setStartTime(startTime2);
-//		timeSlot2.setEndTime(endTime2);
-//		timeSlot2.setCalendar(calendar);
-//		hourRepository.save(timeSlot2);
-//		
-//		// Third Time slot
-//		Hour timeSlot3 = new Hour();
-//		timeSlot3.setWeekday("Friday");
-//		Time startTime3 = new Time(9, 0, 0);
-//		Time endTime3 = new Time(18, 0, 0);
-//		timeSlot3.setStartTime(startTime3);
-//		timeSlot3.setEndTime(endTime3);
-//		timeSlot3.setCalendar(calendar);
-//		hourRepository.save(timeSlot3);
-//		
-//		calendar.addHour(timeSlot1);
-//		calendar.addHour(timeSlot2);
-//		calendar.addHour(timeSlot3);
-//		calendarRepository.save(calendar);
+		// Second shift/timeslot of employee u1
+		Hour timeSlot2 = new Hour();
+		timeSlot2.setWeekday("Tueday");
+		Time startTime2 = new Time(9, 0, 0);
+		Time endTime2 = new Time(18, 0, 0);
+		timeSlot2.setStartTime(startTime2);
+		timeSlot2.setEndTime(endTime2);
+		timeSlot2.setCalendar(calendar);
+		hourRepository.save(timeSlot2);
+		
+		// Third shift/timeslot of employee u1
+		Hour timeSlot3 = new Hour();
+		timeSlot3.setWeekday("Friday");
+		Time startTime3 = new Time(9, 0, 0);
+		Time endTime3 = new Time(18, 0, 0);
+		timeSlot3.setStartTime(startTime3);
+		timeSlot3.setEndTime(endTime3);
+		timeSlot3.setCalendar(calendar);
+		hourRepository.save(timeSlot3);
+		
+		calendar.addHour(timeSlot1);
+		calendar.addHour(timeSlot2);
+		calendar.addHour(timeSlot3);
+		calendarRepository.save(calendar);
 		
 		String calendarID = calendar.getCalendarID();
 		List<Hour> hours = new ArrayList<Hour>();
 		hours.add(timeSlot1);
-//		hours.add(timeSlot2);
-//		hours.add(timeSlot3);
+		hours.add(timeSlot2);
+		hours.add(timeSlot3);
 		
 		calendar = null;
 		 
@@ -159,7 +171,7 @@ public class TestCalendarRepositoryPersistence {
 		assertNotNull(calendar);
 		assertEquals(calendarID, calendar.getCalendarID());
 		assertEquals(timeSlot1.getWeekday(), calendar.getHour().get(0).getWeekday());
-//		assertEquals(timeSlot2.getWeekday(), calendar.getHour().get(1).getWeekday());
-//		assertEquals(timeSlot2.getWeekday(), calendar.getHour().get(2).getWeekday());
+		assertEquals(timeSlot2.getWeekday(), calendar.getHour().get(1).getWeekday());
+		assertEquals(timeSlot3.getWeekday(), calendar.getHour().get(2).getWeekday());
 	}	
 }

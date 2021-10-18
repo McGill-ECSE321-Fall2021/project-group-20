@@ -29,21 +29,24 @@ public class LibrarySystem
   //------------------------
 
   //LibrarySystem Attributes
-	@Id
-	@GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+  @Id
+  @GeneratedValue(generator="system-uuid")
+  @GenericGenerator(name="system-uuid", strategy = "uuid")
   private String systemID;
 
   //LibrarySystem Associations
   @OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
   @JoinColumn
   private Address businessaddress;
+  
   @OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
   @JoinColumn
   private Calendar calendar;
+  
   @OneToMany(mappedBy="librarySystem")
   @LazyCollection(LazyCollectionOption.FALSE)
   private List<User> users;
+  
   @OneToMany(mappedBy="librarySystem")
   @LazyCollection(LazyCollectionOption.FALSE)
   private List<Item> items;
@@ -406,7 +409,6 @@ public class LibrarySystem
     }
     
   }
-
 
   public String toString()
   {

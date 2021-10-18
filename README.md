@@ -6,7 +6,7 @@ The Library System,that we will develop,provides free access to books, movies, a
 
 The website and application is accessed by two types of users: the employees which include the Librarians and the Head Librarian, and the local citizens.
 
- 
+ [Description](https://github.com/McGill-ECSE321-Fall2021/project-group-20/blob/main/Project%20Wiki/Description/ECSE321_Project_Description.pdf)
  
 <h3> The Developpers :man_technologist: </h3> 
 
