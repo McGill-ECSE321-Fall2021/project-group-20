@@ -2,8 +2,6 @@ package ca.mcgill.ecse321.librarysystem.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
@@ -18,14 +16,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ca.mcgill.ecse321.librarysystem.model.*;
 import ca.mcgill.ecse321.librarysystem.model.Employee.Role;
 
-
-
-
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class TestEventRepositoryPersistence {
-	
-	
+
 	@Autowired
 	private CalendarRepository calendarRepository;
 	@Autowired
@@ -38,7 +32,11 @@ public class TestEventRepositoryPersistence {
 	private HourRepository hourRepository;
 	@Autowired
 	private UserRepository userRepository;
-	
+
+	/**
+	 * Delete all the persisted object after each test
+	 * 
+	 */
 
 	@AfterEach
 	public void clearDatabase() {
@@ -47,147 +45,174 @@ public class TestEventRepositoryPersistence {
 		userRepository.deleteAll();
 		librarySystemRepository.deleteAll();
 		addressRepository.deleteAll();
-		calendarRepository.deleteAll();	
-		
-		
-		
+		calendarRepository.deleteAll();
+
 	}
-	
-	
+
+	/**
+	 * This is a test to see if the Event gets persisted in a good way. We also see
+	 * if we can fetch the Event by its Date and that all the attributes are
+	 * preserved
+	 * 
+	 */
+
 	@Test
 	public void testPersistAndLoadByeventDate() {
-	String str1 = "2015-03-31";
-	Date sdate= Date.valueOf(str1);
-	Time sTime = new Time(1, 30, 50);
-	Time dTime = new Time(1, 30, 50);
-	Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
-	addressRepository.save(myadress);
-	Calendar mycalendar = new Calendar();
-	calendarRepository.save(mycalendar);
-	LibrarySystem myLibrary = new LibrarySystem(myadress, mycalendar);
-	librarySystemRepository.save(myLibrary);
-	Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, myLibrary, Role.Librarian);
-	userRepository.save(aUser);
-	Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
-	hourRepository.save(myhour);
-	Event myevent = new Event("LasFiesta", sdate , myhour);
-	eventRepository.save(myevent);
-	myadress=null;
-	mycalendar=null;
-	myLibrary=null;
-	aUser=null;
-	myhour=null;
-	
-	Event evento = eventRepository.findByEventDate(sdate);
-	assertNotNull (evento);
+		String str1 = "2015-03-31";
+		Date sDate = Date.valueOf(str1);
+		@SuppressWarnings("deprecation")
+		Time sTime = new Time(1, 30, 50);
+		@SuppressWarnings("deprecation")
+		Time dTime = new Time(1, 30, 50);
+		Address myAdress = new Address("51", "Parkekx", "Montreal", "H5H6H7", "Quebec", "Canada");
+		addressRepository.save(myAdress);
+		Calendar myCalendar = new Calendar();
+		calendarRepository.save(myCalendar);
+		LibrarySystem myLibrary = new LibrarySystem(myAdress, myCalendar);
+		librarySystemRepository.save(myLibrary);
+		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myAdress, myLibrary, Role.Librarian);
+		userRepository.save(aUser);
+		Hour myHour = new Hour("mardi", sTime, dTime, aUser, myCalendar);
+		hourRepository.save(myHour);
+		Event myEvent = new Event("LasFiesta", sDate, myHour);
+		eventRepository.save(myEvent);
+		myAdress = null;
+		myCalendar = null;
+		myLibrary = null;
+		aUser = null;
+		myHour = null;
 
-		assertEquals (evento.getEventDate(),myevent.getEventDate());
-		assertEquals (evento.getName(),myevent.getName());
-		assertEquals (evento.getEventID(),myevent.getEventID());
-	
-	
+		Event evento = eventRepository.findByEventDate(sDate);
+		assertNotNull(evento);
+
+		assertEquals(evento.getEventDate(), myEvent.getEventDate());
+		assertEquals(evento.getName(), myEvent.getName());
+		assertEquals(evento.getEventID(), myEvent.getEventID());
+
 	}
-	
+
+	/**
+	 * This is a test to see if the Event gets persisted in a good way. We also see
+	 * if we can fetch the Event by its ID and that all the attributes are preserved
+	 * 
+	 */
+
 	@Test
 	public void testPersistAndLoadByeventID() {
-	String str1 = "2015-03-31";
-	Date sdate= Date.valueOf(str1);
-	Time sTime = new Time(1, 30, 50);
-	Time dTime = new Time(1, 30, 50);
-	Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
-	addressRepository.save(myadress);
-	Calendar mycalendar = new Calendar();
-	calendarRepository.save(mycalendar);
-	LibrarySystem myLibrary = new LibrarySystem(myadress, mycalendar);
-	librarySystemRepository.save(myLibrary);
-	Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, myLibrary, Role.Librarian);
-	userRepository.save(aUser);
-	Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
-	hourRepository.save(myhour);
-	Event myevent = new Event("LasFiesta", sdate , myhour);
-	eventRepository.save(myevent);
-	myadress=null;
-	mycalendar=null;
-	myLibrary=null;
-	aUser=null;
-	myhour=null;
-	
-	Event evento = eventRepository.findByEventID(myevent.getEventID());
-	assertNotNull (evento);
+		String str1 = "2015-03-31";
+		Date sDate = Date.valueOf(str1);
+		@SuppressWarnings("deprecation")
+		Time sTime = new Time(1, 30, 50);
+		@SuppressWarnings("deprecation")
+		Time dTime = new Time(1, 30, 50);
+		Address myAdress = new Address("51", "Parkekx", "Montreal", "H5H6H7", "Quebec", "Canada");
+		addressRepository.save(myAdress);
+		Calendar myCalendar = new Calendar();
+		calendarRepository.save(myCalendar);
+		LibrarySystem myLibrary = new LibrarySystem(myAdress, myCalendar);
+		librarySystemRepository.save(myLibrary);
+		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myAdress, myLibrary, Role.Librarian);
+		userRepository.save(aUser);
+		Hour myHour = new Hour("mardi", sTime, dTime, aUser, myCalendar);
+		hourRepository.save(myHour);
+		Event myEvent = new Event("LasFiesta", sDate, myHour);
+		eventRepository.save(myEvent);
+		myAdress = null;
+		myCalendar = null;
+		myLibrary = null;
+		aUser = null;
+		myHour = null;
 
-		assertEquals (evento.getEventDate(),myevent.getEventDate());
-		assertEquals (evento.getName(),myevent.getName());
-		assertEquals (evento.getEventID(),myevent.getEventID());
+		Event evento = eventRepository.findByEventID(myEvent.getEventID());
+		assertNotNull(evento);
+
+		assertEquals(evento.getEventDate(), myEvent.getEventDate());
+		assertEquals(evento.getName(), myEvent.getName());
+		assertEquals(evento.getEventID(), myEvent.getEventID());
 	}
-	
+
+	/**
+	 * This is a test to see if the Event gets persisted in a good way. We also see
+	 * if we can fetch the Event by its Hour and that all the attributes are
+	 * preserved
+	 * 
+	 */
 	@Test
-	public void testPersistAndLoadByeventhour() {
-	String str1 = "2015-03-31";
-	Date sdate= Date.valueOf(str1);
-	Time sTime = new Time(1, 30, 50);
-	Time dTime = new Time(1, 30, 50);
-	Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
-	addressRepository.save(myadress);
-	Calendar mycalendar = new Calendar();
-	calendarRepository.save(mycalendar);
-	LibrarySystem myLibrary = new LibrarySystem(myadress, mycalendar);
-	librarySystemRepository.save(myLibrary);
-	Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, myLibrary, Role.Librarian);
-	userRepository.save(aUser);
-	Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
-	hourRepository.save(myhour);
-	Event myevent = new Event("LasFiesta", sdate , myhour);
-	eventRepository.save(myevent);
-	myhour.setEvent(myevent);
-	hourRepository.save(myhour);
-	myadress=null;
-	mycalendar=null;
-	myLibrary=null;
-	aUser=null;
-	//myhour=null;
-	
-	Event evento = eventRepository.findByEventhour(myhour);
-		assertNotNull (evento);
-		assertEquals (evento.getEventDate(),myevent.getEventDate());
-		assertEquals (evento.getName(),myevent.getName());
-		assertEquals (evento.getEventID(),myevent.getEventID());
-		
+	public void testPersistAndLoadByEventHour() {
+		String str1 = "2015-03-31";
+		Date sDate = Date.valueOf(str1);
+		@SuppressWarnings("deprecation")
+		Time sTime = new Time(1, 30, 50);
+		@SuppressWarnings("deprecation")
+		Time dTime = new Time(1, 30, 50);
+		Address myAdress = new Address("51", "Parkekx", "Montreal", "H5H6H7", "Quebec", "Canada");
+		addressRepository.save(myAdress);
+		Calendar myCalendar = new Calendar();
+		calendarRepository.save(myCalendar);
+		LibrarySystem myLibrary = new LibrarySystem(myAdress, myCalendar);
+		librarySystemRepository.save(myLibrary);
+		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myAdress, myLibrary, Role.Librarian);
+		userRepository.save(aUser);
+		Hour myHour = new Hour("mardi", sTime, dTime, aUser, myCalendar);
+		hourRepository.save(myHour);
+		Event myEvent = new Event("LasFiesta", sDate, myHour);
+		eventRepository.save(myEvent);
+		myHour.setEvent(myEvent);
+		hourRepository.save(myHour);
+		myAdress = null;
+		myCalendar = null;
+		myLibrary = null;
+		aUser = null;
+		// myHour=null;
+
+		Event evento = eventRepository.findByEventhour(myHour);
+		assertNotNull(evento);
+		assertEquals(evento.getEventDate(), myEvent.getEventDate());
+		assertEquals(evento.getName(), myEvent.getName());
+		assertEquals(evento.getEventID(), myEvent.getEventID());
+
 	}
-	
+
+	/**
+	 * This is a test to see if the Event gets persisted in a good way. We also see
+	 * if we can fetch the Event by its Date and that all the attributes are
+	 * preserved
+	 * 
+	 */
+
 	@Test
 	public void testPersistAndLoadByName() {
-	String str1 = "2015-03-31";
-	Date sdate= Date.valueOf(str1);
-	Time sTime = new Time(1, 30, 50);
-	Time dTime = new Time(1, 30, 50);
-	Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
-	addressRepository.save(myadress);
-	Calendar mycalendar = new Calendar();
-	calendarRepository.save(mycalendar);
-	LibrarySystem myLibrary = new LibrarySystem(myadress, mycalendar);
-	librarySystemRepository.save(myLibrary);
-	Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, myLibrary, Role.Librarian);
-	userRepository.save(aUser);
-	Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
-	hourRepository.save(myhour);
-	Event myevent = new Event("LasFiesta", sdate , myhour);
-	eventRepository.save(myevent);
-	myadress=null;
-	mycalendar=null;
-	myLibrary=null;
-	aUser=null;
-	myhour=null;
-	
-	List <Event> evento = eventRepository.findByName("LasFiesta");
-	assertNotNull (evento);
-	for (Event Eventila : evento) {
-		assertEquals (Eventila.getEventDate(),myevent.getEventDate());
-		assertEquals (Eventila.getName(),myevent.getName());
-		assertEquals (Eventila.getEventID(),myevent.getEventID());
+		String str1 = "2015-03-31";
+		Date sDate = Date.valueOf(str1);
+		@SuppressWarnings("deprecation")
+		Time sTime = new Time(1, 30, 50);
+		@SuppressWarnings("deprecation")
+		Time dTime = new Time(1, 30, 50);
+		Address myAdress = new Address("51", "Parkekx", "Montreal", "H5H6H7", "Quebec", "Canada");
+		addressRepository.save(myAdress);
+		Calendar myCalendar = new Calendar();
+		calendarRepository.save(myCalendar);
+		LibrarySystem myLibrary = new LibrarySystem(myAdress, myCalendar);
+		librarySystemRepository.save(myLibrary);
+		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myAdress, myLibrary, Role.Librarian);
+		userRepository.save(aUser);
+		Hour myHour = new Hour("mardi", sTime, dTime, aUser, myCalendar);
+		hourRepository.save(myHour);
+		Event myEvent = new Event("LasFiesta", sDate, myHour);
+		eventRepository.save(myEvent);
+		myAdress = null;
+		myCalendar = null;
+		myLibrary = null;
+		aUser = null;
+		myHour = null;
+
+		List<Event> evento = eventRepository.findByName("LasFiesta");
+		assertNotNull(evento);
+		for (Event Eventila : evento) {
+			assertEquals(Eventila.getEventDate(), myEvent.getEventDate());
+			assertEquals(Eventila.getName(), myEvent.getName());
+			assertEquals(Eventila.getEventID(), myEvent.getEventID());
+		}
 	}
-	}
-	
-	
-	
-	
+
 }
