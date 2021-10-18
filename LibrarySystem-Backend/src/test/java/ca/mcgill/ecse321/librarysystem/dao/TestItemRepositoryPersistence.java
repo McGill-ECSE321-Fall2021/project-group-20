@@ -96,6 +96,10 @@ public class TestItemRepositoryPersistence {
 		Item retrieved = itemRepository.findItemByBooking(myBooking);
 		assertNotNull(retrieved);
 		assertEquals(retrieved.getItemBarcode(), myItem.getItemBarcode());
+		assertEquals(retrieved.getTitle().getName(),(myItem.getTitle().getName()));
+		assertEquals(retrieved.getTitle().getAuthor().get(0).getFirstName(),(myItem.getTitle().getAuthor().get(0).getFirstName()));
+		assertEquals(retrieved.getLibrarySystem().getBusinessaddress().getCity(),(myItem.getLibrarySystem().getBusinessaddress().getCity()));
+		
 	}
 	
 	@Test
