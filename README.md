@@ -39,9 +39,10 @@ The website and application is accessed by two types of users: the employees whi
 | Dan Hosi  | 32  |0|0|0|  32 |
 | Abdelmadjid Kamli  | 32  |0|0|0| 32  |
 
-<h3> Sprint 1: Project Report </h3>
 
--Sprint 1 Wiki & Project Report: https://github.com/McGill-ECSE321-Fall2021/project-group-20/wiki
+[<h3> Sprint 1 Wiki 🏃</h3>](https://github.com/McGill-ECSE321-Fall2021/project-group-20/wiki/Sprint-1-🏃)
+
+[<h3>Sprint 1: Project Report</h3>](https://github.com/McGill-ECSE321-Fall2021/project-group-20/wiki/Sprint-1-Report)
 
 
 
