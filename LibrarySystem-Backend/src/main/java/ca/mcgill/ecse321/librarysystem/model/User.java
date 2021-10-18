@@ -56,14 +56,17 @@ public class User
   @ManyToOne(optional=false)
   private LibrarySystem librarySystem;
   @OneToMany(mappedBy="user")
-  @LazyCollection(LazyCollectionOption.FALSE)
+  @LazyCollection(LazyCollectionOption.FALSE)	// To eagerly load the List of Bookings and all references instead of just the object and attributes
   private List<Booking> userbooking;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
+  /* Default constructor */
   public User() {}
+  
+  /* Constructor that autogenerates a libraryCardID */
   public User(boolean aIsOnlineAcc, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, Address aAddress, LibrarySystem aLibrarySystem)
   {
     isOnlineAcc = aIsOnlineAcc;
@@ -86,7 +89,7 @@ public class User
     userbooking = new ArrayList<Booking>();
   }
   
-  
+  /* Constructor that takes a libraryCardID manually */
   public User(boolean aIsOnlineAcc, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress, LibrarySystem aLibrarySystem)
   {
     isOnlineAcc = aIsOnlineAcc;

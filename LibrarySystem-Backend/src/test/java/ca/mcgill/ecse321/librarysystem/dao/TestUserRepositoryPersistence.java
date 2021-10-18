@@ -102,6 +102,12 @@ public class TestUserRepositoryPersistence {
 		calendarRepository.deleteAll();
 	}
 	
+	/*
+	 * Test method that checks whether a User object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findUserByLibraryCardID(String libraryCardID) CRUD Method
+	 * 
+	 * Attribute tested: LibraryCardID
+	 */
 	@Test
 	public void testPersistAndLoadUserByLibraryCardID() {
 		aAddress = null;
@@ -126,6 +132,14 @@ public class TestUserRepositoryPersistence {
 		assertEquals(PersistedUser.getPassword(), aUser.getPassword());
 	}
 	
+	/*
+	 * Test method that checks whether a Customer object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findUserByLibraryCardID(String libraryCardID) CRUD Method
+	 * 
+	 * Since Customer is a subclass of User, it will re-use the userRepository interface onto customerRepository
+	 * 
+	 * Attribute tested: LibraryCardID
+	 */
 	@Test
 	public void testPersistAndLoadCustomerByLibraryCardID() {
 		Customer aCust = new Customer(true, "Alex", "Bangala", true, 0, aAddress, aLibrary);
@@ -155,6 +169,14 @@ public class TestUserRepositoryPersistence {
 		aCust.delete();
 	}
 	
+	/*
+	 * Test method that checks whether an Employee object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findUserByLibraryCardID(String libraryCardID) CRUD Method
+	 * 
+	 * Since Employee is a subclass of User, it will re-use the userRepository interface onto employeeRepository
+	 * 
+	 * Attribute tested: LibraryCardID
+	 */
 	@Test
 	public void testPersistAndLoadEmployeeByLibraryCardID() {
 		Employee aEmp = new Employee(true, "Alex", "Bangala", true, 0, aAddress, aLibrary, Role.Librarian);
@@ -184,6 +206,11 @@ public class TestUserRepositoryPersistence {
 		aEmp.delete();
 	}
 	
+	/*
+	 * Test method that checks whether a User's reference (e.g. address) can be changed and persisted in the database and then loaded back
+	 * 
+	 * Reference tested: Address
+	 */
 	@Test
 	public void testPersistByChangingRef() {
 		User user3 = new User(false, "Test", "Tester", true, 0, aAddress, aLibrary);
@@ -202,6 +229,11 @@ public class TestUserRepositoryPersistence {
 		user3.delete();
 	}
 	
+	/*
+	 * Test method that checks whether a User's attribute (e.g. password) can be changed and persisted in the database and then loaded back
+	 * 
+	 * Attribute tested: password
+	 */
 	@Test
 	public void testPersistByChangingAttributes() {
 		User u = userRepository.findUserByUsername("ab");
@@ -216,6 +248,12 @@ public class TestUserRepositoryPersistence {
 		assertEquals(u.getPassword(), newPassword);
 	}
 	
+	/*
+	 * Test method that checks whether a User object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findUserByFirstNameAndLastName(String firstName, String lastName) CRUD Method
+	 * 
+	 * Attributes tested: firstName & lastName
+	 */
 	@Test
 	public void testPersistAndLoadUsersByFirstAndLastName() {
 		List<User> PersistedUsers = userRepository.findUserByFirstNameAndLastName("Alex", "Bangala");
@@ -231,6 +269,12 @@ public class TestUserRepositoryPersistence {
 		}
 	}
 	
+	/*
+	 * Test method that checks whether a User object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findUserByFirstName(String firstName) CRUD Method
+	 * 
+	 * Attribute tested: firstName
+	 */
 	@Test
 	public void testPersistAndLoadUsersByFirstName() {
 		List<User> PersistedUsers = userRepository.findUserByFirstName("Test");
@@ -245,6 +289,12 @@ public class TestUserRepositoryPersistence {
 		}
 	}
 	
+	/*
+	 * Test method that checks whether a User object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findUserByLastName(String lastName) CRUD Method
+	 * 
+	 * Attribute tested: lastName
+	 */
 	@Test
 	public void testPersistAndLoadUsersByLastName() {
 		List<User> PersistedUsers = userRepository.findUserByLastName("Bangala");
@@ -259,6 +309,12 @@ public class TestUserRepositoryPersistence {
 		}
 	}
 	
+	/*
+	 * Test method that checks whether a User object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findUserByIsVerified(boolean isVerified) CRUD Method
+	 * 
+	 * Attribute tested: isVerified
+	 */
 	@Test
 	public void testPersistAndLoadUsersByIsVerified() {
 		List<User> PersistedUsers = userRepository.findUserByIsVerified(true);
@@ -274,6 +330,12 @@ public class TestUserRepositoryPersistence {
 		}
 	}
 	
+	/*
+	 * Test method that checks whether a User object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the finduserByDemeritPts(int demeritPts) CRUD Method
+	 * 
+	 * Attribute tested: demeritPts
+	 */
 	@Test
 	public void testPersistAndLoadUsersByDemeritPts() {
 		List<User> PersistedUsers = userRepository.findUserByDemeritPts(3);
@@ -288,6 +350,12 @@ public class TestUserRepositoryPersistence {
 		}
 	}
 	
+	/*
+	 * Test method that checks whether a User object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findUserByAddress(Address address) CRUD Method
+	 * 
+	 * Reference tested: Address
+	 */
 	@Test
 	public void testPersistAndLoadUsersByAddress() {
 		List<User> PersistedUsers = userRepository.findUserByAddress(aAddress);
@@ -302,6 +370,12 @@ public class TestUserRepositoryPersistence {
 		}
 	}
 	
+	/*
+	 * Test method that checks whether a User object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findUserByLibrarySystem(LibrarySystem librarySystem) CRUD Method
+	 * 
+	 * Attribute tested: librarySystem
+	 */
 	@Test
 	public void testPersistAndLoadUsersByLibrarySystem() {
 		List<User> PersistedUsers = userRepository.findUserByLibrarySystem(aLibrary);
@@ -317,6 +391,12 @@ public class TestUserRepositoryPersistence {
 		}
 	}
 	
+	/*
+	 * Test method that checks whether a User object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findUserByIsOnlineAcc(boolean isOnlineAcc) CRUD Method
+	 * 
+	 * Attribute tested: isOnlineAcc
+	 */
 	@Test
 	public void testPersistAndLoadUsersByIsOnlineAcc() {
 		User notOnlineUser = new User(false, "Test", "Brown", true, 0, aAddress, aLibrary);
@@ -353,6 +433,12 @@ public class TestUserRepositoryPersistence {
 		notOnlineUser.delete();
 	}
 	
+	/*
+	 * Test method that checks whether a User object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findUserByUsername(String username) CRUD Method
+	 * 
+	 * Attribute tested: username
+	 */
 	@Test
 	public void testPersistAndLoadUserByUsername() {		
 		aAddress = null;
@@ -375,6 +461,12 @@ public class TestUserRepositoryPersistence {
 		assertEquals(u.getPassword(), user2.getPassword());
 	}
 	
+	/*
+	 * Test method that checks whether a User object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findUserByEmail(String email) CRUD Method
+	 * 
+	 * Attribute tested: email
+	 */
 	@Test
 	public void testPersistAndLoadUserByEmail() {
 		aAddress = null;
@@ -397,6 +489,12 @@ public class TestUserRepositoryPersistence {
 		assertEquals(u.getPassword(), aUser.getPassword());
 	}
 	
+	/*
+	 * Test method that checks whether a User object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findUserByBooking(Booking booking) CRUD Method
+	 * 
+	 * Reference tested: booking
+	 */
 	@Test
 	public void testPersistAndLoadUserByBooking() {
 		Author aAuthor = new Author("J.K.", "Rowling");
