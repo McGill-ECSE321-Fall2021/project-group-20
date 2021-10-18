@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 // line 75 "../../../../../librarysystem.ump"
 @Entity
@@ -35,6 +37,7 @@ public class Address
 
   //Address Associations
   @OneToOne(optional=true)
+  @OnDelete(action=OnDeleteAction.CASCADE)
   private LibrarySystem librarySystem;
 
   //------------------------

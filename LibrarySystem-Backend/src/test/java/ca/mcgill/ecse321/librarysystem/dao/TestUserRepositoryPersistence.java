@@ -97,8 +97,8 @@ public class TestUserRepositoryPersistence {
 		customerRepository.deleteAll();
 		employeeRepository.deleteAll();
 		userRepository.deleteAll();
-		addressRepository.deleteAll();
 		librarySystemRepository.deleteAll();
+		addressRepository.deleteAll();
 		calendarRepository.deleteAll();
 	}
 	

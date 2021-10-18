@@ -40,6 +40,8 @@ public class TestCalendarRepositoryPersistence {
 	private ItemRepository itemRepository;
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private EmployeeRepository employeeRepository;
 	
 	@AfterEach
 	public void clearDatabase() {
@@ -47,11 +49,12 @@ public class TestCalendarRepositoryPersistence {
 		itemRepository.deleteAll();
 		titleRepository.deleteAll();
 		authorRepository.deleteAll();
-		userRepository.deleteAll();
-		calendarRepository.deleteAll();
 		hourRepository.deleteAll();
-		addressRepository.deleteAll();
+		userRepository.deleteAll();
 		librarySystemRepository.deleteAll();
+		calendarRepository.deleteAll();
+		employeeRepository.deleteAll();
+		addressRepository.deleteAll();
 	}
 	
 	@Test
@@ -90,73 +93,73 @@ public class TestCalendarRepositoryPersistence {
 		assertEquals(systemID, calendar.getLibrarySystem().getSystemID());
 	}
 	
-//	@Test
-//	public void testPersistAndLoadCalendarWithListOfHours() {
-//		LibrarySystem ls = new LibrarySystem();
-//		librarySystemRepository.save(ls);
+	@Test
+	public void testPersistAndLoadCalendarWithListOfHours() {
+		LibrarySystem ls = new LibrarySystem();
+		librarySystemRepository.save(ls);
+		
+		Calendar calendar = new Calendar();
+		calendar.setLibrarySystem(ls);
+		calendarRepository.save(calendar);
+		
+		// First Time slot	
+		Employee u1 = new Employee();
+		Address address1 = new Address();
+		addressRepository.save(address1);
+		u1.setAddress(address1);
+		ls.addUser(u1);
+		librarySystemRepository.save(ls);
+		u1.setLibrarySystem(ls);
+		employeeRepository.save(u1);
+		
+		Hour timeSlot1 = new Hour();
+		timeSlot1.setWeekday("Monday");
+		Time startTime1 = new Time(9, 0, 0);
+		Time endTime1 = new Time(18, 0, 0);
+		timeSlot1.setStartTime(startTime1);
+		timeSlot1.setEndTime(endTime1);
+		timeSlot1.setCalendar(calendar);
+		timeSlot1.setEmployee(u1);
+		hourRepository.save(timeSlot1);
+		
+		// Second Time slot
+//		Hour timeSlot2 = new Hour();
+//		timeSlot2.setWeekday("Tueday");
+//		Time startTime2 = new Time(9, 0, 0);
+//		Time endTime2 = new Time(18, 0, 0);
+//		timeSlot2.setStartTime(startTime2);
+//		timeSlot2.setEndTime(endTime2);
+//		timeSlot2.setCalendar(calendar);
+//		hourRepository.save(timeSlot2);
 //		
-//		Calendar calendar = new Calendar();
-//		calendar.setLibrarySystem(ls);
+//		// Third Time slot
+//		Hour timeSlot3 = new Hour();
+//		timeSlot3.setWeekday("Friday");
+//		Time startTime3 = new Time(9, 0, 0);
+//		Time endTime3 = new Time(18, 0, 0);
+//		timeSlot3.setStartTime(startTime3);
+//		timeSlot3.setEndTime(endTime3);
+//		timeSlot3.setCalendar(calendar);
+//		hourRepository.save(timeSlot3);
+//		
+//		calendar.addHour(timeSlot1);
+//		calendar.addHour(timeSlot2);
+//		calendar.addHour(timeSlot3);
 //		calendarRepository.save(calendar);
-//		
-//		// First Time slot	
-//		Employee u1 = new Employee();
-//		Address address1 = new Address();
-//		addressRepository.save(address1);
-//		u1.setAddress(address1);
-//		ls.addUser(u1);
-//		librarySystemRepository.save(ls);
-//		u1.setLibrarySystem(ls);
-//		userRepository.save(u1);
-//		
-//		Hour timeSlot1 = new Hour();
-//		timeSlot1.setWeekday("Monday");
-//		Time startTime1 = new Time(9, 0, 0);
-//		Time endTime1 = new Time(18, 0, 0);
-//		timeSlot1.setStartTime(startTime1);
-//		timeSlot1.setEndTime(endTime1);
-//		timeSlot1.setCalendar(calendar);
-//		timeSlot1.setEmployee(u1);
-//		hourRepository.save(timeSlot1);
-//		
-//		// Second Time slot
-////		Hour timeSlot2 = new Hour();
-////		timeSlot2.setWeekday("Tueday");
-////		Time startTime2 = new Time(9, 0, 0);
-////		Time endTime2 = new Time(18, 0, 0);
-////		timeSlot2.setStartTime(startTime2);
-////		timeSlot2.setEndTime(endTime2);
-////		timeSlot2.setCalendar(calendar);
-////		hourRepository.save(timeSlot2);
-////		
-////		// Third Time slot
-////		Hour timeSlot3 = new Hour();
-////		timeSlot3.setWeekday("Friday");
-////		Time startTime3 = new Time(9, 0, 0);
-////		Time endTime3 = new Time(18, 0, 0);
-////		timeSlot3.setStartTime(startTime3);
-////		timeSlot3.setEndTime(endTime3);
-////		timeSlot3.setCalendar(calendar);
-////		hourRepository.save(timeSlot3);
-////		
-////		calendar.addHour(timeSlot1);
-////		calendar.addHour(timeSlot2);
-////		calendar.addHour(timeSlot3);
-////		calendarRepository.save(calendar);
-//		
-//		String calendarID = calendar.getCalendarID();
-//		List<Hour> hours = new ArrayList<Hour>();
-//		hours.add(timeSlot1);
-////		hours.add(timeSlot2);
-////		hours.add(timeSlot3);
-//		
-//		calendar = null;
-//		 
-//		calendar = calendarRepository.findCalendarByHourIn(hours);
-//		assertNotNull(calendar);
-//		assertEquals(calendarID, calendar.getCalendarID());
-//		assertEquals(timeSlot1.getWeekday(), calendar.getHour().get(0).getWeekday());
-////		assertEquals(timeSlot2.getWeekday(), calendar.getHour().get(1).getWeekday());
-////		assertEquals(timeSlot2.getWeekday(), calendar.getHour().get(2).getWeekday());
-//	}	
+		
+		String calendarID = calendar.getCalendarID();
+		List<Hour> hours = new ArrayList<Hour>();
+		hours.add(timeSlot1);
+//		hours.add(timeSlot2);
+//		hours.add(timeSlot3);
+		
+		calendar = null;
+		 
+		calendar = calendarRepository.findCalendarByHourIn(hours);
+		assertNotNull(calendar);
+		assertEquals(calendarID, calendar.getCalendarID());
+		assertEquals(timeSlot1.getWeekday(), calendar.getHour().get(0).getWeekday());
+//		assertEquals(timeSlot2.getWeekday(), calendar.getHour().get(1).getWeekday());
+//		assertEquals(timeSlot2.getWeekday(), calendar.getHour().get(2).getWeekday());
+	}	
 }

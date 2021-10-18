@@ -9,10 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 // line 3 "../../../../../librarysystem.ump"
 @Entity
@@ -30,13 +35,17 @@ public class LibrarySystem
   private String systemID;
 
   //LibrarySystem Associations
-  @OneToOne(mappedBy="librarySystem", fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
+  @OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
+  @JoinColumn
   private Address businessaddress;
-  @OneToOne(mappedBy="librarySystem",fetch=FetchType.EAGER)
+  @OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
+  @JoinColumn
   private Calendar calendar;
   @OneToMany(mappedBy="librarySystem")
+  @LazyCollection(LazyCollectionOption.FALSE)
   private List<User> users;
   @OneToMany(mappedBy="librarySystem")
+  @LazyCollection(LazyCollectionOption.FALSE)
   private List<Item> items;
 
   //------------------------

@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 // line 11 "../../../../../librarysystem.ump"
 @Entity
@@ -36,14 +38,17 @@ public class Author
   private String lastName;
 
   //Author Associations
-  @ManyToMany(mappedBy="author",fetch=FetchType.EAGER)
+  @ManyToMany(mappedBy="author")
+  @LazyCollection(LazyCollectionOption.FALSE)
   private List<Title> titles;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Author(){}
+  public Author(){
+	  titles = new ArrayList<Title>();
+  }
   public Author(String aFirstName, String aLastName)
   {
     firstName = aFirstName;

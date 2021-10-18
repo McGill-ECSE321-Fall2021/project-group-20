@@ -7,6 +7,9 @@ import java.util.*;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import java.sql.Time;
 
 // line 60 "../../../../../librarysystem.ump"
@@ -29,6 +32,7 @@ public class Employee extends User
 
   //Employee Associations
   @OneToMany(mappedBy="employee")
+  @LazyCollection(LazyCollectionOption.FALSE)
   private List<Hour> employeehour;
 
   //------------------------

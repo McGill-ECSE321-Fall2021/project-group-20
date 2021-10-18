@@ -17,10 +17,10 @@ public interface LibrarySystemRepository extends CrudRepository<LibrarySystem, S
 	 * There should only be one library system.
 	 */
 	LibrarySystem findLibrarySystemBySystemID(String systemID);
-	//LibrarySystem findLibrarySystemByUser(List<User> users);
-	//LibrarySystem findLibrarySystemByBusinessaddress(Address businessaddress);
-	//LibrarySystem findLibrarySystemByCivicNumberAndStreetAndCityAndPostalCodeAndProvinceAndCountry(String
-	//		cvicNumber, String street, String city, String postalCode, String province, String country);
-	//LibrarySystem findLibrarySystemByItem(List<Item> items);
-	//LibrarySystem findLibrarySystemByCalendar(Calendar calendar);
+	LibrarySystem findLibrarySystemByUsers(User users);
+	LibrarySystem findLibrarySystemByBusinessaddress(Address businessaddress);
+//	LibrarySystem findLibrarySystemByCivicNumberAndStreetAndCityAndPostalCodeAndProvinceAndCountry(String
+//			civicNumber, String street, String city, String postalCode, String province, String country);
+	LibrarySystem findLibrarySystemByItems(Item items);
+	LibrarySystem findLibrarySystemByCalendar(Calendar calendar);
 }

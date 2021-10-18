@@ -4,9 +4,11 @@
 package ca.mcgill.ecse321.librarysystem.model;
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -29,7 +31,9 @@ public class Event
   private Date eventDate;
 
   //Event Associations
-  @OneToOne(mappedBy="event")
+  //@OneToOne(mappedBy="event", cascade=CascadeType.MERGE)
+  @OneToOne(cascade=CascadeType.MERGE)
+  @JoinColumn(name="eventhour")
   private Hour eventhour;
 
   //------------------------

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.mcgill.ecse321.librarysystem.model.*;
+import ca.mcgill.ecse321.librarysystem.model.Booking.BookingType;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 
 
@@ -45,9 +47,14 @@ public class TestItemRepositoryPersistence {
 	private MusicAlbumRepository musicAlbumRepository;
 	@Autowired
 	private NewspaperRepository newspaperRepository;
+	@Autowired
+	private BookingRepository bookingRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 	@AfterEach
 	public void clearDatabase() {
+		bookingRepository.deleteAll();
 		movieRepository.deleteAll();
 		musicAlbumRepository.deleteAll();
 		newspaperRepository.deleteAll();
@@ -56,9 +63,39 @@ public class TestItemRepositoryPersistence {
 		itemRepository.deleteAll();
 		titleRepository.deleteAll();
 		authorRepository.deleteAll();
-		addressRepository.deleteAll();
+		userRepository.deleteAll();
 		librarySystemRepository.deleteAll();
+		addressRepository.deleteAll();
 		calendarRepository.deleteAll();
+	}
+	
+	@Test
+	public void testPersistAndLoadByBooking() {
+		Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
+		addressRepository.save(myadress);
+		Calendar mycalendar = new Calendar();
+		calendarRepository.save(mycalendar);
+		LibrarySystem myLibrary = new LibrarySystem(myadress, mycalendar);
+		librarySystemRepository.save(myLibrary);
+		Author myAuthor = new Author("J.K.", "Rowling");
+		authorRepository.save(myAuthor);
+		Title mytitle = new Title("Kakao", "October 31th, 2021", myAuthor);
+		titleRepository.save(mytitle);
+		Item myItem = new Item(Status.Available, myLibrary, mytitle);
+		itemRepository.save(myItem);
+		User myUser = new User(true,"Harsh","Patel",true,0,myadress,myLibrary);
+		userRepository.save(myUser);
+		String str1 = "2015-03-31";
+		String str2 ="2015-04-05";
+		Date sdate= Date.valueOf(str1);
+		Date edate = Date.valueOf(str2);
+		Booking myBooking = new Booking (sdate,edate,BookingType.Reservation,myItem,myUser);
+		bookingRepository.save(myBooking);
+		itemRepository.save(myItem);
+		
+		Item retrieved = itemRepository.findItemByBooking(myBooking);
+		assertNotNull(retrieved);
+		assertEquals(retrieved.getItemBarcode(), myItem.getItemBarcode());
 	}
 	
 	@Test

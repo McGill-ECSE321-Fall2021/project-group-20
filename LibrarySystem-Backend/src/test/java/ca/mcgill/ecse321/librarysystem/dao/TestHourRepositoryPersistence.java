@@ -56,19 +56,22 @@ public class TestHourRepositoryPersistence {
 	private ItemRepository itemRepository;
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private EmployeeRepository employeeRepository;
 	
 	@AfterEach
 	public void clearDatabase() {
-		hourRepository.deleteAll();
 		eventRepository.deleteAll();
+		hourRepository.deleteAll();
 		bookingRepository.deleteAll();
         itemRepository.deleteAll();
         titleRepository.deleteAll();
         authorRepository.deleteAll();
+        employeeRepository.deleteAll();
         userRepository.deleteAll();
-        addressRepository.deleteAll();
-        calendarRepository.deleteAll();
         librarySystemRepository.deleteAll();
+        calendarRepository.deleteAll();
+        addressRepository.deleteAll();
 
 	}
 	
@@ -358,7 +361,7 @@ public class TestHourRepositoryPersistence {
 		LibrarySystem myLibrary = new LibrarySystem(myadress, mycalendar);
 		librarySystemRepository.save(myLibrary);
 		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, myLibrary, Role.Librarian);
-		userRepository.save(aUser);
+		employeeRepository.save(aUser);
 		Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
 		hourRepository.save(myhour);
 		Event myevent = new Event("LasFiesta", sdate , myhour);

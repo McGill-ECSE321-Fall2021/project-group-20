@@ -12,6 +12,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.sql.Time;
 
@@ -32,8 +36,10 @@ public class Calendar
 
   //Calendar Associations
 	@OneToMany(mappedBy="calendar")
+	@LazyCollection(LazyCollectionOption.FALSE)
   private List<Hour> hour;
 	@OneToOne(optional=true)
+	@OnDelete(action=OnDeleteAction.CASCADE)
   private LibrarySystem librarySystem;
 
   //------------------------

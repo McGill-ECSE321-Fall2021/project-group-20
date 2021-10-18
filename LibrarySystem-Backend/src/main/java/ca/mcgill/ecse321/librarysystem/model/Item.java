@@ -6,6 +6,7 @@ import java.sql.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -18,6 +19,8 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 // line 25 "../../../../../librarysystem.ump"
 @Entity
@@ -47,7 +50,9 @@ public class Item
   private LibrarySystem librarySystem;
   @ManyToOne(optional=false)
   private Title title;
-  @OneToOne(mappedBy="item")
+  @OneToOne(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
+  @JoinColumn
+  @OnDelete(action=OnDeleteAction.CASCADE)
   private Booking booking;
 
   //------------------------

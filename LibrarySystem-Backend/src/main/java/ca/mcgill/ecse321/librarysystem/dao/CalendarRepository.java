@@ -16,9 +16,9 @@ public interface CalendarRepository extends CrudRepository<Calendar, String>{
 	Calendar findCalendarByLibrarySystem(LibrarySystem librarySystem);;
 	
 	/* Find the calendar associated with list of hours */
-	Calendar findByHourIn(List<Hour> hour);
+	Calendar findCalendarByHourIn(List<Hour> hour);
 	
 	boolean existsByCalendarID(String calendarID);
 
-	//Calendar findCalendarByHourIn(List<Hour> hour);
+	
 }

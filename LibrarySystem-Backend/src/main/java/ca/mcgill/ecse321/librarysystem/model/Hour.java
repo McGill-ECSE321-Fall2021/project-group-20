@@ -6,8 +6,12 @@ import java.sql.Time;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.sql.Date;
 
@@ -30,6 +34,7 @@ public class Hour
   @ManyToOne(optional=true)
   private Employee employee;
   @OneToOne(optional=true)
+  @OnDelete(action=OnDeleteAction.CASCADE)
   private Event event;
   @ManyToOne(optional=false)
   private Calendar calendar;

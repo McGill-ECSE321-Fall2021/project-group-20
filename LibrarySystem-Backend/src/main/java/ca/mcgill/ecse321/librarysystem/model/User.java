@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import java.sql.Date;
 
 // line 48 "../../../../../librarysystem.ump"
@@ -53,6 +56,7 @@ public class User
   @ManyToOne(optional=false)
   private LibrarySystem librarySystem;
   @OneToMany(mappedBy="user")
+  @LazyCollection(LazyCollectionOption.FALSE)
   private List<Booking> userbooking;
 
   //------------------------

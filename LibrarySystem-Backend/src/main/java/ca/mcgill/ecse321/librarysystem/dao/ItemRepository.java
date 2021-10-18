@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.librarysystem.dao;
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
+import ca.mcgill.ecse321.librarysystem.model.Booking;
 import ca.mcgill.ecse321.librarysystem.model.Item;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 import ca.mcgill.ecse321.librarysystem.model.LibrarySystem;
@@ -13,6 +14,7 @@ public interface ItemRepository extends CrudRepository<Item, String>{
 	List<Item> findItemByLibrarySystem(LibrarySystem systemID);
 	List<Item> findItemByTitle (Title name);
 	boolean existsByItemBarcode(String itemBarcode);
+	Item findItemByBooking(Booking booking);
 	
 
 	

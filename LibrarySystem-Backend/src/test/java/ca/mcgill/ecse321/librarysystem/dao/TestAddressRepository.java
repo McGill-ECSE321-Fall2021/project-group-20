@@ -43,8 +43,8 @@ public class TestAddressRepository {
 		itemRepository.deleteAll();
 		titleRepository.deleteAll();
 		authorRepository.deleteAll();
-		addressRepository.deleteAll();
 		librarySystemRepository.deleteAll();
+		addressRepository.deleteAll();
 		calendarRepository.deleteAll();
 	}
 	

@@ -74,8 +74,8 @@ public class TestBookingRepositoryPersistence {
         titleRepository.deleteAll();
         authorRepository.deleteAll();
         userRepository.deleteAll();
-        addressRepository.deleteAll();
         librarySystemRepository.deleteAll();
+        addressRepository.deleteAll();
         calendarRepository.deleteAll();
 	}
 	

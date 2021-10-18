@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 // line 19 "../../../../../librarysystem.ump"
 @Entity
@@ -36,16 +38,20 @@ public class Title
   private String pubDate;
 
   //Title Associations
-  @OneToMany(mappedBy="title", fetch=FetchType.EAGER)
+  @OneToMany(mappedBy="title")
+  @LazyCollection(LazyCollectionOption.FALSE)
   @Fetch(value=FetchMode.SELECT)
   private List<Item> item;
-  @ManyToMany(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
-
+  @ManyToMany(cascade=CascadeType.MERGE)
+  @LazyCollection(LazyCollectionOption.FALSE)
   private List<Author> author;
   //------------------------
   // CONSTRUCTOR
   //------------------------
-  public Title() {}
+  public Title() {
+	  item = new ArrayList<Item>();
+	  author = new ArrayList<Author>();
+  }
   public Title(String aName, String aPubDate, Author... allAuthor)
   {
     name = aName;
