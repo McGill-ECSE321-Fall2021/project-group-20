@@ -1,0 +1,14 @@
+//Log in
+Majid
+Main success scenario:
+1. Customer (C) Sign Up to the online Library System.
+2. C does not pay the fees.
+3. Head Librarian (HL) or Librarian (L) verify the customer.
+4. C can use all the Library System functionalities.
+
+Alternate scenario:
+1a. C login to the online Library System.
+1b. C cannot login to the online Library System.
+2a. C does pay the fees because he is not part of the town.
+3. HL or L does not verify the account.
+4a. C cannot use all the library System functionalities.
