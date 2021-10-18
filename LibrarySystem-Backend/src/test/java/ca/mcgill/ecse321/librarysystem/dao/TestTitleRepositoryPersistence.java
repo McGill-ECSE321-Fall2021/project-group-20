@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.librarysystem.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,12 @@ public class TestTitleRepositoryPersistence {
 		calendarRepository.deleteAll();
 	}
 	
+	/*
+	 * Test method that checks whether a Title object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findByTitleID (String titleID) CRUD Method
+	 * 
+	 * Attribute tested: titleID
+	 */
 	@Test
 	public void testPersistAndLoadTitleByTitleID() {
 		//create and save data
@@ -64,6 +71,12 @@ public class TestTitleRepositoryPersistence {
 		assertEquals(PersistedTitle.getTitleID(), title1.getTitleID());
 	}
 	
+	/*
+	 * Test method that checks whether a Title object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findByAuthor(Author authorID) CRUD Method
+	 * 
+	 * Attribute tested: authorID
+	 */
 	@Test
 	public void testPersistAndLoadTitleByAuthorID() {
 		
@@ -94,6 +107,12 @@ public class TestTitleRepositoryPersistence {
 		}
 	}
 	
+	/*
+	 * Test method that checks whether a Title object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findByAuthorIn(List<Author> authorID) CRUD Method
+	 * 
+	 * Attribute tested: authorID
+	 */
 	@Test 
 	public void testPersistAndLoadTitleByAuthorIDs() {
 		
@@ -149,6 +168,12 @@ public class TestTitleRepositoryPersistence {
 		assertEquals(author2.getAuthorID(), listTitlesByAuthorIDs.get(2).getAuthor(1).getAuthorID());		
 	}
 	
+	/*
+	 * Test method that checks whether a Title object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findByItem(Item itemBarcode) CRUD Method
+	 * 
+	 * Attribute tested: itemBarcode
+	 */
 	@Test 
 	public void testPersistAndLoadTitleByItemBarCode() {	
 		
@@ -181,6 +206,12 @@ public class TestTitleRepositoryPersistence {
 		assertEquals(id, t.getAuthor(0).getAuthorID());
 	}
 	
+	/*
+	 * Test method that checks whether a Title object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findByItemIn(List<Item> itemBarcode) CRUD Method
+	 * 
+	 * Attribute tested: itemBarcode
+	 */
 	@Test 
 	public void testPersistAndLoadTitleByItemBarCodes() {
 		
@@ -247,6 +278,12 @@ public class TestTitleRepositoryPersistence {
 		
 	}
 	
+	/*
+	 * Test method that checks whether a Title object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findByName(String name) CRUD Method
+	 * 
+	 * Attribute tested: name
+	 */
 	@Test 
 	public void testPersistAndLoadTitleName() {
 		//create data
@@ -270,6 +307,12 @@ public class TestTitleRepositoryPersistence {
 		assertEquals(name,listTitlesByTitleName.get(0).getName());
 	}
 	
+	/*
+	 * Test method that checks whether a Title object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findByPubDate(String pubDate) CRUD Method
+	 * 
+	 * Attribute tested: pubDate
+	 */
 	@Test 
 	public void testPersistAndLoadTitlePubDate() {
 		//create data
@@ -286,9 +329,14 @@ public class TestTitleRepositoryPersistence {
 		title1 = null;
 		List<Title> listTitlesByPubDate = titleRepository.findByPubDate(pubDate);
 		assertEquals(pubDate,listTitlesByPubDate.get(0).getPubDate());
-		 
 	}
 	
+	/*
+	 * Test method that checks whether a Title object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findByNameAndPubDate(String name, String pubDate) CRUD Method
+	 * 
+	 * Attribute tested: name and pubDate
+	 */
 	@Test 
 	public void testPersistAndLoadTitleNameAndPubDate() {
 		//create and save data
@@ -312,4 +360,88 @@ public class TestTitleRepositoryPersistence {
         assertEquals(name, titleNamePub.getName());
         assertEquals(pubDate, titleNamePub.getPubDate());
 	}
+	
+	/*
+	 * Test method that checks whether a Author object can be correctly created, persisted, and determine
+	 * if it exists in the database by
+	 * testing the existsByTitleID(String titleID) CRUD Method
+	 * 
+	 * Attribute tested: titleID
+	 */
+	@Test
+	public void testPersistAndLoadAuthorAndSeeExistsByTitleID() {
+		//create and save data
+		Author author1 = new Author("Ehsan", "Ahmed");
+        authorRepository.save(author1);
+        Title title1 = new Title("Guide to How to Screw Up in Life","October 22nd, 2021", author1);
+        titleRepository.save(title1);
+		//preparing test
+		String id = title1.getTitleID();
+		author1=null;
+		title1=null;
+		//check if author exists in the database by titleID
+		boolean checking = titleRepository.existsByTitleID(id);
+		assertTrue(checking);
+	}
+	
+	/*
+	 * Test method that checks whether a Author object can be correctly created, persisted, and determine
+	 * if it exists in the database by
+	 * testing the existsByAuthorID(String authorID) CRUD Method
+	 * 
+	 * Attribute tested: name and pubDate
+	 */
+	@Test
+	public void testPersistAndLoadTitleAndSeeExistsByTitleNameAndPubDate() {	
+		//create and save data
+		Author author1 = new Author("Ehsan", "Ahmed");
+        authorRepository.save(author1);
+        Title title1 = new Title("Guide to How to Screw Up in Life","October 22nd, 2021", author1);
+        titleRepository.save(title1);
+		//preparing test
+		String name = title1.getName();
+		String pubDate = title1.getPubDate();
+		author1=null;
+		title1=null;
+		//check if author exists in the database by name and pubDate
+		boolean checking = titleRepository.existsByNameAndPubDate(name, pubDate);
+		assertTrue(checking);
+	}
+	
+	/*
+	 * Test method that checks whether a Author object can be correctly created, persisted, and determine
+	 * if it exists in the database by
+	 * testing the existsByFirstNameAndLastName(String firstName, String lastName) CRUD Method
+	 * 
+	 * Attribute tested: itemBarcode
+	 */
+	@Test
+	public void testPersistAndLoadTitleAndSeeExistsByItem() {	
+		//create and save data
+		Address myadress = new Address("13","Elmstreet","Montreal","HeLL666","Quebec","Canada");
+		addressRepository.save(myadress);
+		Calendar calendar1 = new Calendar();
+		calendarRepository.save(calendar1);
+		LibrarySystem library1 = new LibrarySystem(myadress, calendar1);
+		librarySystemRepository.save(library1);
+		Author author1 = new Author("J.K.", "Rowling");
+		authorRepository.save(author1);
+		Title title1 = new Title("Hell Dragon King", "October 31th, 1999", author1);
+		titleRepository.save(title1);
+		Item myItem = new Item(Status.Available, library1, title1);
+		itemRepository.save(myItem);
+		
+		//Test if title is stored by checking its name 
+		myadress=null; 
+		calendar1=null;
+		library1=null;
+		author1=null;
+		title1=null;
+
+		//check if author exists in the database by first and itemBarcode
+		boolean checking = titleRepository.existsByItem(myItem);
+		assertTrue(checking);
+	}
+	
+
 }

@@ -32,6 +32,12 @@ public class TestAuthorRepositoryPersistence {
 		authorRepository.deleteAll();
 	}
 	
+	/*
+	 * Test method that checks whether a Author object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findByAuthorID(String authorID) CRUD Method
+	 * 
+	 * Attribute tested: authorID
+	 */
 	@Test
 	public void testPersistAndLoadAuthorByAuthorID() {
 		
@@ -53,6 +59,12 @@ public class TestAuthorRepositoryPersistence {
 		
 	}
 	
+	/*
+	 * Test method that checks whether a Author object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findByFirstName(String firstName) CRUD Method
+	 * 
+	 * Attribute tested: firstName 
+	 */
 	@Test
 	public void testPersistAndLoadAuthorByFirstName() {
 		
@@ -82,7 +94,13 @@ public class TestAuthorRepositoryPersistence {
 		//delete data
 		title1.delete();
 	}
-	 
+	
+	/*
+	 * Test method that checks whether a Author object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findByLastName(String lastName) CRUD Method
+	 * 
+	 * Attribute tested: lastName 
+	 */
 	@Test
 	public void testPersistAndLoadAuthorByLastName() {
 		//create data
@@ -112,6 +130,12 @@ public class TestAuthorRepositoryPersistence {
 		title1.delete();
 	}
 	
+	/*
+	 * Test method that checks whether a Author object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findByFirstNameAndLastName(String firstName,String lastName) CRUD Method
+	 * 
+	 * Attribute tested: firstName and lastName
+	 */
 	@Test
 	public void testPersistAndLoadAuthorByFirstNameAndLastName() {
 		
@@ -143,6 +167,12 @@ public class TestAuthorRepositoryPersistence {
 		title1.delete();
 	}
 	
+	/*
+	 * Test method that checks whether a Author object can be correctly created, persisted, and correctly loaded from the database
+	 * testing the findByTitlesIn(List<Title> titles) CRUD Method
+	 * 
+	 * Attribute tested: titles
+	 */
 	@Test
 	public void testPersistAndLoadAuthorByTitles() {
 		//create and save data;
@@ -185,24 +215,39 @@ public class TestAuthorRepositoryPersistence {
 		title3.delete();
 	} 
 	
+	/*
+	 * Test method that checks whether a Author object can be correctly created, persisted, and determine
+	 * if it exists in the database by
+	 * testing the existsByFirstName(String firstName) CRUD Method
+	 * 
+	 * Attribute tested: firstName
+	 */
 	@Test
 	public void testPersistAndLoadAuthorAndSeeExistsByFirstName() {
 		
 		//create and save data
-		Author a1 = new Author("Ehsan", "Ahmed");
-		authorRepository.save(a1);
+		Author author1 = new Author("Ehsan", "Ahmed");
+		authorRepository.save(author1);
 		//preparing test
 		String firstName = "Ehsan";
 		//check if author exists in the database by first name
 		boolean checking = authorRepository.existsByFirstName(firstName);
 		assertTrue(checking);
 	}
-	 
+	
+	
+	/*
+	 * Test method that checks whether a Author object can be correctly created, persisted, and determine
+	 * if it exists in the database by
+	 * testing the existsByLastName(String lastName) CRUD Method
+	 * 
+	 * Attribute tested: lastName
+	 */
 	@Test
 	public void testPersistAndLoadAuthorAndSeeExistsByLastName() {
 		//create and save data
-		Author a1 = new Author("Ehsan", "Ahmed");
-		authorRepository.save(a1);
+		Author author1 = new Author("Ehsan", "Ahmed");
+		authorRepository.save(author1);
 		//preparing test
 		String lastName = "Ahmed";
 		//check if author exists in the database by last name
@@ -210,11 +255,18 @@ public class TestAuthorRepositoryPersistence {
 		assertTrue(checking);
 	}
 	
+	/*
+	 * Test method that checks whether a Author object can be correctly created, persisted, and determine
+	 * if it exists in the database by
+	 * testing the existsByFirstNameAndLastName(String firstName, String lastName) CRUD Method
+	 * 
+	 * Attribute tested: firstName and lastName
+	 */
 	@Test
 	public void testPersistAndLoadAuthorAndSeeExistsByFirstNameAndLastName() {	
 		//create and save data
-		Author a1 = new Author("Ehsan", "Ahmed");
-		authorRepository.save(a1);
+		Author author1 = new Author("Ehsan", "Ahmed");
+		authorRepository.save(author1);
 		//preparing test
 		String firstName = "Ehsan";
 		String lastName = "Ahmed";
@@ -222,5 +274,27 @@ public class TestAuthorRepositoryPersistence {
 		boolean checking = authorRepository.existsByFirstNameAndLastName(firstName, lastName);
 		assertTrue(checking);
 	}
+	
+	/*
+	 * Test method that checks whether a Author object can be correctly created, persisted, and determine
+	 * if it exists in the database by
+	 * testing the existsByAuthorID(String authorID) CRUD Method
+	 * 
+	 * Attribute tested: authorID
+	 */
+	@Test
+	public void testPersistAndLoadAuthorAndSeeExistsByAuthorID() {	
+		//create and save data
+		Author author1 = new Author("Ehsan", "Ahmed");
+		authorRepository.save(author1);
+		//preparing test
+		String id = author1.getAuthorID();
+		
+		//check if author exists in the database by authorID
+		boolean checking = authorRepository.existsByAuthorID(id);
+		assertTrue(checking);
+	}
+	
+	
 
 }
