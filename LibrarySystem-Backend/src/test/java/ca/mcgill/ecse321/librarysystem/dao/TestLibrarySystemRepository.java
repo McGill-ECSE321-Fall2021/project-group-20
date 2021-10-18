@@ -40,10 +40,11 @@ public class TestLibrarySystemRepository {
 	@Autowired
 	private ItemRepository itemRepository;
 
-	
+	/*
+	 * Set of instructions to clear the whole database after each test.
+	 */
 	@AfterEach
 	public void clearDatabase() {
-		// Clear the library system, calendar and address in the persistence. 
 		itemRepository.deleteAll();
 		titleRepository.deleteAll();
 		authorRepository.deleteAll();
@@ -53,6 +54,10 @@ public class TestLibrarySystemRepository {
 		calendarRepository.deleteAll();
 	}
 	
+	/*
+	 * Test 1: Persist a library system and querry the library system based on a systemID, and check if persisted 
+	 *         and querried objects are the same.
+	 */
 	@Test
 	public void testPersistAndLoadLibrarySystem() {
 		Calendar calendar = new Calendar();
@@ -72,6 +77,10 @@ public class TestLibrarySystemRepository {
 		assertEquals(systemID, ls.getSystemID());
 	}
 	
+	/*
+	 * Test 2: Persist a library system and querry the library system based on a calendar. Checks if the 
+	 * 		   persisted and querried objects are the same.
+	 */
 	@Test
 	public void testPersistAndLoadLibrarySystemWithCalendar() {	
 		Calendar calendar = new Calendar();
@@ -92,7 +101,11 @@ public class TestLibrarySystemRepository {
 		assertEquals(systemID, ls.getSystemID());
 	    assertEquals(calendarID, ls.getCalendar().getCalendarID());
 	}
-
+	
+	/*
+	 * Test 3: Persist a library system and querry the library system based on a user. Checks if the 
+	 * 		   persisted and querried objects are the same.
+	 */
 	@Test
 	public void testPersistAndLoadLibrarySystemWithUser() {
 		LibrarySystem ls = new LibrarySystem();
@@ -180,6 +193,10 @@ public class TestLibrarySystemRepository {
 
 	}
 	
+	/*
+	 * Test 4: Persist a library system and querry the library system based on an address. Checks if the 
+	 * 		   persisted and querried objects are the same.
+	 */
 	@Test
 	public void testPersistAndLoadLibrarySystemWithAddress() {
 		Address businessAddress = new Address();
@@ -211,7 +228,11 @@ public class TestLibrarySystemRepository {
 		assertEquals(systemID, ls.getSystemID());
 		assertEquals(addressID, ls.getBusinessaddress().getAddressID());
 	}
-
+	
+	/*
+	 * Test 5: Persist a library system and querry the library system based on an item. Checks if the 
+	 * 		   persisted and querried objects are the same.
+	 */
 	@Test
 	public void testPersistAndLoadLibrarySystemWithItem() {
 		LibrarySystem ls = new LibrarySystem();

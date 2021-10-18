@@ -29,17 +29,18 @@ public class Calendar
   //------------------------
 
   //Calendar Attributes
-	@Id
-	@GeneratedValue(generator="system-uuid")
-	@GenericGenerator(name="system-uuid", strategy = "uuid")
+  @Id
+  @GeneratedValue(generator="system-uuid")
+  @GenericGenerator(name="system-uuid", strategy = "uuid")
   private String calendarID;
 
   //Calendar Associations
-	@OneToMany(mappedBy="calendar")
-	@LazyCollection(LazyCollectionOption.FALSE)
+  @OneToMany(mappedBy="calendar")
+  @LazyCollection(LazyCollectionOption.FALSE)
   private List<Hour> hour;
-	@OneToOne(optional=true)
-	@OnDelete(action=OnDeleteAction.CASCADE)
+  
+  @OneToOne(optional=true)
+  @OnDelete(action=OnDeleteAction.CASCADE)
   private LibrarySystem librarySystem;
 
   //------------------------

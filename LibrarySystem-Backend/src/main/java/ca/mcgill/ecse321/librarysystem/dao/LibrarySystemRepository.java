@@ -15,10 +15,16 @@ public interface LibrarySystemRepository extends CrudRepository<LibrarySystem, S
 	 * There should only be one library system.
 	 */
 	LibrarySystem findLibrarySystemBySystemID(String systemID);
+	
+	/* Returns the library system object associated with a given user from the table of library system */
 	LibrarySystem findLibrarySystemByUsers(User users);
+	
+	/* Returns the library system object associated with a given address from the table of library system */
 	LibrarySystem findLibrarySystemByBusinessaddress(Address businessaddress);
-//	LibrarySystem findLibrarySystemByCivicNumberAndStreetAndCityAndPostalCodeAndProvinceAndCountry(String
-//			civicNumber, String street, String city, String postalCode, String province, String country);
+	
+	/* Returns the library system object given a item */
 	LibrarySystem findLibrarySystemByItems(Item items);
+	
+	/* Returns the library system object associated with the given calendar */
 	LibrarySystem findLibrarySystemByCalendar(Calendar calendar);
 }
