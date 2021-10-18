@@ -21,13 +21,13 @@ The website and application is accessed by two types of users: the employees whi
 <h3> Member Roles :label:</h3>
 
 
-|  Name | Role  |
-|---|---|
-| Alexandru Bangala  | Documentation, Project Manager, Software Developper  |
-|  Harsh Patel | Documentation, Software Developper|
-| Ehsan Ahmed  |  Documentaion, Software Developper|
-|  Dan Hosi |   Documentaion, Software Developper|
-|  Abdelmadjid Kamli |   Documentaion, Software Developper|
+|  Name | Role  |  Tasks |
+|---|---|---|
+| Alexandru Bangala  | Documentation, Project Manager, Software Developper | Build System and CI, Project Setup, User Model and Subclasses and Persistence, Requirements, Use Case, Domain Model, Report, Readme|
+|  Harsh Patel | Documentation, Software Developper| Booking - Hour - Event Models and Persistence, Requirements, Use Case, Domain Model, Report, Readme|
+| Ehsan Ahmed  |  Documentaion, Software Developper| Title - Author Models and Persistence, Requirements, Use Case, Domain Model, Report|
+|  Dan Hosi |   Documentaion, Software Developper| LibrarySystem - Calendar - Address Models and Persistence, Requirements, Use Case, Domain Model, Report, Wiki|
+|  Abdelmadjid Kamli |   Documentaion, Software Developper| Item and Subclasses - Event Models and Persistence, Requirements, Use Case, Domain Model, Report|
 
 <h3> Time Spent :hourglass_flowing_sand: </h3>
 
