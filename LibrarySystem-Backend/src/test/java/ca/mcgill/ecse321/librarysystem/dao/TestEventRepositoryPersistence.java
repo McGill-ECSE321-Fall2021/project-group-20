@@ -52,6 +52,8 @@ public class TestEventRepositoryPersistence {
 		
 		
 	}
+	
+	
 	@Test
 	public void testPersistAndLoadByeventDate() {
 	String str1 = "2015-03-31";
