@@ -1,13 +1,9 @@
 package ca.mcgill.ecse321.librarysystem.dao;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Month;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -17,20 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import ca.mcgill.ecse321.librarysystem.model.Booking;
-import ca.mcgill.ecse321.librarysystem.model.Booking.BookingType;
+
 import ca.mcgill.ecse321.librarysystem.model.Employee.Role;
-import ca.mcgill.ecse321.librarysystem.model.Item;
-import ca.mcgill.ecse321.librarysystem.model.Item.Status;
-import ca.mcgill.ecse321.librarysystem.model.User;
 import ca.mcgill.ecse321.librarysystem.model.Address;
-import ca.mcgill.ecse321.librarysystem.model.Author;
 import ca.mcgill.ecse321.librarysystem.model.Calendar;
 import ca.mcgill.ecse321.librarysystem.model.Employee;
 import ca.mcgill.ecse321.librarysystem.model.Event;
 import ca.mcgill.ecse321.librarysystem.model.Hour;
 import ca.mcgill.ecse321.librarysystem.model.LibrarySystem;
-import ca.mcgill.ecse321.librarysystem.model.Title;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest 
@@ -75,6 +65,14 @@ public class TestHourRepositoryPersistence {
 
 	}
 	
+	/**
+	 * Test method that checks whether a Booking object can be correctly created,persisted, and correctly loaded from the database
+	 * testing the findBycalendar(Calendar calendar) CRUD method
+	 * 
+	 * Attribute tested: Calendar
+	 * Create multiple events with same calendar to see if the proper List is Produced
+	 * 
+	 */
 	@Test
 	public void TestPersisitenceAndLoadHourByCalendar() {
 		String str1 = "2015-03-31";
@@ -130,7 +128,14 @@ public class TestHourRepositoryPersistence {
 		
 	}
 	
-	
+	/**
+	 * Test method that checks whether a Booking object can be correctly created,persisted, and correctly loaded from the database
+	 * testing the findByemployee(Employee employee) CRUD method
+	 * 
+	 * Attribute tested: Employee
+	 * Create multiple events with same employee to see if the proper List is Produced
+	 * 
+	 */
 
 	@Test
 	public void TestPersistenceAndLoadByEmployee() {
@@ -192,6 +197,14 @@ public class TestHourRepositoryPersistence {
 		
 	}
 	
+	/**
+	 * Test method that checks whether a Booking object can be correctly created,persisted, and correctly loaded from the database
+	 * testing the findByendTime(Time endTime) CRUD method
+	 * 
+	 * Attribute tested: endTime
+	 * Create multiple events with same endTime to see if the proper List is Produced
+	 * 
+	 */
 	@Test
 	public void TestPersistenceAndLoadByEndTime() {
 		
@@ -269,7 +282,14 @@ public class TestHourRepositoryPersistence {
 	}
 	
 	
-	
+	/**
+	 * Test method that checks whether a Booking object can be correctly created,persisted, and correctly loaded from the database
+	 * testing the findBystartTime(Time startTime) CRUD method
+	 * 
+	 * Attribute tested: startTime
+	 * Create multiple events with same startTime to see if the proper List is Produced
+	 * 
+	 */
 	@Test
 	public void TestPersistenceAndLoadByStartTime() {
 		
@@ -346,9 +366,17 @@ public class TestHourRepositoryPersistence {
 		
 	}
 	
-	
+	/**
+	 * Test method that checks whether a Booking object can be correctly created,persisted, and correctly loaded from the database
+	 * testing the getByevent(Event event) CRUD method
+	 * 
+	 * Reference tested: event
+	 * 
+	 * 
+	 */
 	
 	@Test
+	
 	public void TestPersisitenceAndLoadHourByEvent() {
 		String str1 = "2015-03-31";
 		Date sdate= Date.valueOf(str1);
@@ -378,10 +406,7 @@ public class TestHourRepositoryPersistence {
 
 		
 		
-//		myhour.setEvent(myevent);
-//		myevent.setEventhour(myhour);
-//		eventRepository.save(myevent);
-//		hourRepository.save(myhour);
+
 
 		myadress=null;
 		mycalendar=null;
@@ -415,7 +440,14 @@ public class TestHourRepositoryPersistence {
 
 	
 	
-	
+	/**
+	 * Test method that checks whether a Booking object can be correctly created,persisted, and correctly loaded from the database
+	 * testing the findByweekday(String weekday) CRUD method
+	 * 
+	 * Attribute tested: weekday
+	 * 
+	 * 
+	 */
 	
 	@Test
 	public void TestPersisitenceAndLoadHourByWeekday() {

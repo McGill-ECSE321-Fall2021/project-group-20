@@ -1,14 +1,9 @@
 package ca.mcgill.ecse321.librarysystem.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Month;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -36,10 +31,6 @@ public class TestBookingRepositoryPersistence {
 	@Autowired
 	private BookingRepository bookingRepository;
 	@Autowired
-	private EventRepository eventRepository;
-	@Autowired
-	private HourRepository hourRepository;
-	@Autowired
 	private CalendarRepository calendarRepository;
 	@Autowired
 	private AddressRepository addressRepository;
@@ -55,20 +46,7 @@ public class TestBookingRepositoryPersistence {
 	private UserRepository userRepository;
 	@AfterEach
 	public void clearDatabase() {
-//		
-//		bookingRepository.deleteAll();
-//        itemRepository.deleteAll();
-//        titleRepository.deleteAll();
-//        authorRepository.deleteAll();
-//        userRepository.deleteAll();
-//        librarySystemRepository.deleteAll();
-//        addressRepository.deleteAll();
-//        calendarRepository.deleteAll();
-        
-        
-        
-        
-		
+
 		bookingRepository.deleteAll();
         itemRepository.deleteAll();
         titleRepository.deleteAll();
@@ -79,7 +57,13 @@ public class TestBookingRepositoryPersistence {
         calendarRepository.deleteAll();
 	}
 	
-
+/**
+ * Test method that checks whether a Booking object can be correctly created,persisted, and correctly loaded from the database
+ * testing the findBookingByBookingID(String bookingId) CRUD method
+ * 
+ * Attribute tested: BookingId
+ *
+ */
 	@Test
 	public void testPersistenceAndLoadBookingBybookingID() {
 		Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
@@ -120,6 +104,15 @@ public class TestBookingRepositoryPersistence {
 		
 	}
 	
+	/**
+	 * Test method that checks whether a Booking object can be correctly created,persisted, and correctly loaded from the database
+	 * testing the findBookingByStartDate (Date startDate) CRUD method
+	 * 
+	 * Attribute tested: StartDate
+	 *
+	 *Create multiple bookings with same Start Date to see if the proper List is Produced
+	 */
+	
 	@Test 
 	public void testPersistenceAndLoadBookingByStartDate() {
 		Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
@@ -152,7 +145,6 @@ public class TestBookingRepositoryPersistence {
 		userRepository.save(myUser);
 		userRepository.save(myUser1);
 
-		//public Booking(Date aStartDate, Date aEndDate, BookingType aType, Item aItembooked, User aUser)
 		String str1 = "2015-03-31";
 		String str2 ="2015-04-05";
 		Date sdate= Date.valueOf(str1);
@@ -186,7 +178,14 @@ public class TestBookingRepositoryPersistence {
 	
 	
 	
-	
+	/**
+	 * Test method that checks whether a Booking object can be correctly created,persisted, and correctly loaded from the database
+	 * testing the findBookingByEndDate (Date startDate) CRUD method
+	 * 
+	 * Attribute tested: EndDate
+	 *
+	 * Create multiple bookings with same End Date to see if the proper List is Produced
+	 */
 	
 	@Test 
 	public void testPersistenceAndLoadBookingByEndDate() {
@@ -220,7 +219,6 @@ public class TestBookingRepositoryPersistence {
 		userRepository.save(myUser);
 		userRepository.save(myUser1);
 
-		//public Booking(Date aStartDate, Date aEndDate, BookingType aType, Item aItembooked, User aUser)
 		String str1 = "2015-03-31";
 		String str2 ="2015-04-05";
 		Date sdate= Date.valueOf(str1);
@@ -250,7 +248,14 @@ public class TestBookingRepositoryPersistence {
 		}
 	}
 	
-	
+	/**
+	 * Test method that checks whether a Booking object can be correctly created,persisted, and correctly loaded from the database
+	 * testing the findBookingByItem(Item item) CRUD method
+	 * 
+	 * Reference tested: item
+	 *
+	 *
+	 */
 	@Test
 	public void testPersistenceAndLoadBookingByItembooked() {
 		Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
@@ -279,12 +284,7 @@ public class TestBookingRepositoryPersistence {
 		itemRepository.save(myItem);
 		bookingRepository.save(myBooking);
 		
-//		myadress = null;
-//		mycalendar= null;
-//		myLibrary=null;
-//		myAuthor=null;
-//		mytitle=null;
-//		myUser=null;
+
 		
 		Item i = itemRepository.findItemByItemBarcode(myItem.getItemBarcode());	
 		Booking b = bookingRepository.findBookingByItem(i);
@@ -294,6 +294,15 @@ public class TestBookingRepositoryPersistence {
 		assertEquals(myBooking.getItem().getStatus(),b.getItem().getStatus());
 	}
 	
+	
+	/**
+	 * Test method that checks whether a Booking object can be correctly created,persisted, and correctly loaded from the database
+	 * testing the findBookingByUser(User user) CRUD method
+	 * 
+	 * Reference tested: User
+	 *
+	 * Create multiple bookings with same User to see if the proper List is Produced
+	 */
 	@Test 
 	public void testPersistenceAndLoadBookingByUser() {
 		Address myadress = new Address("51","Parkekx","Montreal","H5H6H7","Quebec","Canada");
@@ -324,7 +333,6 @@ public class TestBookingRepositoryPersistence {
 
 		userRepository.save(myUser);
 
-		//public Booking(Date aStartDate, Date aEndDate, BookingType aType, Item aItembooked, User aUser)
 		String str1 = "2015-03-31";
 		String str2 ="2015-04-05";
 		Date sdate= Date.valueOf(str1);
@@ -365,7 +373,14 @@ public class TestBookingRepositoryPersistence {
 				
 	}
 	
-	
+	/**
+	 * Test method that checks whether a Booking object can be correctly created,persisted, and correctly loaded from the database
+	 * testing the  findBookingByType(BookingType type) CRUD method
+	 * 
+	 * Attributes tested: Booking Status
+	 *
+	 * Create multiple bookings with same Status to see if the proper List is Produced
+	 */
 	@Test
 	public void testPersistenceAndLoadBookingByStatus() {
 		
