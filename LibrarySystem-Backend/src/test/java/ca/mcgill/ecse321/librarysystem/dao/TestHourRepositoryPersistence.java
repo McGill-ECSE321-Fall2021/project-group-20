@@ -98,7 +98,6 @@ public class TestHourRepositoryPersistence {
 		eventRepository.save(myevent);
 		eventRepository.save(myevent1);
 		myadress=null;
-		mycalendar=null;
 		myLibrary=null;
 		aUser=null;
 		myevent=null;
@@ -327,7 +326,7 @@ public class TestHourRepositoryPersistence {
 		myLibrary=null;
 		myevent=null;
 		myevent1=null;
-		List <Hour> ListofHour = hourRepository.findByendTime(StartTimeToQueryFrom);
+		List <Hour> ListofHour = hourRepository.findBystartTime(StartTimeToQueryFrom);
 		for (Hour PerHour : ListofHour) {
 
 			assertTrue(PerHour.getCalendar().getCalendarID().equals(myhour.getCalendar().getCalendarID()) || PerHour.getCalendar().getCalendarID().equals(myhour1.getCalendar().getCalendarID()));

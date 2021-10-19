@@ -13,7 +13,7 @@ public interface CalendarRepository extends CrudRepository<Calendar, String>{
 	Calendar findCalendarByCalendarID(String calendarID);
 	
 	/* Find the calendar from the table of calendars in the database based on a library system */
-	Calendar findCalendarByLibrarySystem(LibrarySystem librarySystem);;
+	Calendar findCalendarByLibrarySystem(LibrarySystem librarySystem);
 	
 	/* Find the calendar from the table of calendars in the database based on a list of hours*/
 	Calendar findCalendarByHourIn(List<Hour> hour);

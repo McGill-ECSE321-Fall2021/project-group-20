@@ -257,7 +257,7 @@ public class TestUserRepositoryPersistence {
 	@Test
 	public void testPersistAndLoadUsersByFirstAndLastName() {
 		List<User> PersistedUsers = userRepository.findUserByFirstNameAndLastName("Alex", "Bangala");
-		List<User> createdUsers = new ArrayList<User>();
+		List<User> createdUsers = new ArrayList<>();
 		createdUsers.add(aUser);
 		
 		assertNotNull(PersistedUsers);
@@ -278,7 +278,7 @@ public class TestUserRepositoryPersistence {
 	@Test
 	public void testPersistAndLoadUsersByFirstName() {
 		List<User> PersistedUsers = userRepository.findUserByFirstName("Test");
-		List<User> createdUsers = new ArrayList<User>();
+		List<User> createdUsers = new ArrayList<>();
 		createdUsers.add(user2);
 		
 		assertNotNull(PersistedUsers);
@@ -298,7 +298,7 @@ public class TestUserRepositoryPersistence {
 	@Test
 	public void testPersistAndLoadUsersByLastName() {
 		List<User> PersistedUsers = userRepository.findUserByLastName("Bangala");
-		List<User> createdUsers = new ArrayList<User>();
+		List<User> createdUsers = new ArrayList<>();
 		createdUsers.add(aUser);
 		
 		assertNotNull(PersistedUsers);
@@ -318,7 +318,7 @@ public class TestUserRepositoryPersistence {
 	@Test
 	public void testPersistAndLoadUsersByIsVerified() {
 		List<User> PersistedUsers = userRepository.findUserByIsVerified(true);
-		List<User> createdUsers = new ArrayList<User>();
+		List<User> createdUsers = new ArrayList<>();
 		createdUsers.add(aUser);
 		createdUsers.add(user2);
 		
@@ -339,7 +339,7 @@ public class TestUserRepositoryPersistence {
 	@Test
 	public void testPersistAndLoadUsersByDemeritPts() {
 		List<User> PersistedUsers = userRepository.findUserByDemeritPts(3);
-		List<User> createdUsers = new ArrayList<User>();
+		List<User> createdUsers = new ArrayList<>();
 		createdUsers.add(user2);
 		
 		assertNotNull(PersistedUsers);
@@ -359,7 +359,7 @@ public class TestUserRepositoryPersistence {
 	@Test
 	public void testPersistAndLoadUsersByAddress() {
 		List<User> PersistedUsers = userRepository.findUserByAddress(aAddress);
-		List<User> createdUsers = new ArrayList<User>();
+		List<User> createdUsers = new ArrayList<>();
 		createdUsers.add(aUser);
 		
 		assertNotNull(PersistedUsers);
@@ -379,7 +379,7 @@ public class TestUserRepositoryPersistence {
 	@Test
 	public void testPersistAndLoadUsersByLibrarySystem() {
 		List<User> PersistedUsers = userRepository.findUserByLibrarySystem(aLibrary);
-		List<User> createdUsers = new ArrayList<User>();
+		List<User> createdUsers = new ArrayList<>();
 		createdUsers.add(aUser);
 		createdUsers.add(user2);
 		
@@ -402,7 +402,7 @@ public class TestUserRepositoryPersistence {
 		User notOnlineUser = new User(false, "Test", "Brown", true, 0, aAddress, aLibrary);
 		userRepository.save(notOnlineUser);
 		
-		List<User> createdUsers = new ArrayList<User>();
+		List<User> createdUsers = new ArrayList<>();
 		createdUsers.add(aUser);
 		createdUsers.add(user2);
 		createdUsers.add(notOnlineUser);

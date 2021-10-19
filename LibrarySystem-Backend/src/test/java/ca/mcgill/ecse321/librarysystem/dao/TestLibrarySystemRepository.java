@@ -1,16 +1,7 @@
 package ca.mcgill.ecse321.librarysystem.dao;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
-
+import ca.mcgill.ecse321.librarysystem.model.*;
+import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import ca.mcgill.ecse321.librarysystem.model.*;
-import ca.mcgill.ecse321.librarysystem.model.Item.Status;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -55,8 +49,8 @@ public class TestLibrarySystemRepository {
 	}
 	
 	/*
-	 * Test 1: Persist a library system and querry the library system based on a systemID, and check if persisted 
-	 *         and querried objects are the same.
+	 * Test 1: Persist a library system and query the library system based on a systemID, and check if persisted
+	 *         and queried objects are the same.
 	 */
 	@Test
 	public void testPersistAndLoadLibrarySystem() {
@@ -78,8 +72,8 @@ public class TestLibrarySystemRepository {
 	}
 	
 	/*
-	 * Test 2: Persist a library system and querry the library system based on a calendar. Checks if the 
-	 * 		   persisted and querried objects are the same.
+	 * Test 2: Persist a library system and query the library system based on a calendar. Checks if the
+	 * 		   persisted and queried objects are the same.
 	 */
 	@Test
 	public void testPersistAndLoadLibrarySystemWithCalendar() {	
@@ -103,8 +97,8 @@ public class TestLibrarySystemRepository {
 	}
 	
 	/*
-	 * Test 3: Persist a library system and querry the library system based on a user. Checks if the 
-	 * 		   persisted and querried objects are the same.
+	 * Test 3: Persist a library system and query the library system based on a user. Checks if the
+	 * 		   persisted and queried objects are the same.
 	 */
 	@Test
 	public void testPersistAndLoadLibrarySystemWithUser() {
@@ -168,7 +162,7 @@ public class TestLibrarySystemRepository {
 		u3.setLibrarySystem(ls);
 		userRepository.save(u3);
 		
-		List<User> users = new ArrayList<User>();
+		List<User> users = new ArrayList<>();
 		users.add(u1);
 		users.add(u2);
 		users.add(u3);
@@ -194,8 +188,8 @@ public class TestLibrarySystemRepository {
 	}
 	
 	/*
-	 * Test 4: Persist a library system and querry the library system based on an address. Checks if the 
-	 * 		   persisted and querried objects are the same.
+	 * Test 4: Persist a library system and query the library system based on an address. Checks if the
+	 * 		   persisted and queried objects are the same.
 	 */
 	@Test
 	public void testPersistAndLoadLibrarySystemWithAddress() {
@@ -230,8 +224,8 @@ public class TestLibrarySystemRepository {
 	}
 	
 	/*
-	 * Test 5: Persist a library system and querry the library system based on an item. Checks if the 
-	 * 		   persisted and querried objects are the same.
+	 * Test 5: Persist a library system and query the library system based on an item. Checks if the
+	 * 		   persisted and queried objects are the same.
 	 */
 	@Test
 	public void testPersistAndLoadLibrarySystemWithItem() {

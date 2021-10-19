@@ -33,7 +33,7 @@ public class TestAuthorRepositoryPersistence {
 	}
 	
 	/*
-	 * Test method that checks whether a Author object can be correctly created, persisted, and correctly loaded from the database
+	 * Test method that checks whether an Author object can be correctly created, persisted, and correctly loaded from the database
 	 * testing the findByAuthorID(String authorID) CRUD Method
 	 * 
 	 * Attribute tested: authorID
@@ -60,7 +60,7 @@ public class TestAuthorRepositoryPersistence {
 	}
 	
 	/*
-	 * Test method that checks whether a Author object can be correctly created, persisted, and correctly loaded from the database
+	 * Test method that checks whether an Author object can be correctly created, persisted, and correctly loaded from the database
 	 * testing the findByFirstName(String firstName) CRUD Method
 	 * 
 	 * Attribute tested: firstName 
@@ -96,7 +96,7 @@ public class TestAuthorRepositoryPersistence {
 	}
 	
 	/*
-	 * Test method that checks whether a Author object can be correctly created, persisted, and correctly loaded from the database
+	 * Test method that checks whether an Author object can be correctly created, persisted, and correctly loaded from the database
 	 * testing the findByLastName(String lastName) CRUD Method
 	 * 
 	 * Attribute tested: lastName 
@@ -131,7 +131,7 @@ public class TestAuthorRepositoryPersistence {
 	}
 	
 	/*
-	 * Test method that checks whether a Author object can be correctly created, persisted, and correctly loaded from the database
+	 * Test method that checks whether an Author object can be correctly created, persisted, and correctly loaded from the database
 	 * testing the findByFirstNameAndLastName(String firstName,String lastName) CRUD Method
 	 * 
 	 * Attribute tested: firstName and lastName
@@ -168,7 +168,7 @@ public class TestAuthorRepositoryPersistence {
 	}
 	
 	/*
-	 * Test method that checks whether a Author object can be correctly created, persisted, and correctly loaded from the database
+	 * Test method that checks whether an Author object can be correctly created, persisted, and correctly loaded from the database
 	 * testing the findByTitlesIn(List<Title> titles) CRUD Method
 	 * 
 	 * Attribute tested: titles
@@ -188,7 +188,7 @@ public class TestAuthorRepositoryPersistence {
 		titleRepository.save(title3);
 		
 		//preparing test
-		List<Title> titles = new ArrayList<Title>();
+		List<Title> titles = new ArrayList<>();
 		
 		titles.add(title1);
 		titles.add(title3);
@@ -216,7 +216,7 @@ public class TestAuthorRepositoryPersistence {
 	} 
 	
 	/*
-	 * Test method that checks whether a Author object can be correctly created, persisted, and determine
+	 * Test method that checks whether an Author object can be correctly created, persisted, and determine
 	 * if it exists in the database by
 	 * testing the existsByFirstName(String firstName) CRUD Method
 	 * 
@@ -237,7 +237,7 @@ public class TestAuthorRepositoryPersistence {
 	
 	
 	/*
-	 * Test method that checks whether a Author object can be correctly created, persisted, and determine
+	 * Test method that checks whether an Author object can be correctly created, persisted, and determine
 	 * if it exists in the database by
 	 * testing the existsByLastName(String lastName) CRUD Method
 	 * 
@@ -256,7 +256,7 @@ public class TestAuthorRepositoryPersistence {
 	}
 	
 	/*
-	 * Test method that checks whether a Author object can be correctly created, persisted, and determine
+	 * Test method that checks whether an Author object can be correctly created, persisted, and determine
 	 * if it exists in the database by
 	 * testing the existsByFirstNameAndLastName(String firstName, String lastName) CRUD Method
 	 * 
@@ -276,7 +276,7 @@ public class TestAuthorRepositoryPersistence {
 	}
 	
 	/*
-	 * Test method that checks whether a Author object can be correctly created, persisted, and determine
+	 * Test method that checks whether an Author object can be correctly created, persisted, and determine
 	 * if it exists in the database by
 	 * testing the existsByAuthorID(String authorID) CRUD Method
 	 * 

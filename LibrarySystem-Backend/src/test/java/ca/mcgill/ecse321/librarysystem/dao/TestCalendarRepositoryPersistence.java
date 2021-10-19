@@ -1,16 +1,6 @@
 package ca.mcgill.ecse321.librarysystem.dao;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
-
+import ca.mcgill.ecse321.librarysystem.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import ca.mcgill.ecse321.librarysystem.model.*;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -60,7 +55,7 @@ public class TestCalendarRepositoryPersistence {
 	}
 	
 	/*
-	 * Test 1: Persists a calendar to the database, then checks if a querried address based on a calendar is the same as the persisted calendar.
+	 * Test 1: Persists a calendar to the database, then checks if a queried address based on a calendar is the same as the persisted calendar.
 	 */
 	@Test
 	public void testPersistAndLoadCalendar() {
@@ -79,7 +74,7 @@ public class TestCalendarRepositoryPersistence {
 	}
 	
 	/*
-	 * Test 3: Persists a calendar to the database, then checks if a querried address based on library system is the same as the persisted calendar.
+	 * Test 3: Persists a calendar to the database, then checks if a queried address based on library system is the same as the persisted calendar.
 	 */
 	@Test
 	public void testPersistAndLoadCalendarWithLibrarySystem() {
@@ -102,7 +97,7 @@ public class TestCalendarRepositoryPersistence {
 	}
 	
 	/*
-	 * Test 2: Persists a calendar to the database, then checks if a querried address based on a list of hours is the same as the persisted calendar.
+	 * Test 2: Persists a calendar to the database, then checks if a queried address based on a list of hours is the same as the persisted calendar.
 	 */
 	@Test
 	public void testPersistAndLoadCalendarWithListOfHours() {
@@ -160,7 +155,7 @@ public class TestCalendarRepositoryPersistence {
 		calendarRepository.save(calendar);
 		
 		String calendarID = calendar.getCalendarID();
-		List<Hour> hours = new ArrayList<Hour>();
+		List<Hour> hours = new ArrayList<>();
 		hours.add(timeSlot1);
 		hours.add(timeSlot2);
 		hours.add(timeSlot3);

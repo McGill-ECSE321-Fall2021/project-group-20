@@ -35,7 +35,7 @@ public class Address
   private String province;
   private String country;
 
-  //Address Associations
+  // Address Associations
   @OneToOne(optional=true)
   @OnDelete(action=OnDeleteAction.CASCADE)
   private LibrarySystem librarySystem;

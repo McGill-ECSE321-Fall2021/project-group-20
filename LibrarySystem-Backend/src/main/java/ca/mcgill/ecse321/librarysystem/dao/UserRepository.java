@@ -46,7 +46,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	/* Find list of users by librarySystem */
 	List<User> findUserByLibrarySystem(LibrarySystem librarySystem);
 	
-	/* Find user by a userbooking */
+	/* Find user by an userbooking */
 	User findUserByUserbooking(Booking userbooking);
 	
 	/* Check if user exists by a given libraryCardID */

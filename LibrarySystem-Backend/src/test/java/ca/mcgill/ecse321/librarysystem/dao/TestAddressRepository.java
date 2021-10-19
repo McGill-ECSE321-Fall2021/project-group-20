@@ -1,16 +1,8 @@
 package ca.mcgill.ecse321.librarysystem.dao;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Month;
-import java.util.List;
-
+import ca.mcgill.ecse321.librarysystem.model.Address;
+import ca.mcgill.ecse321.librarysystem.model.Calendar;
+import ca.mcgill.ecse321.librarysystem.model.LibrarySystem;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import ca.mcgill.ecse321.librarysystem.model.*;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -51,7 +45,7 @@ public class TestAddressRepository {
 	}
 	
 	/*
-	 * Test 1: Persists an address to the database, then querry the database by the addressID.
+	 * Test 1: Persists an address to the database, then query the database by the addressID.
 	 */
 	@Test
 	public void testPersistAndExistByID() {
@@ -75,7 +69,7 @@ public class TestAddressRepository {
 	}
 	
 	/*
-	 * Test 2: Persists an address to the database, then querry the database by the library system.
+	 * Test 2: Persists an address to the database, then query the database by the library system.
 	 */
 	@Test
 	public void testPersistAndExistByLibrary() {
@@ -106,7 +100,7 @@ public class TestAddressRepository {
 	}
 	
 	/*
-	 * Test 3: Persists an address to the database, then querries the database based on the civic number,
+	 * Test 3: Persists an address to the database, then queries the database based on the civic number,
 	 * 		   street, city, postal code, province and country.
 	 */
 	@Test
@@ -130,7 +124,7 @@ public class TestAddressRepository {
 	}
 	
 	/*
-	 * Test 4: Persists an address and checks if the querried address by addressID is the same as the persisted address.
+	 * Test 4: Persists an address and checks if the queried address by addressID is the same as the persisted address.
 	 */
 	@Test
 	public void testPersistAndLoadAddress() {
@@ -166,7 +160,7 @@ public class TestAddressRepository {
 	}
 	
 	/*
-	 * Test 4: Persists an address and checks if the querried address by library system is the same as the persisted address.
+	 * Test 4: Persists an address and checks if the queried address by library system is the same as the persisted address.
 	 */
 	@Test
 	public void testPersistAndLoadAddressWithLibrarySystem() {
@@ -212,7 +206,7 @@ public class TestAddressRepository {
 	}
 	
 	/*
-	 * Test 4: Persists an address and checks if the querried address by civic number is the same as the persisted address.
+	 * Test 4: Persists an address and checks if the queried address by civic number is the same as the persisted address.
 	 */
 	@Test
 	public void testPersistAndLoadAddressWithCivicNumber() {
@@ -248,7 +242,7 @@ public class TestAddressRepository {
 	}
 	
 	/*
-	 * Test 4: Persists an address and checks if the querried address by street is the same as the persisted address.
+	 * Test 4: Persists an address and checks if the queried address by street is the same as the persisted address.
 	 */
 	@Test
 	public void testPersistAndLoadAddressWithStreet() {
@@ -284,7 +278,7 @@ public class TestAddressRepository {
 	}
 	
 	/*
-	 * Test 4: Persists an address and checks if the querried address by city is the same as the persisted address.
+	 * Test 4: Persists an address and checks if the queried address by city is the same as the persisted address.
 	 */
 	@Test
 	public void testPersistAndLoadAddressWithCity() {
@@ -320,7 +314,7 @@ public class TestAddressRepository {
 	}
 	
 	/*
-	 * Test 4: Persists an address and checks if the querried address by postal code is the same as the persisted address.
+	 * Test 4: Persists an address and checks if the queried address by postal code is the same as the persisted address.
 	 */
 	@Test
 	public void testPersistAndLoadAddressWitPostalCode() {
@@ -356,7 +350,7 @@ public class TestAddressRepository {
 	}
 	
 	/*
-	 * Test 4: Persists an address and checks if the querried address by province is the same as the persisted address.
+	 * Test 4: Persists an address and checks if the queried address by province is the same as the persisted address.
 	 */
 	@Test
 	public void testPersistAndLoadAddressWithProvince() {
@@ -392,7 +386,7 @@ public class TestAddressRepository {
 	}
 	
 	/*
-	 * Test 4: Persists an address and checks if the querried address by country is the same as the persisted address.
+	 * Test 4: Persists an address and checks if the queried address by country is the same as the persisted address.
 	 */
 	@Test
 	public void testPersistAndLoadAddressWithCountry() {
@@ -428,7 +422,7 @@ public class TestAddressRepository {
 	}
 	
 	/*
-	 * Test 4: Persists an address and checks if the querried address by the full address info is the same as the persisted address.
+	 * Test 4: Persists an address and checks if the queried address by the full address info is the same as the persisted address.
 	 */
 	@Test
 	public void testPersistAndLoadAddressWithStringAddress() {

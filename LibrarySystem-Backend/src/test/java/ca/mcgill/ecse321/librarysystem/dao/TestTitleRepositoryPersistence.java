@@ -156,7 +156,7 @@ public class TestTitleRepositoryPersistence {
 		
 		
 		//Test to see if data is stored by looking through a list of authors
-		List<Author> list_authors = new ArrayList<Author>(); 
+		List<Author> list_authors = new ArrayList<>();
 		list_authors.add(author2);
 		list_authors.add(author4);
 		
@@ -260,7 +260,7 @@ public class TestTitleRepositoryPersistence {
 		String id2 = item2.getItemBarcode();
 		String id3 = item3.getItemBarcode();
 		
-		List<Item> items = new ArrayList<Item>();
+		List<Item> items = new ArrayList<>();
 		items.add(item1);
 		item1=null;
 		items.add(item2);
@@ -362,7 +362,7 @@ public class TestTitleRepositoryPersistence {
 	}
 	
 	/*
-	 * Test method that checks whether a Author object can be correctly created, persisted, and determine
+	 * Test method that checks whether an Author object can be correctly created, persisted, and determine
 	 * if it exists in the database by
 	 * testing the existsByTitleID(String titleID) CRUD Method
 	 * 
@@ -385,7 +385,7 @@ public class TestTitleRepositoryPersistence {
 	}
 	
 	/*
-	 * Test method that checks whether a Author object can be correctly created, persisted, and determine
+	 * Test method that checks whether an Author object can be correctly created, persisted, and determine
 	 * if it exists in the database by
 	 * testing the existsByAuthorID(String authorID) CRUD Method
 	 * 
@@ -409,7 +409,7 @@ public class TestTitleRepositoryPersistence {
 	}
 	
 	/*
-	 * Test method that checks whether a Author object can be correctly created, persisted, and determine
+	 * Test method that checks whether an Author object can be correctly created, persisted, and determine
 	 * if it exists in the database by
 	 * testing the existsByFirstNameAndLastName(String firstName, String lastName) CRUD Method
 	 * 
