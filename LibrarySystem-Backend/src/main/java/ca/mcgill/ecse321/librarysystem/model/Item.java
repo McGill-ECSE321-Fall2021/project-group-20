@@ -2,25 +2,12 @@
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 package ca.mcgill.ecse321.librarysystem.model;
-import java.sql.Date;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
 
 // line 25 "../../../../../librarysystem.ump"
 @Entity
@@ -41,13 +28,12 @@ public class Item
   //Item Attributes
   private Status status;
   @Id
-  @GeneratedValue(generator="system-uuid")
-  @GenericGenerator(name="system-uuid", strategy = "uuid")
-  private String itemBarcode;
+  //@GeneratedValue(generator="system-uuid")
+  //@GenericGenerator(name="system-uuid", strategy = "uuid")
+  @GeneratedValue
+  private long itemBarcode;
 
   //Item Associations
-  @ManyToOne(optional=false)
-  private LibrarySystem librarySystem;
   @ManyToOne(optional=false)
   private Title title;
   @OneToOne(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
@@ -61,14 +47,9 @@ public class Item
   public Item() {  
   }
   
-  public Item(Status aStatus, LibrarySystem aLibrarySystem, Title aTitle)
+  public Item(Status aStatus, Title aTitle)
   {
     status = aStatus;
-    boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
-    if (!didAddLibrarySystem)
-    {
-      throw new RuntimeException("Unable to create item due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
     boolean didAddTitle = setTitle(aTitle);
     if (!didAddTitle)
     {
@@ -76,15 +57,10 @@ public class Item
     }
   }
   
-  public Item(Status aStatus, String aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle)
+  public Item(Status aStatus, long aItemBarcode, Title aTitle)
   {
     status = aStatus;
     itemBarcode = aItemBarcode;
-    boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
-    if (!didAddLibrarySystem)
-    {
-      throw new RuntimeException("Unable to create item due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
     boolean didAddTitle = setTitle(aTitle);
     if (!didAddTitle)
     {
@@ -104,7 +80,7 @@ public class Item
     return wasSet;
   }
 
-  public boolean setItemBarcode(String aItemBarcode)
+  public boolean setItemBarcode(long aItemBarcode)
   {
     boolean wasSet = false;
     itemBarcode = aItemBarcode;
@@ -117,15 +93,11 @@ public class Item
     return status;
   }
 
-  public String getItemBarcode()
+  public long getItemBarcode()
   {
     return itemBarcode;
   }
   /* Code from template association_GetOne */
-  public LibrarySystem getLibrarySystem()
-  {
-    return librarySystem;
-  }
   /* Code from template association_GetOne */
   public Title getTitle()
   {
@@ -141,25 +113,6 @@ public class Item
   {
     boolean has = booking != null;
     return has;
-  }
-  /* Code from template association_SetOneToMany */
-  public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
-  {
-    boolean wasSet = false;
-    if (aLibrarySystem == null)
-    {
-      return wasSet;
-    }
-
-    LibrarySystem existingLibrarySystem = librarySystem;
-    librarySystem = aLibrarySystem;
-    if (existingLibrarySystem != null && !existingLibrarySystem.equals(aLibrarySystem))
-    {
-      existingLibrarySystem.removeItem(this);
-    }
-    librarySystem.addItem(this);
-    wasSet = true;
-    return wasSet;
   }
   /* Code from template association_SetOneToMandatoryMany */
   public boolean setTitle(Title aTitle)
@@ -221,12 +174,6 @@ public class Item
 
   public void delete()
   {
-    LibrarySystem placeholderLibrarySystem = librarySystem;
-    this.librarySystem = null;
-    if(placeholderLibrarySystem != null)
-    {
-      placeholderLibrarySystem.removeItem(this);
-    }
     Title placeholderTitle = title;
     this.title = null;
     if(placeholderTitle != null)
@@ -247,7 +194,6 @@ public class Item
     return super.toString() + "["+
             "itemBarcode" + ":" + getItemBarcode()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "status" + "=" + (getStatus() != null ? !getStatus().equals(this)  ? getStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "librarySystem = "+(getLibrarySystem()!=null?Integer.toHexString(System.identityHashCode(getLibrarySystem())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "title = "+(getTitle()!=null?Integer.toHexString(System.identityHashCode(getTitle())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "booking = "+(getBooking()!=null?Integer.toHexString(System.identityHashCode(getBooking())):"null");
   }

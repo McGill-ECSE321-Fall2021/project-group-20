@@ -23,15 +23,15 @@ public class MusicAlbum extends Item
 
   public MusicAlbum() {}
   
-  public MusicAlbum(Status aStatus, LibrarySystem aLibrarySystem, Title aTitle, int aDuration)
+  public MusicAlbum(Status aStatus, Title aTitle, int aDuration)
   {
-    super(aStatus, aLibrarySystem, aTitle);
+    super(aStatus, aTitle);
     duration = aDuration;
   }
   
-  public MusicAlbum(Status aStatus, String aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle, int aDuration)
+  public MusicAlbum(Status aStatus, long aItemBarcode, Title aTitle, int aDuration)
   {
-    super(aStatus, aItemBarcode, aLibrarySystem, aTitle);
+    super(aStatus, aItemBarcode, aTitle);
     duration = aDuration;
   }
 

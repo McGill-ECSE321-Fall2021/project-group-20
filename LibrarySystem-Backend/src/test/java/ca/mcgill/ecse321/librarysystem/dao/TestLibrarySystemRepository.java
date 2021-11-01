@@ -39,11 +39,11 @@ public class TestLibrarySystemRepository {
 	 */
 	@AfterEach
 	public void clearDatabase() {
+		librarySystemRepository.deleteAll();
 		itemRepository.deleteAll();
 		titleRepository.deleteAll();
 		authorRepository.deleteAll();
 		userRepository.deleteAll();
-		librarySystemRepository.deleteAll();
 		addressRepository.deleteAll();
 		calendarRepository.deleteAll();
 	}
@@ -121,7 +121,7 @@ public class TestLibrarySystemRepository {
 		u1.setFirstName("Dan");
 		u1.setLastName("lastName");
 		u1.setAddress(address1);
-		u1.setLibrarySystem(ls);
+//		u1.setLibrarySystem(ls);
 		userRepository.save(u1);
 		
 		// Setup address and library link for u2
@@ -137,10 +137,10 @@ public class TestLibrarySystemRepository {
 		User u2 = new User();
 		u2.setUsername("u2");
 		u2.setPassword("u2");
-		u2.setFirstName("Abdel");
+		u2.setFirstName("Del");
 		u2.setLastName("Madjid");
 		u2.setAddress(address2);
-		u2.setLibrarySystem(ls);
+//		u2.setLibrarySystem(ls);
 		userRepository.save(u2);
 		
 		// Setup address and library link for u3
@@ -159,7 +159,7 @@ public class TestLibrarySystemRepository {
 		u3.setFirstName("Harsh");
 		u3.setLastName("Patel");
 		u3.setAddress(address3);
-		u3.setLibrarySystem(ls);
+//		u3.setLibrarySystem(ls);
 		userRepository.save(u3);
 		
 		List<User> users = new ArrayList<>();
@@ -178,7 +178,7 @@ public class TestLibrarySystemRepository {
 
 		ls = null;
 		
-		ls = librarySystemRepository.findLibrarySystemByUsers(u2);
+		ls = librarySystemRepository.findLibrarySystemByUsers(u3);
 		assertNotNull(ls);
 		assertEquals(systemID, ls.getSystemID());
 		assertEquals(libraryCardID1, ls.getUsers().get(0).getLibraryCardID());
@@ -246,7 +246,7 @@ public class TestLibrarySystemRepository {
 		
 		Item book = new Item();
 		book.setStatus(Status.Borrowed);
-		book.setLibrarySystem(ls);
+//		book.setLibrarySystem(ls);
 		book.setTitle(bookTitle);
 		itemRepository.save(book);
 		
@@ -264,7 +264,7 @@ public class TestLibrarySystemRepository {
 
 		Item movie = new Item();
 		movie.setStatus(Status.Borrowed);
-		movie.setLibrarySystem(ls);
+//		movie.setLibrarySystem(ls);
 		movie.setTitle(movieTitle);
 		itemRepository.save(movie);
 		
@@ -276,8 +276,8 @@ public class TestLibrarySystemRepository {
 		ls.addItem(movie);
 		librarySystemRepository.save(ls);
 		
-		String itemBarcode1 = book.getItemBarcode();
-		String itemBarcode2 = movie.getItemBarcode();
+		long itemBarcode1 = book.getItemBarcode();
+		long itemBarcode2 = movie.getItemBarcode();
 		String systemID = ls.getSystemID();
 		
 		ls = null;

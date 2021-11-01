@@ -42,8 +42,8 @@ public class TestEventRepositoryPersistence {
 	public void clearDatabase() {
 		eventRepository.deleteAll();
 		hourRepository.deleteAll();
-		userRepository.deleteAll();
 		librarySystemRepository.deleteAll();
+		userRepository.deleteAll();
 		addressRepository.deleteAll();
 		calendarRepository.deleteAll();
 
@@ -70,7 +70,7 @@ public class TestEventRepositoryPersistence {
 		calendarRepository.save(myCalendar);
 		LibrarySystem myLibrary = new LibrarySystem(myAdress, myCalendar);
 		librarySystemRepository.save(myLibrary);
-		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myAdress, myLibrary, Role.Librarian);
+		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myAdress, Role.Librarian);
 		userRepository.save(aUser);
 		Hour myHour = new Hour("mardi", sTime, dTime, aUser, myCalendar);
 		hourRepository.save(myHour);
@@ -111,7 +111,7 @@ public class TestEventRepositoryPersistence {
 		calendarRepository.save(myCalendar);
 		LibrarySystem myLibrary = new LibrarySystem(myAdress, myCalendar);
 		librarySystemRepository.save(myLibrary);
-		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myAdress, myLibrary, Role.Librarian);
+		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myAdress, Role.Librarian);
 		userRepository.save(aUser);
 		Hour myHour = new Hour("mardi", sTime, dTime, aUser, myCalendar);
 		hourRepository.save(myHour);
@@ -151,7 +151,7 @@ public class TestEventRepositoryPersistence {
 		calendarRepository.save(myCalendar);
 		LibrarySystem myLibrary = new LibrarySystem(myAdress, myCalendar);
 		librarySystemRepository.save(myLibrary);
-		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myAdress, myLibrary, Role.Librarian);
+		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myAdress, Role.Librarian);
 		userRepository.save(aUser);
 		Hour myHour = new Hour("mardi", sTime, dTime, aUser, myCalendar);
 		hourRepository.save(myHour);
@@ -194,7 +194,7 @@ public class TestEventRepositoryPersistence {
 		calendarRepository.save(myCalendar);
 		LibrarySystem myLibrary = new LibrarySystem(myAdress, myCalendar);
 		librarySystemRepository.save(myLibrary);
-		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myAdress, myLibrary, Role.Librarian);
+		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myAdress, Role.Librarian);
 		userRepository.save(aUser);
 		Hour myHour = new Hour("mardi", sTime, dTime, aUser, myCalendar);
 		hourRepository.save(myHour);

@@ -4,19 +4,14 @@
 package ca.mcgill.ecse321.librarysystem.model;
 import java.util.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.core.annotation.Order;
 
 // line 19 "../../../../../librarysystem.ump"
 @Entity
@@ -41,6 +36,7 @@ public class Title
   @OneToMany(mappedBy="title")
   @LazyCollection(LazyCollectionOption.FALSE)
   @Fetch(value=FetchMode.SELECT)
+  //@OrderColumn(name="itemBarcode")
   private List<Item> item;
   @ManyToMany(cascade=CascadeType.MERGE)
   @LazyCollection(LazyCollectionOption.FALSE)
@@ -200,9 +196,9 @@ public class Title
     return 1;
   }
   /* Code from template association_AddMandatoryManyToOne */
-  public Item addItem(Item.Status aStatus, String aItemBarcode, LibrarySystem aLibrarySystem)
+  public Item addItem(Item.Status aStatus, long aItemBarcode)
   {
-    Item aNewItem = new Item(aStatus, aItemBarcode, aLibrarySystem, this);
+    Item aNewItem = new Item(aStatus, aItemBarcode, this);
     return aNewItem;
   }
 

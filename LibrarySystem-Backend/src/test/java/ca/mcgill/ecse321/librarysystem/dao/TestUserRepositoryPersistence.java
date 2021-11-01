@@ -69,7 +69,7 @@ public class TestUserRepositoryPersistence {
 		calendarRepository.save(aCalendar);
 		aLibrary = new LibrarySystem(aAddress, aCalendar);
 		librarySystemRepository.save(aLibrary);
-		aUser = new User(true, "Alex", "Bangala", true, 0, aAddress, aLibrary);
+		aUser = new User(true, "Alex", "Bangala", true, 0, aAddress);
 		userRepository.save(aUser);
 		aUser.setUsername("ab");
 		aUser.setPassword("test123");
@@ -78,7 +78,7 @@ public class TestUserRepositoryPersistence {
 		
 		aAddress2 = new Address("50","University St.","Montreal","H4X1A5","Quebec","Canada");
 		addressRepository.save(aAddress2);
-		user2 = new User(true, "Test", "Brown", true, 3, aAddress2, aLibrary);
+		user2 = new User(true, "Test", "Brown", true, 3, aAddress2);
 		userRepository.save(user2);
 		user2.setUsername("test2");
 		user2.setPassword("test456");
@@ -90,6 +90,7 @@ public class TestUserRepositoryPersistence {
 	public void clearDatabase() {
 		aUser.delete();
 		user2.delete();
+		librarySystemRepository.deleteAll();
 		bookingRepository.deleteAll();
 		itemRepository.deleteAll();
 		titleRepository.deleteAll();
@@ -97,7 +98,6 @@ public class TestUserRepositoryPersistence {
 		customerRepository.deleteAll();
 		employeeRepository.deleteAll();
 		userRepository.deleteAll();
-		librarySystemRepository.deleteAll();
 		addressRepository.deleteAll();
 		calendarRepository.deleteAll();
 	}
@@ -116,11 +116,11 @@ public class TestUserRepositoryPersistence {
 		
 		User PersistedUser = userRepository.findUserByLibraryCardID(aUser.getLibraryCardID());
 		aAddress = PersistedUser.getAddress();
-		aLibrary = PersistedUser.getLibrarySystem();
+//		aLibrary = PersistedUser.getLibrarySystem();
 		
 		assertNotNull(PersistedUser);
 		assertEquals(aAddress.getAddressID(), aUser.getAddress().getAddressID());
-		assertEquals(aLibrary.getSystemID(), aUser.getLibrarySystem().getSystemID());
+//		assertEquals(aLibrary.getSystemID(), aUser.getLibrarySystem().getSystemID());
 		assertEquals(PersistedUser.getDemeritPts(), aUser.getDemeritPts());
 		assertEquals(PersistedUser.getEmail(), aUser.getEmail());
 		assertEquals(PersistedUser.getFirstName(), aUser.getFirstName());
@@ -142,7 +142,7 @@ public class TestUserRepositoryPersistence {
 	 */
 	@Test
 	public void testPersistAndLoadCustomerByLibraryCardID() {
-		Customer aCust = new Customer(true, "Alex", "Bangala", true, 0, aAddress, aLibrary);
+		Customer aCust = new Customer(true, "Alex", "Bangala", true, 0, aAddress);
 		customerRepository.save(aCust);
 		aCust.setUsername("abcd");
 		aCust.setPassword("test12345");
@@ -151,11 +151,11 @@ public class TestUserRepositoryPersistence {
 		
 		Customer PersistedUser = (Customer) customerRepository.findUserByLibraryCardID(aCust.getLibraryCardID());
 		aAddress = PersistedUser.getAddress();
-		aLibrary = PersistedUser.getLibrarySystem();
+//		aLibrary = PersistedUser.getLibrarySystem();
 		
 		assertNotNull(PersistedUser);
 		assertEquals(aAddress.getAddressID(), aCust.getAddress().getAddressID());
-		assertEquals(aLibrary.getSystemID(), aCust.getLibrarySystem().getSystemID());
+//		assertEquals(aLibrary.getSystemID(), aCust.getLibrarySystem().getSystemID());
 		assertEquals(PersistedUser.getDemeritPts(), aCust.getDemeritPts());
 		assertEquals(PersistedUser.getEmail(), aCust.getEmail());
 		assertEquals(PersistedUser.getFirstName(), aCust.getFirstName());
@@ -179,7 +179,7 @@ public class TestUserRepositoryPersistence {
 	 */
 	@Test
 	public void testPersistAndLoadEmployeeByLibraryCardID() {
-		Employee aEmp = new Employee(true, "Alex", "Bangala", true, 0, aAddress, aLibrary, Role.Librarian);
+		Employee aEmp = new Employee(true, "Alex", "Bangala", true, 0, aAddress, Role.Librarian);
 		employeeRepository.save(aEmp);
 		aEmp.setUsername("abcdefg");
 		aEmp.setPassword("test1234567");
@@ -188,11 +188,11 @@ public class TestUserRepositoryPersistence {
 		
 		Employee PersistedUser = (Employee) employeeRepository.findUserByLibraryCardID(aEmp.getLibraryCardID());
 		aAddress = PersistedUser.getAddress();
-		aLibrary = PersistedUser.getLibrarySystem();
+//		aLibrary = PersistedUser.getLibrarySystem();
 		
 		assertNotNull(PersistedUser);
 		assertEquals(aAddress.getAddressID(), aEmp.getAddress().getAddressID());
-		assertEquals(aLibrary.getSystemID(), aEmp.getLibrarySystem().getSystemID());
+//		assertEquals(aLibrary.getSystemID(), aEmp.getLibrarySystem().getSystemID());
 		assertEquals(PersistedUser.getDemeritPts(), aEmp.getDemeritPts());
 		assertEquals(PersistedUser.getEmail(), aEmp.getEmail());
 		assertEquals(PersistedUser.getFirstName(), aEmp.getFirstName());
@@ -213,7 +213,7 @@ public class TestUserRepositoryPersistence {
 	 */
 	@Test
 	public void testPersistByChangingRef() {
-		User user3 = new User(false, "Test", "Tester", true, 0, aAddress, aLibrary);
+		User user3 = new User(false, "Test", "Tester", true, 0, aAddress);
 		userRepository.save(user3);
 		
 		Address oldAddress = user3.getAddress();
@@ -376,20 +376,20 @@ public class TestUserRepositoryPersistence {
 	 * 
 	 * Attribute tested: librarySystem
 	 */
-	@Test
-	public void testPersistAndLoadUsersByLibrarySystem() {
-		List<User> PersistedUsers = userRepository.findUserByLibrarySystem(aLibrary);
-		List<User> createdUsers = new ArrayList<>();
-		createdUsers.add(aUser);
-		createdUsers.add(user2);
-		
-		assertNotNull(PersistedUsers);
-		assertEquals(PersistedUsers.size(), createdUsers.size());
-		for (User u : PersistedUsers) {
-			assertEquals(u.getLibrarySystem().getSystemID(), createdUsers.get(0).getLibrarySystem().getSystemID());
-			createdUsers.remove(0);
-		}
-	}
+//	@Test
+//	public void testPersistAndLoadUsersByLibrarySystem() {
+//		List<User> PersistedUsers = userRepository.findUserByLibrarySystem(aLibrary);
+//		List<User> createdUsers = new ArrayList<>();
+//		createdUsers.add(aUser);
+//		createdUsers.add(user2);
+//
+//		assertNotNull(PersistedUsers);
+//		assertEquals(PersistedUsers.size(), createdUsers.size());
+//		for (User u : PersistedUsers) {
+//			assertEquals(u.getLibrarySystem().getSystemID(), createdUsers.get(0).getLibrarySystem().getSystemID());
+//			createdUsers.remove(0);
+//		}
+//	}
 	
 	/*
 	 * Test method that checks whether a User object can be correctly created, persisted, and correctly loaded from the database
@@ -399,7 +399,7 @@ public class TestUserRepositoryPersistence {
 	 */
 	@Test
 	public void testPersistAndLoadUsersByIsOnlineAcc() {
-		User notOnlineUser = new User(false, "Test", "Brown", true, 0, aAddress, aLibrary);
+		User notOnlineUser = new User(false, "Test", "Brown", true, 0, aAddress);
 		userRepository.save(notOnlineUser);
 		
 		List<User> createdUsers = new ArrayList<>();
@@ -418,7 +418,7 @@ public class TestUserRepositoryPersistence {
 			assertNotNull(u);
 			assertEquals(u.getIsOnlineAcc(), createdUsers.get(0).getIsOnlineAcc());
 			assertEquals(u.getAddress().getAddressID(), createdUsers.get(0).getAddress().getAddressID());
-			assertEquals(u.getLibrarySystem().getSystemID(), createdUsers.get(0).getLibrarySystem().getSystemID());
+//			assertEquals(u.getLibrarySystem().getSystemID(), createdUsers.get(0).getLibrarySystem().getSystemID());
 			assertEquals(u.getDemeritPts(), createdUsers.get(0).getDemeritPts());
 			assertEquals(u.getEmail(), createdUsers.get(0).getEmail());
 			assertEquals(u.getFirstName(), createdUsers.get(0).getFirstName());
@@ -449,7 +449,7 @@ public class TestUserRepositoryPersistence {
 		assertNotNull(u);
 		
 		assertEquals(u.getAddress().getAddressID(), user2.getAddress().getAddressID());
-		assertEquals(u.getLibrarySystem().getSystemID(), user2.getLibrarySystem().getSystemID());
+//		assertEquals(u.getLibrarySystem().getSystemID(), user2.getLibrarySystem().getSystemID());
 		assertEquals(u.getDemeritPts(), user2.getDemeritPts());
 		assertEquals(u.getEmail(), user2.getEmail());
 		assertEquals(u.getFirstName(), user2.getFirstName());
@@ -477,7 +477,7 @@ public class TestUserRepositoryPersistence {
 		assertNotNull(u);
 		
 		assertEquals(u.getAddress().getAddressID(), aUser.getAddress().getAddressID());
-		assertEquals(u.getLibrarySystem().getSystemID(), aUser.getLibrarySystem().getSystemID());
+//		assertEquals(u.getLibrarySystem().getSystemID(), aUser.getLibrarySystem().getSystemID());
 		assertEquals(u.getDemeritPts(), aUser.getDemeritPts());
 		assertEquals(u.getEmail(), aUser.getEmail());
 		assertEquals(u.getFirstName(), aUser.getFirstName());
@@ -501,7 +501,7 @@ public class TestUserRepositoryPersistence {
 		authorRepository.save(aAuthor);
 		Title aTitle = new Title("Test", "October 50th, 2021", aAuthor);
 		titleRepository.save(aTitle);
-		Item aItem = new Item(Status.Available, aLibrary, aTitle);
+		Item aItem = new Item(Status.Available, aTitle);
 		itemRepository.save(aItem);
 		Booking aBooking = new Booking(null, null, BookingType.Borrow, aItem, aUser);
 		bookingRepository.save(aBooking);
@@ -511,7 +511,7 @@ public class TestUserRepositoryPersistence {
 		
 		assertNotNull(u);
 		assertEquals(u.getAddress().getAddressID(), aUser.getAddress().getAddressID());
-		assertEquals(u.getLibrarySystem().getSystemID(), aUser.getLibrarySystem().getSystemID());
+//		assertEquals(u.getLibrarySystem().getSystemID(), aUser.getLibrarySystem().getSystemID());
 		assertEquals(u.getDemeritPts(), aUser.getDemeritPts());
 		assertEquals(u.getEmail(), aUser.getEmail());
 		assertEquals(u.getFirstName(), aUser.getFirstName());

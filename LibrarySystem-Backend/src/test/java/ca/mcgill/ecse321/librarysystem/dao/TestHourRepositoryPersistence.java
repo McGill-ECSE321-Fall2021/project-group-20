@@ -58,8 +58,8 @@ public class TestHourRepositoryPersistence {
         titleRepository.deleteAll();
         authorRepository.deleteAll();
         employeeRepository.deleteAll();
-        userRepository.deleteAll();
         librarySystemRepository.deleteAll();
+		userRepository.deleteAll();
         calendarRepository.deleteAll();
         addressRepository.deleteAll();
 
@@ -85,7 +85,7 @@ public class TestHourRepositoryPersistence {
 		calendarRepository.save(mycalendar);
 		LibrarySystem myLibrary = new LibrarySystem(myadress, mycalendar);
 		librarySystemRepository.save(myLibrary);
-		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, myLibrary, Role.Librarian);
+		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, Role.Librarian);
 		userRepository.save(aUser);
 		Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
 		Hour myhour1 = new Hour("lundi", sTime, dTime , aUser, mycalendar); 
@@ -116,7 +116,7 @@ public class TestHourRepositoryPersistence {
 			assertTrue(PerHour.getEmployee().getLibraryCardID()==(myhour.getEmployee().getLibraryCardID()) ||PerHour.getEmployee().getLibraryCardID()==(myhour1.getEmployee().getLibraryCardID()) );
 			assertTrue(PerHour.getEmployee().getIsOnlineAcc()==(myhour.getEmployee().getIsOnlineAcc()) ||PerHour.getEmployee().getIsOnlineAcc()==(myhour1.getEmployee().getIsOnlineAcc()) );
 			assertTrue(PerHour.getEmployee().getIsVerified()==(myhour.getEmployee().getIsVerified()) ||PerHour.getEmployee().getIsVerified()==(myhour1.getEmployee().getIsVerified()) );
-			assertTrue(PerHour.getEmployee().getLibrarySystem().getSystemID().equals(myhour.getEmployee().getLibrarySystem().getSystemID()) ||PerHour.getEmployee().getLibrarySystem().getSystemID().equals(myhour1.getEmployee().getLibrarySystem().getSystemID()) );
+//			assertTrue(PerHour.getEmployee().getLibrarySystem().getSystemID().equals(myhour.getEmployee().getLibrarySystem().getSystemID()) ||PerHour.getEmployee().getLibrarySystem().getSystemID().equals(myhour1.getEmployee().getLibrarySystem().getSystemID()) );
 			assertTrue(PerHour.getEmployee().getRole().equals(myhour.getEmployee().getRole()) ||PerHour.getEmployee().getRole().equals(myhour1.getEmployee().getRole()) );
 
 			
@@ -148,7 +148,7 @@ public class TestHourRepositoryPersistence {
 		calendarRepository.save(mycalendar);
 		LibrarySystem myLibrary = new LibrarySystem(myadress, mycalendar);
 		librarySystemRepository.save(myLibrary);
-		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, myLibrary, Role.Librarian);
+		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, Role.Librarian);
 		userRepository.save(aUser);
 		Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
 		Hour myhour1 = new Hour("lundi", sTime, dTime , aUser, mycalendar); 
@@ -178,7 +178,7 @@ public class TestHourRepositoryPersistence {
 			assertTrue(PerHour.getEmployee().getLibraryCardID()==(myhour.getEmployee().getLibraryCardID()) ||PerHour.getEmployee().getLibraryCardID()==(myhour1.getEmployee().getLibraryCardID()) );
 			assertTrue(PerHour.getEmployee().getIsOnlineAcc()==(myhour.getEmployee().getIsOnlineAcc()) ||PerHour.getEmployee().getIsOnlineAcc()==(myhour1.getEmployee().getIsOnlineAcc()) );
 			assertTrue(PerHour.getEmployee().getIsVerified()==(myhour.getEmployee().getIsVerified()) ||PerHour.getEmployee().getIsVerified()==(myhour1.getEmployee().getIsVerified()) );
-			assertTrue(PerHour.getEmployee().getLibrarySystem().getSystemID().equals(myhour.getEmployee().getLibrarySystem().getSystemID()) ||PerHour.getEmployee().getLibrarySystem().getSystemID().equals(myhour1.getEmployee().getLibrarySystem().getSystemID()) );
+//			assertTrue(PerHour.getEmployee().getLibrarySystem().getSystemID().equals(myhour.getEmployee().getLibrarySystem().getSystemID()) ||PerHour.getEmployee().getLibrarySystem().getSystemID().equals(myhour1.getEmployee().getLibrarySystem().getSystemID()) );
 			assertTrue(PerHour.getEmployee().getRole().equals(myhour.getEmployee().getRole()) ||PerHour.getEmployee().getRole().equals(myhour1.getEmployee().getRole()) );
 
 			
@@ -222,7 +222,7 @@ public class TestHourRepositoryPersistence {
 		calendarRepository.save(mycalendar);
 		LibrarySystem myLibrary = new LibrarySystem(myadress, mycalendar);
 		librarySystemRepository.save(myLibrary);
-		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, myLibrary, Role.Librarian);
+		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, Role.Librarian);
 		userRepository.save(aUser);
 		Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
 		Hour myhour1 = new Hour("lundi", sTime1, dTime1 , aUser, mycalendar); 
@@ -254,7 +254,7 @@ public class TestHourRepositoryPersistence {
 			assertTrue(PerHour.getEmployee().getLibraryCardID()==(myhour.getEmployee().getLibraryCardID()) ||PerHour.getEmployee().getLibraryCardID()==(myhour1.getEmployee().getLibraryCardID()) );
 			assertTrue(PerHour.getEmployee().getIsOnlineAcc()==(myhour.getEmployee().getIsOnlineAcc()) ||PerHour.getEmployee().getIsOnlineAcc()==(myhour1.getEmployee().getIsOnlineAcc()) );
 			assertTrue(PerHour.getEmployee().getIsVerified()==(myhour.getEmployee().getIsVerified()) ||PerHour.getEmployee().getIsVerified()==(myhour1.getEmployee().getIsVerified()) );
-			assertTrue(PerHour.getEmployee().getLibrarySystem().getSystemID().equals(myhour.getEmployee().getLibrarySystem().getSystemID()) ||PerHour.getEmployee().getLibrarySystem().getSystemID().equals(myhour1.getEmployee().getLibrarySystem().getSystemID()) );
+//			assertTrue(PerHour.getEmployee().getLibrarySystem().getSystemID().equals(myhour.getEmployee().getLibrarySystem().getSystemID()) ||PerHour.getEmployee().getLibrarySystem().getSystemID().equals(myhour1.getEmployee().getLibrarySystem().getSystemID()) );
 			assertTrue(PerHour.getEmployee().getRole().equals(myhour.getEmployee().getRole()) ||PerHour.getEmployee().getRole().equals(myhour1.getEmployee().getRole()) );
 
 			
@@ -307,7 +307,7 @@ public class TestHourRepositoryPersistence {
 		calendarRepository.save(mycalendar);
 		LibrarySystem myLibrary = new LibrarySystem(myadress, mycalendar);
 		librarySystemRepository.save(myLibrary);
-		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, myLibrary, Role.Librarian);
+		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, Role.Librarian);
 		userRepository.save(aUser);
 		Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
 		Hour myhour1 = new Hour("lundi", sTime1, dTime1 , aUser, mycalendar); 
@@ -339,7 +339,7 @@ public class TestHourRepositoryPersistence {
 			assertTrue(PerHour.getEmployee().getLibraryCardID()==(myhour.getEmployee().getLibraryCardID()) ||PerHour.getEmployee().getLibraryCardID()==(myhour1.getEmployee().getLibraryCardID()) );
 			assertTrue(PerHour.getEmployee().getIsOnlineAcc()==(myhour.getEmployee().getIsOnlineAcc()) ||PerHour.getEmployee().getIsOnlineAcc()==(myhour1.getEmployee().getIsOnlineAcc()) );
 			assertTrue(PerHour.getEmployee().getIsVerified()==(myhour.getEmployee().getIsVerified()) ||PerHour.getEmployee().getIsVerified()==(myhour1.getEmployee().getIsVerified()) );
-			assertTrue(PerHour.getEmployee().getLibrarySystem().getSystemID().equals(myhour.getEmployee().getLibrarySystem().getSystemID()) ||PerHour.getEmployee().getLibrarySystem().getSystemID().equals(myhour1.getEmployee().getLibrarySystem().getSystemID()) );
+//			assertTrue(PerHour.getEmployee().getLibrarySystem().getSystemID().equals(myhour.getEmployee().getLibrarySystem().getSystemID()) ||PerHour.getEmployee().getLibrarySystem().getSystemID().equals(myhour1.getEmployee().getLibrarySystem().getSystemID()) );
 			assertTrue(PerHour.getEmployee().getRole().equals(myhour.getEmployee().getRole()) ||PerHour.getEmployee().getRole().equals(myhour1.getEmployee().getRole()) );
 
 			
@@ -387,7 +387,7 @@ public class TestHourRepositoryPersistence {
 		calendarRepository.save(mycalendar);
 		LibrarySystem myLibrary = new LibrarySystem(myadress, mycalendar);
 		librarySystemRepository.save(myLibrary);
-		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, myLibrary, Role.Librarian);
+		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, Role.Librarian);
 		employeeRepository.save(aUser);
 		Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
 		hourRepository.save(myhour);
@@ -422,7 +422,7 @@ public class TestHourRepositoryPersistence {
 		assertEquals(myevent.getName(),HourofEvent.getEvent().getName());
 		assertEquals(myevent.getEventhour().getWeekday(),HourofEvent.getEvent().getEventhour().getWeekday());
 		assertEquals(myevent.getEventhour().getEmployee().getLibraryCardID(),HourofEvent.getEvent().getEventhour().getEmployee().getLibraryCardID());
-		assertEquals(myevent.getEventhour().getCalendar().getLibrarySystem().getSystemID(),HourofEvent.getEvent().getEventhour().getCalendar().getLibrarySystem().getSystemID());
+//		assertEquals(myevent.getEventhour().getCalendar().getLibrarySystem().getSystemID(),HourofEvent.getEvent().getEventhour().getCalendar().getLibrarySystem().getSystemID());
 		assertEquals(myevent.getEventhour().getEmployee().getAddress().getAddressID(),HourofEvent.getEvent().getEventhour().getEmployee().getAddress().getAddressID());
 		assertEquals(myevent.getEventhour().getEmployee().getDemeritPts(),HourofEvent.getEvent().getEventhour().getEmployee().getDemeritPts());
 		assertEquals(myevent.getEventhour().getEmployee().getFirstName(),HourofEvent.getEvent().getEventhour().getEmployee().getFirstName());
@@ -460,7 +460,7 @@ public class TestHourRepositoryPersistence {
 		calendarRepository.save(mycalendar);
 		LibrarySystem myLibrary = new LibrarySystem(myadress, mycalendar);
 		librarySystemRepository.save(myLibrary);
-		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, myLibrary, Role.Librarian);
+		Employee aUser = new Employee(true, "Alex", "Bangala", true, 0, myadress, Role.Librarian);
 		userRepository.save(aUser);
 		Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
 

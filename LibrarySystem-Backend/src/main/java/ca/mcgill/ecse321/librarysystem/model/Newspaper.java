@@ -20,14 +20,14 @@ public class Newspaper extends Item
 
   public Newspaper() {}
   
-  public Newspaper(Status aStatus, LibrarySystem aLibrarySystem, Title aTitle)
+  public Newspaper(Status aStatus, Title aTitle)
   {
-    super(aStatus, aLibrarySystem, aTitle);
+    super(aStatus, aTitle);
   }
 	
-  public Newspaper(Status aStatus, String aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle)
+  public Newspaper(Status aStatus, long aItemBarcode, Title aTitle)
   {
-    super(aStatus, aItemBarcode, aLibrarySystem, aTitle);
+    super(aStatus, aItemBarcode, aTitle);
   }
 
   //------------------------

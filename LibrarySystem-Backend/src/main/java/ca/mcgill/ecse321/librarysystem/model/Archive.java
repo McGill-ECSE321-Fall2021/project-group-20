@@ -20,13 +20,13 @@ public class Archive extends Item
 
   public Archive() {}
   
-  public Archive(Status aStatus, LibrarySystem aLibrarySystem, Title aTitle) {
-	  super(aStatus, aLibrarySystem, aTitle);
+  public Archive(Status aStatus, Title aTitle) {
+	  super(aStatus, aTitle);
   }
 	
-  public Archive(Status aStatus, String aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle)
+  public Archive(Status aStatus, long aItemBarcode, Title aTitle)
   {
-    super(aStatus, aItemBarcode, aLibrarySystem, aTitle);
+    super(aStatus, aItemBarcode, aTitle);
   }
 
   //------------------------

@@ -65,8 +65,8 @@ public class TestItemRepositoryPersistence {
 		itemRepository.deleteAll();
 		titleRepository.deleteAll();
 		authorRepository.deleteAll();
-		userRepository.deleteAll();
 		librarySystemRepository.deleteAll();
+		userRepository.deleteAll();
 		addressRepository.deleteAll();
 		calendarRepository.deleteAll();
 	}
@@ -90,9 +90,9 @@ public class TestItemRepositoryPersistence {
 		authorRepository.save(myAuthor);
 		Title myTitle = new Title("Kakao", "October 31th, 2021", myAuthor);
 		titleRepository.save(myTitle);
-		Item myItem = new Item(Status.Available, myLibrary, myTitle);
+		Item myItem = new Item(Status.Available, myTitle);
 		itemRepository.save(myItem);
-		User myUser = new User(true, "Harsh", "Patel", true, 0, myAdress, myLibrary);
+		User myUser = new User(true, "Harsh", "Patel", true, 0, myAdress);
 		userRepository.save(myUser);
 		String str1 = "2015-03-31";
 		String str2 = "2015-04-05";
@@ -108,8 +108,8 @@ public class TestItemRepositoryPersistence {
 		assertEquals(retrieved.getTitle().getName(), (myItem.getTitle().getName()));
 		assertEquals(retrieved.getTitle().getAuthor().get(0).getFirstName(),
 				(myItem.getTitle().getAuthor().get(0).getFirstName()));
-		assertEquals(retrieved.getLibrarySystem().getBusinessaddress().getCity(),
-				(myItem.getLibrarySystem().getBusinessaddress().getCity()));
+//		assertEquals(retrieved.getLibrarySystem().getBusinessaddress().getCity(),
+//				(myItem.getLibrarySystem().getBusinessaddress().getCity()));
 
 	}
 
@@ -132,7 +132,7 @@ public class TestItemRepositoryPersistence {
 		authorRepository.save(myAuthor);
 		Title myTitle = new Title("Kakao", "October 31th, 2021", myAuthor);
 		titleRepository.save(myTitle);
-		Archive myArchive = new Archive(Status.Available, myLibrary, myTitle);
+		Archive myArchive = new Archive(Status.Available, myTitle);
 		archiveRepository.save(myArchive);
 		addressRepository.save(myAdress);
 		myAdress = null;
@@ -147,8 +147,8 @@ public class TestItemRepositoryPersistence {
 		assertEquals(persistItem.getTitle().getName(), (myArchive.getTitle().getName()));
 		assertEquals(persistItem.getTitle().getAuthor().get(0).getFirstName(),
 				(myArchive.getTitle().getAuthor().get(0).getFirstName()));
-		assertEquals(persistItem.getLibrarySystem().getBusinessaddress().getCity(),
-				(myArchive.getLibrarySystem().getBusinessaddress().getCity()));
+//		assertEquals(persistItem.getLibrarySystem().getBusinessaddress().getCity(),
+//				(myArchive.getLibrarySystem().getBusinessaddress().getCity()));
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class TestItemRepositoryPersistence {
 		authorRepository.save(myAuthor);
 		Title myTitle = new Title("The Doe Movie", "October 31th, 2021", myAuthor);
 		titleRepository.save(myTitle);
-		Book myBook = new Book(Status.Available, myLibrary, myTitle, "123-456-789", "200");
+		Book myBook = new Book(Status.Available, myTitle, "123-456-789", "200");
 		bookRepository.save(myBook);
 		addressRepository.save(myAdress);
 
@@ -186,8 +186,8 @@ public class TestItemRepositoryPersistence {
 		assertEquals(persistItem.getTitle().getName(), (myBook.getTitle().getName()));
 		assertEquals(persistItem.getTitle().getAuthor().get(0).getFirstName(),
 				(myBook.getTitle().getAuthor().get(0).getFirstName()));
-		assertEquals(persistItem.getLibrarySystem().getBusinessaddress().getCity(),
-				(myBook.getLibrarySystem().getBusinessaddress().getCity()));
+//		assertEquals(persistItem.getLibrarySystem().getBusinessaddress().getCity(),
+//				(myBook.getLibrarySystem().getBusinessaddress().getCity()));
 	}
 
 	/**
@@ -209,7 +209,7 @@ public class TestItemRepositoryPersistence {
 		authorRepository.save(myAuthor);
 		Title myTitle = new Title("Newspaper Life", "October 31th, 2021", myAuthor);
 		titleRepository.save(myTitle);
-		Movie myMovie = new Movie(Status.Available, myLibrary, myTitle, 200);
+		Movie myMovie = new Movie(Status.Available, myTitle, 200);
 		movieRepository.save(myMovie);
 		addressRepository.save(myAdress);
 
@@ -225,8 +225,8 @@ public class TestItemRepositoryPersistence {
 		assertEquals(persistItem.getTitle().getName(), (myMovie.getTitle().getName()));
 		assertEquals(persistItem.getTitle().getAuthor().get(0).getFirstName(),
 				(myMovie.getTitle().getAuthor().get(0).getFirstName()));
-		assertEquals(persistItem.getLibrarySystem().getBusinessaddress().getCity(),
-				(myMovie.getLibrarySystem().getBusinessaddress().getCity()));
+//		assertEquals(persistItem.getLibrarySystem().getBusinessaddress().getCity(),
+//				(myMovie.getLibrarySystem().getBusinessaddress().getCity()));
 	}
 
 	/**
@@ -248,7 +248,7 @@ public class TestItemRepositoryPersistence {
 		authorRepository.save(myAuthor);
 		Title myTitle = new Title("Classics", "October 31th, 2021", myAuthor);
 		titleRepository.save(myTitle);
-		MusicAlbum myMusicAlbum = new MusicAlbum(Status.Available, myLibrary, myTitle, 60);
+		MusicAlbum myMusicAlbum = new MusicAlbum(Status.Available, myTitle, 60);
 		musicAlbumRepository.save(myMusicAlbum);
 		addressRepository.save(myAdress);
 
@@ -264,8 +264,8 @@ public class TestItemRepositoryPersistence {
 		assertEquals(persistItem.getTitle().getName(), (myMusicAlbum.getTitle().getName()));
 		assertEquals(persistItem.getTitle().getAuthor().get(0).getFirstName(),
 				(myMusicAlbum.getTitle().getAuthor().get(0).getFirstName()));
-		assertEquals(persistItem.getLibrarySystem().getBusinessaddress().getCity(),
-				(myMusicAlbum.getLibrarySystem().getBusinessaddress().getCity()));
+//		assertEquals(persistItem.getLibrarySystem().getBusinessaddress().getCity(),
+//				(myMusicAlbum.getLibrarySystem().getBusinessaddress().getCity()));
 	}
 
 	/**
@@ -287,7 +287,7 @@ public class TestItemRepositoryPersistence {
 		authorRepository.save(myAuthor);
 		Title myTitle = new Title("Newspaper Story", "October 31th, 2021", myAuthor);
 		titleRepository.save(myTitle);
-		Newspaper myNewspaper = new Newspaper(Status.Available, myLibrary, myTitle);
+		Newspaper myNewspaper = new Newspaper(Status.Available, myTitle);
 		newspaperRepository.save(myNewspaper);
 		addressRepository.save(myAdress);
 
@@ -303,8 +303,8 @@ public class TestItemRepositoryPersistence {
 		assertEquals(persistItem.getTitle().getName(), (myNewspaper.getTitle().getName()));
 		assertEquals(persistItem.getTitle().getAuthor().get(0).getFirstName(),
 				(myNewspaper.getTitle().getAuthor().get(0).getFirstName()));
-		assertEquals(persistItem.getLibrarySystem().getBusinessaddress().getCity(),
-				(myNewspaper.getLibrarySystem().getBusinessaddress().getCity()));
+//		assertEquals(persistItem.getLibrarySystem().getBusinessaddress().getCity(),
+//				(myNewspaper.getLibrarySystem().getBusinessaddress().getCity()));
 	}
 
 	/**
@@ -327,7 +327,7 @@ public class TestItemRepositoryPersistence {
 		authorRepository.save(myAuthor);
 		Title myTitle = new Title("Kakao", "October 31th, 2021", myAuthor);
 		titleRepository.save(myTitle);
-		Item myItem = new Item(Status.Available, myLibrary, myTitle);
+		Item myItem = new Item(Status.Available, myTitle);
 		itemRepository.save(myItem);
 		addressRepository.save(myAdress);
 		myAdress = null;
@@ -342,8 +342,8 @@ public class TestItemRepositoryPersistence {
 		assertEquals(persistItem.getTitle().getName(), (myItem.getTitle().getName()));
 		assertEquals(persistItem.getTitle().getAuthor().get(0).getFirstName(),
 				(myItem.getTitle().getAuthor().get(0).getFirstName()));
-		assertEquals(persistItem.getLibrarySystem().getBusinessaddress().getCity(),
-				(myItem.getLibrarySystem().getBusinessaddress().getCity()));
+//		assertEquals(persistItem.getLibrarySystem().getBusinessaddress().getCity(),
+//				(myItem.getLibrarySystem().getBusinessaddress().getCity()));
 
 	}
 
@@ -366,9 +366,9 @@ public class TestItemRepositoryPersistence {
 		authorRepository.save(myAuthor);
 		Title myTitle = new Title("Kakao", "October 31th, 2021", myAuthor);
 		titleRepository.save(myTitle);
-		Item myItem = new Item(Status.Available, myLibrary, myTitle);
+		Item myItem = new Item(Status.Available, myTitle);
 		itemRepository.save(myItem);
-		Item hisItem = new Item(Status.Borrowed, myLibrary, myTitle);
+		Item hisItem = new Item(Status.Borrowed, myTitle);
 		itemRepository.save(hisItem);
 		addressRepository.save(myAdress);
 		myAdress = null;
@@ -384,8 +384,8 @@ public class TestItemRepositoryPersistence {
 			assertEquals(persitanceItem.getStatus(), (myItem.getStatus()));
 			assertEquals(persitanceItem.getTitle().getAuthor().get(0).getFirstName(),
 					(myItem.getTitle().getAuthor().get(0).getFirstName()));
-			assertEquals(persitanceItem.getLibrarySystem().getBusinessaddress().getCity(),
-					(myItem.getLibrarySystem().getBusinessaddress().getCity()));
+//			assertEquals(persitanceItem.getLibrarySystem().getBusinessaddress().getCity(),
+//					(myItem.getLibrarySystem().getBusinessaddress().getCity()));
 		}
 
 	}
@@ -397,48 +397,48 @@ public class TestItemRepositoryPersistence {
 	 * 
 	 */
 
-	@Test
-	public void testPersistAndLoadItemByLibrarySystem() {
-
-		Address myAdress = new Address("51", "Parkekx", "Montreal", "H5H6H7", "Quebec", "Canada");
-		addressRepository.save(myAdress);
-		Calendar myCalendar = new Calendar();
-		calendarRepository.save(myCalendar);
-		LibrarySystem myLibrary = new LibrarySystem(myAdress, myCalendar);
-		librarySystemRepository.save(myLibrary);
-		Author myAuthor = new Author("J.K.", "Rowling");
-		authorRepository.save(myAuthor);
-		Title myTitle = new Title("Kakao", "October 31th, 2021", myAuthor);
-		titleRepository.save(myTitle);
-		Item myItem = new Item(Status.Available, myLibrary, myTitle);
-		itemRepository.save(myItem);
-		Item hisItem = new Item(Status.Borrowed, myLibrary, myTitle);
-		itemRepository.save(hisItem);
-		addressRepository.save(myAdress);
-		myAdress = null;
-		myCalendar = null;
-		// myLibrary=null;
-		myAuthor = null;
-		myTitle = null;
-
-		List<Item> persistItem = itemRepository.findItemByLibrarySystem(myLibrary);
-		assertNotNull(persistItem);
-		for (Item persitanceItem : persistItem) {
-			assertTrue(persitanceItem.getItemBarcode().equals(myItem.getItemBarcode())
-					|| persitanceItem.getItemBarcode().equals(hisItem.getItemBarcode()));
-			assertTrue(persitanceItem.getStatus().equals(myItem.getStatus())
-					|| persitanceItem.getStatus().equals(hisItem.getStatus()));
-			assertTrue(persitanceItem.getTitle().getAuthor().get(0).getFirstName()
-					.equals(myItem.getTitle().getAuthor().get(0).getFirstName())
-					|| persitanceItem.getTitle().getAuthor().get(0).getFirstName()
-							.equals(hisItem.getTitle().getAuthor().get(0).getFirstName()));
-			assertTrue(persitanceItem.getLibrarySystem().getBusinessaddress().getCity()
-					.equals(myItem.getLibrarySystem().getBusinessaddress().getCity())
-					|| persitanceItem.getLibrarySystem().getBusinessaddress().getCity()
-							.equals(hisItem.getLibrarySystem().getBusinessaddress().getCity()));
-		}
-
-	}
+//	@Test
+//	public void testPersistAndLoadItemByLibrarySystem() {
+//
+//		Address myAdress = new Address("51", "Parkekx", "Montreal", "H5H6H7", "Quebec", "Canada");
+//		addressRepository.save(myAdress);
+//		Calendar myCalendar = new Calendar();
+//		calendarRepository.save(myCalendar);
+//		LibrarySystem myLibrary = new LibrarySystem(myAdress, myCalendar);
+//		librarySystemRepository.save(myLibrary);
+//		Author myAuthor = new Author("J.K.", "Rowling");
+//		authorRepository.save(myAuthor);
+//		Title myTitle = new Title("Kakao", "October 31th, 2021", myAuthor);
+//		titleRepository.save(myTitle);
+//		Item myItem = new Item(Status.Available, myLibrary, myTitle);
+//		itemRepository.save(myItem);
+//		Item hisItem = new Item(Status.Borrowed, myLibrary, myTitle);
+//		itemRepository.save(hisItem);
+//		addressRepository.save(myAdress);
+//		myAdress = null;
+//		myCalendar = null;
+//		// myLibrary=null;
+//		myAuthor = null;
+//		myTitle = null;
+//
+////		List<Item> persistItem = itemRepository.findItemByLibrarySystem(myLibrary);
+//		assertNotNull(persistItem);
+//		for (Item persitanceItem : persistItem) {
+//			assertTrue(persitanceItem.getItemBarcode().equals(myItem.getItemBarcode())
+//					|| persitanceItem.getItemBarcode().equals(hisItem.getItemBarcode()));
+//			assertTrue(persitanceItem.getStatus().equals(myItem.getStatus())
+//					|| persitanceItem.getStatus().equals(hisItem.getStatus()));
+//			assertTrue(persitanceItem.getTitle().getAuthor().get(0).getFirstName()
+//					.equals(myItem.getTitle().getAuthor().get(0).getFirstName())
+//					|| persitanceItem.getTitle().getAuthor().get(0).getFirstName()
+//							.equals(hisItem.getTitle().getAuthor().get(0).getFirstName()));
+//			assertTrue(persitanceItem.getLibrarySystem().getBusinessaddress().getCity()
+//					.equals(myItem.getLibrarySystem().getBusinessaddress().getCity())
+//					|| persitanceItem.getLibrarySystem().getBusinessaddress().getCity()
+//							.equals(hisItem.getLibrarySystem().getBusinessaddress().getCity()));
+//		}
+//
+//	}
 
 	/**
 	 * This is a test to see if Items gets persisted in a good way. We also see if
@@ -460,9 +460,9 @@ public class TestItemRepositoryPersistence {
 		authorRepository.save(myAuthor);
 		Title myTitle = new Title("Kakao", "October 31th, 2021", myAuthor);
 		titleRepository.save(myTitle);
-		Item myItem = new Item(Status.Available, myLibrary, myTitle);
+		Item myItem = new Item(Status.Available, myTitle);
 		itemRepository.save(myItem);
-		Item hisItem = new Item(Status.Borrowed, myLibrary, myTitle);
+		Item hisItem = new Item(Status.Borrowed, myTitle);
 		itemRepository.save(hisItem);
 		addressRepository.save(myAdress);
 		myAdress = null;
@@ -475,18 +475,18 @@ public class TestItemRepositoryPersistence {
 		assertNotNull(persistItem);
 
 		for (Item persitanceItem : persistItem) {
-			assertTrue(persitanceItem.getItemBarcode().equals(myItem.getItemBarcode())
-					|| persitanceItem.getItemBarcode().equals(hisItem.getItemBarcode()));
+			assertTrue(persitanceItem.getItemBarcode() == (myItem.getItemBarcode())
+					|| persitanceItem.getItemBarcode() == (hisItem.getItemBarcode()));
 			assertTrue(persitanceItem.getStatus().equals(myItem.getStatus())
 					|| persitanceItem.getStatus().equals(hisItem.getStatus()));
 			assertTrue(persitanceItem.getTitle().getAuthor().get(0).getFirstName()
 					.equals(myItem.getTitle().getAuthor().get(0).getFirstName())
 					|| persitanceItem.getTitle().getAuthor().get(0).getFirstName()
 							.equals(hisItem.getTitle().getAuthor().get(0).getFirstName()));
-			assertTrue(persitanceItem.getLibrarySystem().getBusinessaddress().getCity()
-					.equals(myItem.getLibrarySystem().getBusinessaddress().getCity())
-					|| persitanceItem.getLibrarySystem().getBusinessaddress().getCity()
-							.equals(hisItem.getLibrarySystem().getBusinessaddress().getCity()));
+//			assertTrue(persitanceItem.getLibrarySystem().getBusinessaddress().getCity()
+//					.equals(myItem.getLibrarySystem().getBusinessaddress().getCity())
+//					|| persitanceItem.getLibrarySystem().getBusinessaddress().getCity()
+//							.equals(hisItem.getLibrarySystem().getBusinessaddress().getCity()));
 		}
 
 	}
@@ -511,7 +511,7 @@ public class TestItemRepositoryPersistence {
 		authorRepository.save(myAuthor);
 		Title myTitle = new Title("Kakao", "October 31th, 2021", myAuthor);
 		titleRepository.save(myTitle);
-		Item myItem = new Item(Status.Available, myLibrary, myTitle);
+		Item myItem = new Item(Status.Available, myTitle);
 		itemRepository.save(myItem);
 		myAdress = null;
 		myCalendar = null;

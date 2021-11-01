@@ -51,8 +51,8 @@ public class TestBookingRepositoryPersistence {
         itemRepository.deleteAll();
         titleRepository.deleteAll();
         authorRepository.deleteAll();
+		librarySystemRepository.deleteAll();
         userRepository.deleteAll();
-        librarySystemRepository.deleteAll();
         addressRepository.deleteAll();
         calendarRepository.deleteAll();
 	}
@@ -76,9 +76,9 @@ public class TestBookingRepositoryPersistence {
 		authorRepository.save(myAuthor);
 		Title mytitle = new Title("Kakao", "October 31th, 2021", myAuthor);
 		titleRepository.save(mytitle);
-		Item myItem = new Item(Status.Available, myLibrary, mytitle);
+		Item myItem = new Item(Status.Available, mytitle);
 		itemRepository.save(myItem);
-		User myUser = new User(true,"Harsh","Patel",true,0,myadress,myLibrary);
+		User myUser = new User(true,"Harsh","Patel",true,0,myadress);
 		userRepository.save(myUser);
 		//public Booking(Date aStartDate, Date aEndDate, BookingType aType, Item aItembooked, User aUser)
 		String str1 = "2015-03-31";
@@ -133,14 +133,14 @@ public class TestBookingRepositoryPersistence {
 		titleRepository.save(mytitle);
 		titleRepository.save(mytitle1);
 
-		Item myItem = new Item(Status.Available, myLibrary, mytitle);
-		Item myItem1 = new Item(Status.Available, myLibrary, mytitle1);
+		Item myItem = new Item(Status.Available, mytitle);
+		Item myItem1 = new Item(Status.Available, mytitle1);
 
 		itemRepository.save(myItem);
 		itemRepository.save(myItem1);
 
-		User myUser = new User(true,"Harsh","Patel",true,0,myadress,myLibrary);
-		User myUser1 = new User(true,"Hershey","Patel",true,0,myadress,myLibrary);
+		User myUser = new User(true,"Harsh","Patel",true,0,myadress);
+		User myUser1 = new User(true,"Hershey","Patel",true,0,myadress);
 
 		userRepository.save(myUser);
 		userRepository.save(myUser1);
@@ -207,14 +207,14 @@ public class TestBookingRepositoryPersistence {
 		titleRepository.save(mytitle);
 		titleRepository.save(mytitle1);
 
-		Item myItem = new Item(Status.Available, myLibrary, mytitle);
-		Item myItem1 = new Item(Status.Available, myLibrary, mytitle1);
+		Item myItem = new Item(Status.Available, mytitle);
+		Item myItem1 = new Item(Status.Available, mytitle1);
 
 		itemRepository.save(myItem);
 		itemRepository.save(myItem1);
 
-		User myUser = new User(true,"Harsh","Patel",true,0,myadress,myLibrary);
-		User myUser1 = new User(true,"Hershey","Patel",true,0,myadress,myLibrary);
+		User myUser = new User(true,"Harsh","Patel",true,0,myadress);
+		User myUser1 = new User(true,"Hershey","Patel",true,0,myadress);
 
 		userRepository.save(myUser);
 		userRepository.save(myUser1);
@@ -268,9 +268,9 @@ public class TestBookingRepositoryPersistence {
 		authorRepository.save(myAuthor);
 		Title mytitle = new Title("Kakao", "October 31th, 2021", myAuthor);
 		titleRepository.save(mytitle);
-		Item myItem = new Item(Status.Available, myLibrary, mytitle);
+		Item myItem = new Item(Status.Available, mytitle);
 		itemRepository.save(myItem);
-		User myUser = new User(true,"Harsh","Patel",true,0,myadress,myLibrary);
+		User myUser = new User(true,"Harsh","Patel",true,0,myadress);
 		userRepository.save(myUser);
 		//public Booking(Date aStartDate, Date aEndDate, BookingType aType, Item aItembooked, User aUser)
 		String str1 = "2015-03-31";
@@ -290,7 +290,7 @@ public class TestBookingRepositoryPersistence {
 		Booking b = bookingRepository.findBookingByItem(i);
 		assertEquals(myBooking.getItem().getTitle().getName(),b.getItem().getTitle().getName());
 		assertEquals(myBooking.getItem().getItemBarcode(),b.getItem().getItemBarcode());
-		assertEquals(myBooking.getItem().getLibrarySystem().getSystemID(),b.getItem().getLibrarySystem().getSystemID());
+//		assertEquals(myBooking.getItem().getLibrarySystem().getSystemID(),b.getItem().getLibrarySystem().getSystemID());
 		assertEquals(myBooking.getItem().getStatus(),b.getItem().getStatus());
 	}
 	
@@ -323,13 +323,13 @@ public class TestBookingRepositoryPersistence {
 		titleRepository.save(mytitle);
 		titleRepository.save(mytitle1);
 
-		Item myItem = new Item(Status.Available, myLibrary, mytitle);
-		Item myItem1 = new Item(Status.Available, myLibrary, mytitle1);
+		Item myItem = new Item(Status.Available, mytitle);
+		Item myItem1 = new Item(Status.Available, mytitle1);
 
 		itemRepository.save(myItem);
 		itemRepository.save(myItem1);
 
-		User myUser = new User(true,"Harsh","Patel",true,0,myadress,myLibrary);
+		User myUser = new User(true,"Harsh","Patel",true,0,myadress);
 
 		userRepository.save(myUser);
 
@@ -362,7 +362,7 @@ public class TestBookingRepositoryPersistence {
 			assertTrue(PersitanceUser.getUser().getIsOnlineAcc()==(myBooking.getUser().getIsOnlineAcc()) ||PersitanceUser.getUser().getIsOnlineAcc()==(myBooking1.getUser().getIsOnlineAcc()) );
 			assertTrue(PersitanceUser.getUser().getLibraryCardID()==(myBooking.getUser().getLibraryCardID()) ||PersitanceUser.getUser().getLibraryCardID()==(myBooking1.getUser().getLibraryCardID()) );
 			assertTrue(PersitanceUser.getUser().getIsVerified()==(myBooking.getUser().getIsVerified()) ||PersitanceUser.getUser().getIsVerified()==(myBooking1.getUser().getIsVerified()) );
-			assertTrue(PersitanceUser.getUser().getLibrarySystem().getSystemID().equals(myBooking.getUser().getLibrarySystem().getSystemID()) ||PersitanceUser.getUser().getLibrarySystem().getSystemID().equals(myBooking1.getUser().getLibrarySystem().getSystemID()) );
+//			assertTrue(PersitanceUser.getUser().getLibrarySystem().getSystemID().equals(myBooking.getUser().getLibrarySystem().getSystemID()) ||PersitanceUser.getUser().getLibrarySystem().getSystemID().equals(myBooking1.getUser().getLibrarySystem().getSystemID()) );
 
 			
 			
@@ -402,14 +402,14 @@ public class TestBookingRepositoryPersistence {
 		titleRepository.save(mytitle);
 		titleRepository.save(mytitle1);
 
-		Item myItem = new Item(Status.Available, myLibrary, mytitle);
-		Item myItem1 = new Item(Status.Available, myLibrary, mytitle1);
+		Item myItem = new Item(Status.Available, mytitle);
+		Item myItem1 = new Item(Status.Available, mytitle1);
 
 		itemRepository.save(myItem);
 		itemRepository.save(myItem1);
 
-		User myUser = new User(true,"Harsh","Patel",true,0,myadress,myLibrary);
-		User myUser1 = new User(true,"Hershey","Patel",true,0,myadress,myLibrary);
+		User myUser = new User(true,"Harsh","Patel",true,0,myadress);
+		User myUser1 = new User(true,"Hershey","Patel",true,0,myadress);
 
 		userRepository.save(myUser);
 		userRepository.save(myUser1);

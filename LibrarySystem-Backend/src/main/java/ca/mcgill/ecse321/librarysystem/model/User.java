@@ -53,8 +53,6 @@ public class User
   //User Associations
   @ManyToOne(optional=false)
   private Address address;
-  @ManyToOne(optional=false)
-  private LibrarySystem librarySystem;
   @OneToMany(mappedBy="user")
   @LazyCollection(LazyCollectionOption.FALSE)	// To eagerly load the List of Bookings and all references instead of just the object and attributes
   private List<Booking> userbooking;
@@ -67,7 +65,8 @@ public class User
   public User() {}
   
   /* Constructor that autogenerates a libraryCardID */
-  public User(boolean aIsOnlineAcc, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, Address aAddress, LibrarySystem aLibrarySystem)
+  //public User(boolean aIsOnlineAcc, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, Address aAddress, LibrarySystem aLibrarySystem)
+  public User (boolean aIsOnlineAcc, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, Address aAddress)
   {
     isOnlineAcc = aIsOnlineAcc;
     username = null;
@@ -81,16 +80,11 @@ public class User
     {
       throw new RuntimeException("Unable to create User due to aAddress. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
-    if (!didAddLibrarySystem)
-    {
-      throw new RuntimeException("Unable to create user due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
     userbooking = new ArrayList<Booking>();
   }
   
   /* Constructor that takes a libraryCardID manually */
-  public User(boolean aIsOnlineAcc, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress, LibrarySystem aLibrarySystem)
+  public User(boolean aIsOnlineAcc, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress)
   {
     isOnlineAcc = aIsOnlineAcc;
     username = null;
@@ -107,11 +101,6 @@ public class User
     if (!setAddress(aAddress))
     {
       throw new RuntimeException("Unable to create User due to aAddress. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
-    if (!didAddLibrarySystem)
-    {
-      throw new RuntimeException("Unable to create user due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     userbooking = new ArrayList<Booking>();
   }
@@ -309,11 +298,6 @@ public class User
   {
     return address;
   }
-  /* Code from template association_GetOne */
-  public LibrarySystem getLibrarySystem()
-  {
-    return librarySystem;
-  }
   /* Code from template association_GetMany */
   public Booking getUserbooking(int index)
   {
@@ -353,25 +337,6 @@ public class User
       address = aNewAddress;
       wasSet = true;
     }
-    return wasSet;
-  }
-  /* Code from template association_SetOneToMany */
-  public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
-  {
-    boolean wasSet = false;
-    if (aLibrarySystem == null)
-    {
-      return wasSet;
-    }
-
-    LibrarySystem existingLibrarySystem = librarySystem;
-    librarySystem = aLibrarySystem;
-    if (existingLibrarySystem != null && !existingLibrarySystem.equals(aLibrarySystem))
-    {
-      existingLibrarySystem.removeUser(this);
-    }
-    librarySystem.addUser(this);
-    wasSet = true;
     return wasSet;
   }
   /* Code from template association_MinimumNumberOfMethod */
@@ -470,12 +435,6 @@ public class User
     usersByEmail.remove(getEmail());
     usersByLibraryCardID.remove(getLibraryCardID());
     address = null;
-    LibrarySystem placeholderLibrarySystem = librarySystem;
-    this.librarySystem = null;
-    if(placeholderLibrarySystem != null)
-    {
-      placeholderLibrarySystem.removeUser(this);
-    }
     for(int i=userbooking.size(); i > 0; i--)
     {
       Booking aUserbooking = userbooking.get(i - 1);
@@ -496,7 +455,7 @@ public class User
             "libraryCardID" + ":" + getLibraryCardID()+ "," +
             "isVerified" + ":" + getIsVerified()+ "," +
             "demeritPts" + ":" + getDemeritPts()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "address = "+(getAddress()!=null?Integer.toHexString(System.identityHashCode(getAddress())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "librarySystem = "+(getLibrarySystem()!=null?Integer.toHexString(System.identityHashCode(getLibrarySystem())):"null");
+            "  " + "address = "+(getAddress()!=null?Integer.toHexString(System.identityHashCode(getAddress())):"null") + System.getProperties().getProperty("line.separator")
+            ;
   }
 }

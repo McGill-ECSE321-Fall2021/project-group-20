@@ -1,11 +1,9 @@
 package ca.mcgill.ecse321.librarysystem.dao;
 
-import java.util.List;
-
+import ca.mcgill.ecse321.librarysystem.model.Address;
 import org.springframework.data.repository.CrudRepository;
 
-import ca.mcgill.ecse321.librarysystem.model.Address;
-import ca.mcgill.ecse321.librarysystem.model.LibrarySystem;
+import java.util.List;
 
 public interface AddressRepository extends CrudRepository<Address, String>{
 
@@ -22,13 +20,9 @@ public interface AddressRepository extends CrudRepository<Address, String>{
 	
 	/* Returns a list of addresses corresponding with the given civic number, street, city, postal code, province and country */
 	List<Address> findAddressByCivicNumberAndStreetAndCityAndPostalCodeAndProvinceAndCountry(String CivicNumber, String street, String city, String postalCode, String province, String country);
-	Address findAddressByLibrarySystem(LibrarySystem librarySystem);
 	
 	/* Checks if an address exists in the database based on an addressID */
 	boolean existsByAddressID(String addressID);
-	
-	/* Checks if an address exists in the database based on a library system */
-	boolean existsByLibrarySystem(LibrarySystem librarySystem);
 	
 	/* Checks if an address exists in the database based on civic number, street, city, postal code, province and country */
 	boolean existsByCivicNumberAndStreetAndCityAndPostalCodeAndProvinceAndCountry(String CivicNumber, String street, String city, String postalCode, String province, String country);

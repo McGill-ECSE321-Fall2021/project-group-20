@@ -42,10 +42,10 @@ public class TestTitleRepositoryPersistence {
 	@AfterEach
 	public void clearDatabase() {
 		//clearing database
+		librarySystemRepository.deleteAll();
 		itemRepository.deleteAll();
 		titleRepository.deleteAll();
 		authorRepository.deleteAll();
-		librarySystemRepository.deleteAll();
 		addressRepository.deleteAll();
 		calendarRepository.deleteAll();
 	}
@@ -188,7 +188,7 @@ public class TestTitleRepositoryPersistence {
 		authorRepository.save(author1);
 		Title title1 = new Title("Hell Dragon King", "October 31th, 1999", author1);
 		titleRepository.save(title1);
-		Item myItem = new Item(Status.Available, library1, title1);
+		Item myItem = new Item(Status.Available, title1);
 		itemRepository.save(myItem);
 		
 		//Test if title is stored by checking its name 
@@ -237,13 +237,13 @@ public class TestTitleRepositoryPersistence {
 		Title title2 = new Title("Boy Wonder", "October 22nd, 2000", author2);
 		titleRepository.save(title2);
 		
-		Item item1 = new Item(Status.Available, library1, title1);
+		Item item1 = new Item(Status.Available, title1);
 		itemRepository.save(item1);
 		
-		Item item2 = new Item(Status.Available, library1, title1);
+		Item item2 = new Item(Status.Available, title1);
 		itemRepository.save(item2);
 		
-		Item item3 = new Item(Status.Available, library1, title2);
+		Item item3 = new Item(Status.Available, title2);
 		itemRepository.save(item3);
 		
 		//Test if title is stored by checking its name 
@@ -256,9 +256,9 @@ public class TestTitleRepositoryPersistence {
 		title2=null;
 		
 		//getting item bar codes
-		String id1 = item1.getItemBarcode();
-		String id2 = item2.getItemBarcode();
-		String id3 = item3.getItemBarcode();
+		long id1 = item1.getItemBarcode();
+		long id2 = item2.getItemBarcode();
+		long id3 = item3.getItemBarcode();
 		
 		List<Item> items = new ArrayList<>();
 		items.add(item1);
@@ -271,9 +271,9 @@ public class TestTitleRepositoryPersistence {
 		//testing whether titles are stored in database properly through a list of items and their item bar codes
 		List<Title> titles = titleRepository.findByItemIn(items);
 		
-		
+		assertNotNull(titles);
 		assertEquals(id1,titles.get(0).getItem(0).getItemBarcode());
-		assertEquals(id2,titles.get(0).getItem(1).getItemBarcode());
+		assertEquals(id2,titles.get(1).getItem(1).getItemBarcode());
 		assertEquals(id3,titles.get(2).getItem(0).getItemBarcode());
 		
 	}
@@ -428,7 +428,7 @@ public class TestTitleRepositoryPersistence {
 		authorRepository.save(author1);
 		Title title1 = new Title("Hell Dragon King", "October 31th, 1999", author1);
 		titleRepository.save(title1);
-		Item myItem = new Item(Status.Available, library1, title1);
+		Item myItem = new Item(Status.Available, title1);
 		itemRepository.save(myItem);
 		
 		//Test if title is stored by checking its name 

@@ -3,16 +3,11 @@
 
 package ca.mcgill.ecse321.librarysystem.model;
 
-import javax.persistence.CascadeType;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 // line 75 "../../../../../librarysystem.ump"
 @Entity
@@ -34,11 +29,6 @@ public class Address
   private String postalCode;
   private String province;
   private String country;
-
-  // Address Associations
-  @OneToOne(optional=true)
-  @OnDelete(action=OnDeleteAction.CASCADE)
-  private LibrarySystem librarySystem;
 
   //------------------------
   // CONSTRUCTOR
@@ -161,54 +151,6 @@ public class Address
   {
     return country;
   }
-  /* Code from template association_GetOne */
-  public LibrarySystem getLibrarySystem()
-  {
-    return librarySystem;
-  }
-
-  public boolean hasLibrarySystem()
-  {
-    boolean has = librarySystem != null;
-    return has;
-  }
-  /* Code from template association_SetOptionalOneToOne */
-  public boolean setLibrarySystem(LibrarySystem aNewLibrarySystem)
-  {
-    boolean wasSet = false;
-    if (librarySystem != null && !librarySystem.equals(aNewLibrarySystem) && equals(librarySystem.getBusinessaddress()))
-    {
-      //Unable to setLibrarySystem, as existing librarySystem would become an orphan
-      return wasSet;
-    }
-
-    librarySystem = aNewLibrarySystem;
-    Address anOldBusinessaddress = aNewLibrarySystem != null ? aNewLibrarySystem.getBusinessaddress() : null;
-
-    if (!this.equals(anOldBusinessaddress))
-    {
-      if (anOldBusinessaddress != null)
-      {
-        anOldBusinessaddress.librarySystem = null;
-      }
-      if (librarySystem != null)
-      {
-        librarySystem.setBusinessaddress(this);
-      }
-    }
-    wasSet = true;
-    return wasSet;
-  }
-
-  public void delete()
-  {
-    LibrarySystem existingLibrarySystem = librarySystem;
-    librarySystem = null;
-    if (existingLibrarySystem != null)
-    {
-      existingLibrarySystem.delete();
-    }
-  }
 
   public String toString()
   {
@@ -219,7 +161,7 @@ public class Address
             "city" + ":" + getCity()+ "," +
             "postalCode" + ":" + getPostalCode()+ "," +
             "province" + ":" + getProvince()+ "," +
-            "country" + ":" + getCountry()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "librarySystem = "+(getLibrarySystem()!=null?Integer.toHexString(System.identityHashCode(getLibrarySystem())):"null");
+            "country" + ":" + getCountry()+ "]" + System.getProperties().getProperty("line.separator")
+     ;
   }
 }

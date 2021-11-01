@@ -2,22 +2,15 @@
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 package ca.mcgill.ecse321.librarysystem.model;
-import java.util.*;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 // line 3 "../../../../../librarysystem.ump"
 @Entity
@@ -43,12 +36,14 @@ public class LibrarySystem
   @JoinColumn
   private Calendar calendar;
   
-  @OneToMany(mappedBy="librarySystem")
+  @OneToMany(cascade={CascadeType.ALL}, orphanRemoval = true)
   @LazyCollection(LazyCollectionOption.FALSE)
+  @OrderColumn(name="libraryCardID")
   private List<User> users;
   
-  @OneToMany(mappedBy="librarySystem")
+  @OneToMany(cascade={CascadeType.ALL})
   @LazyCollection(LazyCollectionOption.FALSE)
+  @OrderColumn(name="itemBarcode")
   private List<Item> items;
 
   //------------------------
@@ -182,56 +177,16 @@ public class LibrarySystem
   /* Code from template association_SetOneToOptionalOne */
   public boolean setBusinessaddress(Address aNewBusinessaddress)
   {
-    boolean wasSet = false;
-    if (aNewBusinessaddress == null)
-    {
-      //Unable to setBusinessaddress to null, as librarySystem must always be associated to a businessaddress
-      return wasSet;
-    }
-    
-    LibrarySystem existingLibrarySystem = aNewBusinessaddress.getLibrarySystem();
-    if (existingLibrarySystem != null && !equals(existingLibrarySystem))
-    {
-      //Unable to setBusinessaddress, the current businessaddress already has a librarySystem, which would be orphaned if it were re-assigned
-      return wasSet;
-    }
-    
-    Address anOldBusinessaddress = businessaddress;
-    businessaddress = aNewBusinessaddress;
-    businessaddress.setLibrarySystem(this);
-
-    if (anOldBusinessaddress != null)
-    {
-      anOldBusinessaddress.setLibrarySystem(null);
-    }
-    wasSet = true;
-    return wasSet;
+    this.businessaddress=aNewBusinessaddress;
+    return true;
   }
   /* Code from template association_SetOneToOptionalOne */
   public boolean setCalendar(Calendar aNewCalendar)
   {
     boolean wasSet = false;
-    if (aNewCalendar == null)
-    {
-      //Unable to setCalendar to null, as librarySystem must always be associated to a calendar
-      return wasSet;
-    }
-    
-    LibrarySystem existingLibrarySystem = aNewCalendar.getLibrarySystem();
-    if (existingLibrarySystem != null && !equals(existingLibrarySystem))
-    {
-      //Unable to setCalendar, the current calendar already has a librarySystem, which would be orphaned if it were re-assigned
-      return wasSet;
-    }
     
     Calendar anOldCalendar = calendar;
     calendar = aNewCalendar;
-    calendar.setLibrarySystem(this);
-
-    if (anOldCalendar != null)
-    {
-      anOldCalendar.setLibrarySystem(null);
-    }
     wasSet = true;
     return wasSet;
   }
@@ -243,19 +198,13 @@ public class LibrarySystem
   /* Code from template association_AddManyToOne */
   public User addUser(boolean aIsOnlineAcc, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress)
   {
-    return new User(aIsOnlineAcc, aFirstName, aLastName, aLibraryCardID, aIsVerified, aDemeritPts, aAddress, this);
+    return new User(aIsOnlineAcc, aFirstName, aLastName, aLibraryCardID, aIsVerified, aDemeritPts, aAddress);
   }
 
   public boolean addUser(User aUser)
   {
     boolean wasAdded = false;
     if (users.contains(aUser)) { return false; }
-    LibrarySystem existingLibrarySystem = aUser.getLibrarySystem();
-    boolean isNewLibrarySystem = existingLibrarySystem != null && !this.equals(existingLibrarySystem);
-    if (isNewLibrarySystem)
-    {
-      aUser.setLibrarySystem(this);
-    }
     else
     {
       users.add(aUser);
@@ -267,12 +216,8 @@ public class LibrarySystem
   public boolean removeUser(User aUser)
   {
     boolean wasRemoved = false;
-    //Unable to remove aUser, as it must always have a librarySystem
-    if (!this.equals(aUser.getLibrarySystem()))
-    {
       users.remove(aUser);
       wasRemoved = true;
-    }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
@@ -313,25 +258,16 @@ public class LibrarySystem
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Item addItem(Item.Status aStatus, String aItemBarcode, Title aTitle)
+  public Item addItem(Item.Status aStatus, long aItemBarcode, Title aTitle)
   {
-    return new Item(aStatus, aItemBarcode, this, aTitle);
+    return new Item(aStatus, aItemBarcode, aTitle);
   }
 
   public boolean addItem(Item aItem)
   {
     boolean wasAdded = false;
     if (items.contains(aItem)) { return false; }
-    LibrarySystem existingLibrarySystem = aItem.getLibrarySystem();
-    boolean isNewLibrarySystem = existingLibrarySystem != null && !this.equals(existingLibrarySystem);
-    if (isNewLibrarySystem)
-    {
-      aItem.setLibrarySystem(this);
-    }
-    else
-    {
       items.add(aItem);
-    }
     wasAdded = true;
     return wasAdded;
   }
@@ -340,11 +276,8 @@ public class LibrarySystem
   {
     boolean wasRemoved = false;
     //Unable to remove aItem, as it must always have a librarySystem
-    if (!this.equals(aItem.getLibrarySystem()))
-    {
       items.remove(aItem);
       wasRemoved = true;
-    }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
@@ -384,10 +317,6 @@ public class LibrarySystem
   {
     Address existingBusinessaddress = businessaddress;
     businessaddress = null;
-    if (existingBusinessaddress != null)
-    {
-      existingBusinessaddress.delete();
-    }
     Calendar existingCalendar = calendar;
     calendar = null;
     if (existingCalendar != null)

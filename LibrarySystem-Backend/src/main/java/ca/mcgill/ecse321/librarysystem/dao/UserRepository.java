@@ -1,14 +1,12 @@
 package ca.mcgill.ecse321.librarysystem.dao;
 
 
-import java.util.List;
-
-import org.springframework.data.repository.CrudRepository;
-
 import ca.mcgill.ecse321.librarysystem.model.Address;
 import ca.mcgill.ecse321.librarysystem.model.Booking;
-import ca.mcgill.ecse321.librarysystem.model.LibrarySystem;
 import ca.mcgill.ecse321.librarysystem.model.User;
+import org.springframework.data.repository.CrudRepository;
+
+import java.util.List;
 
 
 public interface UserRepository extends CrudRepository<User, Integer> {
@@ -42,9 +40,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	
 	/* Find list of users by address */
 	List<User> findUserByAddress(Address address);
-	
-	/* Find list of users by librarySystem */
-	List<User> findUserByLibrarySystem(LibrarySystem librarySystem);
 	
 	/* Find user by an userbooking */
 	User findUserByUserbooking(Booking userbooking);

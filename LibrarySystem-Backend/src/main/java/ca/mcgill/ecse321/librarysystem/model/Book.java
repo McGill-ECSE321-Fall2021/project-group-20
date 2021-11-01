@@ -23,16 +23,16 @@ public class Book extends Item
   //------------------------
   public Book() {}
   
-  public Book(Status aStatus, LibrarySystem aLibrarySystem, Title aTitle, String aIsbn, String aNumPages)
+  public Book(Status aStatus, Title aTitle, String aIsbn, String aNumPages)
   {
-    super(aStatus, aLibrarySystem, aTitle);
+    super(aStatus, aTitle);
     isbn = aIsbn;
     numPages = aNumPages;
   }
   
-  public Book(Status aStatus, String aItemBarcode, LibrarySystem aLibrarySystem, Title aTitle, String aIsbn, String aNumPages)
+  public Book(Status aStatus, long aItemBarcode, Title aTitle, String aIsbn, String aNumPages)
   {
-    super(aStatus, aItemBarcode, aLibrarySystem, aTitle);
+    super(aStatus, aItemBarcode, aTitle);
     isbn = aIsbn;
     numPages = aNumPages;
   }
