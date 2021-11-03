@@ -264,6 +264,7 @@ public class TestItemRepositoryPersistence {
 		assertEquals(persistItem.getTitle().getName(), (myMusicAlbum.getTitle().getName()));
 		assertEquals(persistItem.getTitle().getAuthor().get(0).getFirstName(),
 				(myMusicAlbum.getTitle().getAuthor().get(0).getFirstName()));
+		assertEquals(persistItem.getDuration(),myMusicAlbum.getDuration());
 //		assertEquals(persistItem.getLibrarySystem().getBusinessaddress().getCity(),
 //				(myMusicAlbum.getLibrarySystem().getBusinessaddress().getCity()));
 	}
