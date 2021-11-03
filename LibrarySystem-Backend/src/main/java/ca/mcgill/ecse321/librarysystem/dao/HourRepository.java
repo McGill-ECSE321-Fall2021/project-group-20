@@ -34,3 +34,4 @@ public interface HourRepository extends CrudRepository <Hour,String> {
 	//Checks if a hour exists for a weekday
 	boolean existsByweekday(String weekday);
 }
+
