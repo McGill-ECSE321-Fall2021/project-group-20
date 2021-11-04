@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.librarysystem.dao;
 import ca.mcgill.ecse321.librarysystem.model.Address;
 import ca.mcgill.ecse321.librarysystem.model.Booking;
 import ca.mcgill.ecse321.librarysystem.model.Employee;
+import ca.mcgill.ecse321.librarysystem.model.Hour;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -26,6 +27,8 @@ public interface EmployeeRepository extends CrudRepository<Employee, String> {
     List<Employee> findEmployeesByDemeritPts(int demeritPts);
 
     List<Employee> findEmployeesByAddress(Address address);
+
+    List<Employee> findEmployeesByEmployeehour(Hour employeehour);
 
     Employee findEmployeeByUserbooking(Booking userbooking);
 

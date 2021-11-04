@@ -25,10 +25,10 @@ public class Customer extends User
 		super(aIsOnlineAcc, aFirstName, aLastName, aIsVerified, aDemeritPts, aAddress);
 	}
 	
-  public Customer(boolean aIsOnlineAcc, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress)
-  {
-    super(aIsOnlineAcc, aFirstName, aLastName, aLibraryCardID, aIsVerified, aDemeritPts, aAddress);
-  }
+    public Customer(boolean aIsOnlineAcc, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress)
+    {
+        super(aIsOnlineAcc, aFirstName, aLastName, aLibraryCardID, aIsVerified, aDemeritPts, aAddress);
+    }
 
   //------------------------
   // INTERFACE

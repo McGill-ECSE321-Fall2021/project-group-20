@@ -56,6 +56,11 @@ public class EmployeeService {
     }
 
     @Transactional
+    public List<Employee> getAllEmployees() {
+        return (List<Employee>) employeeRepository.findAll();
+    }
+
+    @Transactional
     public Employee getEmployeeByEmail(String email) {
         if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
         return employeeRepository.findEmployeeByEmail(email);
@@ -424,5 +429,17 @@ public class EmployeeService {
         return true;
     }
 
-    // Check for Booking
+    // Check for Booking and Hour
+    @Transactional
+    public boolean addBooking(int libraryCardID, Booking booking) {
+        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
+        if (booking == null) throw new IllegalArgumentException("Please enter a valid booking");
+        Employee emp = employeeRepository.findEmployeeByLibraryCardID(libraryCardID);
+        if (emp == null) throw new NullPointerException("Cannot find Employee with this libraryCardID");
+        if (emp.addUserbooking(booking)) {
+            employeeRepository.save(emp);
+            return true;
+        }
+        return false;
+    }
 }
