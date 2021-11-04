@@ -3,10 +3,7 @@ package ca.mcgill.ecse321.librarysystem.service;
 import ca.mcgill.ecse321.librarysystem.dao.AddressRepository;
 import ca.mcgill.ecse321.librarysystem.dao.EmployeeRepository;
 import ca.mcgill.ecse321.librarysystem.dao.UserRepository;
-import ca.mcgill.ecse321.librarysystem.model.Address;
-import ca.mcgill.ecse321.librarysystem.model.Booking;
-import ca.mcgill.ecse321.librarysystem.model.Customer;
-import ca.mcgill.ecse321.librarysystem.model.Employee;
+import ca.mcgill.ecse321.librarysystem.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,6 +85,12 @@ public class EmployeeService {
     Employee getEmployeeByBooking(Booking booking) {
         if (booking == null) throw new IllegalArgumentException("Please enter a valid booking");
         return employeeRepository.findEmployeeByUserbooking(booking);
+    }
+
+    @Transactional
+    List<Employee> getEmployeesByHour(Hour hour) {
+        if (hour == null) throw new IllegalArgumentException("Please enter a valid hour");
+        return employeeRepository.findEmployeesByEmployeehour(hour);
     }
 
     @Transactional
@@ -429,13 +432,38 @@ public class EmployeeService {
         return true;
     }
 
-    // Check for Booking and Hour
     @Transactional
     public boolean addBooking(int libraryCardID, Booking booking) {
         if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
         if (booking == null) throw new IllegalArgumentException("Please enter a valid booking");
         Employee emp = employeeRepository.findEmployeeByLibraryCardID(libraryCardID);
         if (emp == null) throw new NullPointerException("Cannot find Employee with this libraryCardID");
+        if (emp.addUserbooking(booking)) {
+            employeeRepository.save(emp);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean addBooking(String username, Booking booking) {
+        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
+        if (booking == null) throw new IllegalArgumentException("Please enter a valid booking");
+        Employee emp = employeeRepository.findEmployeeByUsername(username);
+        if (emp == null) throw new NullPointerException("Cannot find Employee with this username");
+        if (emp.addUserbooking(booking)) {
+            employeeRepository.save(emp);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean addBookingByEmail(String email, Booking booking) {
+        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
+        if (booking == null) throw new IllegalArgumentException("Please enter a valid booking");
+        Employee emp = employeeRepository.findEmployeeByEmail(email);
+        if (emp == null) throw new NullPointerException("Cannot find Employee with this email");
         if (emp.addUserbooking(booking)) {
             employeeRepository.save(emp);
             return true;

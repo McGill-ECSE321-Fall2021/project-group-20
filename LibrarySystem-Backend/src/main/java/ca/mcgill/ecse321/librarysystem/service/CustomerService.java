@@ -2,9 +2,7 @@ package ca.mcgill.ecse321.librarysystem.service;
 
 import ca.mcgill.ecse321.librarysystem.dao.AddressRepository;
 import ca.mcgill.ecse321.librarysystem.dao.CustomerRepository;
-import ca.mcgill.ecse321.librarysystem.model.Address;
-import ca.mcgill.ecse321.librarysystem.model.Customer;
-import ca.mcgill.ecse321.librarysystem.model.User;
+import ca.mcgill.ecse321.librarysystem.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -145,6 +143,15 @@ public class CustomerService {
     public Customer getCustomer(String username) {
         if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
         return (Customer) customerRepository.findUserByUsername(username);
+    }
+
+    @Transactional
+    public List<Customer> getAllCustomers() {
+        List<Customer> customers = new ArrayList<>();
+        for (User u: customerRepository.findAll()) {
+            customers.add((Customer) u);
+        }
+        return customers;
     }
 
     /*
@@ -519,7 +526,31 @@ public class CustomerService {
         return true;
     }
 
-    // Check for Booking
+    @Transactional
+    public boolean addBooking(String username, Booking booking) {
+        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
+        if (booking == null) throw new IllegalArgumentException("Please enter a valid booking");
+        Customer customer = (Customer) customerRepository.findUserByUsername(username);
+        if (customer == null) throw new NullPointerException("Cannot find Employee with this username");
+        if (customer.addUserbooking(booking)) {
+            customerRepository.save(customer);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean addBookingByEmail(String email, Booking booking) {
+        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
+        if (booking == null) throw new IllegalArgumentException("Please enter a valid booking");
+        Customer customer = (Customer) customerRepository.findUserByEmail(email);
+        if (customer == null) throw new NullPointerException("Cannot find Employee with this username");
+        if (customer.addUserbooking(booking)) {
+            customerRepository.save(customer);
+            return true;
+        }
+        return false;
+    }
 
     // Helper methods for converting User to Customer
     private List<Customer> convertListToCustomer(List<User> users) {

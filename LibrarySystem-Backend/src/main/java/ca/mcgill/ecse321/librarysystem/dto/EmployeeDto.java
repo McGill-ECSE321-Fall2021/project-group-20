@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.librarysystem.dto;
 
+import java.util.List;
+
 public class EmployeeDto extends UserDto {
 
     public enum Role { Librarian, HeadLibrarian }
