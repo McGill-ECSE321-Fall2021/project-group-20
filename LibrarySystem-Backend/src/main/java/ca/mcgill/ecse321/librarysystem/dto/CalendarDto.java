@@ -67,6 +67,7 @@ public class CalendarDto {
         return 1;
     }
 
+
     public boolean removeHour(HourDto aHour) {
         boolean wasRemoved = false;
         //Unable to remove aHour, as it must always have a calendar
