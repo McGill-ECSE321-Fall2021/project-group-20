@@ -88,4 +88,50 @@ public class UserDto {
     public void setBookings(List<BookingDto> bookings) {
         this.bookings = bookings;
     }
+
+    public int numberOfUserbooking()
+    {
+        int number = bookings.size();
+        return number;
+    }
+
+    public static int maximumNumberOfUserbooking()
+    {
+        return 5;
+    }
+
+    public boolean addUserbooking(BookingDto aUserbooking)
+    {
+        boolean wasAdded = false;
+        if (bookings.contains(aUserbooking)) { return false; }
+        if (numberOfUserbooking() >= maximumNumberOfUserbooking())
+        {
+            return wasAdded;
+        }
+
+        UserDto existingUser = aUserbooking.getUser();
+        boolean isNewUser = existingUser != null && !this.equals(existingUser);
+        if (isNewUser)
+        {
+            aUserbooking.setUser(this);
+        }
+        else
+        {
+            bookings.add(aUserbooking);
+        }
+        wasAdded = true;
+        return wasAdded;
+    }
+
+    public boolean removeUserbooking(BookingDto aUserbooking)
+    {
+        boolean wasRemoved = false;
+        //Unable to remove aUserbooking, as it must always have a user
+        if (!this.equals(aUserbooking.getUser()))
+        {
+            bookings.remove(aUserbooking);
+            wasRemoved = true;
+        }
+        return wasRemoved;
+    }
 }
