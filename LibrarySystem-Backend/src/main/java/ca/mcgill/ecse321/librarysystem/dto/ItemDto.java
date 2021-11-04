@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.librarysystem.dto;
 
 import ca.mcgill.ecse321.librarysystem.model.Booking;
+import ca.mcgill.ecse321.librarysystem.model.Title;
 
 
 public class ItemDto {
@@ -22,7 +23,6 @@ public class ItemDto {
 			throw new RuntimeException(
 					"Unable to create item due to title. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
 		}
-
 	}
 	
 	 public boolean setStatus(Status aStatus)
@@ -78,7 +78,7 @@ public class ItemDto {
 	      return wasSet;
 	    }
 
-	    if (title != null && title.numberOfItem() <= Title.minimumNumberOfItem())
+	    if (title != null && title.numberOfItem() <= TitleDto.minimumNumberOfItem())
 	    {
 	      return wasSet;
 	    }
@@ -109,7 +109,7 @@ public class ItemDto {
 	    }
 
 	    booking = aNewBooking;
-	    Item anOldItembooked = aNewBooking != null ? aNewBooking.getItem() : null;
+	    ItemDto anOldItembooked = aNewBooking != null ? aNewBooking.getItem() : null;
 
 	    if (!this.equals(anOldItembooked))
 	    {
@@ -126,7 +126,21 @@ public class ItemDto {
 	    return wasSet;
 	  }
 	 
-	
+	  public void delete()
+	  {
+	    TitleDto placeholderTitle = title;
+	    this.title = null;
+	    if(placeholderTitle != null)
+	    {
+	      placeholderTitle.removeItem(this);
+	    }
+	    BookingDto existingBooking = booking;
+	    booking = null;
+	    if (existingBooking != null)
+	    {
+	      existingBooking.delete();
+	    }
+	  }
 	 
 	 
 

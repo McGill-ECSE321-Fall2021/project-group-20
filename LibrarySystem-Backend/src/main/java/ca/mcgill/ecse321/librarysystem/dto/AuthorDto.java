@@ -3,18 +3,11 @@
 
 package ca.mcgill.ecse321.librarysystem.dto;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import java.util.*;
 
 // line 11 "../../../../../librarysystem.ump"
-@Entity
+
 public class AuthorDto
 {
 
@@ -50,7 +43,7 @@ public class AuthorDto
     titles = new ArrayList<TitleDto>();
   }
   
-  public Author(String aAuthorID, String aFirstName, String aLastName)
+  public AuthorDto(String aAuthorID, String aFirstName, String aLastName)
   {
     firstName = aFirstName;
     lastName = aLastName;

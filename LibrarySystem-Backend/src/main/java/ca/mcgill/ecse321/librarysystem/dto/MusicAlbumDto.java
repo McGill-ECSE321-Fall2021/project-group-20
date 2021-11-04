@@ -2,17 +2,9 @@ package ca.mcgill.ecse321.librarysystem.dto;
 
 import ca.mcgill.ecse321.librarysystem.dto.ItemDto.Status;
 
-public class MusicAlbumDto {
+public class MusicAlbumDto extends ItemDto{
 	  private int duration;
 
-	
-	  public MusicAlbumDto() {}
-	  
-	  public MusicAlbumDto(Status aStatus, TitleDto aTitle, int aDuration)
-	  {
-	    super(aStatus, aTitle);
-	    duration = aDuration;
-	  }
 	  
 	  public MusicAlbumDto(Status aStatus, long aItemBarcode, TitleDto aTitle, int aDuration)
 	  {
