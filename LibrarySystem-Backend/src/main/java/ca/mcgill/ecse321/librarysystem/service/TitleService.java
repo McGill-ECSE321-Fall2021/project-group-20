@@ -27,6 +27,9 @@ public class TitleService {
 
     @Transactional
     public Title createTitle(String name, String pubDate, Author... author) {
+    	if (name == null || name.length() == 0) throw new IllegalArgumentException("Please enter a valid title name");
+    	if (pubDate == null || pubDate.length() == 0) throw new IllegalArgumentException("Please enter a valid publish date");
+    	if (author == null || author.length == 0) throw new IllegalArgumentException("Please enter a list of valid authors"); 
         Title title = new Title(name,pubDate,author);
         titleRepository.save(title);
         return title;
@@ -34,6 +37,7 @@ public class TitleService {
 
     @Transactional
     public Title getTitleByTitleID(String titleID) {
+    	if (titleID == null || titleID.length() == 0) throw new IllegalArgumentException("Please enter a valid titleID"); 
         Title title = titleRepository.findByTitleID(titleID);
         if (title == null) throw new NullPointerException("Title not found");
         return title;
@@ -41,6 +45,7 @@ public class TitleService {
 
     @Transactional
     public List<Title> getTitlesByAuthorID(Author authorID) {
+    	if (authorID == null) throw new IllegalArgumentException("Please enter a valid author"); 
         List<Title> titles = titleRepository.findByAuthor(authorID);
         if (titles.size() == 0) throw new NullPointerException("Titles not found");
         return titles;
@@ -48,6 +53,7 @@ public class TitleService {
 
     @Transactional
     public List<Title> getTitlesByAuthorIDs(List<Author> authorID) {
+    	if (authorID == null || authorID.size() == 0) throw new IllegalArgumentException("Please enter a list of valid authors"); 
         List<Title> titles = titleRepository.findByAuthorIn(authorID);
         if (titles.size() == 0) throw new NullPointerException("Titles not found");
         return titles;
@@ -55,6 +61,7 @@ public class TitleService {
 
     @Transactional
     public Title getTitlesByItemBarcode(Item itemBarcode) {
+    	if (itemBarcode == null) throw new IllegalArgumentException("Please enter a valid item");
         Title title = titleRepository.findByItem(itemBarcode);
         if (title == null) throw new NullPointerException("Title not found");
         return title;
@@ -62,6 +69,7 @@ public class TitleService {
 
     @Transactional
     public List<Title> getTitlesByItemBarcodes(List<Item> itemBarcode) {
+    	if (itemBarcode == null || itemBarcode.size() == 0) throw new IllegalArgumentException("Please enter a valid list of items");
         List<Title> titles = titleRepository.findByItemIn(itemBarcode);
         if (titles.size() == 0) throw new NullPointerException("Titles not found");
         return titles;
@@ -69,6 +77,7 @@ public class TitleService {
 
     @Transactional
     public List<Title> getTitlesByName(String name) {
+    	if (name == null || name.length() == 0) throw new IllegalArgumentException("Please enter a valid title name");
         List<Title> titles = titleRepository.findByName(name);
         if (titles.size() == 0) throw new NullPointerException("Titles not found");
         return titles;
@@ -76,6 +85,7 @@ public class TitleService {
 
     @Transactional
     public List<Title> getTitlesByPubDate(String pubDate) {
+    	if (pubDate == null || pubDate.length() == 0) throw new IllegalArgumentException("Please enter a valid publish date");
         List<Title> titles = titleRepository.findByPubDate(pubDate);
         if (titles.size() == 0) throw new NullPointerException("Titles not found");
         return titles;
@@ -83,28 +93,86 @@ public class TitleService {
 
     @Transactional
     public Title getTitleByNameAndPubDate(String name, String pubDate) {
+    	if (name == null || name.length() == 0) throw new IllegalArgumentException("Please enter a valid title name");
+    	if (pubDate == null || pubDate.length() == 0) throw new IllegalArgumentException("Please enter a valid publish date");
         Title title = titleRepository.findByNameAndPubDate(name, pubDate);
         if (title == null) throw new NullPointerException("Title not found");
         return title;
     }
-
+    
+    @Transactional
+    public boolean updateName(String titleID, String name) {
+    	Title title = getTitleByTitleID(titleID);
+    	if (name == null || name.length() == 0) throw new IllegalArgumentException("Please enter a valid title name");
+    	return title.setName(name);
+    }
+    
+    @Transactional
+    public boolean updatePubDate(String titleID, String pubDate) {
+    	Title title = getTitleByTitleID(titleID);
+    	if (pubDate == null || pubDate.length() == 0) throw new IllegalArgumentException("Please enter a valid publish date");
+    	return title.setPubDate(pubDate);
+    }
+    
+    @Transactional
+    public boolean updateNameAndPubDate(String titleID, String name, String pubDate) {
+    	Title title = getTitleByTitleID(titleID);
+    	if (name == null || name.length() == 0) throw new IllegalArgumentException("Please enter a valid title name");
+    	if (pubDate == null || pubDate.length() == 0) throw new IllegalArgumentException("Please enter a valid publish date");
+    	return title.setName(name) && title.setPubDate(pubDate);
+    }
+    
+    @Transactional
+    public boolean addAuthorToTitle(String titleID, Author authorID) {
+    	Title title = getTitleByTitleID(titleID);
+    	if (authorID == null) throw new IllegalArgumentException("Please enter a valid author"); 
+    	return title.addAuthor(authorID);
+    }
+    
+    @Transactional
+    public boolean addAuthorsToTitle(String titleID, List<Author> authorID) {
+    	Title title = getTitleByTitleID(titleID);
+    	if (authorID == null || authorID.size() == 0) throw new IllegalArgumentException("Please enter a list of valid authors"); 
+    	boolean isAdded = true;
+    	for (Author author : authorID) isAdded = isAdded && title.addAuthor(author);
+    	return isAdded;
+    }
+    
+    @Transactional
+    public boolean removeAuthorFromTitle(String titleID, Author authorID) {
+    	Title title = getTitleByTitleID(titleID);
+    	if (authorID == null) throw new IllegalArgumentException("Please enter a valid author"); 
+    	return title.removeAuthor(authorID);
+    }
+    
+    @Transactional
+    public boolean removeAuthorsFromTitle(String titleID, List<Author> authorID) {
+    	Title title = getTitleByTitleID(titleID);
+    	if (authorID == null || authorID.size() == 0) throw new IllegalArgumentException("Please enter a list of valid authors"); 
+    	boolean isRemoved = true;
+    	for (Author author : authorID) isRemoved = isRemoved && title.removeAuthor(author);
+    	return isRemoved;
+    }
+    
     @Transactional
     public boolean deleteTitleByTitleID(String titleID) {
+    	if (titleID == null || titleID.length() == 0) throw new IllegalArgumentException("Please enter a valid titleID"); 
         Title title = titleRepository.findByTitleID(titleID);
         if (title == null) throw new NullPointerException("Title not found");
-        title.delete();
         titleRepository.delete(title);
+        title.delete();
         Title test = titleRepository.findByTitleID(titleID);
         return (test == null);
     }
 
     @Transactional
     public boolean deleteTitlesByAuthorID(Author authorID) {
+    	if (authorID == null) throw new IllegalArgumentException("Please enter a valid authorID"); 
         List<Title> titles = titleRepository.findByAuthor(authorID);
         if (titles.size() == 0) throw new NullPointerException("Titles not found");
         for (Title title : titles) {
+        	titleRepository.delete(title);
             title.delete();
-            titleRepository.delete(title);
         }
         List<Title> test = titleRepository.findByAuthor(authorID);
         return (test.size() == 0);
@@ -112,11 +180,12 @@ public class TitleService {
 
     @Transactional
     public boolean deleteTitlesByAuthorIDs(List<Author> authorID) {
+    	if (authorID == null || authorID.size() == 0) throw new IllegalArgumentException("Please enter a list of valid authors"); 
         List<Title> titles = titleRepository.findByAuthorIn(authorID);
         if (titles.size() == 0) throw new NullPointerException("Titles not found");
         for (Title title : titles) {
+        	titleRepository.delete(title);
             title.delete();
-            titleRepository.delete(title);
         }
         List<Title> test = titleRepository.findByAuthorIn(authorID);
         return (test.size() == 0);
@@ -125,10 +194,11 @@ public class TitleService {
 
     @Transactional
     public boolean deleteTitlesByItemBarcode(Item itemBarcode) {
+    	if (itemBarcode == null) throw new IllegalArgumentException("Please enter a valid item"); 
         Title title = titleRepository.findByItem(itemBarcode);
         if (title == null) throw new NullPointerException("Title not found");
-        title.delete();
         titleRepository.delete(title);
+        title.delete();
         Title test = titleRepository.findByItem(itemBarcode);
         return (test == null);
     }
@@ -136,11 +206,12 @@ public class TitleService {
 
     @Transactional
     public boolean deleteTitlesByItemBarcodes(List<Item> itemBarcode) {
+    	if (itemBarcode == null || itemBarcode.size() == 0) throw new IllegalArgumentException("Please enter a valid list of items");
         List<Title> titles = titleRepository.findByItemIn(itemBarcode);
         if (titles.size() == 0) throw new NullPointerException("Titles not found");
         for (Title title : titles) {
+        	titleRepository.delete(title);
             title.delete();
-            titleRepository.delete(title);
         }
         List<Title> test = titleRepository.findByItemIn(itemBarcode);
         return (test.size() == 0);
@@ -149,11 +220,12 @@ public class TitleService {
 
     @Transactional
     public boolean deleteTitlesByName(String name) {
+    	if (name == null || name.length() == 0) throw new IllegalArgumentException("Please enter a valid title name");
         List<Title> titles = titleRepository.findByName(name);
         if (titles.size() == 0) throw new NullPointerException("Titles not found");
         for (Title title : titles) {
+        	titleRepository.delete(title);
             title.delete();
-            titleRepository.delete(title);
         }
         List<Title> test = titleRepository.findByName(name);
         return (test.size() == 0);
@@ -161,11 +233,12 @@ public class TitleService {
 
     @Transactional
     public boolean deleteTitlesByPubDate(String pubDate) {
+    	if (pubDate == null || pubDate.length() == 0) throw new IllegalArgumentException("Please enter a valid publish date");
         List<Title> titles = titleRepository.findByPubDate(pubDate);
         if (titles.size() == 0) throw new NullPointerException("Titles not found");
         for (Title title : titles) {
+        	titleRepository.delete(title);
             title.delete();
-            titleRepository.delete(title);
         }
         List<Title> test = titleRepository.findByPubDate(pubDate);
         return (test.size() == 0);
@@ -173,26 +246,32 @@ public class TitleService {
 
     @Transactional
     public boolean deleteTitleByNameAndPubDate(String name, String pubDate) {
-        Title title = titleRepository.findByNameAndPubDate( name, pubDate);
+    	if (name == null || name.length() == 0) throw new IllegalArgumentException("Please enter a valid title name");
+    	if (pubDate == null || pubDate.length() == 0) throw new IllegalArgumentException("Please enter a valid publish date");
+        Title title = titleRepository.findByNameAndPubDate(name, pubDate);
         if (title == null) throw new NullPointerException("Title not found");
-        title.delete();
         titleRepository.delete(title);
+        title.delete();
         Title test = titleRepository.findByNameAndPubDate(name,pubDate);
         return (test == null);
     }
 
     @Transactional
     public boolean isTitleExistsByTitleID(String titleID) {
+    	if (titleID == null || titleID.length() == 0) throw new IllegalArgumentException("Please enter a valid titleID"); 
         return (titleRepository.existsByTitleID(titleID));
     }
 
     @Transactional
     public boolean isTitleExistsByItem(Item itemBarcode) {
+    	if (itemBarcode == null) throw new IllegalArgumentException("Please enter a valid item"); 
         return (titleRepository.existsByItem(itemBarcode));
     }
 
     @Transactional
     public boolean isTitleExistsByNameAndPubDate(String name, String pubDate) {
+    	if (name == null || name.length() == 0) throw new IllegalArgumentException("Please enter a valid title name");
+    	if (pubDate == null || pubDate.length() == 0) throw new IllegalArgumentException("Please enter a valid publish date");
         return (titleRepository.existsByNameAndPubDate(name, pubDate));
     }
 

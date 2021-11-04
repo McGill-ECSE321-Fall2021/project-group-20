@@ -26,13 +26,17 @@ public class AuthorService {
 
     @Transactional
     public Author createAuthor(String firstName, String lastName) {
+    	if (firstName == null || lastName == null || firstName.length() == 0 || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid name");
         Author author = new Author(firstName, lastName);
         authorRepository.save(author);
-        return author;
+        return author; 
     }
 
+//	I don't think we need this method because when we save author to the database, the id is auto-generated
     @Transactional
     public Author createAuthor(String authorID, String firstName, String lastName) {
+    	if (authorID == null || authorID.length() == 0) throw new IllegalArgumentException("Please enter a valid authorID"); 
+    	if (firstName == null || lastName == null || firstName.length() == 0 || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid name");
         Author author = new Author(authorID, firstName, lastName);
         authorRepository.save(author);
         return author;
@@ -40,6 +44,7 @@ public class AuthorService {
 
     @Transactional
     public Author getAuthorByAuthorID(String authorID) {
+    	if (authorID == null || authorID.length() == 0) throw new IllegalArgumentException("Please enter a valid authorID"); 
         Author author = authorRepository.findByAuthorID(authorID);
         if (author == null) throw new NullPointerException("Author not found");
         return author;
@@ -47,6 +52,7 @@ public class AuthorService {
 
     @Transactional
     public List<Author> getAuthorsByFirstName(String firstName) {
+    	if (firstName == null || firstName.length() == 0) throw new IllegalArgumentException("Please enter a valid first name");
         List<Author> authors = authorRepository.findByFirstName(firstName);
         if (authors.size() == 0) throw new NullPointerException("Authors not found");
         return authors;
@@ -54,6 +60,7 @@ public class AuthorService {
 
     @Transactional
     public List<Author> getAuthorsByLastName(String lastName) {
+    	if (lastName == null || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid last name");
         List<Author> authors = authorRepository.findByLastName(lastName);
         if (authors.size() == 0) throw new NullPointerException("Authors not found");
         return authors;
@@ -61,6 +68,7 @@ public class AuthorService {
 
     @Transactional
     public List<Author> getAuthorsByFirstNameAndLastName(String firstName, String lastName) {
+    	if (firstName == null || lastName == null || firstName.length() == 0 || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid name");
         List<Author> authors = authorRepository.findByFirstNameAndLastName(firstName, lastName);
         if (authors.size() == 0) throw new NullPointerException("Authors not found");
         return authors;
@@ -69,29 +77,67 @@ public class AuthorService {
 
     @Transactional
     public List<Author> getAuthorsByTitles(List<Title> titles) {
+    	if (titles == null || titles.size() == 0) throw new IllegalArgumentException("Please enter a valid list of titles");
         List<Author> authors = authorRepository.findByTitlesIn(titles);
         if (authors.size() == 0) throw new NullPointerException("Authors not found");
         return authors;
+    }
+    
+    @Transactional
+    public boolean updateFirstName(String authorID, String firstName) {
+    	Author author = getAuthorByAuthorID(authorID);
+    	if (firstName == null || firstName.length() == 0) throw new IllegalArgumentException("Please enter a valid first name");
+    	return author.setFirstName(firstName);
+    }
+    
+    @Transactional
+    public boolean updateLastName(String authorID, String lastName) {
+    	Author author = getAuthorByAuthorID(authorID);
+    	if (lastName == null || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid last name");
+    	return author.setLastName(lastName);
+    }
+    
+    @Transactional
+    public boolean updateFullName(String authorID, String firstName, String lastName) {
+    	Author author = getAuthorByAuthorID(authorID);
+    	if (firstName == null || lastName == null || firstName.length() == 0 || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid name");
+    	return author.setFirstName(firstName) && author.setLastName(lastName);
+    }
+    
+    @Transactional
+    public boolean addTitleByAuthor(String authorID, Title title) {
+    	Author author = getAuthorByAuthorID(authorID);
+    	if (title == null) throw new NullPointerException("Please enter a valid title");
+    	return author.addTitle(title);
+    }
+    
+    @Transactional
+    public boolean removeTitleByAuthor(String authorID, Title title) {
+    	Author author = getAuthorByAuthorID(authorID);
+    	if (title == null) throw new NullPointerException("Please enter a valid title");
+    	return author.removeTitle(title);
     }
 
 
     @Transactional
     public boolean deleteAuthorByAuthorID(String authorID) {
+    	if (authorID == null || authorID.length() == 0) throw new IllegalArgumentException("Please enter a valid authorID"); 
         Author author = authorRepository.findByAuthorID(authorID);
         if (author == null) throw new NullPointerException("Author not found");
-        author.delete();
         authorRepository.delete(author);
+        author.delete();
         Author test = authorRepository.findByAuthorID(authorID);
         return (test == null);
     }
 
     @Transactional
     public boolean deleteAuthorsByFirstName(String firstName) {
+    	if (firstName == null || firstName.length() == 0) throw new IllegalArgumentException("Please enter a valid first name");
         List<Author> authors = authorRepository.findByFirstName(firstName);
         if (authors.size() == 0) throw new NullPointerException("Authors not found");
         for (Author author : authors) {
-            author.delete();
-            authorRepository.delete(author);
+        	authorRepository.delete(author);
+        	author.delete();   
         }
         List<Author> test = authorRepository.findByFirstName(firstName);
         return (test.size() == 0);
@@ -99,11 +145,12 @@ public class AuthorService {
 
     @Transactional
     public boolean deleteAuthorsByLastName(String lastName) {
+    	if (lastName == null || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid last name");
         List<Author> authors = authorRepository.findByLastName(lastName);
         if (authors.size() == 0) throw new NullPointerException("Authors not found");
         for (Author author : authors) {
-            author.delete();
             authorRepository.delete(author);
+            author.delete();
         }
         List<Author> test = authorRepository.findByLastName(lastName);
         return (test.size() == 0);
@@ -111,11 +158,12 @@ public class AuthorService {
 
     @Transactional
     public boolean deleteAuthorsByFirstNameAndLastName(String firstName, String lastName) {
+    	if (firstName == null || lastName == null || firstName.length() == 0 || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid name");
         List<Author> authors = authorRepository.findByFirstNameAndLastName(firstName, lastName);
         if (authors.size() == 0) throw new NullPointerException("Authors not found");
         for (Author author : authors) {
+        	authorRepository.delete(author);
             author.delete();
-            authorRepository.delete(author);
         }
         List<Author> test = authorRepository.findByFirstNameAndLastName(firstName, lastName);
         return (test.size() == 0);
@@ -127,8 +175,8 @@ public class AuthorService {
         List<Author> authors = authorRepository.findByTitlesIn(titles);
         if (authors.size() == 0) throw new NullPointerException("Authors not found");
         for (Author author : authors) {
+        	authorRepository.delete(author);
             author.delete();
-            authorRepository.delete(author);
         }
         List<Author> test = authorRepository.findByTitlesIn(titles);
         return (test.size() == 0);
@@ -137,21 +185,25 @@ public class AuthorService {
 
     @Transactional
     public boolean isAuthorsExistsByFirstName(String firstName) {
+    	if (firstName == null || firstName.length() == 0) throw new IllegalArgumentException("Please enter a valid first name");
         return (authorRepository.existsByFirstName(firstName));
     }
 
     @Transactional
     public boolean isAuthorsExistsByLastName(String lastName) {
+    	if (lastName == null || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid last name");
         return (authorRepository.existsByLastName(lastName));
     }
 
     @Transactional
     public boolean isAuthorsExistsByFirstNameAndLastName(String firstName, String lastName) {
+    	if (firstName == null || lastName == null || firstName.length() == 0 || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid name");
         return (authorRepository.existsByFirstNameAndLastName(firstName, lastName));
     }
 
     @Transactional
     public boolean isAuthorsExistsByAuthorID(String authorID) {
+    	if (authorID == null || authorID.length() == 0) throw new IllegalArgumentException("Please enter a valid authorID"); 
         return (authorRepository.existsByAuthorID(authorID));
     }
 
