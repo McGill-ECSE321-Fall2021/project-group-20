@@ -1,5 +1,8 @@
 package ca.mcgill.ecse321.librarysystem.dto;
 
+import ca.mcgill.ecse321.librarysystem.model.Calendar;
+import ca.mcgill.ecse321.librarysystem.model.Hour;
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,6 +70,7 @@ public class CalendarDto {
         return 1;
     }
 
+
     public boolean removeHour(HourDto aHour) {
         boolean wasRemoved = false;
         //Unable to remove aHour, as it must always have a calendar
@@ -88,5 +92,28 @@ public class CalendarDto {
             HourDto aHour = hour.get(i - 1);
             aHour.delete();
         }
+    }
+
+    public boolean addHour(HourDto aHour)
+    {
+        boolean wasAdded = false;
+        if (hour.contains(aHour)) { return false; }
+        CalendarDto existingCalendar = aHour.getCalendar();
+        boolean isNewCalendar = existingCalendar != null && !this.equals(existingCalendar);
+
+        if (isNewCalendar && existingCalendar.numberOfHour() <= minimumNumberOfHour())
+        {
+            return wasAdded;
+        }
+        if (isNewCalendar)
+        {
+            aHour.setCalendar(this);
+        }
+        else
+        {
+            hour.add(aHour);
+        }
+        wasAdded = true;
+        return wasAdded;
     }
 }
