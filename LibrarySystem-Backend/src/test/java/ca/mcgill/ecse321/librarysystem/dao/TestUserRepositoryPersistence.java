@@ -69,7 +69,7 @@ public class TestUserRepositoryPersistence {
 		calendarRepository.save(aCalendar);
 		aLibrary = new LibrarySystem(aAddress, aCalendar);
 		librarySystemRepository.save(aLibrary);
-		aUser = new User(true, "Alex", "Bangala", true, 0, aAddress);
+		aUser = new User(true, true, "Alex", "Bangala", true, 0, aAddress);
 		userRepository.save(aUser);
 		aUser.setUsername("ab");
 		aUser.setPassword("test123");
@@ -78,7 +78,7 @@ public class TestUserRepositoryPersistence {
 		
 		aAddress2 = new Address("50","University St.","Montreal","H4X1A5","Quebec","Canada");
 		addressRepository.save(aAddress2);
-		user2 = new User(true, "Test", "Brown", true, 3, aAddress2);
+		user2 = new User(true, true, "Test", "Brown", true, 3, aAddress2);
 		userRepository.save(user2);
 		user2.setUsername("test2");
 		user2.setPassword("test456");
@@ -142,7 +142,7 @@ public class TestUserRepositoryPersistence {
 	 */
 	@Test
 	public void testPersistAndLoadCustomerByLibraryCardID() {
-		Customer aCust = new Customer(true, "Alex", "Bangala", true, 0, aAddress);
+		Customer aCust = new Customer(true, true, "Alex", "Bangala", true, 0, aAddress);
 		customerRepository.save(aCust);
 		aCust.setUsername("abcd");
 		aCust.setPassword("test12345");
@@ -179,7 +179,7 @@ public class TestUserRepositoryPersistence {
 	 */
 	@Test
 	public void testPersistAndLoadEmployeeByLibraryCardID() {
-		Employee aEmp = new Employee(true, "Alex", "Bangala", true, 0, aAddress, Role.Librarian);
+		Employee aEmp = new Employee(true, true, "Alex", "Bangala", true, 0, aAddress, Role.Librarian);
 		employeeRepository.save(aEmp);
 		aEmp.setUsername("abcdefg");
 		aEmp.setPassword("test1234567");
@@ -213,7 +213,7 @@ public class TestUserRepositoryPersistence {
 	 */
 	@Test
 	public void testPersistByChangingRef() {
-		User user3 = new User(false, "Test", "Tester", true, 0, aAddress);
+		User user3 = new User(false, true, "Test", "Tester", true, 0, aAddress);
 		userRepository.save(user3);
 		
 		Address oldAddress = user3.getAddress();
@@ -399,7 +399,7 @@ public class TestUserRepositoryPersistence {
 	 */
 	@Test
 	public void testPersistAndLoadUsersByIsOnlineAcc() {
-		User notOnlineUser = new User(false, "Test", "Brown", true, 0, aAddress);
+		User notOnlineUser = new User(false, true, "Test", "Brown", true, 0, aAddress);
 		userRepository.save(notOnlineUser);
 		
 		List<User> createdUsers = new ArrayList<>();

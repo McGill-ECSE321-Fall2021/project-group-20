@@ -78,7 +78,7 @@ public class TestBookingRepositoryPersistence {
 		titleRepository.save(mytitle);
 		Item myItem = new Item(Status.Available, mytitle);
 		itemRepository.save(myItem);
-		User myUser = new User(true,"Harsh","Patel",true,0,myadress);
+		User myUser = new User(true,true,"Harsh","Patel",true,0,myadress);
 		userRepository.save(myUser);
 		//public Booking(Date aStartDate, Date aEndDate, BookingType aType, Item aItembooked, User aUser)
 		String str1 = "2015-03-31";
@@ -139,8 +139,8 @@ public class TestBookingRepositoryPersistence {
 		itemRepository.save(myItem);
 		itemRepository.save(myItem1);
 
-		User myUser = new User(true,"Harsh","Patel",true,0,myadress);
-		User myUser1 = new User(true,"Hershey","Patel",true,0,myadress);
+		User myUser = new User(true,true,"Harsh","Patel",true,0,myadress);
+		User myUser1 = new User(true,true,"Hershey","Patel",true,0,myadress);
 
 		userRepository.save(myUser);
 		userRepository.save(myUser1);
@@ -213,8 +213,8 @@ public class TestBookingRepositoryPersistence {
 		itemRepository.save(myItem);
 		itemRepository.save(myItem1);
 
-		User myUser = new User(true,"Harsh","Patel",true,0,myadress);
-		User myUser1 = new User(true,"Hershey","Patel",true,0,myadress);
+		User myUser = new User(true,true,"Harsh","Patel",true,0,myadress);
+		User myUser1 = new User(true,true,"Hershey","Patel",true,0,myadress);
 
 		userRepository.save(myUser);
 		userRepository.save(myUser1);
@@ -270,7 +270,7 @@ public class TestBookingRepositoryPersistence {
 		titleRepository.save(mytitle);
 		Item myItem = new Item(Status.Available, mytitle);
 		itemRepository.save(myItem);
-		User myUser = new User(true,"Harsh","Patel",true,0,myadress);
+		User myUser = new User(true,true,"Harsh","Patel",true,0,myadress);
 		userRepository.save(myUser);
 		//public Booking(Date aStartDate, Date aEndDate, BookingType aType, Item aItembooked, User aUser)
 		String str1 = "2015-03-31";
@@ -329,7 +329,7 @@ public class TestBookingRepositoryPersistence {
 		itemRepository.save(myItem);
 		itemRepository.save(myItem1);
 
-		User myUser = new User(true,"Harsh","Patel",true,0,myadress);
+		User myUser = new User(true,true,"Harsh","Patel",true,0,myadress);
 
 		userRepository.save(myUser);
 
@@ -408,8 +408,8 @@ public class TestBookingRepositoryPersistence {
 		itemRepository.save(myItem);
 		itemRepository.save(myItem1);
 
-		User myUser = new User(true,"Harsh","Patel",true,0,myadress);
-		User myUser1 = new User(true,"Hershey","Patel",true,0,myadress);
+		User myUser = new User(true,true,"Harsh","Patel",true,0,myadress);
+		User myUser1 = new User(true,true,"Hershey","Patel",true,0,myadress);
 
 		userRepository.save(myUser);
 		userRepository.save(myUser1);

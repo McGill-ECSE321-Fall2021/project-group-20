@@ -92,7 +92,7 @@ public class TestItemRepositoryPersistence {
 		titleRepository.save(myTitle);
 		Item myItem = new Item(Status.Available, myTitle);
 		itemRepository.save(myItem);
-		User myUser = new User(true, "Harsh", "Patel", true, 0, myAdress);
+		User myUser = new User(true, true, "Harsh", "Patel", true, 0, myAdress);
 		userRepository.save(myUser);
 		String str1 = "2015-03-31";
 		String str2 = "2015-04-05";
