@@ -94,13 +94,4 @@ public class LibrarySystemDto {
         wasSet = true;
         return wasSet;
     }
-
-    public static int minimumNumberOfItems()
-    {
-        return 0;
-    }
-
-    public ItemDto addItem(ItemDto.Status aStatus, long aItemBarcode, TitleDto aTitle) {
-        return new ItemDto(aStatus, aItemBarcode, aTitle);
-    }
 }
