@@ -186,7 +186,7 @@ public class TestUserRepositoryPersistence {
 		aEmp.setEmail("test@test.ca.org.fr");
 		userRepository.save(aEmp);
 		
-		Employee PersistedUser = (Employee) employeeRepository.findUserByLibraryCardID(aEmp.getLibraryCardID());
+		Employee PersistedUser = employeeRepository.findEmployeeByLibraryCardID(aEmp.getLibraryCardID());
 		aAddress = PersistedUser.getAddress();
 //		aLibrary = PersistedUser.getLibrarySystem();
 		
