@@ -4,17 +4,7 @@
 package ca.mcgill.ecse321.librarysystem.dto;
 import java.util.*;
 
-import javax.persistence.*;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.springframework.core.annotation.Order;
-
 // line 19 "../../../../../librarysystem.ump"
-@Entity
 public class TitleDto
 {
 private static Map<String, TitleDto> titlesByTitleID = new HashMap<String, TitleDto>();
