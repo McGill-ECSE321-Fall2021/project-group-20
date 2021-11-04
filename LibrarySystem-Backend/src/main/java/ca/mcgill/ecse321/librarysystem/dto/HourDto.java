@@ -144,7 +144,7 @@ public class HourDto {
 	      return wasSet;
 	    }
 
-	    if (calendar != null && calendar.numberOfHour() <= Calendar.minimumNumberOfHour())
+	    if (calendar != null && calendar.numberOfHour() <= calendar.minimumNumberOfHour())
 	    {
 	      return wasSet;
 	    }
