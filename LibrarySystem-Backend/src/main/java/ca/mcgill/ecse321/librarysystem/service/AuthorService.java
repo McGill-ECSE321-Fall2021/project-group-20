@@ -87,35 +87,55 @@ public class AuthorService {
     public boolean updateFirstName(String authorID, String firstName) {
     	Author author = getAuthorByAuthorID(authorID);
     	if (firstName == null || firstName.length() == 0) throw new IllegalArgumentException("Please enter a valid first name");
-    	return author.setFirstName(firstName);
+    	if (author.setFirstName(firstName)) {
+            authorRepository.save(author);
+            return true;
+        }
+        return false;
     }
     
     @Transactional
     public boolean updateLastName(String authorID, String lastName) {
     	Author author = getAuthorByAuthorID(authorID);
     	if (lastName == null || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid last name");
-    	return author.setLastName(lastName);
+    	if (author.setLastName(lastName)) {
+            authorRepository.save(author);
+            return true;
+        }
+        return false;
     }
     
     @Transactional
     public boolean updateFullName(String authorID, String firstName, String lastName) {
     	Author author = getAuthorByAuthorID(authorID);
     	if (firstName == null || lastName == null || firstName.length() == 0 || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid name");
-    	return author.setFirstName(firstName) && author.setLastName(lastName);
+    	if (author.setFirstName(firstName) && author.setLastName(lastName)) {
+            authorRepository.save(author);
+            return true;
+        }
+        return false;
     }
     
     @Transactional
     public boolean addTitleByAuthor(String authorID, Title title) {
     	Author author = getAuthorByAuthorID(authorID);
     	if (title == null) throw new NullPointerException("Please enter a valid title");
-    	return author.addTitle(title);
+    	if (author.addTitle(title)) {
+            authorRepository.save(author);
+            return true;
+        }
+        return false;
     }
     
     @Transactional
     public boolean removeTitleByAuthor(String authorID, Title title) {
     	Author author = getAuthorByAuthorID(authorID);
     	if (title == null) throw new NullPointerException("Please enter a valid title");
-    	return author.removeTitle(title);
+    	if (author.removeTitle(title)) {
+            authorRepository.save(author);
+            return true;
+        }
+        return false;
     }
 
 

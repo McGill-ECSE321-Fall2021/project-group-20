@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.librarysystem.service;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,15 @@ public class HourService {
 	      Hour newHour = new Hour ( aWeekday,  aStartTime,  aEndTime,  aEmployee,  aCalendar);
 	      hourRepository.save(newHour);
 	      return newHour;		
+	}
+
+	@Transactional
+	public List<Hour> getAllHours() {
+		List<Hour> hours = new ArrayList<>();
+		for (Hour h : hourRepository.findAll()) {
+			hours.add(h);
+		}
+		return hours;
 	}
 	
 	

@@ -21,13 +21,13 @@ public class Customer extends User
 
 	public Customer() {}
 	
-	public Customer(boolean aIsOnlineAcc, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, Address aAddress) {
-		super(aIsOnlineAcc, aFirstName, aLastName, aIsVerified, aDemeritPts, aAddress);
+	public Customer(boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, Address aAddress) {
+		super(aIsOnlineAcc, aIsLoggedIn, aFirstName, aLastName, aIsVerified, aDemeritPts, aAddress);
 	}
 	
-    public Customer(boolean aIsOnlineAcc, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress)
+    public Customer(boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress)
     {
-        super(aIsOnlineAcc, aFirstName, aLastName, aLibraryCardID, aIsVerified, aDemeritPts, aAddress);
+        super(aIsOnlineAcc, aIsLoggedIn, aFirstName, aLastName, aLibraryCardID, aIsVerified, aDemeritPts, aAddress);
     }
 
   //------------------------

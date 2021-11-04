@@ -30,7 +30,7 @@ public class EmployeeService {
                 postalCode == null || postalCode.length() == 0 || province == null || province.length() != 2 || country == null || country.length() == 0) throw new IllegalArgumentException("Please enter a valid address");
         Address a = new Address(civic, street, city, postalCode, province, country);
         addressRepository.save(a);
-        Employee newEmployee = new Employee(true, firstName, lastName, true, 0, a, role);
+        Employee newEmployee = new Employee(true, false, firstName, lastName, true, 0, a, role);
         newEmployee.setEmail(email);
         newEmployee.setUsername(username);
         newEmployee.setPassword(password);
@@ -38,7 +38,154 @@ public class EmployeeService {
         return newEmployee;
     }
 
-    // Add method for delete
+    // Add method for delete (fire librarian)
+
+    @Transactional
+    public Employee changeDemeritPts(int libraryCardID, int toAdd) {
+        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid ID");
+        Employee employee = employeeRepository.findEmployeeByLibraryCardID(libraryCardID);
+        if (employee == null) throw new NullPointerException("Cannot find Employee with this ID");
+        if (employee.setDemeritPts(employee.getDemeritPts() + toAdd)) {
+            employeeRepository.save(employee);
+            return employee;
+        }
+        return null;
+    }
+
+    @Transactional
+    public Employee changeDemeritPts(String username, int toAdd) {
+        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
+        Employee employee = employeeRepository.findEmployeeByUsername(username);
+        if (employee == null) throw new NullPointerException("Cannot find Employee with this ID");
+        if (employee.setDemeritPts(employee.getDemeritPts() + toAdd)) {
+            employeeRepository.save(employee);
+            return employee;
+        }
+        return null;
+    }
+
+    @Transactional
+    public Employee changeDemeritPtsEmail(String email, int toAdd) {
+        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
+        Employee employee = employeeRepository.findEmployeeByEmail(email);
+        if (employee == null) throw new NullPointerException("Cannot find Employee with this ID");
+        if (employee.setDemeritPts(employee.getDemeritPts() + toAdd)) {
+            employeeRepository.save(employee);
+            return employee;
+        }
+        return null;
+    }
+
+    @Transactional
+    public boolean modifyOutstandingBalance(int libraryCardID, int toModify) {
+        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid ID");
+        Employee employee = employeeRepository.findEmployeeByLibraryCardID(libraryCardID);
+        if (employee == null) throw new NullPointerException("Cannot find Employee with this ID");
+        if (employee.setOutstandingBalance(employee.getOutstandingBalance() + toModify)) {
+            employeeRepository.save(employee);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean modifyOutstandingBalance(String username, int toModify) {
+        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
+        Employee employee = employeeRepository.findEmployeeByUsername(username);
+        if (employee == null) throw new NullPointerException("Cannot find Employee with this username");
+        if (employee.setOutstandingBalance(employee.getOutstandingBalance() + toModify)) {
+            employeeRepository.save(employee);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean modifyOutstandingBalanceByEmail(String email, int toModify) {
+        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
+        Employee employee = employeeRepository.findEmployeeByEmail(email);
+        if (employee == null) throw new NullPointerException("Cannot find Employee with this email");
+        if (employee.setOutstandingBalance(employee.getOutstandingBalance() + toModify)) {
+            employeeRepository.save(employee);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean login(int libraryCardID, String password) {
+        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid ID");
+        Employee employee = employeeRepository.findEmployeeByLibraryCardID(libraryCardID);
+        if (employee == null || !employee.getIsOnlineAcc()) throw new NullPointerException("Cannot find Employee with this ID");
+        if (!employee.getPassword().equals(password)) throw new IllegalArgumentException("Incorrect password!");
+        if (employee.setIsLoggedIn(true)) {
+            employeeRepository.save(employee);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean login(String username, String password) {
+        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
+        Employee employee = employeeRepository.findEmployeeByUsername(username);
+        if (employee == null || !employee.getIsOnlineAcc()) throw new NullPointerException("Cannot find Employee with this username");
+        if (!employee.getPassword().equals(password)) throw new IllegalArgumentException("Incorrect password!");
+        if (employee.setIsLoggedIn(true)) {
+            employeeRepository.save(employee);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean loginByEmail(String email, String password) {
+        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
+        Employee employee = employeeRepository.findEmployeeByEmail(email);
+        if (employee == null || !employee.getIsOnlineAcc()) throw new NullPointerException("Cannot find Employee with this email");
+        if (!employee.getPassword().equals(password)) throw new IllegalArgumentException("Incorrect password!");
+        if (employee.setIsLoggedIn(true)) {
+            employeeRepository.save(employee);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean logout(int libraryCardID) {
+        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid ID");
+        Employee employee = employeeRepository.findEmployeeByLibraryCardID(libraryCardID);
+        if (employee == null || !employee.getIsOnlineAcc()) throw new NullPointerException("Cannot find Employee with this ID");
+        if (employee.setIsLoggedIn(false)) {
+            employeeRepository.save(employee);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean logout(String username) {
+        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
+        Employee employee = employeeRepository.findEmployeeByUsername(username);
+        if (employee == null || !employee.getIsOnlineAcc()) throw new NullPointerException("Cannot find Employee with this username");
+        if (employee.setIsLoggedIn(false)) {
+            employeeRepository.save(employee);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean logoutByEmail(String email) {
+        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
+        Employee employee = employeeRepository.findEmployeeByEmail(email);
+        if (employee == null || !employee.getIsOnlineAcc()) throw new NullPointerException("Cannot find Employee with this email");
+        if (employee.setIsLoggedIn(false)) {
+            employeeRepository.save(employee);
+            return true;
+        }
+        return false;
+    }
 
     @Transactional
     public Employee getEmployee(int libraryCardID) {
@@ -329,45 +476,6 @@ public class EmployeeService {
                 return true;
             }
             return false;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean changeDemeritPts(int libraryCardID, int demeritPts) {
-        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
-        if (demeritPts < 0) throw new IllegalArgumentException("Please enter a valid demeritPts");
-        Employee emp = employeeRepository.findEmployeeByLibraryCardID(libraryCardID);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this ID");
-        if (emp.setDemeritPts(demeritPts)) {
-            employeeRepository.save(emp);
-            return true;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean changeDemeritPts(String username, int demeritPts) {
-        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
-        if (demeritPts < 0) throw new IllegalArgumentException("Please enter a valid demeritPts");
-        Employee emp = employeeRepository.findEmployeeByUsername(username);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this username");
-        if (emp.setDemeritPts(demeritPts)) {
-            employeeRepository.save(emp);
-            return true;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean changeDemeritPtsByEmail(String email, int demeritPts) {
-        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
-        if (demeritPts < 0) throw new IllegalArgumentException("Please enter a valid demeritPts");
-        Employee emp = employeeRepository.findEmployeeByEmail(email);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this email");
-        if (emp.setDemeritPts(demeritPts)) {
-            employeeRepository.save(emp);
-            return true;
         }
         return false;
     }

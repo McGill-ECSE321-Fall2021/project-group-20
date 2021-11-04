@@ -37,6 +37,57 @@ public class LibrarySystemService {
     }
 
     @Transactional
+    public LibrarySystem createLibrarySystem(Address aBusinessaddress, Calendar aCalendar) {
+        LibrarySystem ls = new LibrarySystem(aBusinessaddress, aCalendar);
+        librarySystemRepository.save(ls);
+        return ls;
+    }
+
+    @Transactional
+    public LibrarySystem changeAddress(LibrarySystem ls, Address newAddress) {
+        if (newAddress == null) throw new IllegalArgumentException("Please enter a valid address");
+        if (ls.setBusinessaddress(newAddress)) {
+            librarySystemRepository.save(ls);
+            return ls;
+        }
+        return null;
+    }
+
+    @Transactional
+    public LibrarySystem changeAddress (String id, Address newAddress) {
+        if (id == null || id.length() == 0) throw new IllegalArgumentException("Please enter a valid ID");
+        LibrarySystem ls = librarySystemRepository.findLibrarySystemBySystemID(id);
+        if (ls == null) throw new NullPointerException("Cannot find LibrarySystem with given ID");
+        if (ls.setBusinessaddress(newAddress)) {
+            librarySystemRepository.save(ls);
+            return ls;
+        }
+        return null;
+    }
+
+    @Transactional
+    public LibrarySystem changeCalendar (LibrarySystem ls, Calendar calendar) {
+        if (calendar == null) throw new IllegalArgumentException("Please enter a valid calendar");
+        if (ls.setCalendar(calendar)) {
+            librarySystemRepository.save(ls);
+            return ls;
+        }
+        return null;
+    }
+
+    @Transactional
+    public LibrarySystem changeCalendar (String systemID, Calendar calendar) {
+        if (calendar == null) throw new IllegalArgumentException("Please enter a valid calendar");
+        LibrarySystem ls = librarySystemRepository.findLibrarySystemBySystemID(systemID);
+        if (ls == null) throw new NullPointerException("Cannot find LibrarySystem with given ID");
+        if (ls.setCalendar(calendar)) {
+            librarySystemRepository.save(ls);
+            return ls;
+        }
+        return null;
+    }
+
+    @Transactional
     public boolean deleteLibrarySystem(String systemID) {
         LibrarySystem ls = librarySystemRepository.findLibrarySystemBySystemID(systemID);
         if (ls == null) throw new NullPointerException("Library System not found");

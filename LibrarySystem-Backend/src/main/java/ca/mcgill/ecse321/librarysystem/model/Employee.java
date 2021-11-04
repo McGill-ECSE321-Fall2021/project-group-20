@@ -43,15 +43,15 @@ public class Employee extends User
 	  employeehour = new ArrayList<Hour>();
   }
   
-  public Employee(boolean aIsOnlineAcc, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, Address aAddress, Role aRole) {
-	  super(aIsOnlineAcc, aFirstName, aLastName, aIsVerified, aDemeritPts, aAddress);
+  public Employee(boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, Address aAddress, Role aRole) {
+	  super(aIsOnlineAcc, aIsLoggedIn, aFirstName, aLastName, aIsVerified, aDemeritPts, aAddress);
 	    role = aRole;
 	    employeehour = new ArrayList<Hour>();
   }
   
-  public Employee(boolean aIsOnlineAcc, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress, Role aRole)
+  public Employee(boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress, Role aRole)
   {
-    super(aIsOnlineAcc, aFirstName, aLastName, aLibraryCardID, aIsVerified, aDemeritPts, aAddress);
+    super(aIsOnlineAcc, aIsLoggedIn, aFirstName, aLastName, aLibraryCardID, aIsVerified, aDemeritPts, aAddress);
     role = aRole;
     employeehour = new ArrayList<Hour>();
   }

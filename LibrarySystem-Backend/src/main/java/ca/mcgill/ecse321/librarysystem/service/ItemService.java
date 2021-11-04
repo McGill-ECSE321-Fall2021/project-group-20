@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.librarysystem.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,8 +107,7 @@ public class ItemService {
 		itemRepository.delete(item);
 		item.delete();
 	}
-	
-	
+
 	@Transactional 
 	public void updateItem(Status aStatus, long aItemBarcode, Title aTitle) {
 		Item item = itemRepository.findItemByItemBarcode(aItemBarcode);
@@ -131,6 +131,15 @@ public class ItemService {
 		if (item == null) throw new IllegalArgumentException("No Item found");
 		item.setStatus(aStatus);
 		itemRepository.save(item);
+	}
+
+	@Transactional
+	public List<Item> getAllItems() {
+		List<Item> items = new ArrayList<>();
+		for (Item i : itemRepository.findAll()) {
+			items.add(i);
+		}
+		return items;
 	}
 
 }

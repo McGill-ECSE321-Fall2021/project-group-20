@@ -1,28 +1,33 @@
 package ca.mcgill.ecse321.librarysystem.service;
-import java.sql.Date;
-import java.sql.Time;
+import java.util.Date;
 import java.util.List;
 
+import ca.mcgill.ecse321.librarysystem.dao.CustomerRepository;
+import ca.mcgill.ecse321.librarysystem.dao.EmployeeRepository;
+import ca.mcgill.ecse321.librarysystem.dao.ItemRepository;
+import ca.mcgill.ecse321.librarysystem.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.librarysystem.dao.BookingRepository;
-import ca.mcgill.ecse321.librarysystem.model.Calendar;
-import ca.mcgill.ecse321.librarysystem.model.Employee;
-import ca.mcgill.ecse321.librarysystem.model.Event;
-import ca.mcgill.ecse321.librarysystem.model.Hour;
-import ca.mcgill.ecse321.librarysystem.model.Item;
-import ca.mcgill.ecse321.librarysystem.model.User;
 import ca.mcgill.ecse321.librarysystem.model.Booking.BookingType;
-import ca.mcgill.ecse321.librarysystem.model.Booking;
 
 @Service
 public class BookingService {
 	
 	@Autowired
 	private BookingRepository bookingRepository;
-
+	@Autowired
+	private ItemRepository itemRepository;
+	@Autowired
+	private CustomerRepository customerRepository;
+	@Autowired
+	private EmployeeRepository employeeRepository;
+	@Autowired
+	private CustomerService customerService;
+	@Autowired
+	private EmployeeService employeeService;
 	
 	@Transactional
 	public Booking createBooking() {
@@ -38,7 +43,11 @@ public class BookingService {
 		if (aEndDate == null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d");
 		if (aType != BookingType.Borrow || aType != BookingType.Reservation) throw new IllegalArgumentException ("Please enter a valid booking type");
 		if (aitem == null) throw new IllegalArgumentException ("Please enter valid item");
+		if (aitem.hasBooking()) throw new IllegalArgumentException("Cannot book a borrowed/reserved item");
+		if (aitem.getClass().getName().equals("Newspaper")) throw new IllegalArgumentException("Cannot book a newspaper/journal");
 		if (aUser == null) throw new IllegalArgumentException ("Please enter a valid user");
+		if (aUser.numberOfUserbooking() >= 5) throw new IllegalArgumentException("Cannot book more than 5 items at a time");
+		if (aUser.getDemeritPts() >= 3) throw new IllegalArgumentException("Cannot book because of demerit points");
 		Booking myBooking = new Booking (aStartDate, aEndDate,aType,aitem,aUser);
 		bookingRepository.save(myBooking);
 		return myBooking;
@@ -49,12 +58,16 @@ public class BookingService {
 
 	@Transactional
 	public Booking createBooking(String aBookingId,Date aStartDate, Date aEndDate, BookingType aType, Item aitem, User aUser) {
+		if (aBookingId == null || aBookingId.length() == 0) throw new IllegalArgumentException ("Please enter valid Booking ID");
 		if (aStartDate == null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d");
 		if (aEndDate == null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d");
 		if (aType != BookingType.Borrow || aType != BookingType.Reservation) throw new IllegalArgumentException ("Please enter a valid booking type");
 		if (aitem == null) throw new IllegalArgumentException ("Please enter valid item");
+		if (aitem.hasBooking()) throw new IllegalArgumentException("Cannot book a borrowed/reserved item");
+		if (aitem.getClass().getName().equals("Newspaper")) throw new IllegalArgumentException("Cannot book a newspaper/journal");
 		if (aUser == null) throw new IllegalArgumentException ("Please enter a valid user");
-		if (aBookingId == null || aBookingId.length() == 0) throw new IllegalArgumentException ("Please enter valid Booking ID");
+		if (aUser.numberOfUserbooking() >= 5) throw new IllegalArgumentException("Cannot book more than 5 items at a time");
+		if (aUser.getDemeritPts() >= 3) throw new IllegalArgumentException("Cannot book because of demerit points");
 		Booking myBooking = new Booking (aBookingId,aStartDate, aEndDate,aType,aitem,aUser);
 		bookingRepository.save(myBooking);
 		return myBooking;
@@ -117,7 +130,57 @@ public class BookingService {
 		myBooking.delete();
 		return;
 	}
-	
+
+	@Transactional
+	public void returnItemByItemID(Long itemBarcode) {
+		if (itemBarcode <= 0) throw new IllegalArgumentException("Please enter a valid itemBarcode");
+		Item item = itemRepository.findItemByItemBarcode(itemBarcode);
+		Booking myBooking = bookingRepository.findBookingByItem(item);
+		if (myBooking == null) throw new NullPointerException("Cannot find Booking with Item");
+		Date date = new Date();
+		if (myBooking.getEndDate().before(new Date())) {
+			if (myBooking.getUser().getClass().getName().equals("Customer")) customerService.changeDemeritPts(myBooking.getUser().getLibraryCardID(), 1);
+			else employeeService.changeDemeritPts(myBooking.getUser().getLibraryCardID(), 1);
+		}
+		bookingRepository.delete(myBooking);
+		myBooking.delete();
+		item.setStatus(Item.Status.Available);
+		itemRepository.save(item);
+	}
+
+	@Transactional
+	public void returnItemByItem(Item item) {
+		if (item == null) throw new IllegalArgumentException("Please enter a valid Item");
+		Booking myBooking = bookingRepository.findBookingByItem(item);
+		if (myBooking == null) throw new NullPointerException("Cannot find Booking with Item");
+		Date date = new Date();
+		if (myBooking.getEndDate().before(new Date())) {
+			if (myBooking.getUser().getClass().getName().equals("Customer")) customerService.changeDemeritPts(myBooking.getUser().getLibraryCardID(), 1);
+			else employeeService.changeDemeritPts(myBooking.getUser().getLibraryCardID(), 1);
+		}
+		bookingRepository.delete(myBooking);
+		myBooking.delete();
+		item.setStatus(Item.Status.Available);
+		itemRepository.save(item);
+	}
+
+	@Transactional
+	public void returnItemByID(String bookingID) {
+		if (bookingID == null || bookingID.length() == 0) throw new IllegalArgumentException("Please enter a valid bookingID");
+		Booking myBooking = bookingRepository.findBookingByBookingID(bookingID);
+		Item item = itemRepository.findItemByBooking(myBooking);
+		if (myBooking == null) throw new NullPointerException("Cannot find Booking with Item");
+		Date date = new Date();
+		if (myBooking.getEndDate().before(new Date())) {
+			if (myBooking.getUser().getClass().getName().equals("Customer")) customerService.changeDemeritPts(myBooking.getUser().getLibraryCardID(), 1);
+			else employeeService.changeDemeritPts(myBooking.getUser().getLibraryCardID(), 1);
+		}
+		bookingRepository.delete(myBooking);
+		myBooking.delete();
+		item.setStatus(Item.Status.Available);
+		itemRepository.save(item);
+	}
+
 	@Transactional
 	public boolean deleteBookingByStartDate(Date aStartDate) {
 		if (aStartDate == null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d");
@@ -182,7 +245,7 @@ public class BookingService {
 		return (myBooking.size() == 0);
 		
 	}
-	
+
 	@Transactional
 	public boolean updateStartDateBookingbyItem(Item aItem, Date updatedStartDate) {
 		if (aItem == null) throw new IllegalArgumentException ("Please enter a valid item");

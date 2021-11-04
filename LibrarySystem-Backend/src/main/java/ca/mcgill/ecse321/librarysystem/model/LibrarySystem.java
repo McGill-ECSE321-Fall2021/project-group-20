@@ -196,9 +196,9 @@ public class LibrarySystem
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public User addUser(boolean aIsOnlineAcc, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress)
+  public User addUser(boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress)
   {
-    return new User(aIsOnlineAcc, aFirstName, aLastName, aLibraryCardID, aIsVerified, aDemeritPts, aAddress);
+    return new User(aIsOnlineAcc, aIsLoggedIn, aFirstName, aLastName, aLibraryCardID, aIsVerified, aDemeritPts, aAddress);
   }
 
   public boolean addUser(User aUser)

@@ -6,7 +6,7 @@ package ca.mcgill.ecse321.librarysystem.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 // line 91 "../../../../../librarysystem.ump"
 @Entity

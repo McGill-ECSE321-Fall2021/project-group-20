@@ -38,6 +38,8 @@ public class User
   //------------------------
 
   //User Attributes
+  private boolean isLoggedIn;
+  private int outstandingBalance;
   private boolean isOnlineAcc;
   private String username;
   private String password;
@@ -66,9 +68,11 @@ public class User
   
   /* Constructor that autogenerates a libraryCardID */
   //public User(boolean aIsOnlineAcc, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, Address aAddress, LibrarySystem aLibrarySystem)
-  public User (boolean aIsOnlineAcc, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, Address aAddress)
+  public User (boolean aIsOnlineAcc, boolean aisLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, Address aAddress)
   {
+    isLoggedIn = aisLoggedIn;
     isOnlineAcc = aIsOnlineAcc;
+    outstandingBalance = 0;
     username = null;
     password = null;
     email = null;
@@ -84,8 +88,10 @@ public class User
   }
   
   /* Constructor that takes a libraryCardID manually */
-  public User(boolean aIsOnlineAcc, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress)
+  public User(boolean aIsOnlineAcc, boolean aisLoggedIn, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress)
   {
+    isLoggedIn = aisLoggedIn;
+    outstandingBalance = 0;
     isOnlineAcc = aIsOnlineAcc;
     username = null;
     password = null;
@@ -116,6 +122,33 @@ public class User
     wasSet = true;
     return wasSet;
   }
+
+  public boolean setIsLoggedIn(boolean aIsLoggedIn)
+  {
+    boolean wasSet = false;
+    isLoggedIn = aIsLoggedIn;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setOutstandingBalance(int aOutstandingBalance)
+  {
+    boolean wasSet = false;
+    outstandingBalance = aOutstandingBalance;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean getIsLoggedIn()
+  {
+    return isLoggedIn;
+  }
+
+  public int getOutstandingBalance()
+  {
+    return outstandingBalance;
+  }
+
 
   public boolean setUsername(String aUsername)
   {

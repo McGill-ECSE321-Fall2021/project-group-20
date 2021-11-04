@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.librarysystem.service;
 
 import ca.mcgill.ecse321.librarysystem.dao.AddressRepository;
 import ca.mcgill.ecse321.librarysystem.dao.CustomerRepository;
+import ca.mcgill.ecse321.librarysystem.dao.LibrarySystemRepository;
 import ca.mcgill.ecse321.librarysystem.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ public class CustomerService {
     private CustomerRepository customerRepository;
     @Autowired
     private AddressRepository addressRepository;
+    @Autowired
+    private LibrarySystemRepository librarySystemRepository;
 
     /*
     Creates a new customer locally (by staff)
@@ -28,7 +31,7 @@ public class CustomerService {
         postalCode == null || postalCode.length() == 0 || province == null || province.length() != 2 || country == null || country.length() == 0) throw new IllegalArgumentException("Please enter a valid address");
         Address a = new Address(civic, street, city, postalCode, province, country);
         addressRepository.save(a);
-        Customer newCustomer = new Customer(false, firstName, lastName, true, 0, a);
+        Customer newCustomer = new Customer(false, false, firstName, lastName, true, 0, a);
         customerRepository.save(newCustomer);
         return newCustomer;
     }
@@ -47,12 +50,129 @@ public class CustomerService {
         if (customerRepository.existsByUsername(username)) throw new IllegalArgumentException("Username in use, please enter a new username");
         Address a = new Address(civic, street, city, postalCode, province, country);
         addressRepository.save(a);
-        Customer newOnlineCustomer = new Customer(true, firstName, lastName, false, 0, a);
+        Customer newOnlineCustomer = new Customer(true, true, firstName, lastName, false, 0, a);
         newOnlineCustomer.setEmail(email);
         newOnlineCustomer.setUsername(username);
         newOnlineCustomer.setPassword(password);
         customerRepository.save(newOnlineCustomer);
+        LibrarySystem librarySystem = librarySystemRepository.findLibrarySystemByUsers(newOnlineCustomer);
+        if (!a.getCity().equalsIgnoreCase(librarySystem.getBusinessaddress().getCity()) || !a.getCountry().equalsIgnoreCase(librarySystem.getBusinessaddress().getCountry()) || !a.getProvince().equalsIgnoreCase(librarySystem.getBusinessaddress().getProvince())) {
+            newOnlineCustomer.setOutstandingBalance(newOnlineCustomer.getOutstandingBalance() + 50);
+            System.out.println("Note: you will have to pay " + newOnlineCustomer.getOutstandingBalance() + " before you can start using the Library");
+            customerRepository.save(newOnlineCustomer);
+        }
         return newOnlineCustomer;
+    }
+
+    @Transactional
+    public boolean modifyOutstandingBalance(int libraryCardID, int toModify) {
+        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid ID");
+        Customer customer = (Customer) customerRepository.findUserByLibraryCardID(libraryCardID);
+        if (customer == null) throw new NullPointerException("Cannot find Customer with this ID");
+        if (customer.setOutstandingBalance(customer.getOutstandingBalance() + toModify)) {
+            customerRepository.save(customer);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean modifyOutstandingBalance(String username, int toModify) {
+        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
+        Customer customer = (Customer) customerRepository.findUserByUsername(username);
+        if (customer == null) throw new NullPointerException("Cannot find Customer with this username");
+        if (customer.setOutstandingBalance(customer.getOutstandingBalance() + toModify)) {
+            customerRepository.save(customer);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean modifyOutstandingBalanceByEmail(String email, int toModify) {
+        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
+        Customer customer = (Customer) customerRepository.findUserByEmail(email);
+        if (customer == null) throw new NullPointerException("Cannot find Customer with this email");
+        if (customer.setOutstandingBalance(customer.getOutstandingBalance() + toModify)) {
+            customerRepository.save(customer);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean login(int libraryCardID, String password) {
+        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid ID");
+        Customer customer = (Customer) customerRepository.findUserByLibraryCardID(libraryCardID);
+        if (customer == null || !customer.getIsOnlineAcc()) throw new NullPointerException("Cannot find Online Customer with this ID");
+        if (!customer.getPassword().equals(password)) throw new IllegalArgumentException("Incorrect password!");
+        if (customer.setIsLoggedIn(true)) {
+            customerRepository.save(customer);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean login(String username, String password) {
+        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
+        Customer customer = (Customer) customerRepository.findUserByUsername(username);
+        if (customer == null || !customer.getIsOnlineAcc()) throw new NullPointerException("Cannot find Online Customer with this ID");
+        if (!customer.getPassword().equals(password)) throw new IllegalArgumentException("Incorrect password!");
+        if (customer.setIsLoggedIn(true)) {
+            customerRepository.save(customer);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean loginByEmail(String email, String password) {
+        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
+        Customer customer = (Customer) customerRepository.findUserByEmail(email);
+        if (customer == null || !customer.getIsOnlineAcc()) throw new NullPointerException("Cannot find Online Customer with this ID");
+        if (!customer.getPassword().equals(password)) throw new IllegalArgumentException("Incorrect password!");
+        if (customer.setIsLoggedIn(true)) {
+            customerRepository.save(customer);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean logout(int libraryCardID) {
+        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid ID");
+        Customer customer = (Customer) customerRepository.findUserByLibraryCardID(libraryCardID);
+        if (customer == null || !customer.getIsOnlineAcc()) throw new NullPointerException("Cannot find Online Customer with this ID");
+        if (customer.setIsLoggedIn(false)) {
+            customerRepository.save(customer);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean logout(String username) {
+        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
+        Customer customer = (Customer) customerRepository.findUserByUsername(username);
+        if (customer == null || !customer.getIsOnlineAcc()) throw new NullPointerException("Cannot find Online Customer with this ID");
+        if (customer.setIsLoggedIn(false)) {
+            customerRepository.save(customer);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean logoutByEmail(String email) {
+        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
+        Customer customer = (Customer) customerRepository.findUserByEmail(email);
+        if (customer == null || !customer.getIsOnlineAcc()) throw new NullPointerException("Cannot find Online Customer with this ID");
+        if (customer.setIsLoggedIn(false)) {
+            customerRepository.save(customer);
+            return true;
+        }
+        return false;
     }
 
     /*
@@ -104,6 +224,8 @@ public class CustomerService {
     public boolean validateCustomerByEmail(String email) {
         if (email == null || email.length() == 0) throw new IllegalArgumentException("Please enter a valid email");
         Customer customer = (Customer) customerRepository.findUserByEmail(email);
+        if (customer == null) throw new NullPointerException("Cannot find Customer with given email");
+        if (customer.getOutstandingBalance() != 0) throw new IllegalStateException("Please ensure Customer pays outstanding balance before validating the account");
         return customer.setIsVerified(true);
     }
 
@@ -114,6 +236,8 @@ public class CustomerService {
     public boolean validateCustomerByUsername(String username) {
         if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
         Customer customer = (Customer) customerRepository.findUserByUsername(username);
+        if (customer == null) throw new NullPointerException("Cannot find Customer with given username");
+        if (customer.getOutstandingBalance() != 0) throw new IllegalStateException("Please ensure Customer pays outstanding balance before validating the account");
         return customer.setIsVerified(true);
     }
 
@@ -124,6 +248,8 @@ public class CustomerService {
     public boolean validateCustomerByID(int libraryCardID) {
         if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
         Customer customer = (Customer) customerRepository.findUserByLibraryCardID(libraryCardID);
+        if (customer == null) throw new NullPointerException("Cannot find Customer with given ID");
+        if (customer.getOutstandingBalance() != 0) throw new IllegalStateException("Please ensure Customer pays outstanding balance before validating the account");
         return customer.setIsVerified(true);
     }
 
@@ -550,6 +676,42 @@ public class CustomerService {
             return true;
         }
         return false;
+    }
+
+    @Transactional
+    public Customer changeDemeritPts(int libraryCardID, int toAdd) {
+        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid ID");
+        Customer customer = (Customer) customerRepository.findUserByLibraryCardID(libraryCardID);
+        if (customer == null) throw new NullPointerException("Cannot find Customer with this ID");
+        if (customer.setDemeritPts(customer.getDemeritPts() + toAdd)) {
+            customerRepository.save(customer);
+            return customer;
+        }
+        return null;
+    }
+
+    @Transactional
+    public Customer changeDemeritPts(String username, int toAdd) {
+        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
+        Customer customer = (Customer) customerRepository.findUserByUsername(username);
+        if (customer == null) throw new NullPointerException("Cannot find Customer with this username");
+        if (customer.setDemeritPts(customer.getDemeritPts() + toAdd)) {
+            customerRepository.save(customer);
+            return customer;
+        }
+        return null;
+    }
+
+    @Transactional
+    public Customer changeDemeritPtsEmail(String email, int toAdd) {
+        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
+        Customer customer = (Customer) customerRepository.findUserByEmail(email);
+        if (customer == null) throw new NullPointerException("Cannot find Customer with this ID");
+        if (customer.setDemeritPts(customer.getDemeritPts() + toAdd)) {
+            customerRepository.save(customer);
+            return customer;
+        }
+        return null;
     }
 
     // Helper methods for converting User to Customer

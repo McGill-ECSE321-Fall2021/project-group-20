@@ -2,11 +2,11 @@ package ca.mcgill.ecse321.librarysystem.service;
 
 import ca.mcgill.ecse321.librarysystem.dao.*;
 import ca.mcgill.ecse321.librarysystem.model.*;
-import org.apache.tomcat.jni.Library;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import static org.hibernate.internal.util.collections.ArrayHelper.toList;
 
@@ -15,9 +15,10 @@ public class AddressService {
 
     @Autowired
     AddressRepository addressRepository;
-
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    LibrarySystemRepository librarySystemRepository;
 
     @Transactional
     public Address createAddress() {
@@ -27,11 +28,29 @@ public class AddressService {
     }
 
     @Transactional
+    public Address createAddress(String civic, String street, String city, String postalCode, String province, String country) {
+        Address address = new Address(civic, street, city, postalCode, province, country);
+        addressRepository.save(address);
+        return address;
+    }
+
+    @Transactional
     public boolean deleteAddress(String addressID) {
         Address address = addressRepository.findByAddressID(addressID);
         if (address == null) throw new NullPointerException("Address with address ID cannot be deleted");
+        if (userRepository.findUserByAddress(address) != null) throw new IllegalArgumentException("Cannot delete address associated with user");
+        if (librarySystemRepository.findLibrarySystemByBusinessaddress(address) != null) throw new IllegalArgumentException("Cannot delete address associated with the System");
         addressRepository.delete(address);
         return addressRepository.existsByAddressID(addressID);
+    }
+
+    @Transactional
+    public List<Address> getAllAddresses() {
+        List<Address> addresses = new ArrayList<>();
+        for (Address a: addressRepository.findAll()) {
+            addresses.add(a);
+        }
+        return addresses;
     }
 
     @Transactional
@@ -88,5 +107,19 @@ public class AddressService {
                                       String province, String country) {
         return addressRepository.existsByCivicNumberAndStreetAndCityAndPostalCodeAndProvinceAndCountry(CivicNumber,
                 street, city, postalCode, province, country);
+    }
+
+    @Transactional
+    public Address updateAddress(String addressID, String civic, String street, String city, String postalCode,
+                                 String province, String country) {
+        Address address = getAddressByAddressID(addressID);
+        address.setCivicNumber(civic);
+        address.setStreet(street);
+        address.setCity(city);
+        address.setPostalCode(postalCode);
+        address.setProvince(province);
+        address.setCountry(country);
+        addressRepository.save(address);
+        return address;
     }
 }
