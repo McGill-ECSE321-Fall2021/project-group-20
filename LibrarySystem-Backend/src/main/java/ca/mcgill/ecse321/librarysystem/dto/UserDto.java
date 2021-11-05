@@ -7,6 +7,7 @@ public class UserDto {
     private AddressDto address;
     private int libraryCardID;
     private boolean isLoggedIn;
+    private int outstandingBalance;
     private boolean isOnlineAcc;
     private boolean isVerified;
     private int demeritPts;
@@ -19,7 +20,7 @@ public class UserDto {
 
     public UserDto() {}
 
-    public UserDto(int libraryCardID, boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress) {
+    public UserDto(int libraryCardID, boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress, int outstandingBalance) {
         this.libraryCardID = libraryCardID;
         isLoggedIn = aIsLoggedIn;
         isOnlineAcc = aIsOnlineAcc;
@@ -28,9 +29,10 @@ public class UserDto {
         isVerified = aIsVerified;
         demeritPts = aDemeritPts;
         address = aAddress;
+        this.outstandingBalance = outstandingBalance;
     }
 
-    public UserDto(int libraryCardID, boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress, String username, String email, String password) {
+    public UserDto(int libraryCardID, boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress, String username, String email, String password, int outstandingBalance) {
         this.libraryCardID = libraryCardID;
         isOnlineAcc = aIsOnlineAcc;
         isLoggedIn = aIsLoggedIn;
@@ -42,6 +44,7 @@ public class UserDto {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.outstandingBalance = outstandingBalance;
     }
 
     public AddressDto getAddress() {
@@ -54,6 +57,10 @@ public class UserDto {
 
     public boolean getIsOnlineAcc() {
         return isOnlineAcc;
+    }
+
+    public boolean getIsLoggedIn() {
+        return isLoggedIn;
     }
 
     public boolean getIsVerified() {
@@ -82,6 +89,10 @@ public class UserDto {
 
     public String getEmail() {
         return email;
+    }
+
+    public int getOutstandingBalance() {
+        return  outstandingBalance;
     }
 
     public List<BookingDto> getBookings() {

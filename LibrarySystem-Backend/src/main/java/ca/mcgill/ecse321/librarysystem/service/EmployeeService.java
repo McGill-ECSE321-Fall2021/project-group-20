@@ -53,58 +53,10 @@ public class EmployeeService {
     }
 
     @Transactional
-    public Employee changeDemeritPts(String username, int toAdd) {
-        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
-        Employee employee = employeeRepository.findEmployeeByUsername(username);
-        if (employee == null) throw new NullPointerException("Cannot find Employee with this ID");
-        if (employee.setDemeritPts(employee.getDemeritPts() + toAdd)) {
-            employeeRepository.save(employee);
-            return employee;
-        }
-        return null;
-    }
-
-    @Transactional
-    public Employee changeDemeritPtsEmail(String email, int toAdd) {
-        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
-        Employee employee = employeeRepository.findEmployeeByEmail(email);
-        if (employee == null) throw new NullPointerException("Cannot find Employee with this ID");
-        if (employee.setDemeritPts(employee.getDemeritPts() + toAdd)) {
-            employeeRepository.save(employee);
-            return employee;
-        }
-        return null;
-    }
-
-    @Transactional
     public boolean modifyOutstandingBalance(int libraryCardID, int toModify) {
         if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid ID");
         Employee employee = employeeRepository.findEmployeeByLibraryCardID(libraryCardID);
         if (employee == null) throw new NullPointerException("Cannot find Employee with this ID");
-        if (employee.setOutstandingBalance(employee.getOutstandingBalance() + toModify)) {
-            employeeRepository.save(employee);
-            return true;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean modifyOutstandingBalance(String username, int toModify) {
-        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
-        Employee employee = employeeRepository.findEmployeeByUsername(username);
-        if (employee == null) throw new NullPointerException("Cannot find Employee with this username");
-        if (employee.setOutstandingBalance(employee.getOutstandingBalance() + toModify)) {
-            employeeRepository.save(employee);
-            return true;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean modifyOutstandingBalanceByEmail(String email, int toModify) {
-        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
-        Employee employee = employeeRepository.findEmployeeByEmail(email);
-        if (employee == null) throw new NullPointerException("Cannot find Employee with this email");
         if (employee.setOutstandingBalance(employee.getOutstandingBalance() + toModify)) {
             employeeRepository.save(employee);
             return true;
@@ -217,43 +169,43 @@ public class EmployeeService {
     }
 
     @Transactional
-    List<Employee> getEmployeesByLastName(String lastName) {
+    public List<Employee> getEmployeesByLastName(String lastName) {
         if (lastName == null || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid lastName");
         return employeeRepository.findEmployeesByLastName(lastName);
     }
 
     @Transactional
-    List<Employee> getEmployeesByFirstAndLastName(String firstName, String lastName) {
+    public List<Employee> getEmployeesByFirstAndLastName(String firstName, String lastName) {
         if (firstName == null || firstName.length() == 0 || lastName == null || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid name");
         return employeeRepository.findEmployeesByFirstNameAndLastName(firstName, lastName);
     }
 
     @Transactional
-    Employee getEmployeeByBooking(Booking booking) {
+    public Employee getEmployeeByBooking(Booking booking) {
         if (booking == null) throw new IllegalArgumentException("Please enter a valid booking");
         return employeeRepository.findEmployeeByUserbooking(booking);
     }
 
     @Transactional
-    List<Employee> getEmployeesByHour(Hour hour) {
+    public List<Employee> getEmployeesByHour(Hour hour) {
         if (hour == null) throw new IllegalArgumentException("Please enter a valid hour");
         return employeeRepository.findEmployeesByEmployeehour(hour);
     }
 
     @Transactional
-    List<Employee> getEmployeesByRole(Employee.Role role) {
+    public List<Employee> getEmployeesByRole(Employee.Role role) {
         if (role == null) throw new IllegalArgumentException("Please enter a valid role to search");
         return employeeRepository.findEmployeesByRole(role);
     }
 
     @Transactional
-    List<Employee> getEmployeesByDemeritPts(int demeritPts) {
+    public List<Employee> getEmployeesByDemeritPts(int demeritPts) {
         if (demeritPts < 0) throw new IllegalArgumentException("Please enter a positive demeritPts int");
         return employeeRepository.findEmployeesByDemeritPts(demeritPts);
     }
 
     @Transactional
-    List<Employee> getEmployeesByAddress(Address address) {
+    public List<Employee> getEmployeesByAddress(Address address) {
         if (address == null) throw new IllegalArgumentException("Please enter a valid address");
         return employeeRepository.findEmployeesByAddress(address);
     }
@@ -268,42 +220,41 @@ public class EmployeeService {
     }
 
     @Transactional
-    public boolean updateUsername(int libraryCardID, String username) {
-        if (libraryCardID == 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
+    public boolean updateOnlineInfo(int libraryCardID, String username, String password, String email) {
+        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
         if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
-        if (userRepository.existsByUsername(username)) throw new IllegalArgumentException("Username not available, please choose another one");
-        Employee emp = employeeRepository.findEmployeeByLibraryCardID(libraryCardID);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this libraryCardID");
-        if (emp.setUsername(username)) {
-            employeeRepository.save(emp);
-            return true;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean updateUsername(String oldUsername, String newUsername) {
-        if (oldUsername == null || oldUsername.length() == 0) throw new IllegalArgumentException("Please enter a valid current username");
-        if (newUsername == null || newUsername.length() == 0) throw new IllegalArgumentException("Please enter a valid new username");
-        if (userRepository.existsByUsername(newUsername)) throw new IllegalArgumentException("Username not available, please choose another one");
-        Employee emp = employeeRepository.findEmployeeByUsername(oldUsername);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this Username");
-        if (emp.setUsername(newUsername)) {
-            employeeRepository.save(emp);
-            return true;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean updateUsernameByEmail(String email, String username) {
+        if (password == null || password.length() < 8) throw new IllegalArgumentException("Please enter a valid password of min 8 chars long");
         if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
-        if (username ==null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
-        if (userRepository.existsByUsername(username)) throw new IllegalArgumentException("Username not available, please choose another one");
-        Employee emp = employeeRepository.findEmployeeByEmail(email);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this Email");
-        if (emp.setUsername(username)) {
-            employeeRepository.save(emp);
+        if (!employeeRepository.existsByLibraryCardID(libraryCardID)) throw new NullPointerException("Cannot find Customer with given ID");
+        if (employeeRepository.existsByUsername(username)) throw new IllegalArgumentException("New username in use, please choose a valid one");
+        if (employeeRepository.existsByEmail(email)) throw new IllegalArgumentException("New email in use, please choose another");
+        Employee employee = employeeRepository.findEmployeeByLibraryCardID(libraryCardID);
+        if (employee.setUsername(username) && employee.setPassword(password) && employee.setEmail(email)) {
+            employeeRepository.save(employee);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean changeInfo(int libraryCardID,  String firstName, String lastName, String civic, String street, String city, String postalCode, String province, String country) {
+        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
+        if (firstName == null || lastName == null || firstName.length() == 0 || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid name");
+        if (civic == null || civic.equals("0") || civic.length() == 0 || street == null || street.length() == 0 || city == null || city.length() == 0 ||
+                postalCode == null || postalCode.length() == 0 || province == null || province.length() != 2 || country == null || country.length() == 0) throw new IllegalArgumentException("Please enter a valid address");
+        if (!employeeRepository.existsByLibraryCardID(libraryCardID)) throw new NullPointerException("Cannot find Customer with given ID");
+        Employee employee = employeeRepository.findEmployeeByLibraryCardID(libraryCardID);
+        if (employee.setFirstName(firstName) && employee.setLastName(lastName)) {
+            Address a = employee.getAddress();
+            if (!a.setCivicNumber(civic)) return false;
+            if (!a.setStreet(street)) return false;
+            if (!a.setCity(city)) return false;
+            if (!a.setPostalCode(postalCode)) return false;
+            if (!a.setProvince(province)) return false;
+            if (!a.setCountry(country)) return false;
+            employee.setAddress(a);
+            addressRepository.save(a);
+            employeeRepository.save(employee);
             return true;
         }
         return false;
@@ -321,224 +272,7 @@ public class EmployeeService {
         return false;
     }
 
-    public boolean updateRole(String username, Employee.Role role) {
-        if (role == null) throw new IllegalArgumentException("Please enter a valid role");
-        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
-        Employee emp = employeeRepository.findEmployeeByUsername(username);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this username");
-        if (emp.setRole(role)) {
-            employeeRepository.save(emp);
-            return true;
-        }
-        return false;
-    }
 
-    public boolean updateRoleByEmail(String email, Employee.Role role) {
-        if (role == null) throw new IllegalArgumentException("Please enter a valid role");
-        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
-        Employee emp = employeeRepository.findEmployeeByEmail(email);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this email");
-        if (emp.setRole(role)) {
-            employeeRepository.save(emp);
-            return true;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean changePassword(int libraryCardID, String oldPass, String newPass) {
-        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
-        if (oldPass == null || oldPass.length() < 8) throw new IllegalArgumentException("Please enter your password that is at least 8 characters long");
-        if (newPass == null || newPass.length() < 8) throw new IllegalArgumentException("Please enter a new password that is at least 8 characters long");
-        Employee emp = employeeRepository.findEmployeeByLibraryCardID(libraryCardID);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this ID");
-        if (!emp.getPassword().equals(oldPass)) throw new IllegalArgumentException("Entered current password is invalid");
-        if (emp.setPassword(newPass)) {
-            employeeRepository.save(emp);
-            return true;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean changePassword(String username, String oldPass, String newPass) {
-        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
-        if (oldPass == null || oldPass.length() < 8) throw new IllegalArgumentException("Please enter your password that is at least 8 characters long");
-        if (newPass == null || newPass.length() < 8) throw new IllegalArgumentException("Please enter a new password that is at least 8 characters long");
-        Employee emp = employeeRepository.findEmployeeByUsername(username);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this username");
-        if (!emp.getPassword().equals(oldPass)) throw new IllegalArgumentException("Entered current password is invalid");
-        if (emp.setPassword(newPass)) {
-            employeeRepository.save(emp);
-            return true;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean changePasswordByEmail(String email, String oldPass, String newPass) {
-        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
-        if (oldPass == null || oldPass.length() < 8) throw new IllegalArgumentException("Please enter your password that is at least 8 characters long");
-        if (newPass == null || newPass.length() < 8) throw new IllegalArgumentException("Please enter a new password that is at least 8 characters long");
-        Employee emp = employeeRepository.findEmployeeByEmail(email);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this email");
-        if (!emp.getPassword().equals(oldPass)) throw new IllegalArgumentException("Entered current password is invalid");
-        if (emp.setPassword(newPass)) {
-            employeeRepository.save(emp);
-            return true;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean changeEmail(int libraryCardID, String email) {
-        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
-        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
-        if(userRepository.existsByEmail(email)) throw new IllegalArgumentException("Email not available, please choose another one");
-        Employee emp = employeeRepository.findEmployeeByLibraryCardID(libraryCardID);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this ID");
-        if (emp.setEmail(email)) {
-            employeeRepository.save(emp);
-            return true;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean changeEmail(String username, String email) {
-        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
-        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
-        if(userRepository.existsByEmail(email)) throw new IllegalArgumentException("Email not available, please choose another one");
-        Employee emp = employeeRepository.findEmployeeByEmail(email);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this username");
-        if (emp.setEmail(email)) {
-            employeeRepository.save(emp);
-            return true;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean changeEmailByEmail(String email, String newEmail) {
-        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
-        if (newEmail == null || !newEmail.contains("@")) throw new IllegalArgumentException("Please enter a valid new email");
-        if(userRepository.existsByEmail(newEmail)) throw new IllegalArgumentException("Email not available, please choose another one");
-        Employee emp = employeeRepository.findEmployeeByEmail(email);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this email");
-        if (emp.setEmail(newEmail)) {
-            employeeRepository.save(emp);
-            return true;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean changeName(int libraryCardID, String firstname, String lastname) {
-        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
-        if (firstname == null || firstname.length() == 0 || lastname == null || lastname.length() == 0) throw new IllegalArgumentException("Please enter a valid name");
-        Employee emp = employeeRepository.findEmployeeByLibraryCardID(libraryCardID);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this ID");
-        if (emp.setFirstName(firstname)) {
-            if (emp.setLastName(lastname)) {
-                employeeRepository.save(emp);
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean changeName(String username, String firstname, String lastname) {
-        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
-        if (firstname == null || firstname.length() == 0 || lastname == null || lastname.length() == 0) throw new IllegalArgumentException("Please enter a valid name");
-        Employee emp = employeeRepository.findEmployeeByUsername(username);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this username");
-        if (emp.setFirstName(firstname)) {
-            if (emp.setLastName(lastname)) {
-                employeeRepository.save(emp);
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean changeNameByEmail(String email, String firstname, String lastname) {
-        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
-        if (firstname == null || firstname.length() == 0 || lastname == null || lastname.length() == 0) throw new IllegalArgumentException("Please enter a valid name");
-        Employee emp = employeeRepository.findEmployeeByEmail(email);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this username");
-        if (emp.setFirstName(firstname)) {
-            if (emp.setLastName(lastname)) {
-                employeeRepository.save(emp);
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean changeAddress(int libraryCardID, String civic, String street, String city, String postalCode, String province, String country) {
-        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
-        if (civic == null || civic.equals("0") || civic.length() == 0 || street == null || street.length() == 0 || city == null || city.length() == 0 ||
-                postalCode == null || postalCode.length() == 0 || province == null || province.length() != 2 || country == null || country.length() == 0) throw new IllegalArgumentException("Please enter a valid address");
-        if (!employeeRepository.existsByLibraryCardID(libraryCardID)) throw new NullPointerException("Cannot find Employee with given ID");
-       Employee emp = employeeRepository.findEmployeeByLibraryCardID(libraryCardID);
-        Address a = emp.getAddress();
-        if (!a.setCivicNumber(civic)) return false;
-        if (!a.setStreet(street)) return false;
-        if (!a.setCity(city)) return false;
-        if (!a.setPostalCode(postalCode)) return false;
-        if (!a.setProvince(province)) return false;
-        if (!a.setCountry(country)) return false;
-        emp.setAddress(a);
-        addressRepository.save(a);
-        employeeRepository.save(emp);
-        return true;
-    }
-
-    @Transactional
-    public boolean changeAddress(String username, String civic, String street, String city, String postalCode, String province, String country) {
-        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
-        if (civic == null || civic.equals("0") || civic.length() == 0 || street == null || street.length() == 0 || city == null || city.length() == 0 ||
-                postalCode == null || postalCode.length() == 0 || province == null || province.length() != 2 || country == null || country.length() == 0) throw new IllegalArgumentException("Please enter a valid address");
-        if (!employeeRepository.existsByUsername(username)) throw new NullPointerException("Cannot find Employee with given username");
-        Employee emp = employeeRepository.findEmployeeByUsername(username);
-        Address a = emp.getAddress();
-        if (!a.setCivicNumber(civic)) return false;
-        if (!a.setStreet(street)) return false;
-        if (!a.setCity(city)) return false;
-        if (!a.setPostalCode(postalCode)) return false;
-        if (!a.setProvince(province)) return false;
-        if (!a.setCountry(country)) return false;
-        emp.setAddress(a);
-        addressRepository.save(a);
-        employeeRepository.save(emp);
-        return true;
-    }
-
-    @Transactional
-    public boolean changeAddressByEmail(String email, String civic, String street, String city, String postalCode, String province, String country) {
-        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
-        if (civic == null || civic.equals("0") || civic.length() == 0 || street == null || street.length() == 0 || city == null || city.length() == 0 ||
-                postalCode == null || postalCode.length() == 0 || province == null || province.length() != 2 || country == null || country.length() == 0) throw new IllegalArgumentException("Please enter a valid address");
-        if (!employeeRepository.existsByEmail(email)) throw new NullPointerException("Cannot find Employee with given email");
-        Employee emp = employeeRepository.findEmployeeByEmail(email);
-        Address a = emp.getAddress();
-        if (!a.setCivicNumber(civic)) return false;
-        if (!a.setStreet(street)) return false;
-        if (!a.setCity(city)) return false;
-        if (!a.setPostalCode(postalCode)) return false;
-        if (!a.setProvince(province)) return false;
-        if (!a.setCountry(country)) return false;
-        emp.setAddress(a);
-        addressRepository.save(a);
-        employeeRepository.save(emp);
-        return true;
-    }
 
     @Transactional
     public boolean addBooking(int libraryCardID, Booking booking) {
@@ -553,29 +287,4 @@ public class EmployeeService {
         return false;
     }
 
-    @Transactional
-    public boolean addBooking(String username, Booking booking) {
-        if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
-        if (booking == null) throw new IllegalArgumentException("Please enter a valid booking");
-        Employee emp = employeeRepository.findEmployeeByUsername(username);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this username");
-        if (emp.addUserbooking(booking)) {
-            employeeRepository.save(emp);
-            return true;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean addBookingByEmail(String email, Booking booking) {
-        if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
-        if (booking == null) throw new IllegalArgumentException("Please enter a valid booking");
-        Employee emp = employeeRepository.findEmployeeByEmail(email);
-        if (emp == null) throw new NullPointerException("Cannot find Employee with this email");
-        if (emp.addUserbooking(booking)) {
-            employeeRepository.save(emp);
-            return true;
-        }
-        return false;
-    }
 }
