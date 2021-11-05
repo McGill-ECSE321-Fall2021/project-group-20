@@ -147,9 +147,9 @@ public class CustomerService {
         if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
         Customer customer = (Customer) customerRepository.findUserByLibraryCardID(libraryCardID);
         if (customer == null) throw new NullPointerException("Cannot find Customer matching this libraryCardID");
+        customerRepository.delete(customer);
         addressRepository.delete(customer.getAddress());
         customer.delete();
-        customerRepository.delete(customer);
         return (!customerRepository.existsByLibraryCardID(libraryCardID));
     }
 
