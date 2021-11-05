@@ -6,7 +6,9 @@ import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.librarysystem.model.Author;
 import ca.mcgill.ecse321.librarysystem.model.Title;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+@RepositoryRestResource(collectionResourceRel = "author_data", path = "author_data")
 public interface AuthorRepository extends CrudRepository<Author, String>{
 	Author findByAuthorID(String authorID);
 	List<Author> findByFirstName(String firstName);

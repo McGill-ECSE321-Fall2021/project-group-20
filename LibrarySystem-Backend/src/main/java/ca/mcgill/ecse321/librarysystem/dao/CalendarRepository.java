@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
-@RepositoryRestResource(collectionResourceRel = "calendar", path = "calendar")
+@RepositoryRestResource(collectionResourceRel = "calendar_data", path = "calendar_data")
 public interface CalendarRepository extends CrudRepository<Calendar, String>{
 	/* Find the calendar from the table of calendars in the database based of a given a calendarID */
 	Calendar findCalendarByCalendarID(String calendarID);

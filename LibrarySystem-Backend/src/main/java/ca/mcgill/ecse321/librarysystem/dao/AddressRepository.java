@@ -2,9 +2,11 @@ package ca.mcgill.ecse321.librarysystem.dao;
 
 import ca.mcgill.ecse321.librarysystem.model.Address;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
+@RepositoryRestResource(collectionResourceRel = "address_data", path = "address_data")
 public interface AddressRepository extends CrudRepository<Address, String>{
 
 	/* Returns the address object associated with a given addressID */

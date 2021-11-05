@@ -5,10 +5,11 @@ import ca.mcgill.ecse321.librarysystem.model.Address;
 import ca.mcgill.ecse321.librarysystem.model.Booking;
 import ca.mcgill.ecse321.librarysystem.model.User;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
-
+@RepositoryRestResource(collectionResourceRel = "user_data", path = "user_data")
 public interface UserRepository extends CrudRepository<User, Integer> {
 	
 	/* Find user by LibraryCardID */

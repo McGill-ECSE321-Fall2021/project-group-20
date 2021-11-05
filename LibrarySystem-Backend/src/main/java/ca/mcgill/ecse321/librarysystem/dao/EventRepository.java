@@ -5,9 +5,10 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import ca.mcgill.ecse321.librarysystem.model.Event; 
 import ca.mcgill.ecse321.librarysystem.model.Hour;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 
-
+@RepositoryRestResource(collectionResourceRel = "event_data", path = "event_data")
 public interface  EventRepository extends CrudRepository<Event, String> {
 	//Find Event by event date
 	Event findByEventDate(Date eventDate);

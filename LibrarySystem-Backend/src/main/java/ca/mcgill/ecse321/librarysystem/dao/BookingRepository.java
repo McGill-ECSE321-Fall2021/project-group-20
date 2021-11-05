@@ -7,7 +7,9 @@ import ca.mcgill.ecse321.librarysystem.model.Booking;
 import ca.mcgill.ecse321.librarysystem.model.Booking.BookingType;
 import ca.mcgill.ecse321.librarysystem.model.Item;
 import ca.mcgill.ecse321.librarysystem.model.User;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+@RepositoryRestResource(collectionResourceRel = "booking_data", path = "booking_data")
 public interface BookingRepository extends CrudRepository <Booking , String>{
 	//Find the booking by BookingID
 	Booking findBookingByBookingID(String bookingId);

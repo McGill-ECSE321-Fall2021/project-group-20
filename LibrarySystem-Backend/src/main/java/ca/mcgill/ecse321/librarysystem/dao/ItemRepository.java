@@ -5,9 +5,11 @@ import ca.mcgill.ecse321.librarysystem.model.Item;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 import ca.mcgill.ecse321.librarysystem.model.Title;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
+@RepositoryRestResource(collectionResourceRel = "item_data", path = "item_data")
 public interface ItemRepository extends CrudRepository<Item, Long>{
 	//find an item by its barcode
 	Item findItemByItemBarcode(Long itemBarcode);

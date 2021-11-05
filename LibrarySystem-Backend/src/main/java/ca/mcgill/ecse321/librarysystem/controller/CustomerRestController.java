@@ -27,16 +27,16 @@ public class CustomerRestController {
         return customerDtos;
     }
 
-    @GetMapping(value = { "/customer/id/{id}", "/customer/id/{id}/" })
+    @GetMapping(value = { "/customer/{id}", "/customer/{id}/" })
     public CustomerDto getCustomerByID(@PathVariable("id") String id) throws IllegalArgumentException, NullPointerException {
         return convertToDto(customerService.getCustomer(Integer.parseInt(id)));
     }
 
     @PostMapping(value = { "/customer/createLocal", "/customer/createLocal/" })
-    public CustomerDto createLocalCustomer(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String civic,
+    public CustomerDto createLocalCustomer(@RequestParam String firstname, @RequestParam String lastname, @RequestParam String civic,
                                       @RequestParam String street, @RequestParam String city, @RequestParam String postalCode,
                                       @RequestParam String province, @RequestParam String country) throws IllegalArgumentException {
-        return convertToDto(customerService.createCustomer(firstName,lastName,civic,street,city,postalCode,province,country));
+        return convertToDto(customerService.createCustomer(firstname,lastname,civic,street,city,postalCode,province,country));
     }
 
     @PostMapping(value = { "/customer/create", "/customer/create/"})
@@ -46,13 +46,13 @@ public class CustomerRestController {
         return convertToDto(customerService.createOnlineCustomer(firstName,lastName,email,username,password,civic,street,city,postalCode,province,country));
     }
 
-    @DeleteMapping(value = { "/customer/id/{id}", "/customer/id/{id}/" })
+    @DeleteMapping(value = { "/customer/{id}", "/customer/{id}/" })
     public boolean deleteCustomer(@PathVariable("id") String id) throws IllegalArgumentException, NullPointerException {
         return customerService.deleteCustomerByID(Integer.parseInt(id));
     }
 
-    @GetMapping(value = { "/customer/login/{name}", "/customer/login/{name}/"})
-    public CustomerDto loginCustomer(@PathVariable("name") String name, @RequestParam String password) throws IllegalArgumentException, NullPointerException {
+    @GetMapping(value = { "/customer/login", "/customer/login/"})
+    public CustomerDto loginCustomer(@RequestParam String name, @RequestParam String password) throws IllegalArgumentException, NullPointerException {
         if (name.contains("@")) {
             Customer c = customerService.loginByEmail(name, password);
             return convertToDto(c);
@@ -60,13 +60,13 @@ public class CustomerRestController {
         return convertToDto(customerService.login(name, password));
     }
 
-    @GetMapping(value = {"/customer/loginID/{id}", "/customer/loginID/{id}/"})
+    @GetMapping(value = {"/customer/login/{id}", "/customer/login/{id}/"})
     public CustomerDto login(@PathVariable("id") String id, @RequestParam String password) throws IllegalArgumentException, NullPointerException {
         return convertToDto(customerService.login(Integer.parseInt(id), password));
     }
 
-    @GetMapping(value = { "/customers/firstname/{name}", "/customers/firstname/{name}" })
-    public List<CustomerDto> getCustomersByFirstName(@PathVariable("name") String firstName) throws IllegalArgumentException, NullPointerException {
+    @GetMapping(value = { "/customers/firstname", "/customers/firstname/" })
+    public List<CustomerDto> getCustomersByFirstName(@RequestParam String firstName) throws IllegalArgumentException, NullPointerException {
         List<CustomerDto> cDto = new ArrayList<>();
         for (Customer c : customerService.getCustomersByFirstName(firstName)) {
             cDto.add(convertToDto(c));
@@ -74,8 +74,8 @@ public class CustomerRestController {
         return cDto;
     }
 
-    @GetMapping(value = { "/customers/lastname/{name}", "/customers/lastname/{name}" })
-    public List<CustomerDto> getCustomersByLastName(@PathVariable("name") String lastName) throws IllegalArgumentException, NullPointerException {
+    @GetMapping(value = { "/customers/lastname/", "/customers/lastname" })
+    public List<CustomerDto> getCustomersByLastName(@RequestParam String lastName) throws IllegalArgumentException, NullPointerException {
         List<CustomerDto> cDto = new ArrayList<>();
         for (Customer c : customerService.getCustomersByLastName(lastName)) {
             cDto.add(convertToDto(c));
@@ -83,7 +83,7 @@ public class CustomerRestController {
         return cDto;
     }
 
-    @GetMapping(value = { "/customers/getByName", "/customers/getByName/" })
+    @GetMapping(value = { "/customers/name", "/customers/name/" })
     public List<CustomerDto> getCustomersByFirstAndLastName(@RequestParam String firstName, @RequestParam String lastName) {
         List<CustomerDto> cDto = new ArrayList<>();
         for (Customer c : customerService.getCustomersByFirstAndLastName(firstName, lastName)) {

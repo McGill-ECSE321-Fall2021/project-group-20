@@ -5,9 +5,11 @@ import ca.mcgill.ecse321.librarysystem.model.Booking;
 import ca.mcgill.ecse321.librarysystem.model.Employee;
 import ca.mcgill.ecse321.librarysystem.model.Hour;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
+@RepositoryRestResource(collectionResourceRel = "employee_data", path = "employee_data")
 public interface EmployeeRepository extends CrudRepository<Employee, String> {
 
     Employee findEmployeeByLibraryCardID(int libraryCardID);
