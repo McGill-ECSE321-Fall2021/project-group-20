@@ -38,7 +38,7 @@ public class User
   //------------------------
 
   //User Attributes
-  private boolean isLoggedIn;
+  private boolean isLogged;
   private int outstandingBalance;
   private boolean isOnlineAcc;
   private String username;
@@ -70,7 +70,7 @@ public class User
   //public User(boolean aIsOnlineAcc, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, Address aAddress, LibrarySystem aLibrarySystem)
   public User (boolean aIsOnlineAcc, boolean aisLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, Address aAddress)
   {
-    isLoggedIn = aisLoggedIn;
+    isLogged = aisLoggedIn;
     isOnlineAcc = aIsOnlineAcc;
     outstandingBalance = 0;
     username = null;
@@ -90,7 +90,7 @@ public class User
   /* Constructor that takes a libraryCardID manually */
   public User(boolean aIsOnlineAcc, boolean aisLoggedIn, String aFirstName, String aLastName, int aLibraryCardID, boolean aIsVerified, int aDemeritPts, Address aAddress)
   {
-    isLoggedIn = aisLoggedIn;
+    isLogged = aisLoggedIn;
     outstandingBalance = 0;
     isOnlineAcc = aIsOnlineAcc;
     username = null;
@@ -126,7 +126,7 @@ public class User
   public boolean setIsLoggedIn(boolean aIsLoggedIn)
   {
     boolean wasSet = false;
-    isLoggedIn = aIsLoggedIn;
+    isLogged = aIsLoggedIn;
     wasSet = true;
     return wasSet;
   }
@@ -141,7 +141,7 @@ public class User
 
   public boolean getIsLoggedIn()
   {
-    return isLoggedIn;
+    return isLogged;
   }
 
   public int getOutstandingBalance()

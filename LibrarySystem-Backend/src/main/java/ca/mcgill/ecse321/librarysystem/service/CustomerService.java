@@ -259,7 +259,7 @@ public class CustomerService {
 
     @Transactional
     public List<Customer> getCustomersByLoggedIn(boolean isLoggedIn) {
-        return convertListToCustomer(customerRepository.findUserByIsLoggedIn(isLoggedIn));
+        return convertListToCustomer(customerRepository.findByIsLogged(isLoggedIn));
     }
 
     /*

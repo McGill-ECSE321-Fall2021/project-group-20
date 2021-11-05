@@ -44,8 +44,8 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	/* Find user by an userbooking */
 	User findUserByUserbooking(Booking userbooking);
 
-	List<User> findUserByIsLoggedIn(boolean isLoggedIn);
-	
+	List<User> findByIsLogged(boolean isLogged);
+
 	/* Check if user exists by a given libraryCardID */
 	boolean existsByLibraryCardID(Integer libraryCardID);
 	
