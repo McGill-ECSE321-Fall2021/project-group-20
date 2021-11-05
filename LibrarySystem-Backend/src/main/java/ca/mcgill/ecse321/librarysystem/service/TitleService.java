@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.librarysystem.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,15 @@ public class TitleService {
         Title title = new Title(name,pubDate,author);
         titleRepository.save(title);
         return title;
+    }
+
+    @Transactional
+    public List<Title> getTitles() {
+        List<Title> titles = new ArrayList<>();
+        for (Title t : titleRepository.findAll()) {
+            titles.add(t);
+        }
+        return titles;
     }
 
     @Transactional
@@ -104,14 +114,22 @@ public class TitleService {
     public boolean updateName(String titleID, String name) {
     	Title title = getTitleByTitleID(titleID);
     	if (name == null || name.length() == 0) throw new IllegalArgumentException("Please enter a valid title name");
-    	return title.setName(name);
+    	if (title.setName(name)) {
+            titleRepository.save(title);
+            return true;
+        }
+        return false;
     }
     
     @Transactional
     public boolean updatePubDate(String titleID, String pubDate) {
     	Title title = getTitleByTitleID(titleID);
     	if (pubDate == null || pubDate.length() == 0) throw new IllegalArgumentException("Please enter a valid publish date");
-    	return title.setPubDate(pubDate);
+    	if (title.setPubDate(pubDate)) {
+            titleRepository.save(title);
+            return true;
+        }
+        return false;
     }
     
     @Transactional
@@ -119,14 +137,22 @@ public class TitleService {
     	Title title = getTitleByTitleID(titleID);
     	if (name == null || name.length() == 0) throw new IllegalArgumentException("Please enter a valid title name");
     	if (pubDate == null || pubDate.length() == 0) throw new IllegalArgumentException("Please enter a valid publish date");
-    	return title.setName(name) && title.setPubDate(pubDate);
+    	if (title.setName(name) && title.setPubDate(pubDate)) {
+            titleRepository.save(title);
+            return true;
+        }
+        return false;
     }
     
     @Transactional
     public boolean addAuthorToTitle(String titleID, Author authorID) {
     	Title title = getTitleByTitleID(titleID);
     	if (authorID == null) throw new IllegalArgumentException("Please enter a valid author"); 
-    	return title.addAuthor(authorID);
+    	if (title.addAuthor(authorID)) {
+            titleRepository.save(title);
+            return true;
+        }
+        return false;
     }
     
     @Transactional
@@ -135,14 +161,22 @@ public class TitleService {
     	if (authorID == null || authorID.size() == 0) throw new IllegalArgumentException("Please enter a list of valid authors"); 
     	boolean isAdded = true;
     	for (Author author : authorID) isAdded = isAdded && title.addAuthor(author);
-    	return isAdded;
+    	if (isAdded) {
+            titleRepository.save(title);
+            return true;
+        }
+        return false;
     }
     
     @Transactional
     public boolean removeAuthorFromTitle(String titleID, Author authorID) {
     	Title title = getTitleByTitleID(titleID);
     	if (authorID == null) throw new IllegalArgumentException("Please enter a valid author"); 
-    	return title.removeAuthor(authorID);
+    	if (title.removeAuthor(authorID)) {
+            titleRepository.save(title);
+            return true;
+        }
+        return false;
     }
     
     @Transactional
@@ -151,7 +185,11 @@ public class TitleService {
     	if (authorID == null || authorID.size() == 0) throw new IllegalArgumentException("Please enter a list of valid authors"); 
     	boolean isRemoved = true;
     	for (Author author : authorID) isRemoved = isRemoved && title.removeAuthor(author);
-    	return isRemoved;
+    	if (isRemoved) {
+            titleRepository.save(title);
+            return true;
+        }
+        return false;
     }
     
     @Transactional

@@ -177,8 +177,11 @@ public class HourService {
 		if	(aWeekday != "Monday" || aWeekday != "monday"||aWeekday != "Tuesday" || aWeekday != "tuesday"||aWeekday != "Wednesday" || aWeekday != "wednesday"|| aWeekday != "Thursday"||aWeekday != "thursday"  || aWeekday != "Friday"||aWeekday != "friday" ) throw new IllegalArgumentException("Please enter a valid Weekday, with either a Capital first letter or all lowercase");
 		if (updateStartT == null ) throw new IllegalArgumentException("Pleace enter a valid startTIME");
 		Hour myHour = hourRepository.findByweekday(aWeekday);
-		return myHour.setStartTime(updateStartT);
-		
+		if (myHour.setStartTime(updateStartT)) {
+			hourRepository.save(myHour);
+			return true;
+		}
+		return false;
 	}
 	
 	
@@ -187,7 +190,11 @@ public class HourService {
 		if	(aWeekday != "Monday" || aWeekday != "monday"||aWeekday != "Tuesday" || aWeekday != "tuesday"||aWeekday != "Wednesday" || aWeekday != "wednesday"|| aWeekday != "Thursday"||aWeekday != "thursday"  || aWeekday != "Friday"||aWeekday != "friday" ) throw new IllegalArgumentException("Please enter a valid Weekday, with either a Capital first letter or all lowercase");
 		if (updateEndT == null ) throw new IllegalArgumentException("Pleace enter a valid EndTime");
 		Hour myHour = hourRepository.findByweekday(aWeekday);
-		return myHour.setStartTime(updateEndT);
+		if (myHour.setStartTime(updateEndT)) {
+			hourRepository.save(myHour);
+			return true;
+		}
+		return false;
 		
 	}
 	
@@ -196,7 +203,11 @@ public class HourService {
 		if	(aWeekday != "Monday" || aWeekday != "monday"||aWeekday != "Tuesday" || aWeekday != "tuesday"||aWeekday != "Wednesday" || aWeekday != "wednesday"|| aWeekday != "Thursday"||aWeekday != "thursday"  || aWeekday != "Friday"||aWeekday != "friday" ) throw new IllegalArgumentException("Please enter a valid Weekday, with either a Capital first letter or all lowercase");
 		if (updatedEmp == null ) throw new IllegalArgumentException("Pleace enter a valid Employee");
 		Hour myHour = hourRepository.findByweekday(aWeekday);
-		return myHour.setEmployee(updatedEmp);
+		if (myHour.setEmployee(updatedEmp)) {
+			hourRepository.save(myHour);
+			return true;
+		}
+		return false;
 		
 		
 	}
@@ -206,7 +217,11 @@ public class HourService {
 		if	(aWeekday != "Monday" || aWeekday != "monday"||aWeekday != "Tuesday" || aWeekday != "tuesday"||aWeekday != "Wednesday" || aWeekday != "wednesday"|| aWeekday != "Thursday"||aWeekday != "thursday"  || aWeekday != "Friday"||aWeekday != "friday" ) throw new IllegalArgumentException("Please enter a valid Weekday, with either a Capital first letter or all lowercase");
 		if (updatedCalendar == null ) throw new IllegalArgumentException("Pleace enter a valid Calendar");
 		Hour myHour = hourRepository.findByweekday(aWeekday);
-		return myHour.setCalendar(updatedCalendar);
+		if (myHour.setCalendar(updatedCalendar)) {
+			hourRepository.save(myHour);
+			return true;
+		}
+		return false;
 
 	}
 	
@@ -216,7 +231,11 @@ public class HourService {
 		if	(aWeekday != "Monday" || aWeekday != "monday"||aWeekday != "Tuesday" || aWeekday != "tuesday"||aWeekday != "Wednesday" || aWeekday != "wednesday"|| aWeekday != "Thursday"||aWeekday != "thursday"  || aWeekday != "Friday"||aWeekday != "friday" ) throw new IllegalArgumentException("Please enter a valid Weekday, with either a Capital first letter or all lowercase");
 		if (updatedEvent == null ) throw new IllegalArgumentException("Pleace enter a valid Event Object");
 		Hour myHour = hourRepository.findByweekday(aWeekday);
-		return myHour.setEvent(updatedEvent);
+		if (myHour.setEvent(updatedEvent)) {
+			hourRepository.save(myHour);
+			return true;
+		}
+		return false;
 	}
 	
 	

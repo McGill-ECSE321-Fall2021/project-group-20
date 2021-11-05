@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.librarysystem.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,6 +137,15 @@ public class NewspaperService {
 		if (item == null) throw new IllegalArgumentException("No Newspaper found");
 		item.setStatus(aStatus);
 		newspaperRepository.save(item);
+	}
+
+	@Transactional
+	public List<Newspaper> getNewspapers() {
+		List<Newspaper> newspapers = new ArrayList<>();
+		for (Item i : newspaperRepository.findAll()) {
+			newspapers.add((Newspaper) i);
+		}
+		return newspapers;
 	}
 
 }

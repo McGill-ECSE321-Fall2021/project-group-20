@@ -1,4 +1,5 @@
 package ca.mcgill.ecse321.librarysystem.service;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -73,7 +74,15 @@ public class BookingService {
 		return myBooking;
 		
 	}
-	
+
+	@Transactional
+	public List<Booking> getAllBookings() {
+		List<Booking> bookings = new ArrayList<>();
+		for (Booking b : bookingRepository.findAll()) {
+			bookings.add(b);
+		}
+		return bookings;
+	}
 	
 	@Transactional
 	public Booking getBookingbyId (String Bid) {
@@ -137,7 +146,6 @@ public class BookingService {
 		Item item = itemRepository.findItemByItemBarcode(itemBarcode);
 		Booking myBooking = bookingRepository.findBookingByItem(item);
 		if (myBooking == null) throw new NullPointerException("Cannot find Booking with Item");
-		Date date = new Date();
 		if (myBooking.getEndDate().before(new Date())) {
 			if (myBooking.getUser().getClass().getName().equals("Customer")) customerService.changeDemeritPts(myBooking.getUser().getLibraryCardID(), 1);
 			else employeeService.changeDemeritPts(myBooking.getUser().getLibraryCardID(), 1);
@@ -251,9 +259,11 @@ public class BookingService {
 		if (aItem == null) throw new IllegalArgumentException ("Please enter a valid item");
 		if (updatedStartDate == null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d");
 		Booking myBooking = bookingRepository.findBookingByItem(aItem);
-		return myBooking.setStartDate(updatedStartDate);
-
-
+		if (myBooking.setStartDate(updatedStartDate)) {
+			bookingRepository.save(myBooking);
+			return true;
+		}
+		return false;
 	}
 	
 	@Transactional
@@ -261,7 +271,11 @@ public class BookingService {
 		if (aItem == null) throw new IllegalArgumentException ("Please enter a valid item");
 		if (updatedEndDate == null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d");
 		Booking myBooking = bookingRepository.findBookingByItem(aItem);
-		return myBooking.setStartDate(updatedEndDate);
+		if (myBooking.setStartDate(updatedEndDate)) {
+			bookingRepository.save(myBooking);
+			return true;
+		}
+		return false;
 
 
 	}
@@ -271,7 +285,11 @@ public class BookingService {
 		if (aItem == null) throw new IllegalArgumentException ("Please enter a valid item");
 		if (updatedType != BookingType.Borrow || updatedType != BookingType.Reservation) throw new IllegalArgumentException ("Please enter a valid booking type");
 		Booking myBooking = bookingRepository.findBookingByItem(aItem);
-		return myBooking.setType(updatedType);
+		if (myBooking.setType(updatedType)) {
+			bookingRepository.save(myBooking);
+			return true;
+		}
+		return false;
 		
 
 	}
@@ -281,7 +299,11 @@ public class BookingService {
 		if (aItem == null) throw new IllegalArgumentException ("Please enter a valid item");
 		if (updatedUser == null) throw new IllegalArgumentException ("Please enter a valid user");
 		Booking myBooking = bookingRepository.findBookingByItem(aItem);
-		return myBooking.setUser(updatedUser);
+		if (myBooking.setUser(updatedUser)) {
+			bookingRepository.save(myBooking);
+			return true;
+		}
+		return false;
 
 	}
 	@Transactional
@@ -289,7 +311,11 @@ public class BookingService {
 		if (BID == null || BID.length() == 0) throw new IllegalArgumentException ("Please enter valid Booking ID");
 		if (updatedStartDate == null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d");
 		Booking myBooking = bookingRepository.findBookingByBookingID(BID);
-		return myBooking.setStartDate(updatedStartDate);
+		if (myBooking.setStartDate(updatedStartDate)) {
+			bookingRepository.save(myBooking);
+			return true;
+		}
+		return false;
 
 
 	}
@@ -299,7 +325,11 @@ public class BookingService {
 		if (BID == null || BID.length() == 0) throw new IllegalArgumentException ("Please enter valid Booking ID");
 		if (updatedEndDate == null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d");
 		Booking myBooking = bookingRepository.findBookingByBookingID(BID);
-		return myBooking.setStartDate(updatedEndDate);
+		if (myBooking.setStartDate(updatedEndDate)) {
+			bookingRepository.save(myBooking);
+			return true;
+		}
+		return false;
 
 
 	}
@@ -309,7 +339,11 @@ public class BookingService {
 		if (BID == null || BID.length() == 0) throw new IllegalArgumentException ("Please enter valid Booking ID");
 		if (updatedType != BookingType.Borrow || updatedType != BookingType.Reservation) throw new IllegalArgumentException ("Please enter a valid booking type");
 		Booking myBooking = bookingRepository.findBookingByBookingID(BID);
-		return myBooking.setType(updatedType);
+		if (myBooking.setType(updatedType)) {
+			bookingRepository.save(myBooking);
+			return true;
+		}
+		return false;
 		
 
 	}
@@ -319,7 +353,11 @@ public class BookingService {
 		if (BID == null || BID.length() == 0) throw new IllegalArgumentException ("Please enter valid Booking ID");
 		if (updatedUser == null) throw new IllegalArgumentException ("Please enter a valid user");
 		Booking myBooking = bookingRepository.findBookingByBookingID(BID);
-		return myBooking.setUser(updatedUser);
+		if (myBooking.setUser(updatedUser)) {
+			bookingRepository.save(myBooking);
+			return true;
+		}
+		return false;
 
 	}
 }

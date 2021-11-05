@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.librarysystem.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -152,6 +153,15 @@ public class MusicAlbumService {
 		if (item == null) throw new IllegalArgumentException("No Item found");
 		item.setDuration(duration);
 		musicAlbumRepository.save(item);
+	}
+
+	@Transactional
+	public List<MusicAlbum> getAllAlbums() {
+		List<MusicAlbum> musicAlbums = new ArrayList<>();
+		for (Item i : musicAlbumRepository.findAll()) {
+			musicAlbums.add((MusicAlbum) i);
+		}
+		return musicAlbums;
 	}
 
 }

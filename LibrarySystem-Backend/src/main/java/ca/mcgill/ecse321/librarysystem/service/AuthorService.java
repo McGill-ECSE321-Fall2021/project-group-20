@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.librarysystem.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -227,4 +228,12 @@ public class AuthorService {
         return (authorRepository.existsByAuthorID(authorID));
     }
 
+    @Transactional
+    public List<Author> getAuthors() {
+        List<Author> authors = new ArrayList<>();
+        for (Author a : authorRepository.findAll()) {
+            authors.add(a);
+        }
+        return authors;
+    }
 }

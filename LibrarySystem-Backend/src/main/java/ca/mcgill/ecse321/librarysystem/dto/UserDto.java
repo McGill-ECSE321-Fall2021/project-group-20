@@ -6,6 +6,7 @@ public class UserDto {
 
     private AddressDto address;
     private int libraryCardID;
+    private boolean isLoggedIn;
     private boolean isOnlineAcc;
     private boolean isVerified;
     private int demeritPts;
@@ -18,8 +19,9 @@ public class UserDto {
 
     public UserDto() {}
 
-    public UserDto(int libraryCardID, boolean aIsOnlineAcc, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress) {
+    public UserDto(int libraryCardID, boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress) {
         this.libraryCardID = libraryCardID;
+        isLoggedIn = aIsLoggedIn;
         isOnlineAcc = aIsOnlineAcc;
         firstName = aFirstName;
         lastName = aLastName;
@@ -28,9 +30,10 @@ public class UserDto {
         address = aAddress;
     }
 
-    public UserDto(int libraryCardID, boolean aIsOnlineAcc, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress, String username, String email, String password) {
+    public UserDto(int libraryCardID, boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress, String username, String email, String password) {
         this.libraryCardID = libraryCardID;
         isOnlineAcc = aIsOnlineAcc;
+        isLoggedIn = aIsLoggedIn;
         firstName = aFirstName;
         lastName = aLastName;
         isVerified = aIsVerified;

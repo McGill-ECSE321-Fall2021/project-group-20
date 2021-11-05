@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.librarysystem.service;
 import ca.mcgill.ecse321.librarysystem.dao.CalendarRepository;
 import ca.mcgill.ecse321.librarysystem.dao.HourRepository;
 import ca.mcgill.ecse321.librarysystem.model.Calendar;
+import ca.mcgill.ecse321.librarysystem.model.Hour;
 import ca.mcgill.ecse321.librarysystem.model.LibrarySystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,5 +77,31 @@ public class CalendarService {
     @Transactional
     public boolean checkCalendarExists(String calendarID) {
        return calendarRepository.existsByCalendarID(calendarID);
+    }
+
+    @Transactional
+    public boolean addHourToCalendar(String calendarID, Hour hour) {
+        if (calendarID == null || calendarID.length() == 0) throw new IllegalArgumentException("Please enter a valid calendarID");
+        if (hour == null) throw new IllegalArgumentException("Please enter a valid Hour");
+        Calendar calendar = calendarRepository.findCalendarByCalendarID(calendarID);
+        if (calendar == null) throw new NullPointerException("Cannot find Calendar with given ID");
+        if (calendar.addHour(hour)) {
+            calendarRepository.save(calendar);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean removeHour(String calendarID, Hour hour) {
+        if (calendarID == null || calendarID.length() == 0) throw new IllegalArgumentException("Please enter a valid calendarID");
+        if (hour == null) throw new IllegalArgumentException("Please enter a valid Hour to remove");
+        Calendar calendar = calendarRepository.findCalendarByCalendarID(calendarID);
+        if (calendar == null) throw new NullPointerException("Cannot find Calendar with given ID");
+        if (calendar.removeHour(hour)) {
+            calendarRepository.save(calendar);
+            return true;
+        }
+        return false;
     }
 }

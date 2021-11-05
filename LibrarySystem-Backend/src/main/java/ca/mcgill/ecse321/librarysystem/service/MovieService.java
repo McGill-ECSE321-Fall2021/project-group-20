@@ -1,54 +1,53 @@
 package ca.mcgill.ecse321.librarysystem.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import ca.mcgill.ecse321.librarysystem.dao.MovieRepository;
+import ca.mcgill.ecse321.librarysystem.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ca.mcgill.ecse321.librarysystem.dao.MusicAlbumRepository;
-import ca.mcgill.ecse321.librarysystem.model.Booking;
-import ca.mcgill.ecse321.librarysystem.model.Item;
+import ca.mcgill.ecse321.librarysystem.dao.MovieRepository;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
-import ca.mcgill.ecse321.librarysystem.model.MusicAlbum;
-import ca.mcgill.ecse321.librarysystem.model.Title;
 
 @Service
 public class MovieService {
 	@Autowired
-	private MusicAlbumRepository musicAlbumRepository;
+	private MovieRepository movieRepository;
 
 	@Transactional
-	public MusicAlbum createItem(Status aStatus, long aItemBarcode, Title aTitle, int duration) {
+	public Movie createItem(Status aStatus, long aItemBarcode, Title aTitle, int length) {
 		if (aStatus == null || aTitle == null) throw new IllegalArgumentException("Please enter a valid status or title");
-		MusicAlbum item = new MusicAlbum(aStatus, aItemBarcode, aTitle,duration);
-		musicAlbumRepository.save(item);
+		Movie item = new Movie(aStatus, aItemBarcode, aTitle,length);
+		movieRepository.save(item);
 		return item;
 	}
 
 	@Transactional
-	public MusicAlbum getItemById(Long itemBarcode) {
-		MusicAlbum item = (MusicAlbum) musicAlbumRepository.findItemByItemBarcode(itemBarcode);
+	public Movie getItemById(Long itemBarcode) {
+		Movie item = (Movie) movieRepository.findItemByItemBarcode(itemBarcode);
 		if (item == null) throw new IllegalArgumentException("No Item found");
 		
 		return item;
 	}
 
 	@Transactional
-	public List<MusicAlbum> getItemByStat(Status status) {
+	public List<Movie> getItemByStat(Status status) {
 		@SuppressWarnings("unchecked")
-		List<MusicAlbum> item = (List<MusicAlbum>)(List<?>) musicAlbumRepository.findItemByStatus(status);
-		for (MusicAlbum iteme : item) {
+		List<Movie> item = (List<Movie>)(List<?>) movieRepository.findItemByStatus(status);
+		for (Movie iteme : item) {
 			if (iteme == null) throw new IllegalArgumentException("No Item found");
 		}	
 		return item;
 	}
 
 	@Transactional
-	public List<MusicAlbum> getItemByTitle(Title title) {
+	public List<Movie> getItemByTitle(Title title) {
 		@SuppressWarnings("unchecked")
-		List<MusicAlbum> item = (List<MusicAlbum>)(List<?>) musicAlbumRepository.findItemByTitle(title);
-		for (MusicAlbum iteme : item) {
+		List<Movie> item = (List<Movie>)(List<?>) movieRepository.findItemByTitle(title);
+		for (Movie iteme : item) {
 			if (iteme == null) throw new IllegalArgumentException("No Item found");
 		}	
 		return item;
@@ -56,22 +55,22 @@ public class MovieService {
 
 	@Transactional
 	public boolean getexistanceByItemBarcode(Long itemBarcode) {
-		boolean booleanOfItem = musicAlbumRepository.existsByItemBarcode(itemBarcode);
+		boolean booleanOfItem = movieRepository.existsByItemBarcode(itemBarcode);
 		return booleanOfItem;
 	}
 
 	@Transactional
-	public MusicAlbum getItemByItemBooking(Booking booking) {
-		MusicAlbum item = (MusicAlbum) musicAlbumRepository.findItemByBooking(booking);
+	public Movie getItemByItemBooking(Booking booking) {
+		Movie item = (Movie) movieRepository.findItemByBooking(booking);
 		if (item == null) throw new IllegalArgumentException("No Item found");
 		return item;
 	}
 	
 	@Transactional
 	public void deleatItemById(Long itemBarcode) {
-		MusicAlbum item = (MusicAlbum) musicAlbumRepository.findItemByItemBarcode(itemBarcode);
+		Movie item = (Movie) movieRepository.findItemByItemBarcode(itemBarcode);
 		if (item == null) throw new IllegalArgumentException("No Item found");
-		musicAlbumRepository.delete(item);
+		movieRepository.delete(item);
 		
 		item.delete();
 	}
@@ -79,11 +78,11 @@ public class MovieService {
 	@Transactional
 	public void deleatItemByStat(Status status) {
 		@SuppressWarnings("unchecked")
-		List<MusicAlbum> item = (List<MusicAlbum>)(List<?>) musicAlbumRepository.findItemByStatus(status);
-		for (MusicAlbum iteme : item) {
+		List<Movie> item = (List<Movie>)(List<?>) movieRepository.findItemByStatus(status);
+		for (Movie iteme : item) {
 			if (iteme == null) throw new IllegalArgumentException("No Item found");
 		}	
-		musicAlbumRepository.deleteAll(item);
+		movieRepository.deleteAll(item);
 		for (Item iteme : item) {
 			iteme.delete();;
 		}	
@@ -92,11 +91,11 @@ public class MovieService {
 	@Transactional
 	public void deleatItemByTitle(Title title) {
 		@SuppressWarnings("unchecked")
-		List<MusicAlbum> item = (List<MusicAlbum>)(List<?>) musicAlbumRepository.findItemByTitle(title);
-		for (MusicAlbum iteme : item) {
+		List<Movie> item = (List<Movie>)(List<?>) movieRepository.findItemByTitle(title);
+		for (Movie iteme : item) {
 			if (iteme == null) throw new IllegalArgumentException("No Item found");
 		}	
-		musicAlbumRepository.deleteAll(item);
+		movieRepository.deleteAll(item);
 		
 		for (Item iteme : item) {
 			iteme.delete();;
@@ -106,54 +105,63 @@ public class MovieService {
 
 	@Transactional
 	public void deleatItemByItemBooking(Booking booking) {
-		MusicAlbum item = (MusicAlbum) musicAlbumRepository.findItemByBooking(booking);
+		Movie item = (Movie) movieRepository.findItemByBooking(booking);
 		if (item == null) throw new IllegalArgumentException("No Item found");
-		musicAlbumRepository.delete(item);
+		movieRepository.delete(item);
 		item.delete();
 	}
 	
 	
 	@Transactional 
-	public void updateItem(Status aStatus, long aItemBarcode, Title aTitle,int duration) {
-		MusicAlbum item = (MusicAlbum) musicAlbumRepository.findItemByItemBarcode(aItemBarcode);
+	public void updateItem(Status aStatus, long aItemBarcode, Title aTitle,int length) {
+		Movie item = (Movie) movieRepository.findItemByItemBarcode(aItemBarcode);
 		if (item == null) throw new IllegalArgumentException("No Item found");
 		item.setStatus(aStatus);
 		item.setTitle(aTitle);
-		item.setDuration(duration);
-		musicAlbumRepository.save(item);
+		item.setLength(length);
+		movieRepository.save(item);
 	}
 	
 	@Transactional 
 	public void updateItem(Status aStatus, long aItemBarcode, Title aTitle) {
-		MusicAlbum item = (MusicAlbum) musicAlbumRepository.findItemByItemBarcode(aItemBarcode);
+		Movie item = (Movie) movieRepository.findItemByItemBarcode(aItemBarcode);
 		if (item == null) throw new IllegalArgumentException("No Item found");
 		item.setStatus(aStatus);
 		item.setTitle(aTitle);
-		musicAlbumRepository.save(item);
+		movieRepository.save(item);
 	}
 	
 	@Transactional 
 	public void updateItem(long aItemBarcode, Title aTitle) {
-		MusicAlbum item = (MusicAlbum) musicAlbumRepository.findItemByItemBarcode(aItemBarcode);
+		Movie item = (Movie) movieRepository.findItemByItemBarcode(aItemBarcode);
 		if (item == null) throw new IllegalArgumentException("No Item found");
 		item.setTitle(aTitle);
-		musicAlbumRepository.save(item);
+		movieRepository.save(item);
 	}
 	
 	@Transactional 
 	public void updateItem(Status aStatus,long aItemBarcode) {
-		MusicAlbum item = (MusicAlbum) musicAlbumRepository.findItemByItemBarcode(aItemBarcode);
+		Movie item = (Movie) movieRepository.findItemByItemBarcode(aItemBarcode);
 		if (item == null) throw new IllegalArgumentException("No Item found");
 		item.setStatus(aStatus);
-		musicAlbumRepository.save(item);
+		movieRepository.save(item);
 	}
 	
 	@Transactional 
-	public void updateItem(int duration,long aItemBarcode) {
-		MusicAlbum item = (MusicAlbum) musicAlbumRepository.findItemByItemBarcode(aItemBarcode);
+	public void updateItem(int length,long aItemBarcode) {
+		Movie item = (Movie) movieRepository.findItemByItemBarcode(aItemBarcode);
 		if (item == null) throw new IllegalArgumentException("No Item found");
-		item.setDuration(duration);
-		musicAlbumRepository.save(item);
+		item.setLength(length);
+		movieRepository.save(item);
+	}
+
+	@Transactional
+	public List<Movie> getMovies() {
+		List<Movie> movies = new ArrayList<>();
+		for (Item i : movieRepository.findAll()) {
+			movies.add((Movie) i);
+		}
+		return movies;
 	}
 
 }

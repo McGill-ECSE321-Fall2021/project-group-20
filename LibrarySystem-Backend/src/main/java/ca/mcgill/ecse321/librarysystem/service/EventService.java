@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.librarysystem.service;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,6 @@ public class EventService {
 		  Event newEvent = new Event (aEventID, aName,aEventDate, aEventhour);
 		  eventRepository.save(newEvent);
 	      return newEvent;
-				  
-		  
 	  }
 	  @Transactional
 	    public Event createEvent(String aName, Date aEventDate, Hour aEventhour) {
@@ -39,36 +38,29 @@ public class EventService {
 				  Event newEvent = new Event (aName,aEventDate, aEventhour);
 				  eventRepository.save(newEvent);
 				  return newEvent;
-				  
-		  
 	  }
 	  
 	  @Transactional
 	    public Event createEvent() {
-		
 				  Event newEvent = new Event ();
 				  eventRepository.save(newEvent);
 				  return newEvent;
-				  
-		  
 	  }
 	  
 	  
 	  @Transactional
 	  public Event getEventByDate(Date inputDate) {
-		  return (Event) eventRepository.findByEventDate(inputDate); 
-		  
-		  
+		  return eventRepository.findByEventDate(inputDate);
 	  }
 	  
 	  @Transactional 
 	  public Event getEventByID (String ID) {
-		  return (Event) eventRepository.findByEventID(ID);
+		  return eventRepository.findByEventID(ID);
 	  }
 	  
 	  @Transactional
 	  public Event getEventByHour (Hour EHour) {
-		  return (Event) eventRepository.findByEventhour(EHour);
+		  return eventRepository.findByEventhour(EHour);
 	  }
 	
 	  @Transactional 
@@ -127,27 +119,52 @@ public class EventService {
 	  }
 	  
 	  @Transactional 
-	  public boolean updateEventdateE (Date DAY) {
+	  public boolean updateEventdate (String eventID, Date DAY) {
+		  if (eventID == null || eventID.length() == 0) throw new IllegalArgumentException("Please enter valid eventID");
 		  if (DAY==null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d ");
-		  Event myEvent =  eventRepository.findByEventDate(DAY);
-		  return myEvent.setEventDate(DAY);
+		  Event myEvent =  eventRepository.findByEventID(eventID);
+		  if (myEvent == null) throw new NullPointerException("Cannot find Event with this ID");
+		  if (myEvent.setEventDate(DAY)) {
+			  eventRepository.save(myEvent);
+			  return true;
+		  }
+		  return false;
 	  }
 	  
 	  
 	  @Transactional
-	  public boolean updateEventHour (Hour hour) {
+	  public boolean updateEventHour (String eventID, Hour hour) {
+		  if (eventID == null || eventID.length() == 0) throw new IllegalArgumentException("Please enter valid eventID");
 		  if (hour==null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d ");
-		  Event myEvent =  eventRepository.findByEventhour(hour);
-		  return myEvent.setEventhour(hour);
+		  Event myEvent =  eventRepository.findByEventID(eventID);
+		  if (myEvent.setEventhour(hour)) {
+			  eventRepository.save(myEvent);
+			  return true;
+		  }
+		  return false;
 	  }
 	  
 	  @Transactional 
-	  public boolean updateEventNameByDayandHour (Date DAY, String updateName) {
+	  public boolean updateEventNameByDayandHour (String eventID, Date DAY, String updateName) {
+		  if (eventID == null || eventID.length() == 0) throw new IllegalArgumentException("Please enter valid eventID");
 		  if (DAY==null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d ");
-		  Event myEvent = eventRepository.findByEventDate(DAY);
-		  return myEvent.setName(updateName);
+		  Event myEvent = eventRepository.findByEventID(eventID);
+		  if (myEvent.setName(updateName)) {
+			  eventRepository.save(myEvent);
+			  return true;
+		  }
+		  return false;
 
 		  
+	  }
+
+	  @Transactional
+	public List<Event> getAllEvents() {
+		  List<Event> events = new ArrayList<>();
+		  for (Event e : eventRepository.findAll()) {
+			  events.add(e);
+		  }
+		  return events;
 	  }
 
 }
