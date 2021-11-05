@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -166,9 +167,10 @@ public class TestBookingRepositoryPersistence {
 
 		List<Booking> FindBookingByStartDate = bookingRepository.findBookingByStartDate(sdate);
 		for (Booking PersitanceBook : FindBookingByStartDate){
-
-			assertTrue(PersitanceBook.getStartDate().equals(myBooking.getStartDate()) || PersitanceBook.getStartDate().equals(myBooking1.getStartDate()));
-			assertTrue(PersitanceBook.getEndDate().equals(myBooking.getEndDate()) || PersitanceBook.getEndDate().equals(myBooking1.getEndDate()));
+			String startDate = new SimpleDateFormat("yyyy-MM-dd").format(PersitanceBook.getStartDate());
+			String endDate = new SimpleDateFormat("yyyy-MM-dd").format(PersitanceBook.getEndDate());
+			assertTrue(Date.valueOf(startDate).equals(myBooking.getStartDate()) || Date.valueOf(startDate).equals(myBooking1.getStartDate()));
+			assertTrue(Date.valueOf(endDate).equals(myBooking.getEndDate()) || Date.valueOf(endDate).equals(myBooking1.getEndDate()));
 			assertTrue(PersitanceBook.getBookingID().equals(myBooking.getBookingID()) ||PersitanceBook.getBookingID().equals(myBooking1.getBookingID()) );
 			assertTrue(PersitanceBook.getType().equals(myBooking.getType()) ||PersitanceBook.getType().equals(myBooking1.getType()) );
 		}
@@ -240,9 +242,10 @@ public class TestBookingRepositoryPersistence {
 		
 		List<Booking> FindBookingByEndDate = bookingRepository.findBookingByEndDate(edate);
 		for (Booking PersitanceBook : FindBookingByEndDate){
-
-			assertTrue(PersitanceBook.getStartDate().equals(myBooking.getStartDate()) || PersitanceBook.getStartDate().equals(myBooking1.getStartDate()));
-			assertTrue(PersitanceBook.getEndDate().equals(myBooking.getEndDate()) || PersitanceBook.getEndDate().equals(myBooking1.getEndDate()));
+			String startDate = new SimpleDateFormat("yyyy-MM-dd").format(PersitanceBook.getStartDate());
+			String endDate = new SimpleDateFormat("yyyy-MM-dd").format(PersitanceBook.getEndDate());
+			assertTrue(Date.valueOf(startDate).equals(myBooking.getStartDate()) || Date.valueOf(startDate).equals(myBooking1.getStartDate()));
+			assertTrue(Date.valueOf(endDate).equals(myBooking.getEndDate()) || Date.valueOf(endDate).equals(myBooking1.getEndDate()));
 			assertTrue(PersitanceBook.getBookingID().equals(myBooking.getBookingID()) ||PersitanceBook.getBookingID().equals(myBooking1.getBookingID()) );
 			assertTrue(PersitanceBook.getType().equals(myBooking.getType()) ||PersitanceBook.getType().equals(myBooking1.getType()) );
 		}
@@ -436,9 +439,10 @@ public class TestBookingRepositoryPersistence {
 		
 		List<Booking> FindBookingByEndDate = bookingRepository.findBookingByType(BookingType.Reservation);
 		for (Booking PersitanceBook : FindBookingByEndDate){
-
-			assertTrue(PersitanceBook.getStartDate().equals(myBooking.getStartDate()) || PersitanceBook.getStartDate().equals(myBooking1.getStartDate()));
-			assertTrue(PersitanceBook.getEndDate().equals(myBooking.getEndDate()) || PersitanceBook.getEndDate().equals(myBooking1.getEndDate()));
+			String startDate = new SimpleDateFormat("yyyy-MM-dd").format(PersitanceBook.getStartDate());
+			String endDate = new SimpleDateFormat("yyyy-MM-dd").format(PersitanceBook.getEndDate());
+			assertTrue(Date.valueOf(startDate).equals(myBooking.getStartDate()) || Date.valueOf(startDate).equals(myBooking1.getStartDate()));
+			assertTrue(Date.valueOf(endDate).equals(myBooking.getEndDate()) || Date.valueOf(endDate).equals(myBooking1.getEndDate()));
 			assertTrue(PersitanceBook.getBookingID().equals(myBooking.getBookingID()) ||PersitanceBook.getBookingID().equals(myBooking1.getBookingID()) );
 			assertTrue(PersitanceBook.getType().equals(myBooking.getType()) ||PersitanceBook.getType().equals(myBooking1.getType()) );
 		}
