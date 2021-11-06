@@ -159,7 +159,7 @@ public class CustomerRestController {
 
     @PutMapping(value = { "/customer/balance/{id}", "/customer/balance/{id}/" })
     public CustomerDto modifyBalance(@PathVariable("id") String id, @RequestParam String toModify) throws IllegalArgumentException, NullPointerException {
-        if (customerService.modifyOutstandingBalance(Integer.parseInt(id), Integer.parseInt(toModify))) return convertToDto(customerService.getCustomer(Integer.parseInt(id)));
+        if (customerService.modifyOutstandingBalance(Integer.parseInt(id), Integer.parseInt(toModify)) != null) return convertToDto(customerService.getCustomer(Integer.parseInt(id)));
         return null;
     }
 

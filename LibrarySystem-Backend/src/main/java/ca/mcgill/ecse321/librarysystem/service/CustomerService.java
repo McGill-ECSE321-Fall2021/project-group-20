@@ -55,8 +55,11 @@ public class CustomerService {
         newOnlineCustomer.setUsername(username);
         newOnlineCustomer.setPassword(password);
         customerRepository.save(newOnlineCustomer);
-        LibrarySystem librarySystem = librarySystemRepository.findLibrarySystemByUsers(newOnlineCustomer);
-        if (!a.getCity().equalsIgnoreCase(librarySystem.getBusinessaddress().getCity()) || !a.getCountry().equalsIgnoreCase(librarySystem.getBusinessaddress().getCountry()) || !a.getProvince().equalsIgnoreCase(librarySystem.getBusinessaddress().getProvince())) {
+        //LibrarySystem librarySystem = librarySystemRepository.findLibrarySystemByUsers(newOnlineCustomer);
+        // THIS IS TEMPORARY ONLY!!!!!!!!!
+//        if (!a.getCity().equalsIgnoreCase(librarySystem.getBusinessaddress().getCity()) || !a.getCountry().equalsIgnoreCase(librarySystem.getBusinessaddress().getCountry()) || !a.getProvince().equalsIgnoreCase(librarySystem.getBusinessaddress().getProvince())) {
+//            newOnlineCustomer.setOutstandingBalance(newOnlineCustomer.getOutstandingBalance() + 50);
+        if (!a.getCity().equalsIgnoreCase("Montreal") || !a.getCountry().equalsIgnoreCase("Canada") || !a.getProvince().equalsIgnoreCase("QC")) {
             newOnlineCustomer.setOutstandingBalance(newOnlineCustomer.getOutstandingBalance() + 50);
             System.out.println("Note: you will have to pay " + newOnlineCustomer.getOutstandingBalance() + " before you can start using the Library");
             customerRepository.save(newOnlineCustomer);
@@ -65,22 +68,22 @@ public class CustomerService {
     }
 
     @Transactional
-    public boolean modifyOutstandingBalance(int libraryCardID, int toModify) {
+    public Customer modifyOutstandingBalance(int libraryCardID, int toModify) {
         if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid ID");
         Customer customer = (Customer) customerRepository.findUserByLibraryCardID(libraryCardID);
         if (customer == null) throw new NullPointerException("Cannot find Customer with this ID");
         if (customer.setOutstandingBalance(customer.getOutstandingBalance() + toModify)) {
             customerRepository.save(customer);
-            return true;
+            return customer;
         }
-        return false;
+        return null;
     }
 
     @Transactional
     public Customer login(String username, String password) {
         if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
         Customer customer = (Customer) customerRepository.findUserByUsername(username);
-        if (customer == null || !customer.getIsOnlineAcc()) throw new NullPointerException("Cannot find Online Customer with this ID");
+        if (customer == null || !customer.getIsOnlineAcc()) throw new NullPointerException("Cannot find Online Customer with this username");
         if (!customer.getPassword().equals(password)) throw new IllegalArgumentException("Incorrect password!");
         if (customer.setIsLoggedIn(true)) {
             customerRepository.save(customer);
@@ -93,7 +96,7 @@ public class CustomerService {
     public Customer loginByEmail(String email, String password) {
         if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
         Customer customer = (Customer) customerRepository.findUserByEmail(email);
-        if (customer == null || !customer.getIsOnlineAcc()) throw new NullPointerException("Cannot find Online Customer with this ID");
+        if (customer == null || !customer.getIsOnlineAcc()) throw new NullPointerException("Cannot find Online Customer with this email");
         if (!customer.getPassword().equals(password)) throw new IllegalArgumentException("Incorrect password!");
         if (customer.setIsLoggedIn(true)) {
             customerRepository.save(customer);
@@ -119,7 +122,7 @@ public class CustomerService {
     public boolean logout(String username) {
         if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
         Customer customer = (Customer) customerRepository.findUserByUsername(username);
-        if (customer == null || !customer.getIsOnlineAcc()) throw new NullPointerException("Cannot find Online Customer with this ID");
+        if (customer == null || !customer.getIsOnlineAcc()) throw new NullPointerException("Cannot find Online Customer with this username");
         if (customer.setIsLoggedIn(false)) {
             customerRepository.save(customer);
             return true;
@@ -131,7 +134,7 @@ public class CustomerService {
     public boolean logoutByEmail(String email) {
         if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
         Customer customer = (Customer) customerRepository.findUserByEmail(email);
-        if (customer == null || !customer.getIsOnlineAcc()) throw new NullPointerException("Cannot find Online Customer with this ID");
+        if (customer == null || !customer.getIsOnlineAcc()) throw new NullPointerException("Cannot find Online Customer with this email");
         if (customer.setIsLoggedIn(false)) {
             customerRepository.save(customer);
             return true;

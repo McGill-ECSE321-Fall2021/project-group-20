@@ -29,9 +29,9 @@ public class User
   // STATIC VARIABLES
   //------------------------
 
-  private static Map<Integer, User> usersByLibraryCardID = new HashMap<Integer, User>();
-  private static Map<String, User> usersByUsername = new HashMap<String, User>();
-  private static Map<String, User> usersByEmail = new HashMap<String, User>();
+//  private static Map<Integer, User> usersByLibraryCardID = new HashMap<Integer, User>();
+//  private static Map<String, User> usersByUsername = new HashMap<String, User>();
+//  private static Map<String, User> usersByEmail = new HashMap<String, User>();
 
   //------------------------
   // MEMBER VARIABLES
@@ -152,21 +152,23 @@ public class User
 
   public boolean setUsername(String aUsername)
   {
-	  boolean wasSet = false;
-	    String anOldUsername = getUsername();
-	    if (anOldUsername != null && anOldUsername.equals(aUsername)) {
-	      return true;
-	    }
-	    if (hasWithUsername(aUsername)) {
-	      return wasSet;
-	    }
-	    username = aUsername;
-	    wasSet = true;
-	    if (anOldUsername != null) {
-	      usersByUsername.remove(anOldUsername);
-	    }
-	    usersByUsername.put(aUsername, this);
-	    return wasSet;
+    username = aUsername;
+    return true;
+//	  boolean wasSet = false;
+//	    String anOldUsername = getUsername();
+//	    if (anOldUsername != null && anOldUsername.equals(aUsername)) {
+//	      return true;
+//	    }
+//	    if (hasWithUsername(aUsername)) {
+//	      return wasSet;
+//	    }
+//	    username = aUsername;
+//	    wasSet = true;
+//	    if (anOldUsername != null) {
+//	      usersByUsername.remove(anOldUsername);
+//	    }
+//	    usersByUsername.put(aUsername, this);
+//	    return wasSet;
   }
 
   public boolean setPassword(String aPassword)
@@ -179,21 +181,23 @@ public class User
 
   public boolean setEmail(String aEmail)
   {
-	  boolean wasSet = false;
-	    String anOldEmail = getEmail();
-	    if (anOldEmail != null && anOldEmail.equals(aEmail)) {
-	      return true;
-	    }
-	    if (hasWithEmail(aEmail)) {
-	      return wasSet;
-	    }
-	    email = aEmail;
-	    wasSet = true;
-	    if (anOldEmail != null) {
-	      usersByEmail.remove(anOldEmail);
-	    }
-	    usersByEmail.put(aEmail, this);
-	    return wasSet;
+//	  boolean wasSet = false;
+//	    String anOldEmail = getEmail();
+//	    if (anOldEmail != null && anOldEmail.equals(aEmail)) {
+//	      return true;
+//	    }
+//	    if (hasWithEmail(aEmail)) {
+//	      return wasSet;
+//	    }
+//	    email = aEmail;
+//	    wasSet = true;
+//	    if (anOldEmail != null) {
+//	      usersByEmail.remove(anOldEmail);
+//	    }
+//	    usersByEmail.put(aEmail, this);
+//	    return wasSet;
+    email = aEmail;
+    return true;
   }
 
   public boolean setFirstName(String aFirstName)
@@ -214,21 +218,23 @@ public class User
 
   public boolean setLibraryCardID(int aLibraryCardID)
   {
-    boolean wasSet = false;
-    Integer anOldLibraryCardID = getLibraryCardID();
-    if (anOldLibraryCardID != null && anOldLibraryCardID.equals(aLibraryCardID)) {
-      return true;
-    }
-    if (hasWithLibraryCardID(aLibraryCardID)) {
-      return wasSet;
-    }
+//    boolean wasSet = false;
+//    Integer anOldLibraryCardID = getLibraryCardID();
+//    if (anOldLibraryCardID != null && anOldLibraryCardID.equals(aLibraryCardID)) {
+//      return true;
+//    }
+//    if (hasWithLibraryCardID(aLibraryCardID)) {
+//      return wasSet;
+//    }
+//    libraryCardID = aLibraryCardID;
+//    wasSet = true;
+//    if (anOldLibraryCardID != null) {
+//      usersByLibraryCardID.remove(anOldLibraryCardID);
+//    }
+//    usersByLibraryCardID.put(aLibraryCardID, this);
+//    return wasSet;
     libraryCardID = aLibraryCardID;
-    wasSet = true;
-    if (anOldLibraryCardID != null) {
-      usersByLibraryCardID.remove(anOldLibraryCardID);
-    }
-    usersByLibraryCardID.put(aLibraryCardID, this);
-    return wasSet;
+    return true;
   }
 
   public boolean setIsVerified(boolean aIsVerified)
@@ -252,16 +258,16 @@ public class User
     return isOnlineAcc;
   }
   
-  /* Code from template attribute_GetUnique */
-  public static User getWithUsername(String aUsername)
-  {
-    return usersByUsername.get(aUsername);
-  }
-  /* Code from template attribute_HasUnique */
-  public static boolean hasWithUsername(String aUsername)
-  {
-    return getWithUsername(aUsername) != null;
-  }
+//  /* Code from template attribute_GetUnique */
+//  public static User getWithUsername(String aUsername)
+//  {
+//    return usersByUsername.get(aUsername);
+//  }
+//  /* Code from template attribute_HasUnique */
+//  public static boolean hasWithUsername(String aUsername)
+//  {
+//    return getWithUsername(aUsername) != null;
+//  }
 
   public String getUsername()
   {
@@ -273,16 +279,16 @@ public class User
     return password;
   }
   
-  /* Code from template attribute_GetUnique */
-  public static User getWithEmail(String aEmail)
-  {
-    return usersByEmail.get(aEmail);
-  }
-  /* Code from template attribute_HasUnique */
-  public static boolean hasWithEmail(String aEmail)
-  {
-    return getWithEmail(aEmail) != null;
-  }
+//  /* Code from template attribute_GetUnique */
+//  public static User getWithEmail(String aEmail)
+//  {
+//    return usersByEmail.get(aEmail);
+//  }
+//  /* Code from template attribute_HasUnique */
+//  public static boolean hasWithEmail(String aEmail)
+//  {
+//    return getWithEmail(aEmail) != null;
+//  }
 
   public String getEmail()
   {
@@ -307,15 +313,15 @@ public class User
     return libraryCardID;
   }
   /* Code from template attribute_GetUnique */
-  public static User getWithLibraryCardID(int aLibraryCardID)
-  {
-    return usersByLibraryCardID.get(aLibraryCardID);
-  }
-  /* Code from template attribute_HasUnique */
-  public static boolean hasWithLibraryCardID(int aLibraryCardID)
-  {
-    return getWithLibraryCardID(aLibraryCardID) != null;
-  }
+//  public static User getWithLibraryCardID(int aLibraryCardID)
+//  {
+//    return usersByLibraryCardID.get(aLibraryCardID);
+//  }
+//  /* Code from template attribute_HasUnique */
+//  public static boolean hasWithLibraryCardID(int aLibraryCardID)
+//  {
+//    return getWithLibraryCardID(aLibraryCardID) != null;
+//  }
 
   public boolean getIsVerified()
   {
@@ -464,9 +470,9 @@ public class User
 
   public void delete()
   {
-    usersByUsername.remove(getUsername());
-    usersByEmail.remove(getEmail());
-    usersByLibraryCardID.remove(getLibraryCardID());
+//    usersByUsername.remove(getUsername());
+//    usersByEmail.remove(getEmail());
+//    usersByLibraryCardID.remove(getLibraryCardID());
     address = null;
     for(int i=userbooking.size(); i > 0; i--)
     {
