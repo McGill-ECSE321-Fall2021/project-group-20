@@ -70,7 +70,7 @@ public class TitleService {
     }
 
     @Transactional
-    public Title getTitlesByItemBarcode(Item itemBarcode) {
+    public Title getTitleByItemBarcode(Item itemBarcode) {
     	if (itemBarcode == null) throw new IllegalArgumentException("Please enter a valid item");
         Title title = titleRepository.findByItem(itemBarcode);
         if (title == null) throw new NullPointerException("Title not found");
