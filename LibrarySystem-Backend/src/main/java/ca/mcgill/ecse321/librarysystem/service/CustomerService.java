@@ -146,26 +146,28 @@ public class CustomerService {
     Deletes a Customer by a given libraryCardID
      */
     @Transactional
-    public boolean deleteCustomerByID(int libraryCardID) {
+    public Customer deleteCustomerByID(int libraryCardID) {
         if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
         Customer customer = (Customer) customerRepository.findUserByLibraryCardID(libraryCardID);
         if (customer == null) throw new NullPointerException("Cannot find Customer matching this libraryCardID");
         customerRepository.delete(customer);
         addressRepository.delete(customer.getAddress());
         customer.delete();
-        return (!customerRepository.existsByLibraryCardID(libraryCardID));
+        if (customer.getAddress() == null && customer.numberOfUserbooking() == 0) return null;
+        return customer;
     }
 
     /*
     Validates a Customer by his ID
      */
     @Transactional
-    public boolean validateCustomerByID(int libraryCardID) {
+    public Customer validateCustomerByID(int libraryCardID) {
         if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
         Customer customer = (Customer) customerRepository.findUserByLibraryCardID(libraryCardID);
         if (customer == null) throw new NullPointerException("Cannot find Customer with given ID");
         if (customer.getOutstandingBalance() != 0) throw new IllegalStateException("Please ensure Customer pays outstanding balance before validating the account");
-        return customer.setIsVerified(true);
+        if (customer.setIsVerified(true)) return customer;
+        return null;
     }
 
     /*
@@ -205,24 +207,6 @@ public class CustomerService {
     }
 
     /*
-    Returns a list of Customers based on first name
-     */
-    @Transactional
-    public List<Customer> getCustomersByFirstName(String firstName) {
-        if (firstName == null || firstName.length() == 0) throw new IllegalArgumentException("Please enter a valid firstName");
-        return convertListToCustomer(customerRepository.findUserByFirstName(firstName));
-    }
-
-    /*
-    Returns a list of Customers based on last name
-     */
-    @Transactional
-    public List<Customer> getCustomersByLastName(String lastName) {
-        if (lastName == null || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid firstName");
-        return convertListToCustomer(customerRepository.findUserByLastName(lastName));
-    }
-
-    /*
     Returns a list of customers based on first and last names
      */
     @Transactional
@@ -238,26 +222,12 @@ public class CustomerService {
     }
 
     @Transactional
-    public List<Customer> getCustomersByAddress(Address address) {
-        if (address == null) throw new IllegalArgumentException("Please enter a valid address");
-        return convertListToCustomer(customerRepository.findUserByAddress(address));
-    }
-
-    @Transactional
     public List<Customer> getCustomersByAddress(String civic, String street, String city, String postalCode, String province, String country) {
         if (civic == null || civic.equals("0") || civic.length() == 0 || street == null || street.length() == 0 || city == null || city.length() == 0 ||
                 postalCode == null || postalCode.length() == 0 || province == null || province.length() != 2 || country == null || country.length() == 0) throw new IllegalArgumentException("Please enter a valid address");
         List<Address> addressList = addressRepository.findAddressByCivicNumberAndStreetAndCityAndPostalCodeAndProvinceAndCountry(civic, street, city, postalCode, province, country);
         if (addressList.isEmpty()) throw new NullPointerException("Cannot find address in system");
-        return getCustomersByAddress(addressList.get(0));
-    }
-
-    /*
-    Returns a list of Customers based on their online account status
-     */
-    @Transactional
-    public List<Customer> getCustomersByOnlineStatus(boolean isOnlineAcc) {
-        return convertListToCustomer(customerRepository.findUserByIsOnlineAcc(isOnlineAcc));
+        return convertListToCustomer(customerRepository.findUserByAddress(addressList.get(0)));
     }
 
     @Transactional
@@ -266,18 +236,10 @@ public class CustomerService {
     }
 
     /*
-    Returns a list of Customers based on their verification status
-     */
-    @Transactional
-    public List<Customer> getCustomersByVerifiedStatus(boolean isVerified) {
-        return convertListToCustomer(customerRepository.findUserByIsVerified(isVerified));
-    }
-
-    /*
     Converts a local account to an online one if username and email not in use
      */
     @Transactional
-    public boolean convertLocalToOnline(int libraryCardID, String username, String password, String email) {
+    public Customer convertLocalToOnline(int libraryCardID, String username, String password, String email) {
         if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
         if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
         if (password == null || password.length() < 8) throw new IllegalArgumentException("Please enter a password that is at least 8 characters long");
@@ -287,18 +249,18 @@ public class CustomerService {
         if (customerRepository.existsByEmail(email)) throw new IllegalArgumentException("Email in use, please select a different one");
         Customer customer = (Customer) customerRepository.findUserByLibraryCardID(libraryCardID);
         if (customer.getIsOnlineAcc()) throw new IllegalArgumentException("Account is already fully configured");
-        if (!customer.setUsername(username)) return false;
-        if (!customer.setPassword(password)) return false;
-        if (!customer.setEmail(email)) return false;
+        if (!customer.setUsername(username)) return null;
+        if (!customer.setPassword(password)) return null;
+        if (!customer.setEmail(email)) return null;
         if (customer.setIsOnlineAcc(true)) {
             customerRepository.save(customer);
-            return true;
+            return customer;
         }
-        return false;
+        return null;
     }
 
     @Transactional
-    public boolean updateOnlineInfo(int libraryCardID, String username, String password, String email) {
+    public Customer updateOnlineInfo(int libraryCardID, String username, String password, String email) {
         if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
         if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
         if (password == null || password.length() < 8) throw new IllegalArgumentException("Please enter a valid password of min 8 chars long");
@@ -309,58 +271,33 @@ public class CustomerService {
         Customer customer = (Customer) customerRepository.findUserByLibraryCardID(libraryCardID);
         if (customer.setUsername(username) && customer.setPassword(password) && customer.setEmail(email)) {
             customerRepository.save(customer);
-            return true;
+            return customer;
         }
-        return false;
+        return null;
     }
 
     @Transactional
-    public boolean changeInfo(int libraryCardID,  String firstName, String lastName, String civic, String street, String city, String postalCode, String province, String country) {
+    public Customer changeInfo(int libraryCardID,  String firstName, String lastName, String civic, String street, String city, String postalCode, String province, String country) {
         if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
         if (firstName == null || lastName == null || firstName.length() == 0 || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid name");
-        if (civic == null || civic.equals("0") || civic.length() == 0 || street == null || street.length() == 0 || city == null || city.length() == 0 ||
+        if (civic == null || civic.equals("0") || civic.length() == 0 || civic.contains("-") || civic.contains("+") || street == null || street.length() == 0 || city == null || city.length() == 0 ||
                 postalCode == null || postalCode.length() == 0 || province == null || province.length() != 2 || country == null || country.length() == 0) throw new IllegalArgumentException("Please enter a valid address");
-        if (!customerRepository.existsByLibraryCardID(libraryCardID)) throw new NullPointerException("Cannot find Customer with given ID");        Customer customer = (Customer) customerRepository.findUserByLibraryCardID(libraryCardID);
+        if (!customerRepository.existsByLibraryCardID(libraryCardID)) throw new NullPointerException("Cannot find Customer with given ID");
+        Customer customer = (Customer) customerRepository.findUserByLibraryCardID(libraryCardID);
         if (customer.setFirstName(firstName) && customer.setLastName(lastName)) {
             Address a = customer.getAddress();
-            if (!a.setCivicNumber(civic)) return false;
-            if (!a.setStreet(street)) return false;
-            if (!a.setCity(city)) return false;
-            if (!a.setPostalCode(postalCode)) return false;
-            if (!a.setProvince(province)) return false;
-            if (!a.setCountry(country)) return false;
+            if (!a.setCivicNumber(civic)) return null;
+            if (!a.setStreet(street)) return null;
+            if (!a.setCity(city)) return null;
+            if (!a.setPostalCode(postalCode)) return null;
+            if (!a.setProvince(province)) return null;
+            if (!a.setCountry(country)) return null;
             customer.setAddress(a);
             addressRepository.save(a);
             customerRepository.save(customer);
-            return true;
+            return customer;
         }
-        return false;
-    }
-
-    @Transactional
-    public boolean addBooking(int libraryCardID, Booking booking) {
-        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid ID");
-        if (booking == null) throw new IllegalArgumentException("Please enter a valid booking");
-        Customer customer = (Customer) customerRepository.findUserByLibraryCardID(libraryCardID);
-        if (customer == null) throw new NullPointerException("Cannot find Employee with this username");
-        if (customer.addUserbooking(booking)) {
-            customerRepository.save(customer);
-            return true;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean deleteBooking(int libraryCardID, Booking booking) {
-        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid ID");
-        if (booking == null) throw new IllegalArgumentException("Please enter a valid booking");
-        Customer customer = (Customer) customerRepository.findUserByLibraryCardID(libraryCardID);
-        if (customer == null) throw new NullPointerException("Cannot find Employee with this username");
-        if (customer.removeUserbooking(booking)) {
-            customerRepository.save(customer);
-            return true;
-        }
-        return false;
+        return null;
     }
 
     @Transactional

@@ -48,7 +48,8 @@ public class CustomerRestController {
 
     @DeleteMapping(value = { "/customer/{id}", "/customer/{id}/" })
     public boolean deleteCustomer(@PathVariable("id") String id) throws IllegalArgumentException, NullPointerException {
-        return customerService.deleteCustomerByID(Integer.parseInt(id));
+        if (customerService.deleteCustomerByID(Integer.parseInt(id)) == null) return true;
+        return false;
     }
 
     @GetMapping(value = { "/customer/login", "/customer/login/"})
@@ -63,24 +64,6 @@ public class CustomerRestController {
     @GetMapping(value = {"/customer/login/{id}", "/customer/login/{id}/"})
     public CustomerDto login(@PathVariable("id") String id, @RequestParam String password) throws IllegalArgumentException, NullPointerException {
         return convertToDto(customerService.login(Integer.parseInt(id), password));
-    }
-
-    @GetMapping(value = { "/customers/firstname", "/customers/firstname/" })
-    public List<CustomerDto> getCustomersByFirstName(@RequestParam String firstName) throws IllegalArgumentException, NullPointerException {
-        List<CustomerDto> cDto = new ArrayList<>();
-        for (Customer c : customerService.getCustomersByFirstName(firstName)) {
-            cDto.add(convertToDto(c));
-        }
-        return cDto;
-    }
-
-    @GetMapping(value = { "/customers/lastname/", "/customers/lastname" })
-    public List<CustomerDto> getCustomersByLastName(@RequestParam String lastName) throws IllegalArgumentException, NullPointerException {
-        List<CustomerDto> cDto = new ArrayList<>();
-        for (Customer c : customerService.getCustomersByLastName(lastName)) {
-            cDto.add(convertToDto(c));
-        }
-        return cDto;
     }
 
     @GetMapping(value = { "/customers/name", "/customers/name/" })
@@ -130,33 +113,6 @@ public class CustomerRestController {
         return cDto;
     }
 
-    @GetMapping(value = { "/customers/onlineAccounts", "/customers/onlineAccounts/" })
-    public List<CustomerDto> getOnlineAccs() {
-        List<CustomerDto> cDto = new ArrayList<>();
-        for (Customer c : customerService.getCustomersByOnlineStatus(true)) {
-            cDto.add(convertToDto(c));
-        }
-        return cDto;
-    }
-
-    @GetMapping(value = { "/customers/local", "customers/local/" })
-    public List<CustomerDto> getLocalAccs() {
-        List<CustomerDto> cDto = new ArrayList<>();
-        for (Customer c : customerService.getCustomersByOnlineStatus(false)) {
-            cDto.add(convertToDto(c));
-        }
-        return cDto;
-    }
-
-    @GetMapping(value = { "/customers/verified/{bool}", "/customers/verified/{bool}/" })
-    public List<CustomerDto> getVerified(@PathVariable("bool") String bool) {
-        List<CustomerDto> cDto = new ArrayList<>();
-        for (Customer c : customerService.getCustomersByVerifiedStatus(Boolean.getBoolean(bool))) {
-            cDto.add(convertToDto(c));
-        }
-        return cDto;
-    }
-
     @PutMapping(value = { "/customer/balance/{id}", "/customer/balance/{id}/" })
     public CustomerDto modifyBalance(@PathVariable("id") String id, @RequestParam String toModify) throws IllegalArgumentException, NullPointerException {
         if (customerService.modifyOutstandingBalance(Integer.parseInt(id), Integer.parseInt(toModify)) != null) return convertToDto(customerService.getCustomer(Integer.parseInt(id)));
@@ -165,20 +121,20 @@ public class CustomerRestController {
 
     @PutMapping(value = { "/customer/validate/{id}", "/customer/validate/{id}/" })
     public CustomerDto validateCustomer(@PathVariable("id") String id) {
-        if (customerService.validateCustomerByID(Integer.parseInt(id))) return convertToDto(customerService.getCustomer(Integer.parseInt(id)));
+        if (customerService.validateCustomerByID(Integer.parseInt(id)).getIsVerified()) return convertToDto(customerService.getCustomer(Integer.parseInt(id)));
         return null;
     }
 
     @PutMapping(value = { "/customer/convert/{id}", "/customer/convert/{id}/" })
     public CustomerDto convertLocal(@PathVariable("id") String id, @RequestParam String username, @RequestParam String password, @RequestParam String email) throws IllegalArgumentException, NullPointerException {
-        if (customerService.convertLocalToOnline(Integer.parseInt(id), username, password, email))
+        if (customerService.convertLocalToOnline(Integer.parseInt(id), username, password, email) != null)
             return convertToDto((customerService.getCustomer(Integer.parseInt(id))));
         return null;
     }
 
     @PutMapping(value = { "/customer/updateOnline/{id}", "/customer/updateOnline/{id}/" })
     public CustomerDto updateOnlineInfo(@PathVariable("id") String id, @RequestParam String username, @RequestParam String password, @RequestParam String email) throws IllegalArgumentException, NullPointerException {
-        if (customerService.updateOnlineInfo(Integer.parseInt(id), username, password, email))
+        if (customerService.updateOnlineInfo(Integer.parseInt(id), username, password, email) != null)
             return convertToDto(customerService.getCustomer(Integer.parseInt(id)));
         return null;
     }
@@ -187,7 +143,7 @@ public class CustomerRestController {
     public CustomerDto updateInfo(@PathVariable("id") String id, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String civic,
                                   @RequestParam String street, @RequestParam String city, @RequestParam String postalCode,
                                   @RequestParam String province, @RequestParam String country) throws IllegalArgumentException, NullPointerException {
-        if (customerService.changeInfo(Integer.parseInt(id), firstName, lastName, civic, street, city, postalCode, province, country))
+        if (customerService.changeInfo(Integer.parseInt(id), firstName, lastName, civic, street, city, postalCode, province, country) != null)
             return convertToDto(customerService.getCustomer(Integer.parseInt(id)));
         return null;
     }

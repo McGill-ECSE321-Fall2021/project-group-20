@@ -14,6 +14,9 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
@@ -65,19 +68,27 @@ public class TestCustomerService {
         });
 
         lenient().when(customerDao.existsByLibraryCardID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-            if (invocation.getArgument(0).equals(ID)) {
+            if (invocation.getArgument(0).equals(ID) || invocation.getArgument(0).equals(3) || invocation.getArgument(0).equals(4)) {
                 return true;
             }
             return false;
         });
 
         lenient().when(customerDao.findUserByLibraryCardID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-            if (invocation.getArgument(0).equals(ID_KEY)) {
+            if (invocation.getArgument(0).equals(ID_KEY) || invocation.getArgument(0).equals(4)) {
                 Address a = new Address(CIVIC_1, STREET_1, CITY_1, POST_1, PROV_1, COUNTRY_1);
                 Customer c = new Customer(true, false, FIRSTNAME_1, LASTNAME_1, true, 0, a);
                 c.setEmail(EMAIL_KEY);
                 c.setUsername(USER_KEY);
                 c.setPassword(PASS_1);
+                if (invocation.getArgument(0).equals(ID_KEY)) c.setLibraryCardID(ID_KEY);
+                else c.setLibraryCardID(4);
+                return c;
+            }
+            else if (invocation.getArgument(0).equals(3)) {
+                Address a = new Address(CIVIC_1, STREET_1, CITY_1, POST_1, PROV_1, COUNTRY_1);
+                Customer c = new Customer(false, false, FIRSTNAME_1, LASTNAME_1, true, 0, a);
+                c.setLibraryCardID(3);
                 return c;
             }
             return null;
@@ -99,8 +110,8 @@ public class TestCustomerService {
             if (invocation.getArgument(0).equals(EMAIL_1)) {
                 Address a = new Address(CIVIC_1, STREET_1, CITY_1, POST_1, PROV_1, COUNTRY_1);
                 Customer c = new Customer(true, false, FIRSTNAME_1, LASTNAME_1, true, 0, a);
-                c.setEmail(EMAIL_KEY);
-                c.setUsername(USER_KEY);
+                c.setEmail(EMAIL_1);
+                c.setUsername(USERNAME_1);
                 c.setPassword(PASS_1);
                 return c;
             }
@@ -119,8 +130,8 @@ public class TestCustomerService {
         Customer c = null;
         try {
             c = customerService.createCustomer(FIRSTNAME_1,LASTNAME_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
-        } catch (IllegalArgumentException error) {
-            fail();
+        } catch (IllegalArgumentException msg) {
+            fail(msg.getMessage());
         }
         assertNotNull(c);
         assertEquals(c.getFirstName(), FIRSTNAME_1);
@@ -252,7 +263,7 @@ public class TestCustomerService {
         try {
             c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
         } catch (IllegalArgumentException msg) {
-            fail();
+            fail(msg.getMessage());
         }
         assertNotNull(c);
         assertEquals(c.getFirstName(), FIRSTNAME_1);
@@ -452,13 +463,11 @@ public class TestCustomerService {
 
     @Test
     public void modifyBalanceTest() {
-        assertEquals(customerService.getAllCustomers().size(), 0);
-        Customer c = customerService.createCustomer(FIRSTNAME_1,LASTNAME_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
-        c.setLibraryCardID(1);
+        Customer c = null;
         try {
             c = customerService.modifyOutstandingBalance(1, 20);
         } catch (IllegalArgumentException | NullPointerException msg) {
-            fail();
+            fail(msg.getMessage());
         }
         assertNotNull(c);
         assertEquals(c.getOutstandingBalance(), 20);
@@ -466,11 +475,8 @@ public class TestCustomerService {
 
     @Test
     public void modifyBalanceFailID() {
-        assertEquals(customerService.getAllCustomers().size(), 0);
-        Customer c = customerService.createCustomer(FIRSTNAME_1,LASTNAME_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
-        c.setLibraryCardID(1);
         String error = null;
-        c = null;
+        Customer c = null;
         try {
             c = customerService.modifyOutstandingBalance(-10, 20);
         } catch (IllegalArgumentException msg) {
@@ -482,11 +488,8 @@ public class TestCustomerService {
 
     @Test
     public void modifyBalanceFailNoID() {
-        assertEquals(customerService.getAllCustomers().size(), 0);
-        Customer c = customerService.createCustomer(FIRSTNAME_1,LASTNAME_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
-        c.setLibraryCardID(1);
+        Customer c = null;
         String error = null;
-        c = null;
         try {
             c = customerService.modifyOutstandingBalance(10, -20);
         } catch (NullPointerException msg) {
@@ -498,26 +501,20 @@ public class TestCustomerService {
 
     @Test
     public void loginPass() {
-        assertEquals(customerService.getAllCustomers().size(), 0);
-        Customer c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
-        c.setLibraryCardID(1);
-        c = null;
+        Customer c = null;
         try {
             c = customerService.login(USERNAME_1, PASS_1);
         } catch (IllegalArgumentException | NullPointerException msg) {
-            fail();
+            fail(msg.getMessage());
         }
         assertNotNull(c);
         assertEquals(true, c.getIsLoggedIn());
     }
 
     @Test
-    public void loginPassFail() {
-        assertEquals(customerService.getAllCustomers().size(), 0);
-        Customer c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
-        c.setLibraryCardID(1);
+    public void loginPassfail() {
         String error = null;
-        c = null;
+        Customer c = null;
         try {
             c = customerService.login(USERNAME_1, "abc");
         } catch (IllegalArgumentException msg) {
@@ -528,12 +525,9 @@ public class TestCustomerService {
     }
 
     @Test
-    public void loginNoUserFail() {
-        assertEquals(customerService.getAllCustomers().size(), 0);
-        Customer c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
-        c.setLibraryCardID(1);
+    public void loginNoUserfail() {
         String error = null;
-        c = null;
+        Customer c = null;
         try {
             c = customerService.login(10, PASS_1);
         } catch (NullPointerException msg) {
@@ -545,26 +539,20 @@ public class TestCustomerService {
 
     @Test
     public void loginEmailPass() {
-        assertEquals(customerService.getAllCustomers().size(), 0);
-        Customer c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
-        c.setLibraryCardID(1);
-        c = null;
+        Customer c = null;
         try {
             c = customerService.loginByEmail(EMAIL_1, PASS_1);
         } catch (IllegalArgumentException | NullPointerException msg) {
-            fail();
+            fail(msg.getMessage());
         }
         assertNotNull(c);
         assertEquals(true, c.getIsLoggedIn());
     }
 
     @Test
-    public void loginEmailFail() {
-        assertEquals(customerService.getAllCustomers().size(), 0);
-        Customer c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
-        c.setLibraryCardID(1);
+    public void loginEmailfail() {
         String error = null;
-        c = null;
+        Customer c = null;
         try {
             c = customerService.loginByEmail(EMAIL_1, "abc");
         } catch (IllegalArgumentException msg) {
@@ -575,12 +563,9 @@ public class TestCustomerService {
     }
 
     @Test
-    public void loginEmailIDFail() {
-        assertEquals(customerService.getAllCustomers().size(), 0);
-        Customer c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
-        c.setLibraryCardID(1);
+    public void loginEmailIDfail() {
         String error = null;
-        c = null;
+        Customer c = null;
         try {
             c = customerService.loginByEmail(EMAIL_KEY, PASS_1);
         } catch (NullPointerException msg) {
@@ -592,26 +577,20 @@ public class TestCustomerService {
 
     @Test
     public void loginIDPass() {
-        assertEquals(customerService.getAllCustomers().size(), 0);
-        Customer c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
-        c.setLibraryCardID(1);
-        c = null;
+        Customer c = null;
         try {
             c = customerService.login(1, PASS_1);
         } catch (IllegalArgumentException | NullPointerException msg) {
-            fail();
+            fail(msg.getMessage());
         }
         assertNotNull(c);
         assertEquals(true, c.getIsLoggedIn());
     }
 
     @Test
-    public void loginIDFail() {
-        assertEquals(customerService.getAllCustomers().size(), 0);
-        Customer c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
-        c.setLibraryCardID(1);
+    public void loginIDfail() {
         String error = null;
-        c = null;
+        Customer c = null;
         try {
             c = customerService.login(1, "abc");
         } catch (IllegalArgumentException msg) {
@@ -623,11 +602,8 @@ public class TestCustomerService {
 
     @Test
     public void loginIDFailNoExist() {
-        assertEquals(customerService.getAllCustomers().size(), 0);
-        Customer c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
-        c.setLibraryCardID(1);
         String error = null;
-        c = null;
+        Customer c = null;
         try {
             c = customerService.login(10, PASS_1);
         } catch (NullPointerException msg) {
@@ -639,25 +615,17 @@ public class TestCustomerService {
 
     @Test
     public void logoutPass() {
-        assertEquals(customerService.getAllCustomers().size(), 0);
-        Customer c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
-        c.setLibraryCardID(1);
-        c.setIsLoggedIn(true);
         boolean b = false;
         try {
             b = customerService.logout(USERNAME_1);
         } catch (IllegalArgumentException | NullPointerException msg) {
-            fail();
+            fail(msg.getMessage());
         }
         assertTrue(b);
     }
 
     @Test
-    public void logoutFail() {
-        assertEquals(customerService.getAllCustomers().size(), 0);
-        Customer c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
-        c.setLibraryCardID(1);
-        c.setIsLoggedIn(true);
+    public void logoutfail() {
         boolean b = false;
         String error = null;
         try {
@@ -671,25 +639,17 @@ public class TestCustomerService {
 
     @Test
     public void logoutEmailPass() {
-        assertEquals(customerService.getAllCustomers().size(), 0);
-        Customer c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
-        c.setLibraryCardID(1);
-        c.setIsLoggedIn(true);
         boolean b = false;
         try {
             b = customerService.logoutByEmail(EMAIL_1);
         } catch (IllegalArgumentException | NullPointerException msg) {
-            fail();
+            fail(msg.getMessage());
         }
         assertTrue(b);
     }
 
     @Test
-    public void logoutEmailFail() {
-        assertEquals(customerService.getAllCustomers().size(), 0);
-        Customer c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
-        c.setLibraryCardID(1);
-        c.setIsLoggedIn(true);
+    public void logoutEmailfail() {
         boolean b = false;
         String error = null;
         try {
@@ -703,16 +663,13 @@ public class TestCustomerService {
 
     @Test
     public void deletePass() {
-        assertEquals(customerService.getAllCustomers().size(), 0);
-        Customer c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
-        c.setLibraryCardID(1);
-        boolean b = false;
+        Customer c = null;
         try {
-            b = customerService.deleteCustomerByID(1);
+            c = customerService.deleteCustomerByID(1);
         } catch (IllegalArgumentException | NullPointerException msg) {
-            fail();
+            fail(msg.getMessage());
         }
-        assertTrue(b);
+        assertNull(c);
         assertEquals(customerService.getAllCustomers().size(), 0);
     }
 
@@ -721,14 +678,13 @@ public class TestCustomerService {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
         c.setLibraryCardID(1);
-        boolean b = false;
         String error = null;
         try {
-            b = customerService.deleteCustomerByID(-10);
+            c = customerService.deleteCustomerByID(-10);
         } catch (IllegalArgumentException msg) {
             error = msg.getMessage();
         }
-        assertFalse(b);
+        assertNotNull(c);
         assertEquals("Please enter a valid libraryCardID", error);
     }
 
@@ -737,14 +693,601 @@ public class TestCustomerService {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
         c.setLibraryCardID(1);
-        boolean b = false;
         String error = null;
         try {
-            b = customerService.deleteCustomerByID(10);
+            c = customerService.deleteCustomerByID(10);
         } catch (NullPointerException msg) {
             error = msg.getMessage();
         }
-        assertFalse(b);
+        assertNotNull(c);
         assertEquals("Cannot find Customer matching this libraryCardID", error);
+    }
+    
+    @Test
+    public void validateCustomerPass() {
+        Customer c = null;
+        try {
+            c = customerService.validateCustomerByID(1);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            fail(msg.getMessage());
+        }
+        assertNotNull(c);
+        assertTrue(c.getIsVerified());
+    }
+
+    @Test
+    public void validateCustomerFailID() {
+        String error = null;
+        Customer c = null;
+        try {
+            c = customerService.validateCustomerByID(10);
+        } catch (NullPointerException msg) {
+            error = msg.getMessage();
+        }
+        assertNull(c);
+        assertEquals("Cannot find Customer with given ID", error);
+    }
+
+    @Test
+    public void validateCustomerFailOutstandingBalance() {
+        assertEquals(customerService.getAllCustomers().size(), 0);
+        Customer c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1);
+        c.setLibraryCardID(1);
+        c.setOutstandingBalance(50);
+        Customer finalC = c;
+        c = null;
+        String error = null;
+
+        lenient().when(customerDao.findUserByLibraryCardID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(ID_KEY)) {
+                return finalC;
+            }
+            return null;
+        });
+        try {
+            c = customerService.validateCustomerByID(1);
+        } catch (IllegalStateException msg) {
+            error = msg.getMessage();
+        }
+        assertNull(c);
+        assertEquals("Please ensure Customer pays outstanding balance before validating the account", error);
+    }
+
+    @Test
+    public void getCustomerByIDTest() {
+        Customer c = null;
+        try {
+            c = customerService.getCustomer(1);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            fail(msg.getMessage());
+        }
+        assertNotNull(c);
+        assertEquals(c.getFirstName(), FIRSTNAME_1);
+        assertEquals(c.getLastName(), LASTNAME_1);
+        assertEquals(c.getAddress().getCivicNumber(), CIVIC_1);
+        assertEquals(c.getAddress().getStreet(), STREET_1);
+        assertEquals(c.getAddress().getCity(), CITY_1);
+        assertEquals(c.getAddress().getPostalCode(), POST_1);
+        assertEquals(c.getAddress().getProvince(), PROV_1);
+        assertEquals(c.getAddress().getCountry(), COUNTRY_1);
+    }
+
+    @Test
+    public void getCustomerByIDFailInput() {
+        String error = null;
+        Customer c = null;
+        try {
+            c = customerService.getCustomer(-10);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            error = msg.getMessage();
+        }
+        assertNull(c);
+        assertEquals("Please enter a valid libraryCardID", error);
+    }
+
+    @Test
+    public void getCustomerByIDNullPass() {
+        Customer c = null;
+        try {
+            c = customerService.getCustomer(10);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            fail(msg.getMessage());
+        }
+        assertNull(c);
+    }
+
+    @Test
+    public void getCustomerByUsernamePass() {
+        String error = null;
+        Customer c = null;
+        try {
+            c = customerService.getCustomer(USERNAME_1);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            fail(msg.getMessage());
+        }
+        assertNotNull(c);
+        assertEquals(c.getFirstName(), FIRSTNAME_1);
+        assertEquals(c.getLastName(), LASTNAME_1);
+        assertEquals(c.getAddress().getCivicNumber(), CIVIC_1);
+        assertEquals(c.getAddress().getStreet(), STREET_1);
+        assertEquals(c.getAddress().getCity(), CITY_1);
+        assertEquals(c.getAddress().getPostalCode(), POST_1);
+        assertEquals(c.getAddress().getProvince(), PROV_1);
+        assertEquals(c.getAddress().getCountry(), COUNTRY_1);
+    }
+
+    @Test
+    public void getCustomerByUsernameStringFail() {
+        String error = null;
+        Customer c = null;
+        try {
+            c = customerService.getCustomer("");
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            error = msg.getMessage();
+        }
+        assertNull(c);
+        assertEquals("Please enter a valid username", error);
+    }
+
+    @Test
+    public void getCustomerByUsernameNullPass() {
+        Customer c = null;
+        try {
+            c = customerService.getCustomer(10);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            fail(msg.getMessage());
+        }
+        assertNull(c);
+    }
+
+    @Test
+    public void getCustomersPass() {
+        List<Customer> customerList = new ArrayList<>();
+        lenient().when(customerDao.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+        List<Customer> customers = new ArrayList<>();
+        Address a = new Address(CIVIC_1, STREET_1, CITY_1, POST_1, PROV_1, COUNTRY_1);
+        Customer cust1 = new Customer(true, false, FIRSTNAME_1, LASTNAME_1, true, 0, a);
+        cust1.setEmail("a.c@a.com");
+        cust1.setUsername("mikeym");
+        cust1.setPassword(PASS_1);
+        cust1.setLibraryCardID(1);
+        Customer cust2 = new Customer(true, true, FIRSTNAME_1, LASTNAME_1, true, 0, a);
+        cust2.setEmail(EMAIL_1);
+        cust2.setUsername(USERNAME_1);
+        cust2.setPassword(PASS_1);
+        cust2.setLibraryCardID(2);
+        customers.add(cust1);
+        customers.add(cust2);
+        return customers;
+        });
+        try {
+            customerList = customerService.getAllCustomers();
+        } catch (Exception msg) {
+            fail(msg.getMessage());
+        }
+        assertNotNull(customerList);
+        assertEquals(2, customerList.size());
+        for (Customer c : customerList) {
+            assertNotNull(c);
+            assertEquals(c.getFirstName(), FIRSTNAME_1);
+            assertEquals(c.getLastName(), LASTNAME_1);
+            assertEquals(c.getAddress().getCivicNumber(), CIVIC_1);
+            assertEquals(c.getAddress().getStreet(), STREET_1);
+            assertEquals(c.getAddress().getCity(), CITY_1);
+            assertEquals(c.getAddress().getPostalCode(), POST_1);
+            assertEquals(c.getAddress().getProvince(), PROV_1);
+            assertEquals(c.getAddress().getCountry(), COUNTRY_1);
+        }
+        assertEquals("mikeym", customerList.get(0).getUsername());
+        assertEquals(USERNAME_1, customerList.get(1).getUsername());
+        assertEquals("a.c@a.com", customerList.get(0).getEmail());
+        assertEquals(EMAIL_1, customerList.get(1).getEmail());
+        assertEquals(PASS_1, customerList.get(0).getPassword());
+        assertEquals(PASS_1, customerList.get(1).getPassword());
+    }
+
+    @Test
+    public void getCustomerByEmailPass() {
+        Customer c = null;
+        try {
+            c = customerService.getCustomerByEmail(EMAIL_1);
+        } catch (Exception msg) {
+            fail(msg.getMessage());
+        }
+        assertNotNull(c);
+        assertEquals(c.getFirstName(), FIRSTNAME_1);
+        assertEquals(c.getLastName(), LASTNAME_1);
+        assertEquals(c.getAddress().getCivicNumber(), CIVIC_1);
+        assertEquals(c.getAddress().getStreet(), STREET_1);
+        assertEquals(c.getAddress().getCity(), CITY_1);
+        assertEquals(c.getAddress().getPostalCode(), POST_1);
+        assertEquals(c.getAddress().getProvince(), PROV_1);
+        assertEquals(c.getAddress().getCountry(), COUNTRY_1);
+        assertEquals(c.getUsername(), USERNAME_1);
+        assertEquals(c.getPassword(), PASS_1);
+        assertEquals(c.getEmail(),EMAIL_1);
+    }
+
+    @Test
+    public void getCustomersByNamePass() {
+        List<Customer> customerList = new ArrayList<>();
+        lenient().when(customerDao.findUserByFirstNameAndLastName(anyString(), anyString())).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(FIRSTNAME_1) && invocation.getArgument(1).equals(LASTNAME_1)) {
+                List<Customer> customers = new ArrayList<>();
+                Address a = new Address(CIVIC_1, STREET_1, CITY_1, POST_1, PROV_1, COUNTRY_1);
+                Customer cust1 = new Customer(true, false, FIRSTNAME_1, LASTNAME_1, true, 0, a);
+                cust1.setEmail("a.c@a.com");
+                cust1.setUsername("mikeym");
+                cust1.setPassword(PASS_1);
+                cust1.setLibraryCardID(1);
+                Customer cust2 = new Customer(true, true, FIRSTNAME_1, LASTNAME_1, true, 0, a);
+                cust2.setEmail(EMAIL_1);
+                cust2.setUsername(USERNAME_1);
+                cust2.setPassword(PASS_1);
+                cust2.setLibraryCardID(2);
+                customers.add(cust1);
+                customers.add(cust2);
+                return customers;
+            }
+            return null;
+        });
+        try {
+            customerList = customerService.getCustomersByFirstAndLastName(FIRSTNAME_1, LASTNAME_1);
+        } catch (Exception msg) {
+            fail(msg.getMessage());
+        }
+        assertNotNull(customerList);
+        assertEquals(2, customerList.size());
+        for (Customer c : customerList) {
+            assertNotNull(c);
+            assertEquals(c.getFirstName(), FIRSTNAME_1);
+            assertEquals(c.getLastName(), LASTNAME_1);
+            assertEquals(c.getAddress().getCivicNumber(), CIVIC_1);
+            assertEquals(c.getAddress().getStreet(), STREET_1);
+            assertEquals(c.getAddress().getCity(), CITY_1);
+            assertEquals(c.getAddress().getPostalCode(), POST_1);
+            assertEquals(c.getAddress().getProvince(), PROV_1);
+            assertEquals(c.getAddress().getCountry(), COUNTRY_1);
+        }
+        assertEquals("mikeym", customerList.get(0).getUsername());
+        assertEquals(USERNAME_1, customerList.get(1).getUsername());
+        assertEquals("a.c@a.com", customerList.get(0).getEmail());
+        assertEquals(EMAIL_1, customerList.get(1).getEmail());
+        assertEquals(PASS_1, customerList.get(0).getPassword());
+        assertEquals(PASS_1, customerList.get(1).getPassword());
+    }
+
+    @Test
+    public void getCustomersByDemeritPtsPass() {
+        List<Customer> customerList = new ArrayList<>();
+        lenient().when(customerDao.findUserByDemeritPts(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(2)) {
+                List<Customer> customers = new ArrayList<>();
+                Address a = new Address(CIVIC_1, STREET_1, CITY_1, POST_1, PROV_1, COUNTRY_1);
+                Customer cust1 = new Customer(true, false, FIRSTNAME_1, LASTNAME_1, true, 0, a);
+                cust1.setEmail("a.c@a.com");
+                cust1.setUsername("mikeym");
+                cust1.setPassword(PASS_1);
+                cust1.setLibraryCardID(1);
+                customers.add(cust1);
+                return customers;
+            }
+            return null;
+        });
+        try {
+            customerList = customerService.getCustomersByDemeritPts(2);
+        } catch (Exception msg) {
+            fail(msg.getMessage());
+        }
+        assertNotNull(customerList);
+        assertEquals(1, customerList.size());
+        for (Customer c : customerList) {
+            assertNotNull(c);
+            assertEquals(c.getFirstName(), FIRSTNAME_1);
+            assertEquals(c.getLastName(), LASTNAME_1);
+            assertEquals(c.getAddress().getCivicNumber(), CIVIC_1);
+            assertEquals(c.getAddress().getStreet(), STREET_1);
+            assertEquals(c.getAddress().getCity(), CITY_1);
+            assertEquals(c.getAddress().getPostalCode(), POST_1);
+            assertEquals(c.getAddress().getProvince(), PROV_1);
+            assertEquals(c.getAddress().getCountry(), COUNTRY_1);
+        }
+        assertEquals("mikeym", customerList.get(0).getUsername());
+        assertEquals("a.c@a.com", customerList.get(0).getEmail());
+        assertEquals(PASS_1, customerList.get(0).getPassword());
+    }
+
+    @Test
+    public void getCustomersByAddressPass() {
+        List<Customer> customerList = new ArrayList<>();
+        lenient().when(customerDao.findUserByAddress(any())).thenAnswer((InvocationOnMock invocation) -> {
+            Address a = new Address(CIVIC_1, STREET_1, CITY_1, POST_1, PROV_1, COUNTRY_1);
+                List<Customer> customers = new ArrayList<>();
+                Customer cust1 = new Customer(true, false, FIRSTNAME_1, LASTNAME_1, true, 0, a);
+                cust1.setEmail("a.c@a.com");
+                cust1.setUsername("mikeym");
+                cust1.setPassword(PASS_1);
+                cust1.setLibraryCardID(1);
+                Customer cust2 = new Customer(true, true, FIRSTNAME_1, LASTNAME_1, true, 0, a);
+                cust2.setEmail(EMAIL_1);
+                cust2.setUsername(USERNAME_1);
+                cust2.setPassword(PASS_1);
+                cust2.setLibraryCardID(2);
+                customers.add(cust1);
+                customers.add(cust2);
+                return customers;
+        });
+        lenient().when(addressDao.findAddressByCivicNumberAndStreetAndCityAndPostalCodeAndProvinceAndCountry(CIVIC_1, STREET_1, CITY_1, POST_1, PROV_1, COUNTRY_1)).thenAnswer((InvocationOnMock invocation) -> {
+            Address a = new Address(CIVIC_1, STREET_1, CITY_1, POST_1, PROV_1, COUNTRY_1);
+            List<Address> addressList = new ArrayList<>();
+            addressList.add(a);
+            return addressList;
+        });
+        try {
+            customerList = customerService.getCustomersByAddress(CIVIC_1, STREET_1, CITY_1, POST_1, PROV_1, COUNTRY_1);
+        } catch (Exception msg) {
+            fail(msg.getMessage());
+        }
+        assertNotNull(customerList);
+        assertEquals(2, customerList.size());
+        for (Customer c : customerList) {
+            assertNotNull(c);
+            assertEquals(c.getFirstName(), FIRSTNAME_1);
+            assertEquals(c.getLastName(), LASTNAME_1);
+            assertEquals(c.getAddress().getCivicNumber(), CIVIC_1);
+            assertEquals(c.getAddress().getStreet(), STREET_1);
+            assertEquals(c.getAddress().getCity(), CITY_1);
+            assertEquals(c.getAddress().getPostalCode(), POST_1);
+            assertEquals(c.getAddress().getProvince(), PROV_1);
+            assertEquals(c.getAddress().getCountry(), COUNTRY_1);
+        }
+        assertEquals("mikeym", customerList.get(0).getUsername());
+        assertEquals(USERNAME_1, customerList.get(1).getUsername());
+        assertEquals("a.c@a.com", customerList.get(0).getEmail());
+        assertEquals(EMAIL_1, customerList.get(1).getEmail());
+        assertEquals(PASS_1, customerList.get(0).getPassword());
+        assertEquals(PASS_1, customerList.get(1).getPassword());
+    }
+
+    @Test
+    public void getCustomersByLoggedInTest() {
+        List<Customer> customerList = new ArrayList<>();
+        lenient().when(customerDao.findByIsLogged(anyBoolean())).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(true)) {
+                List<Customer> customers = new ArrayList<>();
+                Address a = new Address(CIVIC_1, STREET_1, CITY_1, POST_1, PROV_1, COUNTRY_1);
+                Customer cust1 = new Customer(true, false, FIRSTNAME_1, LASTNAME_1, true, 0, a);
+                cust1.setEmail("a.c@a.com");
+                cust1.setUsername("mikeym");
+                cust1.setPassword(PASS_1);
+                cust1.setLibraryCardID(1);
+                customers.add(cust1);
+                return customers;
+            }
+            return null;
+        });
+        try {
+            customerList = customerService.getCustomersByLoggedIn(true);
+        } catch (Exception msg) {
+            fail(msg.getMessage());
+        }
+        assertNotNull(customerList);
+        assertEquals(1, customerList.size());
+        for (Customer c : customerList) {
+            assertNotNull(c);
+            assertEquals(c.getFirstName(), FIRSTNAME_1);
+            assertEquals(c.getLastName(), LASTNAME_1);
+            assertEquals(c.getAddress().getCivicNumber(), CIVIC_1);
+            assertEquals(c.getAddress().getStreet(), STREET_1);
+            assertEquals(c.getAddress().getCity(), CITY_1);
+            assertEquals(c.getAddress().getPostalCode(), POST_1);
+            assertEquals(c.getAddress().getProvince(), PROV_1);
+            assertEquals(c.getAddress().getCountry(), COUNTRY_1);
+        }
+        assertEquals("mikeym", customerList.get(0).getUsername());
+        assertEquals("a.c@a.com", customerList.get(0).getEmail());
+        assertEquals(PASS_1, customerList.get(0).getPassword());
+    }
+
+    @Test
+    public void convertLocalToOnlinePass() {
+        Customer c = null;
+        try {
+            c = customerService.convertLocalToOnline(3, USERNAME_1, PASS_1, EMAIL_1);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            fail(msg.getMessage());
+        }
+        assertNotNull(c);
+        assertEquals(USERNAME_1, c.getUsername());
+        assertEquals(PASS_1, c.getPassword());
+        assertEquals(EMAIL_1, c.getEmail());
+    }
+
+    @Test
+    public void convertLocalToOnlineFailUsernameUsed() {
+        String error = null;
+        Customer c = null;
+        try {
+            c = customerService.convertLocalToOnline(3, USER_KEY, PASS_1, EMAIL_1);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            error = msg.getMessage();
+        }
+        assertNull(c);
+        assertEquals("Username in use, please select a different one", error);
+    }
+
+    @Test
+    public void convertLocalToOnlineFailEmailUsed() {
+        String error = null;
+        Customer c = null;
+        try {
+            c = customerService.convertLocalToOnline(3, USERNAME_1, PASS_1, EMAIL_KEY);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            error = msg.getMessage();
+        }
+        assertNull(c);
+        assertEquals("Email in use, please select a different one", error);
+    }
+
+    @Test
+    public void convertLocalToOnlineAlreadyOnline() {
+        String error = null;
+        Customer c = null;
+        try {
+            c = customerService.convertLocalToOnline(4, USERNAME_1, PASS_1, EMAIL_1);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            error = msg.getMessage();
+        }
+        assertNull(c);
+        assertEquals("Account is already fully configured", error);
+    }
+
+    @Test
+    public void convertLocalToOnlinePassTooShort() {
+        String error = null;
+        Customer c = null;
+        try {
+            c = customerService.convertLocalToOnline(4, USERNAME_1, "1234", EMAIL_1);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            error = msg.getMessage();
+        }
+        assertNull(c);
+        assertEquals("Please enter a password that is at least 8 characters long", error);
+    }
+
+    @Test
+    public void convertLocalToOnlineNoCustomer() {
+        Customer c = null;
+        String error = null;
+        try {
+            c = customerService.convertLocalToOnline(1, USERNAME_1, "12345678", EMAIL_1);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            error = msg.getMessage();
+        }
+        assertNull(c);
+        assertEquals("Cannot find a Customer with given ID", error);
+    }
+
+    @Test
+    public void changeInfoPass() {
+        Customer c = null;
+        try {
+            c = customerService.changeInfo(3, FIRSTNAME_1, LASTNAME_1, CIVIC_1, STREET_1, CITY_1, POST_1, PROV_1, COUNTRY_1);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            fail(msg.getMessage());
+        }
+        assertNotNull(c);
+        assertEquals(c.getFirstName(), FIRSTNAME_1);
+        assertEquals(c.getLastName(), LASTNAME_1);
+        assertEquals(c.getAddress().getCivicNumber(), CIVIC_1);
+        assertEquals(c.getAddress().getStreet(), STREET_1);
+        assertEquals(c.getAddress().getCity(), CITY_1);
+        assertEquals(c.getAddress().getPostalCode(), POST_1);
+        assertEquals(c.getAddress().getProvince(), PROV_1);
+        assertEquals(c.getAddress().getCountry(), COUNTRY_1);
+    }
+
+    @Test
+    public void updateOnlineInfoNoCustomer() {
+        String error = null;
+        Customer c = null;
+        try {
+            c = customerService.updateOnlineInfo(1, USERNAME_1, PASS_1, EMAIL_1);
+        } catch (NullPointerException msg) {
+            error = msg.getMessage();
+        }
+        assertNull(c);
+        assertEquals("Cannot find Customer with given ID", error);
+    }
+
+    @Test
+    public void updateOnlineInfoUsernameUsed() {
+        String error = null;
+        Customer c = null;
+        try {
+            c = customerService.updateOnlineInfo(3, USER_KEY, PASS_1, EMAIL_1);
+        } catch (IllegalArgumentException msg) {
+            error = msg.getMessage();
+        }
+        assertNull(c);
+        assertEquals("New username in use, please choose a valid one", error);
+    }
+
+    @Test
+    public void updateOnlineInfoEmailUsed() {
+        String error = null;
+        Customer c = null;
+        try {
+            c = customerService.updateOnlineInfo(3, USERNAME_1, PASS_1, EMAIL_KEY);
+        } catch (IllegalArgumentException msg) {
+            error = msg.getMessage();
+        }
+        assertNull(c);
+        assertEquals("New email in use, please choose another", error);
+    }
+
+    @Test
+    public void updateOnlineInfoPass() {
+        Customer c = null;
+        try {
+            c = customerService.updateOnlineInfo(3, USERNAME_1, PASS_1, EMAIL_1);
+        } catch (Exception msg) {
+            fail(msg.getMessage());
+        }
+        assertNotNull(c);
+        assertEquals(USERNAME_1, c.getUsername());
+        assertEquals(PASS_1, c.getPassword());
+        assertEquals(EMAIL_1, c.getEmail());
+    }
+
+    @Test
+    public void changeInfoFailNoCustomer() {
+        Customer c = null;
+        String error = null;
+        try {
+            c = customerService.changeInfo(1, FIRSTNAME_1, LASTNAME_1, CIVIC_1, STREET_1, CITY_1, POST_1, PROV_1, COUNTRY_1);
+        } catch (NullPointerException msg) {
+            error = msg.getMessage();
+        }
+        assertNull(c);
+        assertEquals("Cannot find Customer with given ID", error);
+    }
+
+    @Test
+    public void changeInfoFailInvalidAddress() {
+        Customer c = null;
+        String error = null;
+        try {
+            c = customerService.changeInfo(1, FIRSTNAME_1, LASTNAME_1, "0", STREET_1, CITY_1, POST_1, PROV_1, COUNTRY_1);
+        } catch (IllegalArgumentException msg) {
+            error = msg.getMessage();
+        }
+        assertNull(c);
+        assertEquals("Please enter a valid address", error);
+    }
+
+    @Test
+    public void changeDemeritPtsPass() {
+        Customer c = null;
+        try {
+            c = customerService.changeDemeritPts(3, 2);
+        } catch (Exception msg) {
+            fail(msg.getMessage());
+        }
+        assertNotNull(c);
+        assertEquals(2, c.getDemeritPts());
+    }
+
+    @Test
+    public void changeDemeritPtsFailNoCustomer() {
+        Customer c = null;
+        String error = null;
+        try {
+            c = customerService.changeDemeritPts(2, 2);
+        } catch (Exception msg) {
+            error = msg.getMessage();
+        }
+        assertNull(c);
+        assertEquals("Cannot find Customer with this ID", error);
     }
 }
