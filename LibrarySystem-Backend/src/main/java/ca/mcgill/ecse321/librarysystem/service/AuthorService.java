@@ -118,7 +118,7 @@ public class AuthorService {
     }
     
     @Transactional
-    public boolean addTitleByAuthor(String authorID, Title title) {
+    public boolean addTitleByAuthorID(String authorID, Title title) {
     	Author author = getAuthorByAuthorID(authorID);
     	if (title == null) throw new NullPointerException("Please enter a valid title");
     	if (author.addTitle(title)) {
@@ -129,7 +129,7 @@ public class AuthorService {
     }
     
     @Transactional
-    public boolean removeTitleByAuthor(String authorID, Title title) {
+    public boolean removeTitleByAuthorID(String authorID, Title title) {
     	Author author = getAuthorByAuthorID(authorID);
     	if (title == null) throw new NullPointerException("Please enter a valid title");
     	if (author.removeTitle(title)) {
