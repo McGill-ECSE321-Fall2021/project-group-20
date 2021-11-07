@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.librarysystem.dto;
 
+import ca.mcgill.ecse321.librarysystem.model.Item.Status;
+
 public class MovieDto extends ItemDto {
 	private int length;
 	

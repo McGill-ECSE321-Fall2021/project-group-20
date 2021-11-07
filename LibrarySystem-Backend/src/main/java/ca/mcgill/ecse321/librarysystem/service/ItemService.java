@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.librarysystem.dao.ItemRepository;
 import ca.mcgill.ecse321.librarysystem.model.Booking;
+import ca.mcgill.ecse321.librarysystem.model.Employee;
 import ca.mcgill.ecse321.librarysystem.model.Item;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 import ca.mcgill.ecse321.librarysystem.model.Title;
@@ -33,7 +34,7 @@ public class ItemService {
 		
 		return item;
 	}
-
+	
 	@Transactional
 	public List<Item> getItemByStat(Status status) {
 		List<Item> item = itemRepository.findItemByStatus(status);

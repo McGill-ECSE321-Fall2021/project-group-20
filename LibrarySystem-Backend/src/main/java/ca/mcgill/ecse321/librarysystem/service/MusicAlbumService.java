@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ca.mcgill.ecse321.librarysystem.dao.MusicAlbumRepository;
 import ca.mcgill.ecse321.librarysystem.model.Booking;
 import ca.mcgill.ecse321.librarysystem.model.Item;
+import ca.mcgill.ecse321.librarysystem.model.Movie;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 import ca.mcgill.ecse321.librarysystem.model.MusicAlbum;
 import ca.mcgill.ecse321.librarysystem.model.Title;
@@ -41,7 +42,12 @@ public class MusicAlbumService {
 		List<MusicAlbum> item = (List<MusicAlbum>)(List<?>) musicAlbumRepository.findItemByStatus(status);
 		for (MusicAlbum iteme : item) {
 			if (iteme == null) throw new IllegalArgumentException("No Item found");
-		}	
+		}
+		for (Item iteme : item) {
+			if (!(item instanceof Movie)) {
+				item.remove(iteme);
+			}
+		}
 		return item;
 	}
 
@@ -51,7 +57,12 @@ public class MusicAlbumService {
 		List<MusicAlbum> item = (List<MusicAlbum>)(List<?>) musicAlbumRepository.findItemByTitle(title);
 		for (MusicAlbum iteme : item) {
 			if (iteme == null) throw new IllegalArgumentException("No Item found");
-		}	
+		}
+		for (Item iteme : item) {
+			if (!(item instanceof Movie)) {
+				item.remove(iteme);
+			}
+		}
 		return item;
 	}
 
@@ -63,9 +74,12 @@ public class MusicAlbumService {
 
 	@Transactional
 	public MusicAlbum getItemByItemBooking(Booking booking) {
+		if (musicAlbumRepository.findItemByBooking(booking) instanceof MusicAlbum) {
 		MusicAlbum item = (MusicAlbum) musicAlbumRepository.findItemByBooking(booking);
 		if (item == null) throw new IllegalArgumentException("No Item found");
 		return item;
+		}
+		return null;
 	}
 	
 	@Transactional
@@ -82,7 +96,12 @@ public class MusicAlbumService {
 		List<MusicAlbum> item = (List<MusicAlbum>)(List<?>) musicAlbumRepository.findItemByStatus(status);
 		for (MusicAlbum iteme : item) {
 			if (iteme == null) throw new IllegalArgumentException("No Item found");
-		}	
+		}
+		for (Item iteme : item) {
+			if (!(item instanceof Movie)) {
+				item.remove(iteme);
+			}
+		}
 		musicAlbumRepository.deleteAll(item);
 		for (Item iteme : item) {
 			iteme.delete();;
@@ -95,7 +114,12 @@ public class MusicAlbumService {
 		List<MusicAlbum> item = (List<MusicAlbum>)(List<?>) musicAlbumRepository.findItemByTitle(title);
 		for (MusicAlbum iteme : item) {
 			if (iteme == null) throw new IllegalArgumentException("No Item found");
-		}	
+		}
+		for (Item iteme : item) {
+			if (!(item instanceof Movie)) {
+				item.remove(iteme);
+			}
+		}
 		musicAlbumRepository.deleteAll(item);
 		for (Item iteme : item) {
 			iteme.delete();;
@@ -105,10 +129,12 @@ public class MusicAlbumService {
 
 	@Transactional
 	public void deleatItemByItemBooking(Booking booking) {
+		if (musicAlbumRepository.findItemByBooking(booking) instanceof MusicAlbum) {
 		MusicAlbum item = (MusicAlbum) musicAlbumRepository.findItemByBooking(booking);
 		if (item == null) throw new IllegalArgumentException("No Item found");
 		musicAlbumRepository.delete(item);
 		item.delete();
+		}
 	}
 	
 	
@@ -160,6 +186,11 @@ public class MusicAlbumService {
 		List<MusicAlbum> musicAlbums = new ArrayList<>();
 		for (Item i : musicAlbumRepository.findAll()) {
 			musicAlbums.add((MusicAlbum) i);
+		}
+		for (Item iteme : musicAlbums) {
+			if (!(iteme instanceof Movie)) {
+				musicAlbums.remove(iteme);
+			}
 		}
 		return musicAlbums;
 	}

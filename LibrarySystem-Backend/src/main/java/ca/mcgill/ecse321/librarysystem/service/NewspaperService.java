@@ -42,7 +42,12 @@ public class NewspaperService {
 		List<Newspaper> item = (List<Newspaper>)(List<?>) newspaperRepository.findItemByStatus(status);
 		for (Newspaper iteme : item) {
 			if (iteme == null) throw new IllegalArgumentException("No Newspaper found");
-		}	
+		}
+		for (Item iteme : item) {
+			if (!(item instanceof Newspaper)) {
+				item.remove(iteme);
+			}
+		}
 		return item;
 	}
 
@@ -53,6 +58,11 @@ public class NewspaperService {
 		for (Newspaper iteme : item) {
 			if (iteme == null) throw new IllegalArgumentException("No Newspaper found");
 		}	
+		for (Item iteme : item) {
+			if (!(item instanceof Newspaper)) {
+				item.remove(iteme);
+			}
+		}
 		return item;
 	}
 
@@ -64,9 +74,12 @@ public class NewspaperService {
 
 	@Transactional
 	public Newspaper getNewspaperByNewspaperBooking(Booking booking) {
+		if (newspaperRepository.findItemByBooking(booking) instanceof Newspaper) {
 		Newspaper item = (Newspaper) newspaperRepository.findItemByBooking(booking);
 		if (item == null) throw new IllegalArgumentException("No Newspaper found");
 		return item;
+		}
+		return null;
 	}
 	
 	@Transactional
@@ -84,6 +97,11 @@ public class NewspaperService {
 		for (Newspaper iteme : item) {
 			if (iteme == null) throw new IllegalArgumentException("No Newspaper found");
 		}	
+		for (Item iteme : item) {
+			if (!(item instanceof Newspaper)) {
+				item.remove(iteme);
+			}
+		}
 		newspaperRepository.deleteAll(item);
 		for (Item iteme : item) {
 			iteme.delete();;
@@ -97,6 +115,11 @@ public class NewspaperService {
 		for (Newspaper iteme : item) {
 			if (iteme == null) throw new IllegalArgumentException("No Newspaper found");
 		}	
+		for (Item iteme : item) {
+			if (!(item instanceof Newspaper)) {
+				item.remove(iteme);
+			}
+		}
 		newspaperRepository.deleteAll(item);
 		
 		for (Item iteme : item) {
@@ -107,10 +130,12 @@ public class NewspaperService {
 
 	@Transactional
 	public void deleatNewspaperByNewspaperBooking(Booking booking) {
+		if(newspaperRepository.findItemByBooking(booking) instanceof Newspaper) {
 		Newspaper item = (Newspaper) newspaperRepository.findItemByBooking(booking);
 		if (item == null) throw new IllegalArgumentException("No Newspaper found");
 		newspaperRepository.delete(item);
 		item.delete();
+		}
 	}
 	
 	
@@ -145,6 +170,12 @@ public class NewspaperService {
 		for (Item i : newspaperRepository.findAll()) {
 			newspapers.add((Newspaper) i);
 		}
+		for (Item iteme : newspapers) {
+			if (!(iteme instanceof Newspaper)) {
+				newspapers.remove(iteme);
+			}
+		}
+		
 		return newspapers;
 	}
 

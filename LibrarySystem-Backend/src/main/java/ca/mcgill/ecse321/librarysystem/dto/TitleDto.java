@@ -4,6 +4,8 @@
 package ca.mcgill.ecse321.librarysystem.dto;
 import java.util.*;
 
+import ca.mcgill.ecse321.librarysystem.model.Item;
+
 // line 19 "../../../../../librarysystem.ump"
 public class TitleDto
 {
@@ -176,7 +178,7 @@ private static Map<String, TitleDto> titlesByTitleID = new HashMap<String, Title
     return 1;
   }
   /* Code from template association_AddMandatoryManyToOne */
-  public ItemDto addItem(ItemDto.Status aStatus, long aItemBarcode)
+  public ItemDto addItem(Item.Status aStatus, long aItemBarcode)
   {
     ItemDto aNewItem = new ItemDto(aStatus, aItemBarcode, this);
     return aNewItem;

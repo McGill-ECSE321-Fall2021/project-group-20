@@ -1,21 +1,19 @@
 package ca.mcgill.ecse321.librarysystem.dto;
 
 import ca.mcgill.ecse321.librarysystem.model.Booking;
+import ca.mcgill.ecse321.librarysystem.model.Item;
 import ca.mcgill.ecse321.librarysystem.model.Title;
+import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 
 
 public class ItemDto {
-	public enum Status {
-		Available, Reserved, Borrowed, Damaged
-	}
-
 	private Status status;
 	private long itemBarcode;
 	private TitleDto title;
 	private BookingDto booking;
 
-	public ItemDto(Status aStatus, long aItemBarcode, TitleDto aTitle) {
-		status = aStatus;
+	public ItemDto(Item.Status astatus, long aItemBarcode, TitleDto aTitle) {
+		status = astatus;
 		itemBarcode = aItemBarcode;
 		boolean didAddTitle = setTitle(aTitle);
 
@@ -25,7 +23,9 @@ public class ItemDto {
 		}
 	}
 	
-	 public boolean setStatus(Status aStatus)
+	
+
+	public boolean setStatus(Status aStatus)
 	  {
 	    boolean wasSet = false;
 	    status = aStatus;

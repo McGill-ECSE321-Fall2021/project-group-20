@@ -218,7 +218,6 @@ public class TestItemRepositoryPersistence {
 		myLibrary = null;
 		myAuthor = null;
 		myTitle = null;
-
 		Movie persistItem = (Movie) movieRepository.findItemByItemBarcode(myMovie.getItemBarcode());
 		assertNotNull(persistItem);
 		assertEquals(persistItem.getItemBarcode(), (myMovie.getItemBarcode()));

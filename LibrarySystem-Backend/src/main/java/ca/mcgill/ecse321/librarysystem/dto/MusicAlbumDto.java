@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.librarysystem.dto;
 
-import ca.mcgill.ecse321.librarysystem.dto.ItemDto.Status;
+import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 
 public class MusicAlbumDto extends ItemDto{
 	  private int duration;

@@ -9,11 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ca.mcgill.ecse321.librarysystem.dao.MovieRepository;
-import ca.mcgill.ecse321.librarysystem.model.Item.Status;
-
 @Service
-public class MovieService {
+public class MovieService extends Item{
 	@Autowired
 	private MovieRepository movieRepository;
 
@@ -36,10 +33,15 @@ public class MovieService {
 	@Transactional
 	public List<Movie> getItemByStat(Status status) {
 		@SuppressWarnings("unchecked")
-		List<Movie> item = (List<Movie>)(List<?>) movieRepository.findItemByStatus(status);
+		List<Movie> item = (List<Movie>)(List<?>) movieRepository.findItemByStatus(status);	
 		for (Movie iteme : item) {
 			if (iteme == null) throw new IllegalArgumentException("No Item found");
 		}	
+		for (Item iteme : item) {
+			if (!(item instanceof Movie)) {
+				item.remove(iteme);
+			}
+		}
 		return item;
 	}
 
@@ -49,7 +51,12 @@ public class MovieService {
 		List<Movie> item = (List<Movie>)(List<?>) movieRepository.findItemByTitle(title);
 		for (Movie iteme : item) {
 			if (iteme == null) throw new IllegalArgumentException("No Item found");
-		}	
+		}
+		for (Item iteme : item) {
+			if (!(item instanceof Movie)) {
+				item.remove(iteme);
+			}
+		}
 		return item;
 	}
 
@@ -61,9 +68,12 @@ public class MovieService {
 
 	@Transactional
 	public Movie getItemByItemBooking(Booking booking) {
+		if (movieRepository.findItemByBooking(booking) instanceof Movie) {
 		Movie item = (Movie) movieRepository.findItemByBooking(booking);
 		if (item == null) throw new IllegalArgumentException("No Item found");
 		return item;
+		}
+		return null;
 	}
 	
 	@Transactional
@@ -82,6 +92,11 @@ public class MovieService {
 		for (Movie iteme : item) {
 			if (iteme == null) throw new IllegalArgumentException("No Item found");
 		}	
+		for (Item iteme : item) {
+			if (!(item instanceof Movie)) {
+				item.remove(iteme);
+			}
+		}
 		movieRepository.deleteAll(item);
 		for (Item iteme : item) {
 			iteme.delete();;
@@ -94,7 +109,12 @@ public class MovieService {
 		List<Movie> item = (List<Movie>)(List<?>) movieRepository.findItemByTitle(title);
 		for (Movie iteme : item) {
 			if (iteme == null) throw new IllegalArgumentException("No Item found");
-		}	
+		}
+		for (Item iteme : item) {
+			if (!(item instanceof Movie)) {
+				item.remove(iteme);
+			}
+		}
 		movieRepository.deleteAll(item);
 		
 		for (Item iteme : item) {
@@ -105,10 +125,12 @@ public class MovieService {
 
 	@Transactional
 	public void deleatItemByItemBooking(Booking booking) {
+		if (movieRepository.findItemByBooking(booking) instanceof Movie) {
 		Movie item = (Movie) movieRepository.findItemByBooking(booking);
 		if (item == null) throw new IllegalArgumentException("No Item found");
 		movieRepository.delete(item);
 		item.delete();
+		}
 	}
 	
 	
@@ -160,6 +182,12 @@ public class MovieService {
 		List<Movie> movies = new ArrayList<>();
 		for (Item i : movieRepository.findAll()) {
 			movies.add((Movie) i);
+		}
+		
+		for (Item iteme : movies) {
+			if (!(iteme instanceof Movie)) {
+				movies.remove(iteme);
+			}
 		}
 		return movies;
 	}
