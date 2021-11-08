@@ -44,24 +44,6 @@ public class EmployeeRestController {
         return convertToDto(employeeService.getEmployeeByEmail(email));
     }
 
-    @GetMapping(value = { "/employees/firstname", "/employees/firstname/"})
-    public List<EmployeeDto> getEmployeesByFirstName(@RequestParam String firstname) {
-        List<EmployeeDto> employeeDtos = new ArrayList<>();
-        for (Employee e : employeeService.getEmployeesByFirstName(firstname)) {
-            employeeDtos.add(convertToDto(e));
-        }
-        return employeeDtos;
-    }
-
-    @GetMapping(value = { "/employees/lastname", "/employees/lastname/"})
-    public List<EmployeeDto> getEmployeesByLastName(@RequestParam String lastname) {
-        List<EmployeeDto> employeeDtos = new ArrayList<>();
-        for (Employee e : employeeService.getEmployeesByLastName(lastname)) {
-            employeeDtos.add(convertToDto(e));
-        }
-        return employeeDtos;
-    }
-
     @GetMapping(value = {"/employees/getByName", "/employees/getByName/"})
     public List<EmployeeDto> getEmployeesByName(@RequestParam String firstname, @RequestParam String lastname) {
         List<EmployeeDto> employeeDtos = new ArrayList<>();
@@ -115,7 +97,7 @@ public class EmployeeRestController {
 
     @PutMapping(value = { "/employee/balance/{id}", "/employee/balance/{id}/"})
     public EmployeeDto changeBalance(@PathVariable("id") String id, @RequestParam String toChange) throws IllegalArgumentException, NullPointerException {
-        if (employeeService.modifyOutstandingBalance(Integer.parseInt(id), Integer.parseInt(toChange)))
+        if (employeeService.modifyOutstandingBalance(Integer.parseInt(id), Integer.parseInt(toChange)) != null)
             return convertToDto(employeeService.getEmployee(Integer.parseInt(id)));
         return null;
     }
@@ -123,16 +105,16 @@ public class EmployeeRestController {
     @PutMapping(value = {"/employee/login/{name}", "/employee/login/{name}/"})
     public EmployeeDto login(@PathVariable("name") String name, @RequestParam String password) {
         if (name.contains("@")) {
-            if (employeeService.loginByEmail(name, password)) return convertToDto(employeeService.getEmployeeByEmail(name));
+            if (employeeService.loginByEmail(name, password) != null) return convertToDto(employeeService.getEmployeeByEmail(name));
             return null;
         }
-        else if (employeeService.login(name, password)) return convertToDto(employeeService.getEmployee(name));
+        else if (employeeService.login(name, password) != null) return convertToDto(employeeService.getEmployee(name));
         return null;
     }
 
     @PutMapping(value = {"/employee/updateOnline/{id}", "/employee/updateOnline/{id}/"})
     public EmployeeDto updateOnline(@PathVariable("id") String id, @RequestParam String username, @RequestParam String password, @RequestParam String email) {
-        if (employeeService.updateOnlineInfo(Integer.parseInt(id), username, password, email))
+        if (employeeService.updateOnlineInfo(Integer.parseInt(id), username, password, email) != null)
             return convertToDto(employeeService.getEmployee(Integer.parseInt(id)));
         return null;
     }
@@ -141,14 +123,14 @@ public class EmployeeRestController {
     public EmployeeDto updateInfo(@PathVariable("id") String id, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String civic,
                                   @RequestParam String street, @RequestParam String city, @RequestParam String postalCode,
                                   @RequestParam String province, @RequestParam String country) throws IllegalArgumentException, NullPointerException {
-        if (employeeService.changeInfo(Integer.parseInt(id), firstName, lastName, civic, street, city, postalCode, province, country))
+        if (employeeService.changeInfo(Integer.parseInt(id), firstName, lastName, civic, street, city, postalCode, province, country) != null)
             return convertToDto(employeeService.getEmployee(Integer.parseInt(id)));
         return null;
     }
 
     @PutMapping(value = {"/employee/role/{id}", "/employee/role/{id}/"})
     public EmployeeDto updateRole(@PathVariable("id") String id, @RequestParam String role) {
-        if (employeeService.updateRole(Integer.parseInt(id), Employee.Role.valueOf(role)))
+        if (employeeService.updateRole(Integer.parseInt(id), Employee.Role.valueOf(role)) != null)
             return convertToDto(employeeService.getEmployee(Integer.parseInt(id)));
         return null;
     }

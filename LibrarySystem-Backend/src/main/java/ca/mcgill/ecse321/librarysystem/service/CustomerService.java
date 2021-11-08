@@ -131,6 +131,18 @@ public class CustomerService {
     }
 
     @Transactional
+    public boolean logout(int libraryCardID) {
+        if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid ID");
+        Customer customer = (Customer) customerRepository.findUserByLibraryCardID(libraryCardID);
+        if (customer == null || !customer.getIsOnlineAcc()) throw new NullPointerException("Cannot find Online Customer with this ID");
+        if (customer.setIsLoggedIn(false)) {
+            customerRepository.save(customer);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
     public boolean logoutByEmail(String email) {
         if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
         Customer customer = (Customer) customerRepository.findUserByEmail(email);
@@ -233,6 +245,12 @@ public class CustomerService {
     @Transactional
     public List<Customer> getCustomersByLoggedIn(boolean isLoggedIn) {
         return convertListToCustomer(customerRepository.findByIsLogged(isLoggedIn));
+    }
+
+    @Transactional
+    public Customer getCustomerByBooking(Booking booking) {
+        if (booking == null) throw new IllegalArgumentException("Please enter a valid booking");
+        return (Customer) customerRepository.findUserByUserbooking(booking);
     }
 
     /*
