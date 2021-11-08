@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.transform.OutputKeys;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class CustomerRestController {
         for (Customer c : customers) {
             customerDtos.add(convertToDto(c));
         }
-        if (customerDtos.size() == 0) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find Customers in System");
+        if (customerDtos.size() == 0) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find any Customers in System");
         return new ResponseEntity<>(customerDtos, HttpStatus.OK);
     }
 
@@ -45,7 +44,7 @@ public class CustomerRestController {
         } catch (IllegalArgumentException msg) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
         }
-        if (customer == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find Customer");
+        if (customer == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find Customer with id #" + id);
         return new ResponseEntity<>(convertToDto(customer), HttpStatus.OK);
     }
 
@@ -279,29 +278,44 @@ public class CustomerRestController {
     }
 
     @PutMapping(value = { "/customer/updateOnline/{id}", "/customer/updateOnline/{id}/" })
-    public CustomerDto updateOnlineInfo(@PathVariable("id") String id, @RequestParam String username, @RequestParam String password, @RequestParam String email) throws IllegalArgumentException, NullPointerException {
-        if (customerService.updateOnlineInfo(Integer.parseInt(id), username, password, email) != null)
-            return convertToDto(customerService.getCustomer(Integer.parseInt(id)));
-        return null;
+    public ResponseEntity updateOnlineInfo(@PathVariable("id") String id, @RequestParam String username, @RequestParam String password, @RequestParam String email) throws IllegalArgumentException, NullPointerException {
+        Customer c;
+        try {
+            c = customerService.updateOnlineInfo(Integer.parseInt(id), username, password, email);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+        }
+        if (c == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot update this Customer's online account");
+        return new ResponseEntity<>(convertToDto(c), HttpStatus.OK);
     }
 
     @PutMapping(value = { "/customer/update/{id}", "/customer/update/{id}/" })
-    public CustomerDto updateInfo(@PathVariable("id") String id, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String civic,
+    public ResponseEntity updateInfo(@PathVariable("id") String id, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String civic,
                                   @RequestParam String street, @RequestParam String city, @RequestParam String postalCode,
                                   @RequestParam String province, @RequestParam String country) throws IllegalArgumentException, NullPointerException {
-        if (customerService.changeInfo(Integer.parseInt(id), firstName, lastName, civic, street, city, postalCode, province, country) != null)
-            return convertToDto(customerService.getCustomer(Integer.parseInt(id)));
-        return null;
+        Customer c;
+        try {
+            c = customerService.changeInfo(Integer.parseInt(id), firstName, lastName, civic, street, city, postalCode, province, country);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+        }
+        if (c == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot convert this Customer account");
+        return new ResponseEntity<>(convertToDto(c), HttpStatus.OK);
     }
 
     private CustomerDto convertToDto(Customer c) {
         if (c == null) throw new NullPointerException("Cannot find this Customer");
+        else if (c.getIsOnlineAcc()) {
+            return new CustomerDto(c.getLibraryCardID(), c.getIsOnlineAcc(), c.getIsLoggedIn(), c.getFirstName(),
+                    c.getLastName(), c.getIsVerified(), c.getDemeritPts(), convertToDto(c.getAddress()), c.getUsername(),
+                    c.getEmail(), c.getOutstandingBalance());
+        }
         return new CustomerDto(c.getLibraryCardID(), c.getIsOnlineAcc(), c.getIsLoggedIn(), c.getFirstName(),
                 c.getLastName(), c.getIsVerified(), c.getDemeritPts(), convertToDto(c.getAddress()), c.getOutstandingBalance());
     }
 
     private AddressDto convertToDto(Address a) {
         if (a == null) throw new NullPointerException("Cannot find Address");
-        return new AddressDto(a.getCivicNumber(), a.getStreet(), a.getCity(), a.getPostalCode(), a.getProvince(), a.getCountry());
+        return new AddressDto(a.getAddressID(), a.getCivicNumber(), a.getStreet(), a.getCity(), a.getPostalCode(), a.getProvince(), a.getCountry());
     }
 }

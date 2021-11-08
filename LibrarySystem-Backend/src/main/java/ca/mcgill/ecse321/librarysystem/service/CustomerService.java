@@ -247,12 +247,6 @@ public class CustomerService {
         return convertListToCustomer(customerRepository.findByIsLogged(isLoggedIn));
     }
 
-    @Transactional
-    public Customer getCustomerByBooking(Booking booking) {
-        if (booking == null) throw new IllegalArgumentException("Please enter a valid booking");
-        return (Customer) customerRepository.findUserByUserbooking(booking);
-    }
-
     /*
     Converts a local account to an online one if username and email not in use
      */

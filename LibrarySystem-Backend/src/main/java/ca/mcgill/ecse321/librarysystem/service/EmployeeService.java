@@ -188,12 +188,6 @@ public class EmployeeService {
     }
 
     @Transactional
-    public Employee getEmployeeByBooking(Booking booking) {
-        if (booking == null) throw new IllegalArgumentException("Please enter a valid booking");
-        return employeeRepository.findEmployeeByUserbooking(booking);
-    }
-
-    @Transactional
     public List<Employee> getEmployeesByHour(Hour hour) {
         if (hour == null) throw new IllegalArgumentException("Please enter a valid hour");
         return employeeRepository.findEmployeesByEmployeehour(hour);
