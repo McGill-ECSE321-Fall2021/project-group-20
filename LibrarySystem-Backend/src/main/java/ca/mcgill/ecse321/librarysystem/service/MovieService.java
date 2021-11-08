@@ -178,7 +178,7 @@ public class MovieService extends Item{
 	}
 
 	@Transactional
-	public List<Movie> getMovies() {
+	public List<Movie> getAllMovies() {
 		List<Movie> movies = new ArrayList<>();
 		for (Item i : movieRepository.findAll()) {
 			movies.add((Movie) i);

@@ -165,7 +165,7 @@ public class NewspaperService {
 	}
 
 	@Transactional
-	public List<Newspaper> getNewspapers() {
+	public List<Newspaper> getAllNewspapers() {
 		List<Newspaper> newspapers = new ArrayList<>();
 		for (Item i : newspaperRepository.findAll()) {
 			newspapers.add((Newspaper) i);
