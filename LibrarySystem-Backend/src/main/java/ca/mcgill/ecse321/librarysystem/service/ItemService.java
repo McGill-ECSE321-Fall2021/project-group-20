@@ -21,7 +21,7 @@ public class ItemService {
 
 	@Transactional
 	public Item createItem(Status aStatus, long aItemBarcode, Title aTitle) {
-		if (aStatus == null || aTitle == null) throw new IllegalArgumentException("Please enter a valid status or title");
+		if (aStatus == null || aTitle == null) throw new IllegalArgumentException("Please enter a valid status, title or Id");
 		Item item = new Item(aStatus, aItemBarcode, aTitle);
 		itemRepository.save(item);
 		return item;
@@ -72,6 +72,7 @@ public class ItemService {
 		if (item == null) throw new IllegalArgumentException("No Item found");
 		itemRepository.delete(item);
 		item.delete();
+
 	}
 
 	@Transactional

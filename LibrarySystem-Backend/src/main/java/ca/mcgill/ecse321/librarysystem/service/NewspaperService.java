@@ -22,7 +22,7 @@ public class NewspaperService {
 
 	@Transactional
 	public Newspaper createNewspaper(Status aStatus, long aNewspaperBarcode, Title aTitle) {
-		if (aStatus == null || aTitle == null) throw new IllegalArgumentException("Please enter a valid status or title");
+		if (aStatus == null || aTitle == null) throw new IllegalArgumentException("Please enter a valid status, title or Id");
 		Newspaper item = new Newspaper(aStatus, aNewspaperBarcode, aTitle);
 		newspaperRepository.save(item);
 		return item;
@@ -44,7 +44,7 @@ public class NewspaperService {
 			if (iteme == null) throw new IllegalArgumentException("No Newspaper found");
 		}
 		for (Item iteme : item) {
-			if (!(item instanceof Newspaper)) {
+			if (!(iteme instanceof Newspaper)) {
 				item.remove(iteme);
 			}
 		}
@@ -59,7 +59,7 @@ public class NewspaperService {
 			if (iteme == null) throw new IllegalArgumentException("No Newspaper found");
 		}	
 		for (Item iteme : item) {
-			if (!(item instanceof Newspaper)) {
+			if (!(iteme instanceof Newspaper)) {
 				item.remove(iteme);
 			}
 		}
@@ -98,7 +98,7 @@ public class NewspaperService {
 			if (iteme == null) throw new IllegalArgumentException("No Newspaper found");
 		}	
 		for (Item iteme : item) {
-			if (!(item instanceof Newspaper)) {
+			if (!(iteme instanceof Newspaper)) {
 				item.remove(iteme);
 			}
 		}
@@ -116,7 +116,7 @@ public class NewspaperService {
 			if (iteme == null) throw new IllegalArgumentException("No Newspaper found");
 		}	
 		for (Item iteme : item) {
-			if (!(item instanceof Newspaper)) {
+			if (!(iteme instanceof Newspaper)) {
 				item.remove(iteme);
 			}
 		}
