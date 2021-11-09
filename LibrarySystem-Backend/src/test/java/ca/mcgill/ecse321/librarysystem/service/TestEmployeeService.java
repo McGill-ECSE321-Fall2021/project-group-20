@@ -805,42 +805,6 @@ public class TestEmployeeService {
     }
     
     @Test
-    public void getEmployeeByBookingPass() {
-        Employee e = null;
-        try {
-            e = employeeService.getEmployeeByBooking(new Booking());
-        } catch (IllegalArgumentException | NullPointerException msg) {
-            fail(msg.getMessage());
-        }
-        assertNotNull(e);
-        assertEquals(e.getFirstName(), FIRSTNAME_1);
-        assertEquals(e.getLastName(), LASTNAME_1);
-        assertEquals(e.getAddress().getCivicNumber(), CIVIC_1);
-        assertEquals(e.getAddress().getStreet(), STREET_1);
-        assertEquals(e.getAddress().getCity(), CITY_1);
-        assertEquals(e.getAddress().getPostalCode(), POST_1);
-        assertEquals(e.getAddress().getProvince(), PROV_1);
-        assertEquals(e.getAddress().getCountry(), COUNTRY_1);
-        assertEquals(e.getRole(), Employee.Role.Librarian);
-        assertEquals(e.getUsername(), USERNAME_1);
-        assertEquals(e.getPassword(), PASS_1);
-        assertEquals(e.getEmail(), EMAIL_1);
-    }
-    
-    @Test
-    public void getEmployeeByBookingFail() {
-        Employee e = null;
-        String error = null;
-        try {
-            e = employeeService.getEmployeeByBooking(null);
-        } catch (IllegalArgumentException | NullPointerException msg) {
-            error = msg.getMessage();
-        }
-        assertNull(e);
-        assertEquals("Please enter a valid booking", error);
-    }
-    
-    @Test
     public void getEmployeesByHourPass() {
         List<Employee> employees = new ArrayList<>();
         try {
