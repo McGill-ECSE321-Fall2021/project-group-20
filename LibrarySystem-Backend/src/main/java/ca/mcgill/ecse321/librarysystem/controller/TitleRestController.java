@@ -2,6 +2,8 @@ package ca.mcgill.ecse321.librarysystem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,195 +41,306 @@ public class TitleRestController {
 	private ItemService itemService;
 	
 	@GetMapping(value = { "/titles", "/titles/"})
-    public List<TitleDto> getAllTitles() {
+    public ResponseEntity getAllTitles() {
         List<TitleDto> titleDtos = new ArrayList<>();
+		List<Title> titles = titleService.getTitles();
+		if (titles.size() == 0) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any titles");
         for (Title title : titleService.getTitles()) {
             titleDtos.add(convertToTitleDto(title));
         }
-        return titleDtos;
+        return new ResponseEntity<>(titleDtos, HttpStatus.OK);
     }
 
     @GetMapping(value = { "/title/{id}", "/title/{id}/"})
-    public TitleDto getTitleByTitleID(@PathVariable("id") String id) throws IllegalArgumentException, NullPointerException {
-        return convertToTitleDto(titleService.getTitleByTitleID(id));
+    public ResponseEntity getTitleByTitleID(@PathVariable("id") String id) {
+		Title title;
+		try {
+			title = titleService.getTitleByTitleID(id);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+        return new ResponseEntity<>(convertToTitleDto(title), HttpStatus.OK);
     }
 
     @GetMapping(value = { "/title/getByNameAndPubDate", "/title/getByNameAndPubDate/"})
-    public TitleDto getTitleByNameAndPubDate(@RequestParam String name, @RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate)
-            throws IllegalArgumentException, NullPointerException {
-        return convertToTitleDto(titleService.getTitleByNameAndPubDate(name, pubDate));
+    public ResponseEntity getTitleByNameAndPubDate(@RequestParam String name, @RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate) {
+		Title title;
+		try {
+			title = titleService.getTitleByNameAndPubDate(name, pubDate);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		return new ResponseEntity<>(convertToTitleDto(title), HttpStatus.OK);
     }
 
     @GetMapping(value = { "/titles/author/{id}","/titles/author/{id}/"})
-    public List <TitleDto> getTitlesByAuthorID(@RequestParam String author) throws IllegalArgumentException, NullPointerException {
-    	return convertToTitlesDto(titleService.getTitlesByAuthorID(authorService.getAuthorByAuthorID(author)));
+    public ResponseEntity getTitlesByAuthorID(@RequestParam String author) {
+		Author a;
+		List<Title> titles;
+		try {
+			a = authorService.getAuthorByAuthorID(author);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		try {
+			titles = titleService.getTitlesByAuthorID(a);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+
+		}
+		return new ResponseEntity<>(convertToTitlesDto(titles), HttpStatus.OK);
     }
 
     @GetMapping(value = {"/titles/authors","/titles/authors/"})
-    public List<TitleDto> getTitlesByAuthorIDs(@RequestParam String authors) {
+    public ResponseEntity getTitlesByAuthorIDs(@RequestParam String authors) {
         List<Author> authorList = new ArrayList<>();
         List<String> seperatedAuthorStringList = Arrays.asList(authors.split(","));
         for (String s : seperatedAuthorStringList) {
-            authorList.add(authorService.getAuthorByAuthorID(s));
+            try {
+				authorList.add(authorService.getAuthorByAuthorID(s));
+			} catch (IllegalArgumentException | NullPointerException msg) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+			}
         }
-        return convertToTitlesDto(titleService.getTitlesByAuthorIDs(authorList));
+		List<Title> titles;
+		try {
+			titles = titleService.getTitlesByAuthorIDs(authorList);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+        return new ResponseEntity<>(convertToTitlesDto(titles), HttpStatus.OK);
     }
 	
 	@GetMapping(value = {"/title/getTitleByItemBarcode","/title/getTitleByItemBarcode/"})
-	public TitleDto getTitlesByItemBarcode(@RequestParam String itemBarCode) throws IllegalArgumentException, NullPointerException {
-		return convertToTitleDto(titleService.getTitleByItemBarcode(itemService.getItemById(Long.parseLong(itemBarCode))));
+	public ResponseEntity getTitleByItemBarcode(@RequestParam String itemBarCode) {
+		Item item;
+		try {
+			item = itemService.getItemById(Long.parseLong(itemBarCode));
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		Title title;
+		try {
+			title = titleService.getTitleByItemBarcode(item);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		return new ResponseEntity<>(convertToTitleDto(title), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = {"/titles/getTitlesByItemBarcodes","/titles/getTitlesByItemBarcodes/"})
-	public List<TitleDto> getTitlesByItemBarcodes(@RequestParam String itemBarCodes) {
+	public ResponseEntity getTitlesByItemBarcodes(@RequestParam String itemBarCodes) {
 		List<Item> itemList = new ArrayList<>();
         List<String> seperatedItemStringList = Arrays.asList(itemBarCodes.split(","));
         for (String s : seperatedItemStringList) {
-        	itemList.add(itemService.getItemById(Long.parseLong(s)));
+			try {
+				itemList.add(itemService.getItemById(Long.parseLong(s)));
+			} catch (IllegalArgumentException | NullPointerException msg) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+			}
         }
-		return convertToTitlesDto(titleService.getTitlesByItemBarcodes(itemList));
+		List<Title> titles;
+		try {
+			titles = titleService.getTitlesByItemBarcodes(itemList);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		return new ResponseEntity<>(convertToTitlesDto(titles), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = {"/titles/getTitlesByName","/titles/getTitlesByName/"})
-	public List<TitleDto> getTitlesByName(@RequestParam String name) throws IllegalArgumentException, NullPointerException{
-		return convertToTitlesDto(titleService.getTitlesByName(name));
+	public ResponseEntity getTitlesByName(@RequestParam String name) {
+		List<Title> titles;
+		try {
+			titles = titleService.getTitlesByName(name);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		return new ResponseEntity<>(convertToTitlesDto(titles), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = {"/titles/getTitlesByPubDate","/titles/getTitlesByPubDate/"})
-	public List<TitleDto> getTitlesByPubDate(@RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate) throws IllegalArgumentException, NullPointerException{
-		return convertToTitlesDto(titleService.getTitlesByPubDate(pubDate));
+	public ResponseEntity getTitlesByPubDate(@RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate) {
+		List<Title> titles;
+		try {
+			titles = titleService.getTitlesByPubDate(pubDate);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		return new ResponseEntity<>(convertToTitlesDto(titles), HttpStatus.OK);
 	}
 	
-	@PostMapping(value = {"/title/createTitleByNameAndPubDateAndAuthors", "/title/createTitleByNameAndPubDateAndAuthors/"})
-	public TitleDto createTitleByNameAndPubDateAndAuthors(@RequestParam String name, @RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate, @RequestParam String authors) 
-			throws IllegalArgumentException, NullPointerException{
-		
+	@PostMapping(value = {"/title/create", "/title/create/"})
+	public ResponseEntity createTitleByNameAndPubDateAndAuthors(@RequestParam String name, @RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate, @RequestParam String authors) {
         List<String> seperatedAuthorStringList = Arrays.asList(authors.split(","));
         Author authorList [] = new Author[seperatedAuthorStringList.size()];
         
         for (int i =0; i < seperatedAuthorStringList.size(); i++) {
-        	authorList[i] = authorService.getAuthorByAuthorID(seperatedAuthorStringList.get(i));
+			try {
+				authorList[i] = authorService.getAuthorByAuthorID(seperatedAuthorStringList.get(i));
+			} catch (IllegalArgumentException | NullPointerException msg) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+			}
         }
-        
-		return convertToTitleDto(titleService.createTitle(name, pubDate, authorList));
+        Title title;
+		try {
+			title = titleService.createTitle(name, pubDate, authorList);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		return new ResponseEntity<>(convertToTitleDto(title), HttpStatus.OK);
 	}
 	
 	
 	@PutMapping(value = { "/title/{id}/updateName", "/title/{id}/updateName/" })
-	public boolean updateName(@PathVariable("id") String id, @RequestParam String name) {
-		return titleService.updateName(id, name);
+	public ResponseEntity updateName(@PathVariable("id") String id, @RequestParam String name) {
+		boolean b;
+		try {
+			b = titleService.updateName(id, name);
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Updated name successfully");
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not update name");
 	}
 	
 	@PutMapping(value = { "/title/{id}/updatePubDate", "/title/{id}/updatePubDate/" })
-	public boolean updatePubDate(@PathVariable("id") String id, @RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate) {
-		return titleService.updatePubDate(id, pubDate);
+	public ResponseEntity updatePubDate(@PathVariable("id") String id, @RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate) {
+		boolean b;
+		try {
+			b = titleService.updatePubDate(id, pubDate);
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Updated pubDate successfully");
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not update pubDate");
 	}
 	
 	@PutMapping(value = { "/title/{id}/updateNameAndPubDate", "/title/{id}/updateNameAndPubDate/" })
-	public boolean updateNameAndPubDate(@PathVariable("id") String id, @RequestParam String name, @RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate) {
-		return titleService.updateNameAndPubDate(id, name, pubDate);
+	public ResponseEntity updateNameAndPubDate(@PathVariable("id") String id, @RequestParam String name, @RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate) {
+		boolean b;
+		try {
+			b = titleService.updateNameAndPubDate(id, name, pubDate);
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Updated name & pubDate successfully");
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not update name & pubDate");
 	}
 	
 	@PutMapping(value = { "/title/{id}/addAuthorToTitle", "/title/{id}/addAuthorToTitle/" })
-	public boolean addAuthorToTitle(@PathVariable("id") String id, @RequestParam String author) {
-		return titleService.addAuthorToTitle(id, authorService.getAuthorByAuthorID(author));
+	public ResponseEntity addAuthorToTitle(@PathVariable("id") String id, @RequestParam String author) {
+		Author a;
+		try {
+			a = authorService.getAuthorByAuthorID(author);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		boolean b;
+		try {
+			b = titleService.addAuthorToTitle(id, a);
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Added author successfully");
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not add author");
 	}
 	
 	@PutMapping(value = { "/title/{id}/addAuthorsToTitle", "/title/{id}/addAuthorsToTitle/" })
-	public boolean addAuthorsToTitle(@PathVariable("id") String id, @RequestParam String authors) {
+	public ResponseEntity addAuthorsToTitle(@PathVariable("id") String id, @RequestParam String authors) {
 		List<Author> authorList = new ArrayList<>();
         List<String> seperatedAuthorStringList = Arrays.asList(authors.split(","));
         for (String s : seperatedAuthorStringList) {
-            authorList.add(authorService.getAuthorByAuthorID(s));
+			try {
+				authorList.add(authorService.getAuthorByAuthorID(s));
+			} catch (IllegalArgumentException | NullPointerException msg) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+			}
         }
-		return titleService.addAuthorsToTitle(id, authorList);
+		boolean b;
+		try {
+			b = titleService.addAuthorsToTitle(id, authorList);
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Added authors successfully");
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not add authors");
 	}
 	
 	@PutMapping(value = { "/title/{id}/removeAuthorFromTitle", "/title/{id}/removeAuthorFromTitle/" })
-	public boolean removeAuthorFromTitle(@PathVariable("id") String id, @RequestParam String author) {
-		return titleService.removeAuthorFromTitle(id, authorService.getAuthorByAuthorID(author));
+	public ResponseEntity removeAuthorFromTitle(@PathVariable("id") String id, @RequestParam String author) {
+		Author a;
+		try {
+			a = authorService.getAuthorByAuthorID(author);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		boolean b;
+		try {
+			b = titleService.removeAuthorFromTitle(id, a);
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Removed author successfully");
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not remove author");
 	}
 	
 	@PutMapping(value = { "/title/{id}/removeAuthorsFromTitle", "/title/{id}/removeAuthorsFromTitle/" })
-	public boolean removeAuthorsFromTitle(@PathVariable("id") String id, @RequestParam String authors) {
+	public ResponseEntity removeAuthorsFromTitle(@PathVariable("id") String id, @RequestParam String authors) {
 		List<Author> authorList = new ArrayList<>();
-        List<String> seperatedAuthorStringList = Arrays.asList(authors.split(","));
-        for (String s : seperatedAuthorStringList) {
-            authorList.add(authorService.getAuthorByAuthorID(s));
-        }
-		return titleService.removeAuthorsFromTitle(id, authorList);
+		List<String> seperatedAuthorStringList = Arrays.asList(authors.split(","));
+		for (String s : seperatedAuthorStringList) {
+			try {
+				authorList.add(authorService.getAuthorByAuthorID(s));
+			} catch (IllegalArgumentException | NullPointerException msg) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+			}
+		}
+		boolean b;
+		try {
+			b = titleService.removeAuthorsFromTitle(id, authorList);
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Removed authors successfully");
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not remove authors");
 	}
 	
 	
 	@DeleteMapping(value = {"/title/{id}", "/title/{id}/"})
-	public boolean deleteTitleByTitleID(@PathVariable("id") String id) throws IllegalArgumentException, NullPointerException {
-		return titleService.deleteTitleByTitleID(id);
+	public ResponseEntity deleteTitleByTitleID(@PathVariable("id") String id) {
+		boolean b;
+		try {
+			b = titleService.deleteTitleByTitleID(id);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Title has been deleted");
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot delete title");
 	}
 	
-	@DeleteMapping(value = {"/title/deleteByNameAndPubDate", "/title/deleteByNameAndPubDate/"})
-	public boolean deleteTitleByNameAndPubDate(@RequestParam String name, @RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate) throws IllegalArgumentException, NullPointerException {
-		return titleService.deleteTitleByNameAndPubDate(name, pubDate);
+	@DeleteMapping(value = {"/titles/deleteByName", "/titles/deleteByName/"})
+	public ResponseEntity deleteTitlesByName(@RequestParam String name) {
+		boolean b;
+		try {
+			b = titleService.deleteTitlesByName(name);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Titles has been deleted");
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot delete titles");
 	}
 	
-	@DeleteMapping(value = {"/title/deleteByAuthorID", "/title/deleteByAuthorID/"})
-	public boolean deleteTitleByAuthorID(@RequestParam String author) throws IllegalArgumentException, NullPointerException {
-		return titleService.deleteTitlesByAuthorID(authorService.getAuthorByAuthorID(author));
-	}
-	
-	@DeleteMapping(value = {"/title/deleteTitleByAuthorIDs", "/title/deleteTitleByAuthorIDs/"})
-	public boolean deleteTitleByAuthorIDs(@RequestParam String authors) throws IllegalArgumentException, NullPointerException {
-		List<Author> authorList = new ArrayList<>();
-        List<String> seperatedAuthorStringList = Arrays.asList(authors.split(","));
-        for (String s : seperatedAuthorStringList) {
-            authorList.add(authorService.getAuthorByAuthorID(s));
-        }
-		return titleService.deleteTitlesByAuthorIDs(authorList);
-	}
-	
-	
-	@DeleteMapping(value = {"/title/deleteByItemBarCode", "/title/deleteByItemBarCode/"})
-	public boolean deleteTitleByItemBarCode(String itemBarCode) throws IllegalArgumentException, NullPointerException {
-		return titleService.deleteTitlesByItemBarcode((itemService.getItemById(Long.parseLong(itemBarCode))));
-	}
-	
-	@DeleteMapping(value = {"/title/deleteByItemBarCodes", "/title/deleteByItemBarCodes/"})
-	public boolean deleteTitleByItemBarCodes(String itemBarCodes) throws IllegalArgumentException, NullPointerException {
-		List<Item> itemList = new ArrayList<>();
-        List<String> seperatedItemStringList = Arrays.asList(itemBarCodes.split(","));
-        for (String s : seperatedItemStringList) {
-        	itemList.add(itemService.getItemById(Long.parseLong(s)));
-        }
-		return titleService.deleteTitlesByItemBarcodes(itemList);
-	}
-	
-	@DeleteMapping(value = {"/title/deleteByName", "/title/deleteByName/"})
-	public boolean deleteTitleByName(@RequestParam String name) 
-			throws IllegalArgumentException, NullPointerException {
-		return titleService.deleteTitlesByName(name);
-	}
-	
-	@DeleteMapping(value = {"/title/deleteByPubDate", "/title/deleteByPubDate/"})
-	public boolean deleteTitlesByPubDate(@RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate) 
-			throws IllegalArgumentException, NullPointerException {
-		return titleService.deleteTitlesByPubDate(pubDate);
-	}
-	
-	
-	//should it be GetMapping?
-	@GetMapping(value = {"/title/isTitleExistsByTitleID","/title/isTitleExistsByTitleID/"}) 
-	public boolean isTitleExistsByTitleID(@RequestParam String titleID) throws IllegalArgumentException, NullPointerException {
-		return titleService.isTitleExistsByTitleID(titleID);
-	}
-	
-	@GetMapping(value = {"/title/isTitleExistsByItem","/title/isTitleExistsByItem/"}) 
-	public boolean isTitleExistsByItemBarCode(@RequestParam String itemBarCode) throws IllegalArgumentException, NullPointerException {
-		
-		return titleService.isTitleExistsByItem(itemService.getItemById(Long.parseLong(itemBarCode)));
-	}
-	
-	@GetMapping(value = {"/title/isTitleExistsByNameAndPubDate","/title/isTitleExistsByNameAndPubDate/"}) 
-	public boolean isTitleExistsByNameAndPubDate(@RequestParam String name, @RequestParam @DateTimeFormat String pubDate) throws IllegalArgumentException, NullPointerException {
-		return titleService.isTitleExistsByNameAndPubDate(name, pubDate);
+	@DeleteMapping(value = {"/titles/deleteByPubDate", "/titles/deleteByPubDate/"})
+	public ResponseEntity deleteTitlesByPubDate(@RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate) {
+		boolean b;
+		try {
+			b = titleService.deleteTitlesByPubDate(pubDate);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Titles has been deleted");
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot delete titles");
 	}
 	
 	private TitleDto convertToTitleDto(Title title) throws IllegalArgumentException, NullPointerException {
