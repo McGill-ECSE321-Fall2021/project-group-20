@@ -130,9 +130,8 @@ public class EventService {
 	  }
 	  
 	  @Transactional 
-	  public boolean updateEventNameByDayandID (String eventID, Date DAY, String updateName) {
+	  public boolean updateEventNameByID (String eventID,String updateName) {
 		  if (eventID == null || eventID.length() == 0) throw new IllegalArgumentException("Please enter valid eventID");
-		  if (DAY==null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d ");
 		  Event myEvent = eventRepository.findByEventID(eventID);
 		  if (myEvent.setName(updateName)) {
 			  eventRepository.save(myEvent);

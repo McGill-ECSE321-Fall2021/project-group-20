@@ -79,7 +79,7 @@ public class HourService {
 
 	@Transactional
 	public List<Hour> getHourListbystartTime (Time aStartTime){
-		if (aStartTime == null) throw new IllegalArgumentException("Please enter a valid end Time");
+		if (aStartTime == null) throw new IllegalArgumentException("Please enter a valid start Time");
 		List<Hour> hours = hourRepository.findBystartTime(aStartTime);
 		if (hours.size()== 0 ) throw new NullPointerException("Hours not found");
 		return hours;

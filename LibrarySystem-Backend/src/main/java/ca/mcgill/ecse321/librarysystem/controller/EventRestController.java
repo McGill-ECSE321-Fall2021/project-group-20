@@ -138,9 +138,9 @@ public class EventRestController {
 	    
 	    
 	    @PutMapping(value = {"/event/update/name", "/event/update/name/"})
-	    public EventDto updateEventdate(@RequestParam String id, @RequestParam ("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  String date, @RequestParam String updatedName) {
+	    public EventDto updateEventNameByID(@RequestParam String id, @RequestParam String updatedName) {
 	    	
-	    	if( eventService.updateEventNameByDayandID(id, Date.valueOf(date), updatedName))
+	    	if( eventService.updateEventNameByID(id, updatedName))
 	    		convertToDto(eventService.getEventByID(id));
 	    	return null;
 	    }
