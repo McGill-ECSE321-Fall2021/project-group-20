@@ -20,16 +20,7 @@ public class EventService {
 	private EventRepository eventRepository;
 	
 	
-	  @Transactional
-	    public Event createEvent(String aEventID, String aName, Date aEventDate, Hour aEventhour) {
-		  if ( aEventID == null ) throw new IllegalArgumentException("Please enter a valid id");
-		  if(aName == null)throw new IllegalArgumentException("Please enter a valid name");
-		  if (aEventDate == null) throw new IllegalArgumentException("Please enter a valid date");
-	      if( aEventhour == null )throw new IllegalArgumentException("Please enter a valid hour");
-		  Event newEvent = new Event (aEventID, aName,aEventDate, aEventhour);
-		  eventRepository.save(newEvent);
-	      return newEvent;
-	  }
+
 	  @Transactional
 	    public Event createEvent(String aName, Date aEventDate, Hour aEventhour) {
 			  if   (aName == null)throw new IllegalArgumentException("Please enter a valid name");
@@ -40,13 +31,7 @@ public class EventService {
 				  return newEvent;
 	  }
 	  
-	  @Transactional
-	    public Event createEvent() {
-				  Event newEvent = new Event ();
-				  eventRepository.save(newEvent);
-				  return newEvent;
-	  }
-	  
+
 	  
 	  @Transactional
 	  public Event getEventByDate(Date inputDate) {
@@ -145,9 +130,8 @@ public class EventService {
 	  }
 	  
 	  @Transactional 
-	  public boolean updateEventNameByDayandHour (String eventID, Date DAY, String updateName) {
+	  public boolean updateEventNameByID (String eventID,String updateName) {
 		  if (eventID == null || eventID.length() == 0) throw new IllegalArgumentException("Please enter valid eventID");
-		  if (DAY==null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d ");
 		  Event myEvent = eventRepository.findByEventID(eventID);
 		  if (myEvent.setName(updateName)) {
 			  eventRepository.save(myEvent);

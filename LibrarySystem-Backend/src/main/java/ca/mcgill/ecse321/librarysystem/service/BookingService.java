@@ -57,23 +57,6 @@ public class BookingService {
 	
 	
 
-	@Transactional
-	public Booking createBooking(String aBookingId,Date aStartDate, Date aEndDate, BookingType aType, Item aitem, User aUser) {
-		if (aBookingId == null || aBookingId.length() == 0) throw new IllegalArgumentException ("Please enter valid Booking ID");
-		if (aStartDate == null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d");
-		if (aEndDate == null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d");
-		if (aType != BookingType.Borrow || aType != BookingType.Reservation) throw new IllegalArgumentException ("Please enter a valid booking type");
-		if (aitem == null) throw new IllegalArgumentException ("Please enter valid item");
-		if (aitem.hasBooking()) throw new IllegalArgumentException("Cannot book a borrowed/reserved item");
-		if (aitem.getClass().getName().equals("Newspaper")) throw new IllegalArgumentException("Cannot book a newspaper/journal");
-		if (aUser == null) throw new IllegalArgumentException ("Please enter a valid user");
-		if (aUser.numberOfUserbooking() >= 5) throw new IllegalArgumentException("Cannot book more than 5 items at a time");
-		if (aUser.getDemeritPts() >= 3) throw new IllegalArgumentException("Cannot book because of demerit points");
-		Booking myBooking = new Booking (aBookingId,aStartDate, aEndDate,aType,aitem,aUser);
-		bookingRepository.save(myBooking);
-		return myBooking;
-		
-	}
 
 	@Transactional
 	public List<Booking> getAllBookings() {
@@ -140,21 +123,7 @@ public class BookingService {
 		return;
 	}
 
-	@Transactional
-	public void returnItemByItemID(Long itemBarcode) {
-		if (itemBarcode <= 0) throw new IllegalArgumentException("Please enter a valid itemBarcode");
-		Item item = itemRepository.findItemByItemBarcode(itemBarcode);
-		Booking myBooking = bookingRepository.findBookingByItem(item);
-		if (myBooking == null) throw new NullPointerException("Cannot find Booking with Item");
-		if (myBooking.getEndDate().before(new Date())) {
-			if (myBooking.getUser().getClass().getName().equals("Customer")) customerService.changeDemeritPts(myBooking.getUser().getLibraryCardID(), 1);
-			else employeeService.changeDemeritPts(myBooking.getUser().getLibraryCardID(), 1);
-		}
-		bookingRepository.delete(myBooking);
-		myBooking.delete();
-		item.setStatus(Item.Status.Available);
-		itemRepository.save(item);
-	}
+	
 
 	@Transactional
 	public void returnItemByItem(Item item) {
@@ -189,41 +158,7 @@ public class BookingService {
 		itemRepository.save(item);
 	}
 
-	@Transactional
-	public boolean deleteBookingByStartDate(Date aStartDate) {
-		if (aStartDate == null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d");
-		List<Booking> bookings = bookingRepository.findBookingByStartDate(aStartDate);
-		if (bookings.size() == 0) throw new NullPointerException("Bookings not found");
-		for (Booking booking : bookings) {
-			bookingRepository.delete(booking);
-			booking.delete();
-		}
-		List<Booking> myBooking = bookingRepository.findBookingByStartDate(aStartDate);
-		return (myBooking.size() == 0);
-	}
-	
-	@Transactional
-	public boolean deleteBookingByEndDate (Date aEndDate) {
-		if (aEndDate == null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d");
-		List<Booking> bookings = bookingRepository.findBookingByEndDate(aEndDate);
-		if (bookings.size() == 0) throw new NullPointerException("Bookings not found");
-		for (Booking booking : bookings) {
-			bookingRepository.delete(booking);
-			booking.delete();
-		}
-		List<Booking> myBooking = bookingRepository.findBookingByStartDate(aEndDate);
-		return (myBooking.size() == 0);
-	}
-	
-	@Transactional
-	public void deleteBookingByitem (Item aitem) {
-	if (aitem == null) throw new IllegalArgumentException ("Please enter valid item");
-	Booking myBooking = bookingRepository.findBookingByItem(aitem);
-	bookingRepository.delete(myBooking);
-	myBooking.delete();
 
-		
-	}
 	
 	@Transactional
 	public boolean deleteBookingByUser (User aUser) {
@@ -240,19 +175,7 @@ public class BookingService {
 
 	}
 	
-	@Transactional
-	public boolean deleteBookingbyBookingType(BookingType aType) {
-		if (aType != BookingType.Borrow || aType != BookingType.Reservation) throw new IllegalArgumentException ("Please enter a valid booking type");
-		List<Booking> bookings = bookingRepository.findBookingByType(aType);
-		if (bookings.size() == 0) throw new IllegalArgumentException("Bookings not found");
-		for (Booking booking : bookings) {
-			bookingRepository.delete(booking);
-			booking.delete();
-		}
-		List<Booking> myBooking = bookingRepository.findBookingByType(aType);
-		return (myBooking.size() == 0);
-		
-	}
+
 
 	@Transactional
 	public boolean updateStartDateBookingbyItem(Item aItem, Date updatedStartDate) {

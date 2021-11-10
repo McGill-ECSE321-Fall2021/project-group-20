@@ -117,28 +117,6 @@ public class AuthorService {
         return false;
     }
     
-    @Transactional
-    public boolean addTitleByAuthorID(String authorID, Title title) {
-    	Author author = getAuthorByAuthorID(authorID);
-    	if (title == null) throw new NullPointerException("Please enter a valid title");
-    	if (author.addTitle(title)) {
-            authorRepository.save(author);
-            return true;
-        }
-        return false;
-    }
-    
-    @Transactional
-    public boolean removeTitleByAuthorID(String authorID, Title title) {
-    	Author author = getAuthorByAuthorID(authorID);
-    	if (title == null) throw new NullPointerException("Please enter a valid title");
-    	if (author.removeTitle(title)) {
-            authorRepository.save(author);
-            return true;
-        }
-        return false;
-    }
-
 
     @Transactional
     public boolean deleteAuthorByAuthorID(String authorID) {

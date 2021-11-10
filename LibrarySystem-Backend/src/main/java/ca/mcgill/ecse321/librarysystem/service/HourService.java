@@ -22,12 +22,7 @@ public class HourService {
 	@Autowired
 	private HourRepository hourRepository;
 	
-	@Transactional
-	public Hour createHour() {
-		 Hour newHour = new Hour ();
-		  hourRepository.save(newHour);
-		  return newHour;
-	}
+
 	
 	@Transactional
 	public Hour createHour(String aWeekday, Time aStartTime, Time aEndTime, Employee aEmployee, Calendar aCalendar) {
@@ -84,7 +79,7 @@ public class HourService {
 
 	@Transactional
 	public List<Hour> getHourListbystartTime (Time aStartTime){
-		if (aStartTime == null) throw new IllegalArgumentException("Please enter a valid end Time");
+		if (aStartTime == null) throw new IllegalArgumentException("Please enter a valid start Time");
 		List<Hour> hours = hourRepository.findBystartTime(aStartTime);
 		if (hours.size()== 0 ) throw new NullPointerException("Hours not found");
 		return hours;
@@ -96,20 +91,7 @@ public class HourService {
 		return (Hour) hourRepository.findByweekday(aWeekday);
 	}
 	
-	@Transactional
-	public boolean deleteHourbycalendar (Calendar acalendar) {
-		if (acalendar == null ) throw new IllegalArgumentException("Please enter a valid calendar");
-		List<Hour> hours = hourRepository.findBycalendar(acalendar);
-		 if (hours.size() == 0) throw new NullPointerException("Hours not found");
-	        for (Hour hour : hours) {
-	            
-	            hourRepository.delete(hour);
-	            hour.delete();
-	        }
-	        List<Hour> myHour = hourRepository.findBycalendar(acalendar);
-	        return (myHour.size() == 0);
-	  }
-	
+
 	@Transactional
 	public boolean deleteHourbyEmployee(Employee aEmployee) {
 		if (aEmployee == null) throw new IllegalArgumentException("Please enter a valid Employee");
@@ -124,20 +106,7 @@ public class HourService {
         return (myHour.size() == 0);
 	}
 	
-	@Transactional
-	public boolean deleteHourbyEndTime(Time aEndTime) {
-		if (aEndTime == null) throw new IllegalArgumentException("Please enter a valid end Time");
-		List<Hour> hours = hourRepository.findByendTime(aEndTime);
-		if (hours.size() == 0) throw new NullPointerException("Hours not found");
-        for (Hour hour : hours) {
-            
-            hourRepository.delete(hour);
-            hour.delete();
-        }
-        List<Hour> myHour = hourRepository.findByendTime(aEndTime);
-        return (myHour.size() == 0);
-	}
-	
+
 	@Transactional
 	public void deleteHourbyEvent(Event aEvent) {
 		if (aEvent == null ) throw new IllegalArgumentException("Please enter a valid event");
@@ -147,21 +116,7 @@ public class HourService {
 		return;
 	}
 	
-	@Transactional
-	public boolean deleteHourbyStartTime (Time aStartTime) {
-		if (aStartTime == null) throw new IllegalArgumentException("Please enter a valid Start Time");
-		List<Hour> hours = hourRepository.findBystartTime(aStartTime);
-		if (hours.size() == 0) throw new NullPointerException("Hours not found");
-        for (Hour hour : hours) {
-            
-            hourRepository.delete(hour);
-            hour.delete();
-        }
-        List<Hour> myHour = hourRepository.findBystartTime(aStartTime);
-        return (myHour.size() == 0);
-        
-	}
-	
+
 	
 	@Transactional
 	public void deleteHourbyWeekday (String aWeekday) {
@@ -212,19 +167,7 @@ public class HourService {
 		
 	}
 	
-	@Transactional
-	public boolean updateHourCalendarbyWeekday(String aWeekday, Calendar updatedCalendar) {
-		if	(aWeekday != "Monday" || aWeekday != "monday"||aWeekday != "Tuesday" || aWeekday != "tuesday"||aWeekday != "Wednesday" || aWeekday != "wednesday"|| aWeekday != "Thursday"||aWeekday != "thursday"  || aWeekday != "Friday"||aWeekday != "friday" ) throw new IllegalArgumentException("Please enter a valid Weekday, with either a Capital first letter or all lowercase");
-		if (updatedCalendar == null ) throw new IllegalArgumentException("Pleace enter a valid Calendar");
-		Hour myHour = hourRepository.findByweekday(aWeekday);
-		if (myHour.setCalendar(updatedCalendar)) {
-			hourRepository.save(myHour);
-			return true;
-		}
-		return false;
 
-	}
-	
 
 	@Transactional
 	public boolean updateEventatThisHourbyWeekday(String aWeekday, Event updatedEvent) {

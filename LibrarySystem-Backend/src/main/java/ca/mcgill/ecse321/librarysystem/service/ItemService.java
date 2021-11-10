@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.librarysystem.dao.ItemRepository;
 import ca.mcgill.ecse321.librarysystem.model.Booking;
-import ca.mcgill.ecse321.librarysystem.model.Employee;
 import ca.mcgill.ecse321.librarysystem.model.Item;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 import ca.mcgill.ecse321.librarysystem.model.Title;
@@ -21,7 +20,8 @@ public class ItemService {
 
 	@Transactional
 	public Item createItem(Status aStatus, long aItemBarcode, Title aTitle) {
-		if (aStatus == null || aTitle == null) throw new IllegalArgumentException("Please enter a valid status, title or Id");
+		if (aStatus == null || aTitle == null)
+			throw new IllegalArgumentException("Please enter a valid status, title or Id");
 		Item item = new Item(aStatus, aItemBarcode, aTitle);
 		itemRepository.save(item);
 		return item;
@@ -30,107 +30,116 @@ public class ItemService {
 	@Transactional
 	public Item getItemById(Long itemBarcode) {
 		Item item = itemRepository.findItemByItemBarcode(itemBarcode);
-		if (item == null) throw new IllegalArgumentException("No Item found");
-		
+		if (item == null)
+			throw new IllegalArgumentException("No Item found");
+
 		return item;
 	}
-	
+
 	@Transactional
 	public List<Item> getItemByStat(Status status) {
 		List<Item> item = itemRepository.findItemByStatus(status);
-		for (Item iteme : item) {
-			if (iteme == null) throw new IllegalArgumentException("No Item found");
-		}	
+		for (Item i : item) {
+			if (i == null)
+				throw new IllegalArgumentException("No Item found");
+		}
 		return item;
 	}
 
 	@Transactional
 	public List<Item> getItemByTitle(Title title) {
 		List<Item> item = itemRepository.findItemByTitle(title);
-		for (Item iteme : item) {
-			if (iteme == null) throw new IllegalArgumentException("No Item found");
-		}	
+		for (Item i : item) {
+			if (i == null)
+				throw new IllegalArgumentException("No Item found");
+		}
 		return item;
 	}
 
 	@Transactional
 	public boolean getexistanceByItemBarcode(Long itemBarcode) {
-		boolean booleanOfItem = itemRepository.existsByItemBarcode(itemBarcode);
-		return booleanOfItem;
+		return itemRepository.existsByItemBarcode(itemBarcode);
 	}
 
 	@Transactional
 	public Item getItemByItemBooking(Booking booking) {
 		Item item = itemRepository.findItemByBooking(booking);
-		if (item == null) throw new IllegalArgumentException("No Item found");
+		if (item == null)
+			throw new IllegalArgumentException("No Item found");
 		return item;
 	}
-	
+
 	@Transactional
-	public void deleatItemById(Long itemBarcode) {
+	public void deleteItemById(Long itemBarcode) {
 		Item item = itemRepository.findItemByItemBarcode(itemBarcode);
-		if (item == null) throw new IllegalArgumentException("No Item found");
+		if (item == null)
+			throw new IllegalArgumentException("No Item found");
 		itemRepository.delete(item);
 		item.delete();
 
 	}
 
 	@Transactional
-	public void deleatItemByStat(Status status) {
+	public void deleteItemByStat(Status status) {
 		List<Item> item = itemRepository.findItemByStatus(status);
-		for (Item iteme : item) {
-			if (iteme == null) throw new IllegalArgumentException("No Item found");
-		}	
+		for (Item i : item) {
+			if (i == null)
+				throw new IllegalArgumentException("No Item found");
+		}
 		itemRepository.deleteAll(item);
-		
-		for (Item iteme : item) {
-			iteme.delete();;
+
+		for (Item i : item) {
+			i.delete();
 		}
 	}
 
 	@Transactional
-	public void deleatItemByTitle(Title title) {
+	public void deleteItemByTitle(Title title) {
 		List<Item> item = itemRepository.findItemByTitle(title);
-		for (Item iteme : item) {
-			if (iteme == null) throw new IllegalArgumentException("No Item found");
-		}	
+		for (Item i : item) {
+			if (i == null)
+				throw new IllegalArgumentException("No Item found");
+		}
 		itemRepository.deleteAll(item);
-		for (Item iteme : item) {
-			iteme.delete();;
-		}	
-		
+		for (Item i : item) {
+			i.delete();
+		}
+
 	}
 
-
 	@Transactional
-	public void deleatItemByItemBooking(Booking booking) {
+	public void deleteItemByItemBooking(Booking booking) {
 		Item item = itemRepository.findItemByBooking(booking);
-		if (item == null) throw new IllegalArgumentException("No Item found");
+		if (item == null)
+			throw new IllegalArgumentException("No Item found");
 		itemRepository.delete(item);
 		item.delete();
 	}
 
-	@Transactional 
+	@Transactional
 	public void updateItem(Status aStatus, long aItemBarcode, Title aTitle) {
 		Item item = itemRepository.findItemByItemBarcode(aItemBarcode);
-		if (item == null) throw new IllegalArgumentException("No Item found");
+		if (item == null)
+			throw new IllegalArgumentException("No Item found");
 		item.setStatus(aStatus);
 		item.setTitle(aTitle);
 		itemRepository.save(item);
 	}
-	
-	@Transactional 
+
+	@Transactional
 	public void updateItem(long aItemBarcode, Title aTitle) {
 		Item item = itemRepository.findItemByItemBarcode(aItemBarcode);
-		if (item == null) throw new IllegalArgumentException("No Item found");
+		if (item == null)
+			throw new IllegalArgumentException("No Item found");
 		item.setTitle(aTitle);
 		itemRepository.save(item);
 	}
-	
-	@Transactional 
-	public void updateItem(Status aStatus,long aItemBarcode) {
+
+	@Transactional
+	public void updateItem(Status aStatus, long aItemBarcode) {
 		Item item = itemRepository.findItemByItemBarcode(aItemBarcode);
-		if (item == null) throw new IllegalArgumentException("No Item found");
+		if (item == null)
+			throw new IllegalArgumentException("No Item found");
 		item.setStatus(aStatus);
 		itemRepository.save(item);
 	}

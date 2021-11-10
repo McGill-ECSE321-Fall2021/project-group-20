@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,129 +38,191 @@ public class AuthorRestController {
 	
 	
 	@GetMapping(value = { "/authors", "/authors/"})
-    public List<AuthorDto> getAllAuthors() {
+    public ResponseEntity getAllAuthors() {
         List<AuthorDto> titleDtos = new ArrayList<>();
-        for (Author author : authorService.getAuthors()) {
+		List<Author> authors = authorService.getAuthors();
+		if (authors.size() == 0) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any authors");
+
+        for (Author author : authors) {
             titleDtos.add(convertToAuthorDto(author));
         }
-        return titleDtos;
+        return new ResponseEntity<>(titleDtos, HttpStatus.OK);
     }
 	
 	@GetMapping(value = { "/author/{id}", "/author/{id}/"})
-    public AuthorDto getAuthorByAuthorID(@PathVariable("id") String id) throws IllegalArgumentException, NullPointerException {
-        return convertToAuthorDto(authorService.getAuthorByAuthorID(id));
+    public ResponseEntity getAuthorByAuthorID(@PathVariable("id") String id) {
+		Author author;
+		try {
+			author = authorService.getAuthorByAuthorID(id);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+        return new ResponseEntity<>(convertToAuthorDto(author), HttpStatus.OK);
     }
 	
 	@GetMapping(value = { "/authors/getByFirstName", "/authors/getByFirstName/"})
-    public List<AuthorDto> getAuthorByFirstName(@RequestParam String firstnName)
-            throws IllegalArgumentException, NullPointerException {
-        return convertToAuthorsDto(authorService.getAuthorsByFirstName(firstnName));
-    }
+    public ResponseEntity getAuthorsByFirstName(@RequestParam String firstname) {
+		List<Author> author;
+		try {
+			author = authorService.getAuthorsByFirstName(firstname);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		return new ResponseEntity<>(convertToAuthorsDto(author), HttpStatus.OK);
+	}
 	
 	@GetMapping(value = { "/authors/getByLastName", "/authors/getByLastName/"})
-    public List<AuthorDto> getAuthorByLastName(@RequestParam String lastnName)
-            throws IllegalArgumentException, NullPointerException {
-        return convertToAuthorsDto(authorService.getAuthorsByLastName(lastnName));
+    public ResponseEntity getAuthorByLastName(@RequestParam String lastname) {
+		List<Author> author;
+		try {
+			author = authorService.getAuthorsByLastName(lastname);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		return new ResponseEntity<>(convertToAuthorsDto(author), HttpStatus.OK);
     }
 	
 	@GetMapping(value = { "/authors/getByFirstNameAndLastName", "/authors/getByFirstNameAndLastName/"})
-    public List<AuthorDto> getAuthorsByFirstNameAndLastName(@RequestParam String firstnName, @RequestParam String lastName)
-            throws IllegalArgumentException, NullPointerException {
-        return convertToAuthorsDto(authorService.getAuthorsByFirstNameAndLastName(firstnName, lastName));
+    public ResponseEntity getAuthorsByFirstNameAndLastName(@RequestParam String firstname, @RequestParam String lastname) {
+		List<Author> author;
+		try {
+			author = authorService.getAuthorsByFirstNameAndLastName(firstname, lastname);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		return new ResponseEntity<>(convertToAuthorsDto(author), HttpStatus.OK);
     }
 	
 	@GetMapping(value = { "/authors/getByTitles", "/authors/getByTitles/"})
-    public List<AuthorDto> getAuthorsByTitles(@RequestParam String titles)
-            throws IllegalArgumentException, NullPointerException {
+    public ResponseEntity getAuthorsByTitles(@RequestParam String titles) {
 		List<Title> titleList = new ArrayList<>();
         List<String> seperatedAuthorStringList = Arrays.asList(titles.split(","));
         for (String s : seperatedAuthorStringList) {
-        	titleList.add(titleService.getTitleByTitleID(s));
+			try {
+				titleList.add(titleService.getTitleByTitleID(s));
+			} catch (IllegalArgumentException | NullPointerException msg) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+			}
         }
-        return convertToAuthorsDto(authorService.getAuthorsByTitles(titleList));
+        return new ResponseEntity<>(convertToAuthorsDto(authorService.getAuthorsByTitles(titleList)), HttpStatus.OK);
     }
 	
-	@PostMapping(value = {"/author/createByAuthorIDAndFirstNameAndLastName", "/author/createByAuthorIDAndFirstNameAndLastName/"})
-	public AuthorDto createByAuthorIDAndFirstNameAndLastName(@RequestParam String authorID, @RequestParam String firstName, @RequestParam String lastName) {
-		return convertToAuthorDto(authorService.createAuthor(authorID,firstName,lastName));
+	@PostMapping(value = {"/author/create", "/author/create/"})
+	public ResponseEntity createByAuthorIDAndFirstNameAndLastName(@RequestParam String firstname, @RequestParam String lastname) {
+		Author author;
+		try {
+			author = authorService.createAuthor(firstname, lastname);
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (author == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot create Author");
+		return new ResponseEntity<>(author, HttpStatus.OK);
 	}
 	
 	@PutMapping(value = { "/author/{id}/updateFirstName", "/author/{id}/updateFirstName/" })
-	public boolean updateFirstName(@PathVariable("id") String id, @RequestParam String firstName) {
-		return authorService.updateFirstName(id, firstName);
+	public ResponseEntity updateFirstName(@PathVariable("id") String id, @RequestParam String firstname) {
+		boolean b;
+		try {
+			b = authorService.updateFirstName(id, firstname);
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Firstname has been updated");
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot update firstname");
 	}
 	
 	@PutMapping(value = { "/author/{id}/updateLastName", "/author/{id}/updateLastName/" })
-	public boolean updateLastName(@PathVariable("id") String id, @RequestParam String lastName) {
-		return authorService.updateLastName(id, lastName);
+	public ResponseEntity updateLastName(@PathVariable("id") String id, @RequestParam String lastname) {
+		boolean b;
+		try {
+			b = authorService.updateLastName(id, lastname);
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Lastname has been updated");
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot update lastname");
 	}
 	
 	@PutMapping(value = { "/author/{id}/updateFullName", "/author/{id}/updateFullName/" })
-	public boolean updateFullName(@PathVariable("id") String id, @RequestParam String firstName, @RequestParam String lastName) {
-		return authorService.updateFullName(id, firstName, lastName);
-	}
-	
-	@PutMapping(value = { "/author/{id}/addTitleByAuthorID", "/author/{id}/addTitleByAuthorID/" })
-	public boolean addTitleByAuthorID(@PathVariable("id") String id, @RequestParam String titleID) {
-		return authorService.addTitleByAuthorID(id, titleService.getTitleByTitleID(titleID));
-	}
-	
-	@PutMapping(value = { "/author/{id}/removeTitleByAuthorID", "/author/{id}/removeTitleByAuthorID/" })
-	public boolean removeTitleByAuthorID(@PathVariable("id") String id, @RequestParam String titleID) {
-		return authorService.removeTitleByAuthorID(id, titleService.getTitleByTitleID(titleID));
+	public ResponseEntity updateFullName(@PathVariable("id") String id, @RequestParam String firstname, @RequestParam String lastname) {
+		boolean b;
+		try {
+			b = authorService.updateFullName(id, firstname, lastname);
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Name has been updated");
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot update name");
 	}
 	
 	@DeleteMapping(value = {"/author/{id}", "/author/{id}/"})
-	public boolean deleteAuthorByAuthorID(@PathVariable("id") String id) throws IllegalArgumentException, NullPointerException {
-		return authorService.deleteAuthorByAuthorID(id);
+	public ResponseEntity deleteAuthorByAuthorID(@PathVariable("id") String id) {
+		boolean b;
+		try {
+			b = authorService.deleteAuthorByAuthorID(id);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Author has been deleted");
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot delete author");
 	}
 	
 	@DeleteMapping(value = {"/author/deleteAuthorsByFirstName", "/author/deleteAuthorsByFirstName/"})
-	public boolean deleteAuthorsByFirstName(@RequestParam String firstName) throws IllegalArgumentException, NullPointerException {
-		return authorService.deleteAuthorsByFirstName(firstName);
+	public ResponseEntity deleteAuthorsByFirstName(@RequestParam String firstname) {
+		boolean b;
+		try {
+			b = authorService.deleteAuthorsByFirstName(firstname);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Author has been deleted");
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot delete author");
 	}
 	
 	@DeleteMapping(value = {"/author/deleteAuthorsByLastName", "/author/deleteAuthorsByLastName/"})
-	public boolean deleteAuthorsByLastName(@RequestParam String lastName) throws IllegalArgumentException, NullPointerException {
-		return authorService.deleteAuthorsByFirstName(lastName);
+	public ResponseEntity deleteAuthorsByLastName(@RequestParam String lastname) {
+		boolean b;
+		try {
+			b = authorService.deleteAuthorsByLastName(lastname);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Author has been deleted");
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot delete author");
 	}
 	
 	@DeleteMapping(value = {"/author/deleteAuthorsByFirstNameAndLastName", "/author/deleteAuthorsByFirstNameAndLastName/"})
-	public boolean deleteAuthorsByFirstNameAndLastName(@RequestParam String firstName, @RequestParam String lastName) throws IllegalArgumentException, NullPointerException {
-		return authorService.deleteAuthorsByFirstNameAndLastName(firstName,lastName);
+	public ResponseEntity deleteAuthorsByFirstNameAndLastName(@RequestParam String firstname, @RequestParam String lastname) {
+		boolean b;
+		try {
+			b = authorService.deleteAuthorsByFirstNameAndLastName(firstname, lastname);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Author has been deleted");
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot delete author");
 	}
 	
 	
 	@DeleteMapping(value = {"/author/deleteAuthorsByTitles", "/author/deleteAuthorsByTitles/"})
-	public boolean deleteAuthorsByTitles(@RequestParam String titles) throws IllegalArgumentException, NullPointerException {
+	public ResponseEntity deleteAuthorsByTitles(@RequestParam String titles) {
 		List<Title> titleList = new ArrayList<>();
         List<String> seperatedAuthorStringList = Arrays.asList(titles.split(","));
         for (String s : seperatedAuthorStringList) {
-        	titleList.add(titleService.getTitleByTitleID(s));
+			try {
+				titleList.add(titleService.getTitleByTitleID(s));
+			} catch (IllegalArgumentException | NullPointerException msg) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+			}
         }
-		return authorService.deleteAuthorsByTitles(titleList);
-	}
-	
-	
-	@GetMapping(value = {"/author/isAuthorsExistsByFirstName","/title/isAuthorsExistsByFirstName/"}) 
-	public boolean isAuthorsExistsByFirstName(@RequestParam String firstName) throws IllegalArgumentException, NullPointerException {
-		return authorService.isAuthorsExistsByFirstName(firstName);
-	}
-	
-	@GetMapping(value = {"/author/isAuthorsExistsByLastName","/title/isAuthorsExistsByLastName/"}) 
-	public boolean isAuthorsExistsByLastName(@RequestParam String lastName) throws IllegalArgumentException, NullPointerException {
-		return authorService.isAuthorsExistsByLastName(lastName);
-	}
-	
-
-	@GetMapping(value = {"/author/isAuthorsExistsByFirstNameAndLastName","/title/isAuthorsExistsByFirstNameAndLastName/"}) 
-	public boolean isAuthorsExistsByFirstNameAndLastName(@RequestParam String firstName, @RequestParam String lastName) throws IllegalArgumentException, NullPointerException {
-		return authorService.isAuthorsExistsByFirstNameAndLastName(firstName, lastName);
-	}
-	
-	@GetMapping(value = {"/author/isAuthorsExistsByAuthorID","/title/isAuthorsExistsByAuthorID/"}) 
-	public boolean isAuthorsExistsByAuthorID(@RequestParam String authorID) throws IllegalArgumentException, NullPointerException {
-		return authorService.isAuthorsExistsByAuthorID(authorID);
+		boolean b;
+		try {
+			b = authorService.deleteAuthorsByTitles(titleList);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Author has been deleted");
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot delete author");
 	}
 	
 	private AuthorDto convertToAuthorDto(Author author) throws IllegalArgumentException, NullPointerException {
