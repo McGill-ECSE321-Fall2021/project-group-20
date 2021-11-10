@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import ca.mcgill.ecse321.librarysystem.dto.AuthorDto;
@@ -171,7 +172,8 @@ public class TitleRestController {
 	}
 	
 	@PostMapping(value = {"/title/create", "/title/create/"})
-	public ResponseEntity createTitleByNameAndPubDateAndAuthors(@RequestParam String name, @RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate, @RequestParam String authors) {
+	public ResponseEntity createTitleByNameAndPubDateAndAuthors(@RequestParam String name, @RequestParam String pubDate, @RequestParam String authors) {
+		if (!pubDate.contains("/")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please enter date in mm/dd/yyyy format");
         List<String> seperatedAuthorStringList = Arrays.asList(authors.split(","));
         Author authorList [] = new Author[seperatedAuthorStringList.size()];
         
@@ -345,7 +347,7 @@ public class TitleRestController {
 	
 	private TitleDto convertToTitleDto(Title title) throws IllegalArgumentException, NullPointerException {
 		if (title == null) throw new NullPointerException("Cannot find this Title");
-		return new TitleDto(title.getName(),title.getPubDate(),convertToAuthorDto(title.getAuthor()));
+		return new TitleDto(title.getTitleID(), title.getName(),title.getPubDate(),convertToAuthorDto(title.getAuthor()));
 	}
 	
 	

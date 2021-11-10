@@ -41,6 +41,22 @@ private static Map<String, TitleDto> titlesByTitleID = new HashMap<String, Title
     {
       throw new RuntimeException("Unable to create Title, must have at least 1 author. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
+
+  }
+
+  public TitleDto(String aTitleID, String aName, String aPubDate, AuthorDto... allAuthor)
+  {
+    titleID = aTitleID;
+    name = aName;
+    pubDate = aPubDate;
+    item = new ArrayList<ItemDto>();
+    author = new ArrayList<AuthorDto>();
+    boolean didAddAuthor = setAuthor(allAuthor);
+    if (!didAddAuthor)
+    {
+      throw new RuntimeException("Unable to create Title, must have at least 1 author. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+
   }
 
   //------------------------
@@ -269,146 +285,39 @@ private static Map<String, TitleDto> titlesByTitleID = new HashMap<String, Title
   {
     return 1;
   }
-  /* Code from template association_AddManyToManyMethod */
-  public boolean addAuthor(AuthorDto aAuthor)
-  {
-    boolean wasAdded = false;
-    if (author.contains(aAuthor)) { return false; }
-    author.add(aAuthor);
-    if (aAuthor.indexOfTitle(this) != -1)
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aAuthor.addTitle(this);
-      if (!wasAdded)
-      {
-        author.remove(aAuthor);
-      }
-    }
-    return wasAdded;
-  }
-  /* Code from template association_AddMStarToMany */
-  public boolean removeAuthor(AuthorDto aAuthor)
-  {
-    boolean wasRemoved = false;
-    if (!author.contains(aAuthor))
-    {
-      return wasRemoved;
-    }
 
-    if (numberOfAuthor() <= minimumNumberOfAuthor())
-    {
-      return wasRemoved;
-    }
-
-    int oldIndex = author.indexOf(aAuthor);
-    author.remove(oldIndex);
-    if (aAuthor.indexOfTitle(this) == -1)
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aAuthor.removeTitle(this);
-      if (!wasRemoved)
-      {
-        author.add(oldIndex,aAuthor);
-      }
-    }
-    return wasRemoved;
-  }
   /* Code from template association_SetMStarToMany */
-  public boolean setAuthor(AuthorDto... newAuthor)
-  {
+  public boolean setAuthor(AuthorDto... newAuthor) {
     boolean wasSet = false;
     ArrayList<AuthorDto> verifiedAuthor = new ArrayList<AuthorDto>();
-    for (AuthorDto aAuthor : newAuthor)
-    {
-      if (verifiedAuthor.contains(aAuthor))
-      {
+    for (AuthorDto aAuthor : newAuthor) {
+      if (verifiedAuthor.contains(aAuthor)) {
         continue;
       }
       verifiedAuthor.add(aAuthor);
     }
 
-    if (verifiedAuthor.size() != newAuthor.length || verifiedAuthor.size() < minimumNumberOfAuthor())
-    {
+    if (verifiedAuthor.size() != newAuthor.length || verifiedAuthor.size() < minimumNumberOfAuthor()) {
       return wasSet;
     }
 
     ArrayList<AuthorDto> oldAuthor = new ArrayList<AuthorDto>(author);
     author.clear();
-    for (AuthorDto aNewAuthor : verifiedAuthor)
-    {
+    for (AuthorDto aNewAuthor : verifiedAuthor) {
       author.add(aNewAuthor);
-      if (oldAuthor.contains(aNewAuthor))
-      {
+      if (oldAuthor.contains(aNewAuthor)) {
         oldAuthor.remove(aNewAuthor);
-      }
-      else
-      {
+      } else {
         aNewAuthor.addTitle(this);
       }
     }
 
-    for (AuthorDto anOldAuthor : oldAuthor)
-    {
+    for (AuthorDto anOldAuthor : oldAuthor) {
       anOldAuthor.removeTitle(this);
     }
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addAuthorAt(AuthorDto aAuthor, int index)
-  {  
-    boolean wasAdded = false;
-    if(addAuthor(aAuthor))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfAuthor()) { index = numberOfAuthor() - 1; }
-      author.remove(aAuthor);
-      author.add(index, aAuthor);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveAuthorAt(AuthorDto aAuthor, int index)
-  {
-    boolean wasAdded = false;
-    if(author.contains(aAuthor))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfAuthor()) { index = numberOfAuthor() - 1; }
-      author.remove(aAuthor);
-      author.add(index, aAuthor);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addAuthorAt(aAuthor, index);
-    }
-    return wasAdded;
-  }
-
-  public void delete()
-  {
-    titlesByTitleID.remove(getTitleID());
-    for(int i=item.size(); i > 0; i--)
-    {
-      ItemDto aItem = item.get(i - 1);
-      aItem.delete();
-    }
-    ArrayList<AuthorDto> copyOfAuthor = new ArrayList<AuthorDto>(author);
-    author.clear();
-    for(AuthorDto aAuthor : copyOfAuthor)
-    {
-      aAuthor.removeTitle(this);
-    }
-  }
-
 
   public String toString()
   {

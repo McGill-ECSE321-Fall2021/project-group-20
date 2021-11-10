@@ -20,7 +20,7 @@ public class AddressRestController {
 
     private AddressDto convertToDto(Address a) {
         if (a == null) throw new NullPointerException("Cannot find Address");
-        return new AddressDto(a.getCivicNumber(), a.getStreet(), a.getCity(), a.getPostalCode(), a.getProvince(),
+        return new AddressDto(a.getAddressID(), a.getCivicNumber(), a.getStreet(), a.getCity(), a.getPostalCode(), a.getProvince(),
                 a.getCountry());
     }
 
@@ -30,7 +30,8 @@ public class AddressRestController {
                                         @RequestParam String province, @RequestParam String country) {
         AddressDto addressDto;
         try {
-            addressDto = convertToDto(addressService.createAddress(civicNumber, street, city, postalCode, province, country));
+            Address a = addressService.createAddress(civicNumber, street, city, postalCode, province, country);
+            addressDto = convertToDto(a);
         } catch (IllegalArgumentException | NullPointerException msg) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
         }
@@ -38,7 +39,7 @@ public class AddressRestController {
         return new ResponseEntity<>(addressDto, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = {"/address/id", "/address/id/"})
+    @DeleteMapping(value = {"/address/{id}", "/address/{id}/"})
     public ResponseEntity deleteAddress(@PathVariable("id") String id) {
         boolean b;
         try {
@@ -46,11 +47,11 @@ public class AddressRestController {
         } catch (IllegalArgumentException | NullPointerException msg) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
         }
-        if (b) return ResponseEntity.status(HttpStatus.OK).body("Address deleted");
+        if (!b) return ResponseEntity.status(HttpStatus.OK).body("Address deleted");
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not delete address");
     }
 
-    @GetMapping(value = {"/address/id", "/address/id/"})
+    @GetMapping(value = {"/address/{id}", "/address/{id}/"})
     public ResponseEntity getAddressByID(@PathVariable("id") String id) {
         Address address;
         try {
@@ -62,7 +63,7 @@ public class AddressRestController {
         return new ResponseEntity<>(convertToDto(address), HttpStatus.OK);
     }
 
-    @GetMapping(value = {"/address/civicNumber", "/address/civicNumber/"})
+    @GetMapping(value = {"/address/{civicNumber}", "/address/{civicNumber}/"})
     public ResponseEntity getAddressByCivicNumber(@PathVariable("civicNumber") String civicNumber) {
         List<AddressDto> addressDtos = new ArrayList<>();
         List<Address> addresses;
@@ -78,7 +79,7 @@ public class AddressRestController {
         return new ResponseEntity<>(addressDtos, HttpStatus.OK);
     }
 
-    @GetMapping(value = {"/address/street", "/address/street/"})
+    @GetMapping(value = {"/address/{street}", "/address/{street}/"})
     public ResponseEntity getAddressByCStreet(@PathVariable("street") String street) {
         List<AddressDto> addressDtos = new ArrayList<>();
         List<Address> addresses;
@@ -94,7 +95,7 @@ public class AddressRestController {
         return new ResponseEntity<>(addressDtos, HttpStatus.OK);
     }
 
-    @GetMapping(value = {"/address/city", "/address/city/"})
+    @GetMapping(value = {"/address/{city}", "/address/{city}/"})
     public ResponseEntity getAddressByCity(@PathVariable("city") String city) {
         List<AddressDto> addressDtos = new ArrayList<>();
         List<Address> addresses;
@@ -110,7 +111,7 @@ public class AddressRestController {
         return new ResponseEntity<>(addressDtos, HttpStatus.OK);
     }
 
-    @GetMapping(value = {"/address/postalCode", "/address/postalCode/"})
+    @GetMapping(value = {"/address/{postalCode}", "/address/{postalCode}/"})
     public ResponseEntity getAddressByPostalCode(@PathVariable("postalCode") String postalCode) {
         List<AddressDto> addressDtos = new ArrayList<>();
         List<Address> addresses;
@@ -126,7 +127,7 @@ public class AddressRestController {
         return new ResponseEntity<>(addressDtos, HttpStatus.OK);
     }
 
-    @GetMapping(value = {"/address/province", "/address/province/"})
+    @GetMapping(value = {"/address/{province}", "/address/{province}/"})
     public ResponseEntity getAddressByProvince(@PathVariable("province") String province) {
         List<AddressDto> addressDtos = new ArrayList<>();
         List<Address> addresses;
@@ -142,7 +143,7 @@ public class AddressRestController {
         return new ResponseEntity<>(addressDtos, HttpStatus.OK);
     }
 
-    @GetMapping(value = {"/address/country", "/address/country/"})
+    @GetMapping(value = {"/address/{country}", "/address/{country}/"})
     public ResponseEntity getAddressByCountry(@PathVariable("country") String country) {
         List<AddressDto> addressDtos = new ArrayList<>();
         List<Address> addresses;
@@ -192,7 +193,7 @@ public class AddressRestController {
         return new ResponseEntity<>(addressDtos, HttpStatus.OK);
     }
 
-    @PutMapping(value = {"/address/update/id", "/address/update/id/"})
+    @PutMapping(value = {"/address/update/{id}", "/address/update/{id}/"})
     public ResponseEntity modifyAddress(@PathVariable("id") String id, @RequestParam String civicNumber, @RequestParam String street,
                                         @RequestParam String city, @RequestParam String postalCode,
                                         @RequestParam String province, @RequestParam String country) {
