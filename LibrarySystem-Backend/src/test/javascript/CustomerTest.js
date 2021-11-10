@@ -1,9 +1,30 @@
 import axios from "axios";
 
 const customerTest = async () => {
-    let remainingTests = 12;
+    let remainingTests = 13;
     let resultData;
     let resultStatus;
+
+    /*
+    Clean database for testing (Test 0)
+     */
+    try {
+        let response = await axios.delete("http://localhost:8080/librarySystem/clear?confirmbool=true");
+
+        resultData = response.data;
+        resultStatus = response.status;
+
+        if (resultStatus === 200 && resultData.toString().includes("Database has been wiped")) remainingTests--;
+        else {
+            console.log("Failed DB Clear");
+            console.log("Error: " + resultData);
+            console.log("");
+        }
+    } catch (errorMsg) {
+        console.log("Failed DB Clear");
+        console.log("Error: " + errorMsg.response.data);
+        console.log("");
+    }
 
     /*
     Integration Test 1: Create a local customer Pass

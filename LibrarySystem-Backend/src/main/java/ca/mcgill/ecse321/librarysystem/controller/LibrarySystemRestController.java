@@ -1,12 +1,17 @@
 package ca.mcgill.ecse321.librarysystem.controller;
 
+import ca.mcgill.ecse321.librarysystem.dao.*;
 import ca.mcgill.ecse321.librarysystem.dto.AddressDto;
 import ca.mcgill.ecse321.librarysystem.dto.CalendarDto;
 import ca.mcgill.ecse321.librarysystem.dto.LibrarySystemDto;
 import ca.mcgill.ecse321.librarysystem.model.*;
 import ca.mcgill.ecse321.librarysystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -14,6 +19,41 @@ public class LibrarySystemRestController {
 
     @Autowired
     private LibrarySystemService librarySystemService;
+
+    @Autowired
+    private LibrarySystemRepository librarySystemRepository;
+    @Autowired
+    private BookingRepository bookingRepository;
+    @Autowired
+    private ItemRepository itemRepository;
+    @Autowired
+    private TitleRepository titleRepository;
+    @Autowired
+    private AuthorRepository authorRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private AddressRepository addressRepository;
+    @Autowired
+    private CalendarRepository calendarRepository;
+    @Autowired
+    private EventRepository eventRepository;
+    @Autowired
+    private HourRepository hourRepository;
+    @Autowired
+    private ArchiveRepository archiveRepository;
+    @Autowired
+    private BookRepository bookRepository;
+    @Autowired
+    private MovieRepository movieRepository;
+    @Autowired
+    private MusicAlbumRepository musicRepository;
+    @Autowired
+    private NewspaperRepository newspaperRepository;
 
 
     public LibrarySystemDto convertToDto(LibrarySystem ls) throws IllegalArgumentException, NullPointerException {
@@ -78,6 +118,35 @@ public class LibrarySystemRestController {
     @GetMapping(value = {"/librarySystem/calendar", "/librarySystem/calendar/"})
     public LibrarySystemDto getLibrarySystem(@RequestParam Calendar calendar) throws NullPointerException {
         return convertToDto(librarySystemService.getLibrarySystem(calendar));
+    }
+
+    @DeleteMapping(value = { "/librarySystem/clear", "/librarySystem/clear/"})
+    public ResponseEntity clear(@RequestParam String confirmbool) {
+        try {
+            if (confirmbool.equalsIgnoreCase("true")) {
+                eventRepository.deleteAll();
+                hourRepository.deleteAll();
+                librarySystemRepository.deleteAll();
+                bookingRepository.deleteAll();
+                archiveRepository.deleteAll();
+                bookRepository.deleteAll();
+                movieRepository.deleteAll();
+                musicRepository.deleteAll();
+                newspaperRepository.deleteAll();
+                itemRepository.deleteAll();
+                titleRepository.deleteAll();
+                authorRepository.deleteAll();
+                customerRepository.deleteAll();
+                employeeRepository.deleteAll();
+                userRepository.deleteAll();
+                addressRepository.deleteAll();
+                calendarRepository.deleteAll();
+                return ResponseEntity.status(HttpStatus.OK).body("Database has been wiped on " + (new Date()).toString());
+            }
+            else return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Refused request to wipe database!");
+        } catch (Exception msg) {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not delete because of: " + msg.getMessage());
+        }
     }
 
 }
