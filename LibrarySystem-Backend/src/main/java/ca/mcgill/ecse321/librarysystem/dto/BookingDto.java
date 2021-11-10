@@ -2,7 +2,7 @@ package ca.mcgill.ecse321.librarysystem.dto;
 
 
 
-import java.sql.Date;
+import java.util.Date;
 
 public class BookingDto {
 	public enum BookingType { Reservation, Borrow }
