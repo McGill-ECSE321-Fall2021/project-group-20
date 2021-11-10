@@ -90,16 +90,16 @@ public class TestItemService {
 			}
 			return null;
 		});
-		
+
 		lenient().when(itemDao.existsByItemBarcode(anyLong())).thenAnswer((InvocationOnMock invocation) -> {
-			boolean isIt=false;
+			boolean isIt = false;
 			if (invocation.getArgument(0).equals(itemId)) {
-				isIt=true;
+				isIt = true;
 				return isIt;
 			}
-				return isIt;
+			return isIt;
 		});
-		
+
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
 		};
@@ -121,8 +121,8 @@ public class TestItemService {
 		}
 		assertNotNull(item);
 		assertEquals(theId, item.getItemBarcode());
-		assertEquals(stat,item.getStatus());
-		assertEquals(zeTitle,item.getTitle());
+		assertEquals(stat, item.getStatus());
+		assertEquals(zeTitle, item.getTitle());
 
 	}
 
@@ -181,48 +181,42 @@ public class TestItemService {
 			assertEquals(itemus.getTitle(), myTitle);
 		}
 	}
-	
-	
+
 	@Test
 	public void TestgetItemsByTitle() {
-		long theId= 12;
-		String error=null;
-		List<Item> item=null;
+		long theId = 12;
+		String error = null;
+		List<Item> item = null;
 		try {
-			item= service.getItemByTitle(myTitle);
+			item = service.getItemByTitle(myTitle);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-		
-		for(Item itemus : item) {
-			assertEquals (itemus.getItemBarcode(),theId);
-			assertEquals (itemus.getBooking(),myBooking);
-			assertEquals (itemus.getStatus(),status);
-			assertEquals (itemus.getTitle(),myTitle);
+
+		for (Item itemus : item) {
+			assertEquals(itemus.getItemBarcode(), theId);
+			assertEquals(itemus.getBooking(), myBooking);
+			assertEquals(itemus.getStatus(), status);
+			assertEquals(itemus.getTitle(), myTitle);
 		}
 		assertNull(error);
 
 	}
-	
-	
+
 	@Test
 	public void TestgetExistance() {
-		long theId= 12;
-		String error=null;
-		boolean item=false;
+		long theId = 12;
+		String error = null;
+		boolean item = false;
 		try {
-			item=service.getexistanceByItemBarcode(theId);
+			item = service.getexistanceByItemBarcode(theId);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
 		assertNull(error);
 		assertTrue(item);
 	}
-	
-	
 
-	
-	
 	@Test
 	public void TestgetItemBybooking() {
 		long theId = 12;
@@ -246,100 +240,99 @@ public class TestItemService {
 		long theId = 12;
 		String error = null;
 		try {
-			service.deleatItemById(theId);
+			service.deleteItemById(theId);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
 		assertNull(error);
 	}
-	
+
 	@Test
 	public void TestdeleatItemByStat() {
 		String error = null;
 		try {
-			service.deleatItemByStat(status);
+			service.deleteItemByStat(status);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
 		assertNull(error);
 	}
-	
+
 	@Test
 	public void TestdeleatItemByTitle() {
 		String error = null;
 		try {
-			service.deleatItemByTitle(myTitle);
+			service.deleteItemByTitle(myTitle);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
 		assertNull(error);
 	}
-	
+
 	@Test
 	public void TestdeleatItemByBooking() {
 		String error = null;
 		try {
-			service.deleatItemByItemBooking(myBooking);
+			service.deleteItemByItemBooking(myBooking);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
 		assertNull(error);
 	}
-	
+
 	@Test
 	public void TestupdateItem() {
 		String error = null;
-		Status herstat=Status.Borrowed;
+		Status herstat = Status.Borrowed;
 		long barcode = 12;
 		Author herAuthor = new Author("J.K.", "Bowling");
 		Title titlu = new Title("LifeOfABeggar", "September 29th, 2021", herAuthor);
-		
-		try { 
+
+		try {
 			service.updateItem(herstat, barcode, titlu);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-		Item itemu= service.getItemById(barcode);
-		assertEquals(itemu.getStatus(),herstat);
-		assertEquals(itemu.getTitle(),titlu);
-		assertEquals(itemu.getTitle().getAuthor().get(0),herAuthor);
-		assertNull (error);
+		Item itemu = service.getItemById(barcode);
+		assertEquals(itemu.getStatus(), herstat);
+		assertEquals(itemu.getTitle(), titlu);
+		assertEquals(itemu.getTitle().getAuthor().get(0), herAuthor);
+		assertNull(error);
 	}
+
 	@Test
 	public void TestupdateItemTitle() {
 		String error = null;
 		long barcode = 12;
 		Author herAuthor = new Author("J.K.", "Bowling");
 		Title titlu = new Title("LifeOfABeggar", "September 29th, 2021", herAuthor);
-		
-		try { 
+
+		try {
 			service.updateItem(barcode, titlu);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-		Item itemu= service.getItemById(barcode);
-		assertEquals(itemu.getTitle(),titlu);
-		assertEquals(itemu.getTitle().getAuthor().get(0),herAuthor);
-		assertNull (error);
+		Item itemu = service.getItemById(barcode);
+		assertEquals(itemu.getTitle(), titlu);
+		assertEquals(itemu.getTitle().getAuthor().get(0), herAuthor);
+		assertNull(error);
 	}
-	
+
 	@Test
 	public void TestUpdateItemStatus() {
 		String error = null;
-		Status herstat=Status.Borrowed;
-		long barcode = 12;		
-		try { 
+		Status herstat = Status.Borrowed;
+		long barcode = 12;
+		try {
 			service.updateItem(herstat, barcode);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-		Item itemu= service.getItemById(barcode);
-		assertEquals(itemu.getStatus(),herstat);
-		assertEquals(itemu.getTitle(),myTitle);
-		assertEquals(itemu.getTitle().getAuthor().get(0),myAuthor);
-		assertNull (error);
+		Item itemu = service.getItemById(barcode);
+		assertEquals(itemu.getStatus(), herstat);
+		assertEquals(itemu.getTitle(), myTitle);
+		assertEquals(itemu.getTitle().getAuthor().get(0), myAuthor);
+		assertNull(error);
 	}
-	
-	
 
 }

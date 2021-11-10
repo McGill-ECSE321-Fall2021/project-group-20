@@ -59,6 +59,7 @@ public class TestMovie {
 
 	@BeforeEach
 	public void setMockOutput() {
+	
 		myItem.setBooking(myBooking);
 		myBooking.setUser(myUser);
 		lenient().when(itemDao.findItemByItemBarcode(anyLong())).thenAnswer((InvocationOnMock invocation) -> {
