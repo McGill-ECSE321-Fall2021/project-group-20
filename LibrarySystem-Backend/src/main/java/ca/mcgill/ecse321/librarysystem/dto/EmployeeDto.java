@@ -19,8 +19,8 @@ public class EmployeeDto extends UserDto {
         this.role = role;
     }
 
-    public EmployeeDto(int libraryCardID, boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress, String username, String email, String password, int outstandingBalance, Role role) {
-        super(libraryCardID, aIsOnlineAcc, aIsLoggedIn, aFirstName, aLastName, aIsVerified, aDemeritPts, aAddress, username, email, password, outstandingBalance);
+    public EmployeeDto(int libraryCardID, boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress, String username, String email, int outstandingBalance, Role role) {
+        super(libraryCardID, aIsOnlineAcc, aIsLoggedIn, aFirstName, aLastName, aIsVerified, aDemeritPts, aAddress, username, email, outstandingBalance);
         this.role = role;
     }
 

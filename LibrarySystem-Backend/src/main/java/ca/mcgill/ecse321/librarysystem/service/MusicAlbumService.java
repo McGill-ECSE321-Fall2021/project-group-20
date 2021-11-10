@@ -22,7 +22,7 @@ public class MusicAlbumService {
 
 	@Transactional
 	public MusicAlbum createItem(Status aStatus, long aItemBarcode, Title aTitle, int duration) {
-		if (aStatus == null || aTitle == null) throw new IllegalArgumentException("Please enter a valid status or title");
+		if (aStatus == null || aTitle == null) throw new IllegalArgumentException("Please enter a valid status, title or Id");
 		MusicAlbum item = new MusicAlbum(aStatus, aItemBarcode, aTitle,duration);
 		musicAlbumRepository.save(item);
 		return item;
@@ -44,7 +44,7 @@ public class MusicAlbumService {
 			if (iteme == null) throw new IllegalArgumentException("No Item found");
 		}
 		for (Item iteme : item) {
-			if (!(item instanceof Movie)) {
+			if (!(iteme instanceof MusicAlbum)) {
 				item.remove(iteme);
 			}
 		}
@@ -59,7 +59,7 @@ public class MusicAlbumService {
 			if (iteme == null) throw new IllegalArgumentException("No Item found");
 		}
 		for (Item iteme : item) {
-			if (!(item instanceof Movie)) {
+			if (!(iteme instanceof MusicAlbum)) {
 				item.remove(iteme);
 			}
 		}
@@ -98,7 +98,7 @@ public class MusicAlbumService {
 			if (iteme == null) throw new IllegalArgumentException("No Item found");
 		}
 		for (Item iteme : item) {
-			if (!(item instanceof Movie)) {
+			if (!(iteme instanceof MusicAlbum)) {
 				item.remove(iteme);
 			}
 		}
@@ -116,7 +116,7 @@ public class MusicAlbumService {
 			if (iteme == null) throw new IllegalArgumentException("No Item found");
 		}
 		for (Item iteme : item) {
-			if (!(item instanceof Movie)) {
+			if (!(iteme instanceof MusicAlbum)) {
 				item.remove(iteme);
 			}
 		}

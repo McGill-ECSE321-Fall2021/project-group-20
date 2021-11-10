@@ -14,7 +14,6 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private String username;
-    private String password;
     private String email;
     private List<BookingDto> bookings;
 
@@ -32,7 +31,7 @@ public class UserDto {
         this.outstandingBalance = outstandingBalance;
     }
 
-    public UserDto(int libraryCardID, boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress, String username, String email, String password, int outstandingBalance) {
+    public UserDto(int libraryCardID, boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress, String username, String email, int outstandingBalance) {
         this.libraryCardID = libraryCardID;
         isOnlineAcc = aIsOnlineAcc;
         isLoggedIn = aIsLoggedIn;
@@ -43,7 +42,6 @@ public class UserDto {
         address = aAddress;
         this.username = username;
         this.email = email;
-        this.password = password;
         this.outstandingBalance = outstandingBalance;
     }
 
@@ -81,10 +79,6 @@ public class UserDto {
 
     public String getUsername() {
         return username;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getEmail() {

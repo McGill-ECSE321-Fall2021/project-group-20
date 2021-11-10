@@ -63,7 +63,7 @@ public class ItemRestController {
 		return items;
 	}
 
-	@GetMapping(value = {"/items/booking",".items/booking/"})
+	@GetMapping(value = {"/items/booking","/items/booking/"})
 	public ItemDto getItemByBooking(@RequestParam String bookingId) throws IllegalArgumentException {
 		Booking b = bookingService.getBookingbyId(bookingId);
 		Item item = itemService.getItemByItemBooking(b);
@@ -71,7 +71,7 @@ public class ItemRestController {
 		return itemDto; 
 	}
 	
-	@GetMapping(value = {"/items/TitleId",".items/TitleId/"})
+	@GetMapping(value = {"/items/TitleId","/items/TitleId/"})
 	public List<ItemDto> getItemsByTitleId(@RequestParam String titleId) throws IllegalArgumentException {
 		Title t = titleService.getTitleByTitleID(titleId);
 		List<Item> item = itemService.getItemByTitle(t);
@@ -79,7 +79,7 @@ public class ItemRestController {
 		return itemDto; 
 	}
 	
-	@GetMapping(value = {"/items/Id",".items/Id/"})
+	@GetMapping(value = {"/items/Id","/items/Id/"})
 	public ItemDto getItemById(@RequestParam String itemId) throws IllegalArgumentException {
 		Item item = itemService.getItemById(Long.valueOf(itemId));
 		ItemDto itemDto = convertToItemDto(item);
@@ -186,6 +186,7 @@ public class ItemRestController {
 		}
 		return itemDtoList;
 	}
+	
 
 
 }
