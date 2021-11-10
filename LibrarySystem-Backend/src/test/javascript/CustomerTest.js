@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const customerTest = async () => {
-    let remainingTests = 13;
+    let remainingTests = 15;
     let resultData;
     let resultStatus;
 
@@ -30,7 +30,7 @@ const customerTest = async () => {
     Integration Test 1: Create a local customer Pass
      */
     try {
-        let payload = "firstname=John&lastname=Doe&civic=1&street=Univeristy&city=Montreal&postalCode=H2X1D3&province=QC&country=CA";
+        let payload = "firstname=John&lastname=Doe&civic=1&street=Univeristy&city=Montreal&postalCode=H2X1D3&province=QC&country=Canada";
         let response = await axios.post("http://localhost:8080/customer/createLocal?" + payload)
 
         resultData = response.data;
@@ -307,9 +307,53 @@ const customerTest = async () => {
     }
 
     /*
+    Integration Test 13: Update Customer Online Info Pass
+     */
+    try {
+        let response = await axios.put("http://localhost:8080/customer/updateOnline/1?username=alex&password=12345678&email=a@z.y")
+
+        resultData = response.data;
+        resultStatus = response.status;
+
+        if (resultStatus === 200 && resultData.username === "alex" && resultData.email === "a@z.y") remainingTests--;
+        else {
+            console.log("Failed test 13: Update Customer Online Info Pass");
+            console.log("Error: " + resultData);
+            console.log("");
+        }
+    } catch (errorMsg) {
+        console.log("Failed test 13: Update Customer Online Info Pass");
+        console.log("Error: " + errorMsg.response.data);
+        console.log("");
+    }
+
+    /*
+    Integration Test 14: Update Customer Info Pass
+     */
+    try {
+        let payload = "firstName=Alex&lastName=John&civic=1&street=Univeristy&city=Montreal&postalCode=H2X1D3&province=QC&country=Canada";
+        let response = await axios.put("http://localhost:8080/customer/update/1?" + payload);
+
+        resultData = response.data;
+        resultStatus = response.status;
+
+        if (resultStatus === 200 && resultData.firstName === "Alex" && resultData.lastName === "John" && resultData.libraryCardID === 1) remainingTests--;
+        else {
+            console.log("Failed test 14: Update Customer Info Pass");
+            console.log("Error: " + resultData);
+            console.log("");
+        }
+
+    } catch (errorMsg) {
+        console.log("Failed test 14: Update Customer Info Pass");
+        console.log("Error: " + errorMsg.response.data);
+        console.log("");
+    }
+
+    /*
     Compile
      */
-    if (remainingTests === 0) console.log("Passed all 12 Customer Tests :)");
+    if (remainingTests === 0) console.log("Passed all Customer Tests :)");
     else console.log("Failed " + remainingTests + " :(");
     console.log("");
 };

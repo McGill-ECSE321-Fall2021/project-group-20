@@ -38,8 +38,8 @@ public class TestCustomerService {
 
     private static final String EMAIL_KEY = "a@b.com";
     private static final String USER_KEY = "johnnydoet";
-    private static int ID_KEY = 1;
-    private static int ID = 2;
+    private static final int ID_KEY = 1;
+    private static final int ID = 2;
 
     @Mock
     private CustomerRepository customerDao;
@@ -53,26 +53,11 @@ public class TestCustomerService {
     @BeforeEach
     public void setMockOutput() {
         // Basically intercept every possible repository call here!
-        lenient().when(customerDao.existsByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
-            if (invocation.getArgument(0).equals(EMAIL_KEY)) {
-                return true;
-            }
-            return false;
-        });
+        lenient().when(customerDao.existsByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> invocation.getArgument(0).equals(EMAIL_KEY));
 
-        lenient().when(customerDao.existsByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
-            if (invocation.getArgument(0).equals(USER_KEY)) {
-                return true;
-            }
-            return false;
-        });
+        lenient().when(customerDao.existsByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> invocation.getArgument(0).equals(USER_KEY));
 
-        lenient().when(customerDao.existsByLibraryCardID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-            if (invocation.getArgument(0).equals(ID) || invocation.getArgument(0).equals(3) || invocation.getArgument(0).equals(4)) {
-                return true;
-            }
-            return false;
-        });
+        lenient().when(customerDao.existsByLibraryCardID(anyInt())).thenAnswer((InvocationOnMock invocation) -> invocation.getArgument(0).equals(ID) || invocation.getArgument(0).equals(3) || invocation.getArgument(0).equals(4));
 
         lenient().when(customerDao.findUserByLibraryCardID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(ID_KEY) || invocation.getArgument(0).equals(4)) {
@@ -118,14 +103,14 @@ public class TestCustomerService {
             return null;
         });
 
-        Answer<?> returnParamAsAnswer = (InvocationOnMock invocation) -> {return invocation.getArgument(0);};
+        Answer<?> returnParamAsAnswer = (InvocationOnMock invocation) -> invocation.getArgument(0);
         lenient().when(customerDao.save(any(Customer.class))).thenAnswer(returnParamAsAnswer);
         lenient().when(customerDao.save(any(User.class))).thenAnswer(returnParamAsAnswer);
         lenient().when(addressDao.save(any(Address.class))).thenAnswer(returnParamAsAnswer);
     }
 
     @Test
-    public void createPersonSuccessful() {
+    public void createCustomerSuccessful() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         try {
@@ -145,7 +130,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createPersonFirstnameNull() {
+    public void createCustomerFirstnameNull() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         String error = null;
@@ -159,7 +144,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createPersonLastnameNull() {
+    public void createCustomerLastnameNull() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         String error = null;
@@ -173,7 +158,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createPersonCivicNull() {
+    public void createCustomerCivicNull() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         String error = null;
@@ -187,7 +172,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createPersonStreetNull() {
+    public void createCustomerStreetNull() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         String error = null;
@@ -201,7 +186,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createPersonCityNull() {
+    public void createCustomerCityNull() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         String error = null;
@@ -215,7 +200,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createPersonPostNull() {
+    public void createCustomerPostNull() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         String error = null;
@@ -229,7 +214,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createPersonProvinceNull() {
+    public void createCustomerProvinceNull() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         String error = null;
@@ -243,7 +228,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createPersonCountryNull() {
+    public void createCustomerCountryNull() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         String error = null;
@@ -257,7 +242,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createOnlinePersonPass() {
+    public void createOnlineCustomerPass() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         try {
@@ -280,7 +265,31 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createOnlinePersonFirstnameNull() {
+    public void createForeignCustomerPass() {
+        assertEquals(customerService.getAllCustomers().size(), 0);
+        Customer c = null;
+        try {
+            c = customerService.createOnlineCustomer(FIRSTNAME_1,LASTNAME_1,EMAIL_1,USERNAME_1,PASS_1,CIVIC_1,STREET_1,"Laval",POST_1,PROV_1,COUNTRY_1);
+        } catch (IllegalArgumentException msg) {
+            fail(msg.getMessage());
+        }
+        assertNotNull(c);
+        assertEquals(c.getFirstName(), FIRSTNAME_1);
+        assertEquals(c.getLastName(), LASTNAME_1);
+        assertEquals(c.getAddress().getCivicNumber(), CIVIC_1);
+        assertEquals(c.getAddress().getStreet(), STREET_1);
+        assertEquals(c.getAddress().getCity(), "Laval");
+        assertEquals(c.getAddress().getPostalCode(), POST_1);
+        assertEquals(c.getAddress().getProvince(), PROV_1);
+        assertEquals(c.getAddress().getCountry(), COUNTRY_1);
+        assertEquals(c.getEmail(), EMAIL_1);
+        assertEquals(c.getUsername(), USERNAME_1);
+        assertEquals(c.getPassword(), PASS_1);
+        assertEquals(c.getOutstandingBalance(), 50);
+    }
+
+    @Test
+    public void createOnlineCustomerFirstnameNull() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         String error = null;
@@ -294,7 +303,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createOnlinePersonLastnameNull() {
+    public void createOnlineCustomerLastnameNull() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         String error = null;
@@ -308,7 +317,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createOnlinePersonCivicNull() {
+    public void createOnlineCustomerCivicNull() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         String error = null;
@@ -322,7 +331,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createOnlinePersonStreetNull() {
+    public void createOnlineCustomerStreetNull() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         String error = null;
@@ -336,7 +345,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createOnlinePersonCityNull() {
+    public void createOnlineCustomerCityNull() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         String error = null;
@@ -350,7 +359,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createOnlinePersonPostNull() {
+    public void createOnlineCustomerPostNull() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         String error = null;
@@ -364,7 +373,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createOnlinePersonProvinceNull() {
+    public void createOnlineCustomerProvinceNull() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         String error = null;
@@ -378,7 +387,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createOnlinePersonCountryNull() {
+    public void createOnlineCustomerCountryNull() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         String error = null;
@@ -392,7 +401,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createOnlinePersonEmailNull() {
+    public void createOnlineCustomerEmailNull() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         String error = null;
@@ -406,7 +415,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void createOnlinePersonEmailExists() {
+    public void createOnlineCustomerEmailExists() {
         assertEquals(customerService.getAllCustomers().size(), 0);
         Customer c = null;
         String error = null;
@@ -508,7 +517,7 @@ public class TestCustomerService {
             fail(msg.getMessage());
         }
         assertNotNull(c);
-        assertEquals(true, c.getIsLoggedIn());
+        assertTrue(c.getIsLoggedIn());
     }
 
     @Test
@@ -546,7 +555,7 @@ public class TestCustomerService {
             fail(msg.getMessage());
         }
         assertNotNull(c);
-        assertEquals(true, c.getIsLoggedIn());
+        assertTrue(c.getIsLoggedIn());
     }
 
     @Test
@@ -584,7 +593,18 @@ public class TestCustomerService {
             fail(msg.getMessage());
         }
         assertNotNull(c);
-        assertEquals(true, c.getIsLoggedIn());
+        assertTrue(c.getIsLoggedIn());
+    }
+
+    @Test
+    public void logoutIDPass() {
+        boolean b = false;
+        try {
+            b = customerService.logout(1);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            fail(msg.getMessage());
+        }
+        assertTrue(b);
     }
 
     @Test
@@ -798,7 +818,6 @@ public class TestCustomerService {
 
     @Test
     public void getCustomerByUsernamePass() {
-        String error = null;
         Customer c = null;
         try {
             c = customerService.getCustomer(USERNAME_1);

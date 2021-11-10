@@ -23,7 +23,7 @@ public class CustomerRestController {
     @GetMapping(value = { "/customers", "/customers/" })
     public ResponseEntity getAllCustomers() {
         List<CustomerDto> customerDtos = new ArrayList<>();
-        List<Customer> customers = new ArrayList<>();
+        List<Customer> customers;
         try {
             customers = customerService.getAllCustomers();
         } catch (IllegalArgumentException | NullPointerException msg) {
@@ -48,14 +48,11 @@ public class CustomerRestController {
         return new ResponseEntity<>(convertToDto(customer), HttpStatus.OK);
     }
 
-    /*
-    Tested
-     */
     @PostMapping(value = { "/customer/createLocal", "/customer/createLocal/" })
     public ResponseEntity createLocalCustomer(@RequestParam String firstname, @RequestParam String lastname, @RequestParam String civic,
                                       @RequestParam String street, @RequestParam String city, @RequestParam String postalCode,
                                       @RequestParam String province, @RequestParam String country) {
-        Customer customer = null;
+        Customer customer;
         try {
             customer = customerService.createCustomer(firstname, lastname, civic, street, city, postalCode, province, country);
         } catch (IllegalArgumentException msg) {
@@ -64,14 +61,11 @@ public class CustomerRestController {
         return new ResponseEntity<>(convertToDto(customer), HttpStatus.OK);
     }
 
-    /*
-    Tested
-     */
     @PostMapping(value = { "/customer/create", "/customer/create/"})
     public ResponseEntity createOnlineCustomer(@RequestParam String firstname, @RequestParam String lastname, @RequestParam String email, @RequestParam String username, @RequestParam String password,
                                       @RequestParam String civic, @RequestParam String street, @RequestParam String city, @RequestParam String postalCode,
                                       @RequestParam String province, @RequestParam String country) throws IllegalArgumentException {
-        Customer customer = null;
+        Customer customer;
         try {
             customer = customerService.createOnlineCustomer(firstname, lastname, email, username, password, civic, street, city, postalCode, province, country);
         } catch (IllegalArgumentException msg) {
@@ -80,9 +74,6 @@ public class CustomerRestController {
         return new ResponseEntity<>(convertToDto(customer), HttpStatus.OK);
     }
 
-    /*
-    Tested
-     */
     @DeleteMapping(value = { "/customer/{id}", "/customer/{id}/" })
     public ResponseEntity deleteCustomer(@PathVariable("id") String id){
         Customer c;
@@ -95,9 +86,6 @@ public class CustomerRestController {
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Error: Could not delete customer");
     }
 
-    /*
-    Tested
-     */
     @PutMapping(value = { "/customer/login", "/customer/login/"})
     public ResponseEntity loginCustomer(@RequestParam String name, @RequestParam String password) {
         Customer c;
@@ -119,9 +107,6 @@ public class CustomerRestController {
         return new ResponseEntity<>(convertToDto(c), HttpStatus.OK);
     }
 
-    /*
-    Tested
-     */
     @PutMapping(value = {"/customer/login/{id}", "/customer/login/{id}/"})
     public ResponseEntity login(@PathVariable("id") String id, @RequestParam String password) {
         Customer c;
@@ -134,9 +119,6 @@ public class CustomerRestController {
         return new ResponseEntity<>(convertToDto(c), HttpStatus.OK);
     }
 
-    /*
-    Tested
-     */
     @PutMapping(value = { "/customer/logout/{id}", "/customer/logout/{id}/"})
     public ResponseEntity logoutID(@PathVariable("id") String id) {
         boolean b;
@@ -149,9 +131,6 @@ public class CustomerRestController {
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Error: Did not log out");
     }
 
-    /*
-    Tested
-     */
     @PutMapping(value = { "/customer/logout", "/customer/logout/"})
     public ResponseEntity logout(@RequestParam String name) {
         boolean b;
@@ -176,7 +155,7 @@ public class CustomerRestController {
     @GetMapping(value = { "/customers/name", "/customers/name/" })
     public ResponseEntity getCustomersByFirstAndLastName(@RequestParam String firstName, @RequestParam String lastName) {
         List<CustomerDto> cDto = new ArrayList<>();
-        List<Customer> c = new ArrayList<>();
+        List<Customer> c;
         try {
             c = customerService.getCustomersByFirstAndLastName(firstName, lastName);
         } catch (IllegalArgumentException msg) {
@@ -194,7 +173,7 @@ public class CustomerRestController {
     public ResponseEntity getCustomersByAddress(@RequestParam String civic, @RequestParam String street, @RequestParam String city, @RequestParam String postalCode,
                                                    @RequestParam String province, @RequestParam String country) throws IllegalArgumentException, NullPointerException {
         List<CustomerDto> customerDtos = new ArrayList<>();
-        List<Customer> customers = new ArrayList<>();
+        List<Customer> customers;
         try {
             customers = customerService.getCustomersByAddress(civic, street, city, postalCode, province, country);
         } catch (IllegalArgumentException | NullPointerException msg) {
@@ -263,12 +242,9 @@ public class CustomerRestController {
         return new ResponseEntity<>(customerDtos, HttpStatus.OK);
     }
 
-    /*
-    Tested
-     */
     @PutMapping(value = { "/customer/balance/{id}", "/customer/balance/{id}/" })
     public ResponseEntity modifyBalance(@PathVariable("id") String id, @RequestParam String toModify) {
-        Customer c = null;
+        Customer c;
         try {
             c = customerService.modifyOutstandingBalance(Integer.parseInt(id), Integer.parseInt(toModify));
         } catch (IllegalArgumentException | NullPointerException msg) {
@@ -277,9 +253,6 @@ public class CustomerRestController {
         return new ResponseEntity<>(convertToDto(c), HttpStatus.OK);
     }
 
-    /*
-    Tested
-     */
     @PutMapping(value = { "/customer/validate/{id}", "/customer/validate/{id}/" })
     public ResponseEntity validateCustomer(@PathVariable("id") String id) {
         Customer c;
@@ -292,9 +265,6 @@ public class CustomerRestController {
         return new ResponseEntity<>(convertToDto(c), HttpStatus.OK);
     }
 
-    /*
-    Tested
-     */
     @PutMapping(value = { "/customer/convert/{id}", "/customer/convert/{id}/" })
     public ResponseEntity convertLocal(@PathVariable("id") String id, @RequestParam String username, @RequestParam String password, @RequestParam String email) {
         Customer c;

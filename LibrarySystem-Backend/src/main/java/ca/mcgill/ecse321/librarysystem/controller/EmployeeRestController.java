@@ -295,9 +295,7 @@ public class EmployeeRestController {
 
     private EmployeeDto convertToDto(Employee e) {
         if (e == null) throw new IllegalArgumentException("Cannot find this Employee");
-        return new EmployeeDto(e.getLibraryCardID(), e.getIsLoggedIn(), e.getIsOnlineAcc(), e.getFirstName(),
-                e.getLastName(), e.getIsVerified(), e.getDemeritPts(), convertToDto(e.getAddress()),
-                EmployeeDto.Role.valueOf(e.getRole().name()), e.getOutstandingBalance());
+        return new EmployeeDto(e.getLibraryCardID(), e.getIsLoggedIn(), e.getIsOnlineAcc(), e.getFirstName(), e.getLastName(), e.getIsVerified(), e.getDemeritPts(), convertToDto(e.getAddress()), e.getUsername(), e.getEmail(), e.getOutstandingBalance(), EmployeeDto.Role.valueOf(e.getRole().name()));
     }
 
     private AddressDto convertToDto(Address a) {
