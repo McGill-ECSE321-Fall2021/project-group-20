@@ -303,8 +303,7 @@ let authorTest = async () => {
      */
     if (remainingTests === 0) console.log("Passed all Author Tests :)");
     else console.log("Failed " + remainingTests + " :(");
-    console.log("")
-
+    console.log("");
 };
 
 export default authorTest;

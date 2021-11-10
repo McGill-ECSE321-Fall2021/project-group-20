@@ -64,7 +64,8 @@ public class TitleRestController {
     }
 
     @GetMapping(value = { "/title/getByNameAndPubDate", "/title/getByNameAndPubDate/"})
-    public ResponseEntity getTitleByNameAndPubDate(@RequestParam String name, @RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate) {
+    public ResponseEntity getTitleByNameAndPubDate(@RequestParam String name, @RequestParam String pubDate) {
+		if (!pubDate.contains("/")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please format pubDate in MM/dd/yyyy");
 		Title title;
 		try {
 			title = titleService.getTitleByNameAndPubDate(name, pubDate);
@@ -161,7 +162,8 @@ public class TitleRestController {
 	}
 	
 	@GetMapping(value = {"/titles/getTitlesByPubDate","/titles/getTitlesByPubDate/"})
-	public ResponseEntity getTitlesByPubDate(@RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate) {
+	public ResponseEntity getTitlesByPubDate(@RequestParam String pubDate) {
+		if (!pubDate.contains("/")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please format pubDate in MM/dd/yyyy");
 		List<Title> titles;
 		try {
 			titles = titleService.getTitlesByPubDate(pubDate);
@@ -207,7 +209,8 @@ public class TitleRestController {
 	}
 	
 	@PutMapping(value = { "/title/{id}/updatePubDate", "/title/{id}/updatePubDate/" })
-	public ResponseEntity updatePubDate(@PathVariable("id") String id, @RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate) {
+	public ResponseEntity updatePubDate(@PathVariable("id") String id, @RequestParam String pubDate) {
+		if (!pubDate.contains("/")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please format pubDate in MM/dd/yyyy");
 		boolean b;
 		try {
 			b = titleService.updatePubDate(id, pubDate);
@@ -219,7 +222,8 @@ public class TitleRestController {
 	}
 	
 	@PutMapping(value = { "/title/{id}/updateNameAndPubDate", "/title/{id}/updateNameAndPubDate/" })
-	public ResponseEntity updateNameAndPubDate(@PathVariable("id") String id, @RequestParam String name, @RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate) {
+	public ResponseEntity updateNameAndPubDate(@PathVariable("id") String id, @RequestParam String name, @RequestParam String pubDate) {
+		if (!pubDate.contains("/")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please format pubDate in MM/dd/yyyy");
 		boolean b;
 		try {
 			b = titleService.updateNameAndPubDate(id, name, pubDate);
@@ -329,19 +333,20 @@ public class TitleRestController {
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		if (b) return ResponseEntity.status(HttpStatus.OK).body("Titles has been deleted");
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Titles have been deleted");
 		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot delete titles");
 	}
 	
 	@DeleteMapping(value = {"/titles/deleteByPubDate", "/titles/deleteByPubDate/"})
-	public ResponseEntity deleteTitlesByPubDate(@RequestParam @DateTimeFormat(pattern="MM/dd/yyyy") String pubDate) {
+	public ResponseEntity deleteTitlesByPubDate(@RequestParam String pubDate) {
+		if (!pubDate.contains("/")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please format pubDate in MM/dd/yyyy");
 		boolean b;
 		try {
 			b = titleService.deleteTitlesByPubDate(pubDate);
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		if (b) return ResponseEntity.status(HttpStatus.OK).body("Titles has been deleted");
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Titles have been deleted");
 		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot delete titles");
 	}
 	
