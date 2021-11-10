@@ -1,10 +1,13 @@
 package ca.mcgill.ecse321.librarysystem.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import ca.mcgill.ecse321.librarysystem.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,14 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ca.mcgill.ecse321.librarysystem.model.Item;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 import ca.mcgill.ecse321.librarysystem.dto.AuthorDto;
 import ca.mcgill.ecse321.librarysystem.dto.ItemDto;
 import ca.mcgill.ecse321.librarysystem.dto.TitleDto;
-import ca.mcgill.ecse321.librarysystem.model.Author;
-import ca.mcgill.ecse321.librarysystem.model.Booking;
-import ca.mcgill.ecse321.librarysystem.model.Title;
 import ca.mcgill.ecse321.librarysystem.service.BookingService;
 import ca.mcgill.ecse321.librarysystem.service.ItemService;
 import ca.mcgill.ecse321.librarysystem.service.TitleService;
@@ -33,123 +32,265 @@ public class ItemRestController {
 	private ItemService itemService;
 	@Autowired
 	private TitleService titleService;
-	@Autowired 
+	@Autowired
 	private BookingService bookingService;
 
-
 	@GetMapping(value = { "/items", "/items/" })
-	public List<ItemDto> getAllitems() {
-		return itemService.getAllItems().stream().map(p -> convertToItemDto(p)).collect(Collectors.toList());
+	public ResponseEntity getAllitems() {
+		List<ItemDto> items = new ArrayList<>();
+		List<Item> itemList;
+		try {
+			itemList = itemService.getAllItems();
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		for (Item i : itemList) {
+			items.add(convertToItemDto(i));
+		}
+		if (items.size() == 0)
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find any Items in System");
+		return new ResponseEntity<>(items, HttpStatus.OK);
 	}
 
 	@GetMapping(value = { "/items/status/{status}", "/items/status/{status}" })
-	public List<ItemDto> getAllitemsBystatus(@PathVariable("status") String name) throws IllegalArgumentException {
-		List<Item> item = itemService.getItemByStat(Status.valueOf(name));
-		List<ItemDto> itemDtoList = convertToItem(item);
-		return itemDtoList;
-
+	public ResponseEntity getAllitemsBystatus(@PathVariable("status") String name) {
+		List<ItemDto> items = new ArrayList<>();
+		List<Item> itemList;
+		try {
+			itemList = itemService.getItemByStat(Status.valueOf(name));
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		for (Item i : itemList) {
+			items.add(convertToItemDto(i));
+		}
+		if (items.size() == 0)
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any Items matching this Status");
+		return new ResponseEntity<>(items, HttpStatus.OK);
 	}
 
 	@GetMapping(value = { "/items/title", "/items/title/" })
-	public List<ItemDto> getAllItemsByTitleName(@RequestParam String titleName) throws IllegalArgumentException {
-		List<Title> titles = titleService.getTitlesByName(titleName);
-		List<Item> item = new ArrayList<Item>();
-		for (Title title: titles) {
-			if (title.getName().equals(titleName)) {
-				item.addAll(itemService.getItemByTitle(title));
+	public ResponseEntity getAllItemsByTitleName(@RequestParam String titlename) {
+		List<Title> titles;
+		try {
+			titles = titleService.getTitlesByName(titlename);
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		List<Item> item = new ArrayList<>();
+		for (Title title : titles) {
+			if (title.getName().equals(titlename)) {
+				try {
+					item.addAll(itemService.getItemByTitle(title));
+				} catch (IllegalArgumentException | NullPointerException msg) {
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+				}
 			}
 		}
 		List<ItemDto> items = convertToItem(item);
-		return items;
+		if (items.size() == 0)
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any Items matching this Title name");
+		return new ResponseEntity<>(items, HttpStatus.OK);
 	}
 
-	@GetMapping(value = {"/items/booking","/items/booking/"})
-	public ItemDto getItemByBooking(@RequestParam String bookingId) throws IllegalArgumentException {
-		Booking b = bookingService.getBookingbyId(bookingId);
-		Item item = itemService.getItemByItemBooking(b);
+	@GetMapping(value = { "/items/booking", "/items/booking/" })
+	public ResponseEntity getItemByBooking(@RequestParam String bookingId) {
+		Booking b;
+		Item item;
+
+		try {
+			b = bookingService.getBookingbyId(bookingId);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		try {
+			item = itemService.getItemByItemBooking(b);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
 		ItemDto itemDto = convertToItemDto(item);
-		return itemDto; 
+		return new ResponseEntity<>(itemDto, HttpStatus.OK);
 	}
-	
-	@GetMapping(value = {"/items/TitleId","/items/TitleId/"})
-	public List<ItemDto> getItemsByTitleId(@RequestParam String titleId) throws IllegalArgumentException {
-		Title t = titleService.getTitleByTitleID(titleId);
-		List<Item> item = itemService.getItemByTitle(t);
-		List<ItemDto> itemDto = convertToItem(item);
-		return itemDto; 
+
+	@GetMapping(value = { "/items/titleId", "/items/titleId/" })
+	public ResponseEntity getItemsByTitleId(@RequestParam String titleId) {
+		Title t;
+		List<Item> item;
+		List<ItemDto> itemDto;
+
+		try {
+			t = titleService.getTitleByTitleID(titleId);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		try {
+			item = itemService.getItemByTitle(t);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		itemDto = convertToItem(item);
+		return new ResponseEntity<>(itemDto, HttpStatus.OK);
 	}
-	
-	@GetMapping(value = {"/items/Id","/items/Id/"})
-	public ItemDto getItemById(@RequestParam String itemId) throws IllegalArgumentException {
-		Item item = itemService.getItemById(Long.valueOf(itemId));
+
+	@GetMapping(value = { "/items/id", "/items/id/" })
+	public ResponseEntity getItemById(@RequestParam String itemId) {
+		Item item;
+
+		try {
+			item = itemService.getItemById(Long.valueOf(itemId));
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
 		ItemDto itemDto = convertToItemDto(item);
-		return itemDto; 
+		return new ResponseEntity<>(itemDto, HttpStatus.OK);
 	}
-	
- 
+
 	@PostMapping(value = { "/items/create", "/items/create/" })
-	public ItemDto createItem(@RequestParam String ItemBarcode, @RequestParam String status,
-			@RequestParam String titleId) throws Exception {
-		Title title = titleService.getTitleByTitleID(titleId);
-		if (title==null) {
-			throw new Exception ("this returned null");
+	public ResponseEntity createItem(@RequestParam String ItemBarcode, @RequestParam String status,
+			@RequestParam String titleId) {
+		Title title;
+		Item item;
+		try {
+			title = titleService.getTitleByTitleID(titleId);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		Item item = itemService.createItem(Status.valueOf(status), Long.valueOf(ItemBarcode), title);
-		ItemDto itemDto = convertToItemDto(item);
-		return itemDto;
+
+		if (title == null)
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Title returned null");
+
+		try {
+			item = itemService.createItem(Status.valueOf(status), Long.valueOf(ItemBarcode), title);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		if (item == null)
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Item returned null");
+		return new ResponseEntity<>(convertToItemDto(item), HttpStatus.OK);
 	}
-	
+
 	@PutMapping(value = { "/items/updateall", "/items/updateall/" })
-	public ItemDto updateItem(@RequestParam String ItemBarcode, @RequestParam String status,
-			@RequestParam String titleId) throws Exception {
-		Title title = titleService.getTitleByTitleID(titleId);
-		if (title==null) {
-			throw new Exception ("this returned null");
+	public ResponseEntity updateItem(@RequestParam String itemBarcode, @RequestParam String status,
+			@RequestParam String titleId) {
+		Title title;
+		Item item;
+		try {
+			title = titleService.getTitleByTitleID(titleId);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		itemService.updateItem(Status.valueOf(status), Long.valueOf(ItemBarcode), title);
-		Item item = itemService.getItemById(Long.valueOf(ItemBarcode));
-		ItemDto itemDto = convertToItemDto(item);
-		return itemDto;
+
+		if (title == null)
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Title returned null");
+
+		try {
+			itemService.updateItem(Status.valueOf(status), Long.valueOf(itemBarcode), title);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		try {
+			item = itemService.getItemById(Long.valueOf(itemBarcode));
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		if (item == null)
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Item returned null");
+		return new ResponseEntity<>(convertToItemDto(item), HttpStatus.OK);
 	}
-	
+
 	@PutMapping(value = { "/items/upstatus", "/items/upstatus/" })
-	public ItemDto updateItemStatus(@RequestParam String itemBarcode, @RequestParam String status) throws Exception {
-		itemService.updateItem(Status.valueOf(status), Long.valueOf(itemBarcode));
-		Item upItem = itemService.getItemById(Long.valueOf(itemBarcode));
-		if (upItem==null) {
-			throw new Exception ("this returned null");
+	public ResponseEntity updateItemStatus(@RequestParam String itemBarcode, @RequestParam String status) {
+		Item item;
+
+		try {
+			itemService.updateItem(Status.valueOf(status), Long.valueOf(itemBarcode));
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		ItemDto itemDto = convertToItemDto(upItem);
-		return itemDto;
+
+		try {
+			item = itemService.getItemById(Long.valueOf(itemBarcode));
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		if (item == null)
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Item returned null");
+		return new ResponseEntity<>(convertToItemDto(item), HttpStatus.OK);
 	}
-	
+
 	@PutMapping(value = { "/items/uptitle", "/items/uptitle/" })
-	public ItemDto updateItemTitle(@RequestParam String itemBarcode, @RequestParam String titleId) throws Exception {
-		itemService.updateItem(Long.valueOf(itemBarcode),titleService.getTitleByTitleID(titleId));
-		Item upItem = itemService.getItemById(Long.valueOf(itemBarcode));
-		if (upItem==null) {
-			throw new Exception ("this returned null");
+	public ResponseEntity updateItemTitle(@RequestParam String itemBarcode, @RequestParam String titleId) {
+		Title title;
+		Item item;
+
+		try {
+			title = titleService.getTitleByTitleID(titleId);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		ItemDto itemDto = convertToItemDto(upItem);
-		return itemDto;
+
+		try {
+			itemService.updateItem(Long.valueOf(itemBarcode), title);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+
+		}
+
+		try {
+			item = itemService.getItemById(Long.valueOf(itemBarcode));
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		if (item == null)
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Item returned null");
+		return new ResponseEntity<>(convertToItemDto(item), HttpStatus.OK);
 	}
-	@DeleteMapping(value = { "/items/delitem", "/items/delitem/"})
-	public void deleatItem(@RequestParam String itemBarcode) {
-		itemService.deleatItemById(Long.valueOf(itemBarcode));
+
+	@DeleteMapping(value = { "/items/delitem", "/items/delitem/" })
+	public ResponseEntity deleteItem(@RequestParam String itemBarcode) {
+		try {
+			itemService.deleteItemById(Long.valueOf(itemBarcode));
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		if (itemService.getexistanceByItemBarcode(Long.valueOf(itemBarcode)))
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not delete Item");
+		return ResponseEntity.status(HttpStatus.OK).body("Item deleted on " + new Date());
 	}
-	
-	@DeleteMapping(value = { "/items/delitemstat", "/items/delitemstat/"})
-	public void deleatItemsByStatus(@RequestParam String status) {
-		itemService.deleatItemByStat(Status.valueOf(status));
+
+	@DeleteMapping(value = { "/items/delitemstat", "/items/delitemstat/" })
+	public ResponseEntity deleteItemsByStatus(@RequestParam String status) {
+		try {
+			itemService.deleteItemByStat(Status.valueOf(status));
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body("Item deleted on " + new Date());
 	}
-	
-	@DeleteMapping(value = { "/items/delitemByBooking", "/items/delitemByBooking/"})
-	public void deleatItemsByBooking(@RequestParam String bookingId) {
-		itemService.deleatItemByItemBooking(bookingService.getBookingbyId(bookingId));
+
+	@DeleteMapping(value = { "/items/delitemByBooking", "/items/delitemByBooking/" })
+	public ResponseEntity deleteItemsByBooking(@RequestParam String bookingId) {
+		try {
+			itemService.deleteItemByItemBooking(bookingService.getBookingbyId(bookingId));
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body("Item deleted on " + new Date());
 	}
-	
-	
-	
 
 	private AuthorDto[] convertToAuthorDto(List<Author> authors) {
 		if (authors == null || authors.size() == 0)
@@ -174,19 +315,16 @@ public class ItemRestController {
 			throw new IllegalArgumentException("There is no such Item!");
 		}
 		Status mystatus = i.getStatus();
-		ItemDto itemDto = new ItemDto(mystatus, i.getItemBarcode(), convertToTitleDto(i.getTitle()));
-		return itemDto;
+		return new ItemDto(mystatus, i.getItemBarcode(), convertToTitleDto(i.getTitle()));
 	}
 
 	private List<ItemDto> convertToItem(List<Item> i) {
-		List<ItemDto> itemDtoList = new ArrayList<ItemDto>();
+		List<ItemDto> itemDtoList = new ArrayList<>();
 		for (Item c : i) {
 			ItemDto itemDto = convertToItemDto(c);
 			itemDtoList.add(itemDto);
 		}
 		return itemDtoList;
 	}
-	
-
 
 }
