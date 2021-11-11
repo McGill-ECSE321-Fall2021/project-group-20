@@ -130,25 +130,25 @@ public class TitleRestController {
 		return new ResponseEntity<>(convertToTitleDto(title), HttpStatus.OK);
 	}
 	
-	@GetMapping(value = {"/titles/getTitlesByItemBarcodes","/titles/getTitlesByItemBarcodes/"})
-	public ResponseEntity getTitlesByItemBarcodes(@RequestParam String itemBarCodes) {
-		List<Item> itemList = new ArrayList<>();
-        List<String> seperatedItemStringList = Arrays.asList(itemBarCodes.split(","));
-        for (String s : seperatedItemStringList) {
-			try {
-				itemList.add(itemService.getItemById(Long.parseLong(s)));
-			} catch (IllegalArgumentException | NullPointerException msg) {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
-			}
-        }
-		List<Title> titles;
-		try {
-			titles = titleService.getTitlesByItemBarcodes(itemList);
-		} catch (IllegalArgumentException | NullPointerException msg) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
-		}
-		return new ResponseEntity<>(convertToTitlesDto(titles), HttpStatus.OK);
-	}
+//	@GetMapping(value = {"/titles/getTitlesByItemBarcodes","/titles/getTitlesByItemBarcodes/"})
+//	public ResponseEntity getTitlesByItemBarcodes(@RequestParam String itemBarCodes) {
+//		List<Item> itemList = new ArrayList<>();
+//        List<String> seperatedItemStringList = Arrays.asList(itemBarCodes.split(","));
+//        for (String s : seperatedItemStringList) {
+//			try {
+//				itemList.add(itemService.getItemById(Long.parseLong(s)));
+//			} catch (IllegalArgumentException | NullPointerException msg) {
+//				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+//			}
+//        }
+//		List<Title> titles;
+//		try {
+//			titles = titleService.getTitlesByItemBarcodes(itemList);
+//		} catch (IllegalArgumentException | NullPointerException msg) {
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+//		}
+//		return new ResponseEntity<>(convertToTitlesDto(titles), HttpStatus.OK);
+//	}
 	
 	@GetMapping(value = {"/titles/getTitlesByName","/titles/getTitlesByName/"})
 	public ResponseEntity getTitlesByName(@RequestParam String name) {

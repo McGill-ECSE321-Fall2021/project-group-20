@@ -4,6 +4,7 @@ import ca.mcgill.ecse321.librarysystem.dao.BookRepository;
 import ca.mcgill.ecse321.librarysystem.model.Book;
 import ca.mcgill.ecse321.librarysystem.model.Booking;
 import ca.mcgill.ecse321.librarysystem.model.Item;
+import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 import ca.mcgill.ecse321.librarysystem.model.Title;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,11 +21,11 @@ public class BookService {
 
 
     @Transactional
-    public Book createBook(Item.Status aStatus, Title aTitle, String aIsbn, String aNumPages) {
-        if (aStatus == null || aTitle == null) throw new IllegalArgumentException("Please enter a valid status or title");
+    public Book createBook(Status aStatus,long aItemBarcode,Title aTitle, String aIsbn, String aNumPages) {
+        if (aStatus == null || aTitle == null || aIsbn==null ||aNumPages.isEmpty() ||aIsbn.isEmpty() ||aNumPages.isEmpty()) throw new IllegalArgumentException("Please enter a valid status, title or Id");
         if (aIsbn == null || aIsbn.length() == 0) throw new IllegalArgumentException("Please enter a valid ISBN");
-        if (aNumPages == null || aNumPages.length() == 0 || aNumPages.contains("-")) throw new IllegalArgumentException("Please enter a valid number of pages");
-        Book item = new Book(aStatus, aTitle, aIsbn, aNumPages);
+        if (aNumPages == null || aNumPages.length() == 0 || aNumPages.contains("-")) throw new IllegalArgumentException("Please enter a valid status, title or Id");
+        Book item = new Book(aStatus,aItemBarcode, aTitle, aIsbn, aNumPages);
         bookRepository.save(item);
         return item;
     }
@@ -38,12 +39,17 @@ public class BookService {
     }
 
     @Transactional
-    public List<Book> getBookByStat(Item.Status status) {
+    public List<Book> getBookByStat(Status status) {
         @SuppressWarnings("unchecked")
         List<Book> item = (List<Book>)(List<?>) bookRepository.findItemByStatus(status);
         for (Book iteme : item) {
             if (iteme == null) throw new IllegalArgumentException("No Book found");
         }
+        for (Item iteme : item) {
+			if (!(iteme instanceof Book)) {
+				item.remove(iteme);
+			}
+		}
         return item;
     }
 
@@ -54,6 +60,11 @@ public class BookService {
         for (Book iteme : item) {
             if (iteme == null) throw new IllegalArgumentException("No Book found");
         }
+        for (Item iteme : item) {
+     			if (!(iteme instanceof Book)) {
+     				item.remove(iteme);
+     			}
+     		}
         return item;
     }
 
@@ -65,9 +76,12 @@ public class BookService {
 
     @Transactional
     public Book getBookByBookBooking(Booking booking) {
+    	if (bookRepository.findItemByBooking(booking) instanceof Book) {
         Book item = (Book) bookRepository.findItemByBooking(booking);
         if (item == null) throw new IllegalArgumentException("No Book found");
         return item;
+    	}
+    	return null;
     }
 
     @Transactional
@@ -79,13 +93,19 @@ public class BookService {
     }
 
     @Transactional
-    public void deleatBookByStat(Item.Status status) {
+    public void deleatBookByStat(Status status) {
         @SuppressWarnings("unchecked")
         List<Book> item = (List<Book>)(List<?>) bookRepository.findItemByStatus(status);
         for (Book iteme : item) {
             if (iteme == null) throw new IllegalArgumentException("No Book found");
         }
+    	for (Item iteme : item) {
+			if (!(iteme instanceof Book)) {
+				item.remove(iteme);
+			}
+		}
         bookRepository.deleteAll(item);
+        
         for (Item iteme : item) {
             iteme.delete();;
         }
@@ -98,6 +118,11 @@ public class BookService {
         for (Book iteme : item) {
             if (iteme == null) throw new IllegalArgumentException("No Book found");
         }
+    	for (Item iteme : item) {
+			if (!(iteme instanceof Book)) {
+				item.remove(iteme);
+			}
+		}
         bookRepository.deleteAll(item);
 
         for (Item iteme : item) {
@@ -108,15 +133,17 @@ public class BookService {
 
     @Transactional
     public void deleatBookByBookBooking(Booking booking) {
-        Book item = (Book) bookRepository.findItemByBooking(booking);
-        if (item == null) throw new IllegalArgumentException("No Book found");
-        bookRepository.delete(item);
-        item.delete();
+    	if(bookRepository.findItemByBooking(booking) instanceof Book) {
+    		Book item = (Book) bookRepository.findItemByBooking(booking);
+    		if (item == null) throw new IllegalArgumentException("No Book found");
+    		bookRepository.delete(item);
+    		item.delete();
+    		}
     }
 
 
     @Transactional
-    public void updateBook(Item.Status aStatus, long aBookBarcode, Title aTitle) {
+    public void updateBook(Status aStatus, long aBookBarcode, Title aTitle) {
         Book item = (Book) bookRepository.findItemByItemBarcode(aBookBarcode);
         if (item == null) throw new IllegalArgumentException("No Book found");
         item.setStatus(aStatus);
@@ -133,10 +160,25 @@ public class BookService {
     }
 
     @Transactional
-    public void updateBook(Item.Status aStatus, long aBookBarcode) {
+    public void updateBook(Status aStatus, long aBookBarcode) {
         Book item = (Book) bookRepository.findItemByItemBarcode(aBookBarcode);
         if (item == null) throw new IllegalArgumentException("No Book found");
         item.setStatus(aStatus);
+        bookRepository.save(item);
+    }
+    
+    @Transactional
+    public void updateBookIsbn(String isbn, long aBookBarcode) {
+        Book item = (Book) bookRepository.findItemByItemBarcode(aBookBarcode);
+        if (item == null) throw new IllegalArgumentException("No Book found");
+        item.setIsbn(isbn);
+        bookRepository.save(item);
+    }
+    @Transactional
+    public void updateBookPages(String page, long aBookBarcode) {
+        Book item = (Book) bookRepository.findItemByItemBarcode(aBookBarcode);
+        if (item == null) throw new IllegalArgumentException("No Book found");
+        item.setNumPages(page);
         bookRepository.save(item);
     }
 
