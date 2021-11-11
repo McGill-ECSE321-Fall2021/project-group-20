@@ -4,7 +4,8 @@ import addressTest from "./AddressTest.js";
 import authorTest from "./AuthorTest.js";
 import titleTest from "./TitleTest.js";
 import itemTest from "./ItemTest.js";
-
+import NewspaperTest from "./NewspaperTest.js";
+import ArchiveTest from "./ArchiveTest.js";
 console.log("");
 
 customerTest().then( () => {
@@ -12,7 +13,11 @@ customerTest().then( () => {
         addressTest().then ( () => {
             authorTest().then( () => {
                 titleTest().then ( () => {
-                  itemTest();
+                  itemTest().then( () => {
+                      NewspaperTest().then(() =>{
+                          ArchiveTest()
+                      })
+                  });
                 })
             })
         })

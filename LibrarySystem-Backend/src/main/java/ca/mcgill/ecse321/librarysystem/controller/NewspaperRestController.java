@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 import ca.mcgill.ecse321.librarysystem.dto.AuthorDto;
+import ca.mcgill.ecse321.librarysystem.dto.ItemDto;
 import ca.mcgill.ecse321.librarysystem.dto.NewspaperDto;
 import ca.mcgill.ecse321.librarysystem.dto.TitleDto;
 import ca.mcgill.ecse321.librarysystem.service.BookingService;
@@ -29,7 +30,7 @@ import ca.mcgill.ecse321.librarysystem.service.TitleService;
 public class NewspaperRestController {
 
 	@Autowired
-	private NewspaperService newspaperService;
+	private NewspaperService NewspaperService;
 	@Autowired
 	private TitleService titleService;
 	@Autowired
@@ -37,36 +38,36 @@ public class NewspaperRestController {
 
 	@GetMapping(value = { "/Newspapers", "/Newspapers/" })
 	public ResponseEntity getAllNewspapers() {
-		List<NewspaperDto> newspapers = new ArrayList<>();
-		List<Newspaper> newspaperList;
+		List<NewspaperDto> Newspapers = new ArrayList<>();
+		List<Newspaper> NewspaperList;
 		try {
-			newspaperList = newspaperService.getAllNewspapers();
+			NewspaperList = NewspaperService.getAllNewspapers();
 		} catch (IllegalArgumentException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		for (Newspaper i : newspaperList) {
-			newspapers.add(convertToNewspaperDto(i));
+		for (Newspaper i : NewspaperList) {
+			Newspapers.add(convertToNewspaperDto(i));
 		}
-		if (newspapers.size() == 0)
+		if (Newspapers.size() == 0)
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find any Newspapers in System");
-		return new ResponseEntity<>(newspapers, HttpStatus.OK);
+		return new ResponseEntity<>(Newspapers, HttpStatus.OK);
 	}
 
 	@GetMapping(value = { "/Newspapers/status/{status}", "/Newspapers/status/{status}" })
 	public ResponseEntity getAllNewspapersBystatus(@PathVariable("status") String name) {
-		List<NewspaperDto> newspapers = new ArrayList<>();
-		List<Newspaper> newspaperList;
+		List<NewspaperDto> Newspapers = new ArrayList<>();
+		List<Newspaper> NewspaperList;
 		try {
-			newspaperList = newspaperService.getNewspaperByStat(Status.valueOf(name));
+			NewspaperList = NewspaperService.getNewspaperByStat(Status.valueOf(name));
 		} catch (IllegalArgumentException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		for (Newspaper i : newspaperList) {
-			newspapers.add(convertToNewspaperDto(i));
+		for (Newspaper i : NewspaperList) {
+			Newspapers.add(convertToNewspaperDto(i));
 		}
-		if (newspapers.size() == 0)
+		if (Newspapers.size() == 0)
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any Newspapers matching this Status");
-		return new ResponseEntity<>(newspapers, HttpStatus.OK);
+		return new ResponseEntity<>(Newspapers, HttpStatus.OK);
 	}
 
 	@GetMapping(value = { "/Newspapers/title", "/Newspapers/title/" })
@@ -78,26 +79,26 @@ public class NewspaperRestController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
-		List<Newspaper> newspaper = new ArrayList<>();
+		List<Newspaper> Newspaper = new ArrayList<>();
 		for (Title title : titles) {
 			if (title.getName().equals(titlename)) {
 				try {
-					newspaper.addAll(newspaperService.getNewspaperByTitle(title));
+					Newspaper.addAll(NewspaperService.getNewspaperByTitle(title));
 				} catch (IllegalArgumentException | NullPointerException msg) {
 					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 				}
 			}
 		}
-		List<NewspaperDto> newspapers = convertToNewspaper(newspaper);
-		if (newspapers.size() == 0)
+		List<NewspaperDto> Newspapers = convertToNewspaper(Newspaper);
+		if (Newspapers.size() == 0)
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any Newspapers matching this Title name");
-		return new ResponseEntity<>(newspapers, HttpStatus.OK);
+		return new ResponseEntity<>(Newspapers, HttpStatus.OK);
 	}
 
 	@GetMapping(value = { "/Newspapers/booking", "/Newspapers/booking/" })
 	public ResponseEntity getNewspaperByBooking(@RequestParam String bookingId) {
 		Booking b;
-		Newspaper newspaper;
+		Newspaper Newspaper;
 
 		try {
 			b = bookingService.getBookingbyId(bookingId);
@@ -106,20 +107,20 @@ public class NewspaperRestController {
 		}
 
 		try {
-			newspaper = newspaperService.getNewspaperByNewspaperBooking(b);
+			Newspaper = NewspaperService.getNewspaperByNewspaperBooking(b);
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
-		NewspaperDto NewspaperDto = convertToNewspaperDto(newspaper);
+		NewspaperDto NewspaperDto = convertToNewspaperDto(Newspaper);
 		return new ResponseEntity<>(NewspaperDto, HttpStatus.OK);
 	}
 
 	@GetMapping(value = { "/Newspapers/titleId", "/Newspapers/titleId/" })
 	public ResponseEntity getNewspapersByTitleId(@RequestParam String titleId) {
 		Title t;
-		List<Newspaper> newspaper;
-		List<NewspaperDto> newspaperDto;
+		List<Newspaper> Newspaper;
+		List<NewspaperDto> NewspaperDto;
 
 		try {
 			t = titleService.getTitleByTitleID(titleId);
@@ -128,34 +129,34 @@ public class NewspaperRestController {
 		}
 
 		try {
-			newspaper = newspaperService.getNewspaperByTitle(t);
+			Newspaper = NewspaperService.getNewspaperByTitle(t);
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
-		newspaperDto = convertToNewspaper(newspaper);
-		return new ResponseEntity<>(newspaperDto, HttpStatus.OK);
+		NewspaperDto = convertToNewspaper(Newspaper);
+		return new ResponseEntity<>(NewspaperDto, HttpStatus.OK);
 	}
 
 	@GetMapping(value = { "/Newspapers/id", "/Newspapers/id/" })
-	public ResponseEntity getNewspaperById(@RequestParam String newspaperId) {
-		Newspaper newspaper;
+	public ResponseEntity getNewspaperById(@RequestParam String NewspaperId) {
+		Newspaper Newspaper;
 
 		try {
-			newspaper = newspaperService.getNewspaperById(Long.valueOf(newspaperId));
+			Newspaper = NewspaperService.getNewspaperById(Long.valueOf(NewspaperId));
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
-		NewspaperDto newspaperDto = convertToNewspaperDto(newspaper);
-		return new ResponseEntity<>(newspaperDto, HttpStatus.OK);
+		NewspaperDto NewspaperDto = convertToNewspaperDto(Newspaper);
+		return new ResponseEntity<>(NewspaperDto, HttpStatus.OK);
 	}
 
 	@PostMapping(value = { "/Newspapers/create", "/Newspapers/create/" })
-	public ResponseEntity createNewspaper(@RequestParam String newspaperBarcode, @RequestParam String status,
+	public ResponseEntity createNewspaper(@RequestParam String status,
 			@RequestParam String titleId) {
 		Title title;
-		Newspaper newspaper;
+		Newspaper Newspaper;
 		try {
 			title = titleService.getTitleByTitleID(titleId);
 		} catch (IllegalArgumentException | NullPointerException msg) {
@@ -166,21 +167,21 @@ public class NewspaperRestController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Title returned null");
 
 		try {
-			newspaper = newspaperService.createNewspaper(Status.valueOf(status), Long.valueOf(newspaperBarcode), title);
+			Newspaper = NewspaperService.createNewspaper(Status.valueOf(status),title);
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
-		if (newspaper == null)
+		if (Newspaper == null)
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Newspaper returned null");
-		return new ResponseEntity<>(convertToNewspaperDto(newspaper), HttpStatus.OK);
+		return new ResponseEntity<>(convertToNewspaperDto(Newspaper), HttpStatus.OK);
 	}
 
 	@PutMapping(value = { "/Newspapers/updateall", "/Newspapers/updateall/" })
-	public ResponseEntity updateNewspaper(@RequestParam String newspaperBarcode, @RequestParam String status,
+	public ResponseEntity updateNewspaper(@RequestParam String NewspaperBarcode, @RequestParam String status,
 			@RequestParam String titleId) {
 		Title title;
-		Newspaper newspaper;
+		Newspaper Newspaper;
 		try {
 			title = titleService.getTitleByTitleID(titleId);
 		} catch (IllegalArgumentException | NullPointerException msg) {
@@ -191,47 +192,47 @@ public class NewspaperRestController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Title returned null");
 
 		try {
-			newspaperService.updateNewspaper(Status.valueOf(status), Long.valueOf(newspaperBarcode), title);
+			NewspaperService.updateNewspaper(Status.valueOf(status), Long.valueOf(NewspaperBarcode), title);
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
 		try {
-			newspaper = newspaperService.getNewspaperById(Long.valueOf(newspaperBarcode));
+			Newspaper = NewspaperService.getNewspaperById(Long.valueOf(NewspaperBarcode));
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
-		if (newspaper == null)
+		if (Newspaper == null)
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Newspaper returned null");
-		return new ResponseEntity<>(convertToNewspaperDto(newspaper), HttpStatus.OK);
+		return new ResponseEntity<>(convertToNewspaperDto(Newspaper), HttpStatus.OK);
 	}
 
 	@PutMapping(value = { "/Newspapers/upstatus", "/Newspapers/upstatus/" })
-	public ResponseEntity updateNewspaperStatus(@RequestParam String newspaperBarcode, @RequestParam String status) {
-		Newspaper newspaper;
+	public ResponseEntity updateNewspaperStatus(@RequestParam String NewspaperBarcode, @RequestParam String status) {
+		Newspaper Newspaper;
 
 		try {
-			newspaperService.updateNewspaper(Status.valueOf(status), Long.valueOf(newspaperBarcode));
+			NewspaperService.updateNewspaper(Status.valueOf(status), Long.valueOf(NewspaperBarcode));
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
 		try {
-			newspaper = newspaperService.getNewspaperById(Long.valueOf(newspaperBarcode));
+			Newspaper = NewspaperService.getNewspaperById(Long.valueOf(NewspaperBarcode));
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
-		if (newspaper == null)
+		if (Newspaper == null)
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Newspaper returned null");
-		return new ResponseEntity<>(convertToNewspaperDto(newspaper), HttpStatus.OK);
+		return new ResponseEntity<>(convertToNewspaperDto(Newspaper), HttpStatus.OK);
 	}
 
 	@PutMapping(value = { "/Newspapers/uptitle", "/Newspapers/uptitle/" })
-	public ResponseEntity updateNewspaperTitle(@RequestParam String newspaperBarcode, @RequestParam String titleId) {
+	public ResponseEntity updateNewspaperTitle(@RequestParam String NewspaperBarcode, @RequestParam String titleId) {
 		Title title;
-		Newspaper newspaper;
+		Newspaper Newspaper;
 
 		try {
 			title = titleService.getTitleByTitleID(titleId);
@@ -240,32 +241,32 @@ public class NewspaperRestController {
 		}
 
 		try {
-			newspaperService.updateNewspaper(Long.valueOf(newspaperBarcode), title);
+			NewspaperService.updateNewspaper(Long.valueOf(NewspaperBarcode), title);
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 
 		}
 
 		try {
-			newspaper = newspaperService.getNewspaperById(Long.valueOf(newspaperBarcode));
+			Newspaper = NewspaperService.getNewspaperById(Long.valueOf(NewspaperBarcode));
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
-		if (newspaper == null)
+		if (Newspaper == null)
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Newspaper returned null");
-		return new ResponseEntity<>(convertToNewspaperDto(newspaper), HttpStatus.OK);
+		return new ResponseEntity<>(convertToNewspaperDto(Newspaper), HttpStatus.OK);
 	}
 
 	@DeleteMapping(value = { "/Newspapers/delNewspaper", "/Newspapers/delNewspaper/" })
-	public ResponseEntity deleteNewspaper(@RequestParam String newspaperBarcode) {
+	public ResponseEntity deleteNewspaper(@RequestParam String NewspaperBarcode) {
 		try {
-			newspaperService.deleatNewspaperById(Long.valueOf(newspaperBarcode));
+			NewspaperService.deleatNewspaperById(Long.valueOf(NewspaperBarcode));
 		} catch (IllegalArgumentException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
-		if (newspaperService.getexistanceByNewspaperBarcode(Long.valueOf(newspaperBarcode)))
+		if (NewspaperService.getexistanceByNewspaperBarcode(Long.valueOf(NewspaperBarcode)))
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not delete Newspaper");
 		return ResponseEntity.status(HttpStatus.OK).body("Newspaper deleted on " + new Date());
 	}
@@ -273,7 +274,7 @@ public class NewspaperRestController {
 	@DeleteMapping(value = { "/Newspapers/delNewspaperstat", "/Newspapers/delNewspaperstat/" })
 	public ResponseEntity deleteNewspapersByStatus(@RequestParam String status) {
 		try {
-			newspaperService.deleatNewspaperByStat(Status.valueOf(status));
+			NewspaperService.deleatNewspaperByStat(Status.valueOf(status));
 		} catch (IllegalArgumentException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
@@ -284,7 +285,7 @@ public class NewspaperRestController {
 	@DeleteMapping(value = { "/Newspapers/delNewspaperByBooking", "/Newspapers/delNewspaperByBooking/" })
 	public ResponseEntity deleteNewspapersByBooking(@RequestParam String bookingId) {
 		try {
-			newspaperService.deleatNewspaperByNewspaperBooking(bookingService.getBookingbyId(bookingId));
+			NewspaperService.deleatNewspaperByNewspaperBooking(bookingService.getBookingbyId(bookingId));
 		} catch (IllegalArgumentException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
@@ -307,17 +308,19 @@ public class NewspaperRestController {
 	private TitleDto convertToTitleDto(Title title) {
 		if (title == null)
 			throw new NullPointerException("Cannot find this Title");
-		return new TitleDto(title.getName(), title.getPubDate(), convertToAuthorDto(title.getAuthor()));
+		TitleDto titles = new TitleDto(title.getTitleID(), title.getName(), title.getPubDate(), convertToAuthorDto(title.getAuthor()));
+		return titles;
 	}
 
 	private NewspaperDto convertToNewspaperDto(Newspaper i) {
 		if (i == null) {
-			throw new IllegalArgumentException("There is no such Newspaper!");
+			throw new IllegalArgumentException("There is no such Item!");
 		}
 		Status mystatus = i.getStatus();
-		return new NewspaperDto(mystatus, i.getItemBarcode(), convertToTitleDto(i.getTitle()));
+		TitleDto title = convertToTitleDto(i.getTitle());
+		NewspaperDto item = new NewspaperDto(mystatus, i.getItemBarcode(), title);
+		return item;
 	}
-
 	private List<NewspaperDto> convertToNewspaper(List<Newspaper> i) {
 		List<NewspaperDto> NewspaperDtoList = new ArrayList<>();
 		for (Newspaper c : i) {

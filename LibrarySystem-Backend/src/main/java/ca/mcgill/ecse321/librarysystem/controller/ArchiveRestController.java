@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 import ca.mcgill.ecse321.librarysystem.dto.AuthorDto;
+import ca.mcgill.ecse321.librarysystem.dto.ItemDto;
 import ca.mcgill.ecse321.librarysystem.dto.ArchiveDto;
 import ca.mcgill.ecse321.librarysystem.dto.TitleDto;
 import ca.mcgill.ecse321.librarysystem.service.BookingService;
@@ -152,8 +153,8 @@ public class ArchiveRestController {
 	}
 
 	@PostMapping(value = { "/Archives/create", "/Archives/create/" })
-	public ResponseEntity createArchive(@RequestParam String ArchiveBarcode, @RequestParam String status,
-			@RequestParam String titleId) {
+	public ResponseEntity createArchive(@RequestParam String status,
+										@RequestParam String titleId) {
 		Title title;
 		Archive Archive;
 		try {
@@ -166,7 +167,7 @@ public class ArchiveRestController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Title returned null");
 
 		try {
-			Archive = ArchiveService.createArchive(Status.valueOf(status), Long.valueOf(ArchiveBarcode), title);
+			Archive = ArchiveService.createArchive(Status.valueOf(status),title);
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
@@ -178,7 +179,7 @@ public class ArchiveRestController {
 
 	@PutMapping(value = { "/Archives/updateall", "/Archives/updateall/" })
 	public ResponseEntity updateArchive(@RequestParam String ArchiveBarcode, @RequestParam String status,
-			@RequestParam String titleId) {
+										@RequestParam String titleId) {
 		Title title;
 		Archive Archive;
 		try {
@@ -307,17 +308,19 @@ public class ArchiveRestController {
 	private TitleDto convertToTitleDto(Title title) {
 		if (title == null)
 			throw new NullPointerException("Cannot find this Title");
-		return new TitleDto(title.getName(), title.getPubDate(), convertToAuthorDto(title.getAuthor()));
+		TitleDto titles = new TitleDto(title.getTitleID(), title.getName(), title.getPubDate(), convertToAuthorDto(title.getAuthor()));
+		return titles;
 	}
 
 	private ArchiveDto convertToArchiveDto(Archive i) {
 		if (i == null) {
-			throw new IllegalArgumentException("There is no such Archive!");
+			throw new IllegalArgumentException("There is no such Item!");
 		}
 		Status mystatus = i.getStatus();
-		return new ArchiveDto(mystatus, i.getItemBarcode(), convertToTitleDto(i.getTitle()));
+		TitleDto title = convertToTitleDto(i.getTitle());
+		ArchiveDto item = new ArchiveDto(mystatus, i.getItemBarcode(), title);
+		return item;
 	}
-
 	private List<ArchiveDto> convertToArchive(List<Archive> i) {
 		List<ArchiveDto> ArchiveDtoList = new ArrayList<>();
 		for (Archive c : i) {

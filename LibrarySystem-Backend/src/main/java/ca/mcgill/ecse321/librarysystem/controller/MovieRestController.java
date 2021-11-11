@@ -162,7 +162,7 @@ public class MovieRestController {
 	
 	
 	@PostMapping(value = { "/movies/create", "/items/create/" })
-	public ResponseEntity createItem(@RequestParam String ItemBarcode, @RequestParam String status,
+	public ResponseEntity createItem(@RequestParam String status,
 			@RequestParam String titleId, @RequestParam String length) throws Exception {
 		Title title;
 		Movie item;
@@ -176,7 +176,7 @@ public class MovieRestController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Title returned null");
 
 		try {
-			item = movieService.createItem(Status.valueOf(status), Long.valueOf(ItemBarcode), title,Integer.valueOf(length));
+			item = movieService.createItem(Status.valueOf(status),title,Integer.valueOf(length));
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
