@@ -259,11 +259,11 @@ public class BookRestController {
 		return new ResponseEntity<>(convertToBookDto(upItem), HttpStatus.OK);
 	}
 	
-	@PutMapping(value = { "/Books/uppage", "/Books/uppage/" })
-	public ResponseEntity updateItemPages(@RequestParam String itemBarcode, @RequestParam String isbn) throws Exception {
+	@PutMapping(value = { "/Books/upage", "/Books/upage/" })
+	public ResponseEntity updateItemPage(@RequestParam String itemBarcode, @RequestParam String page) throws Exception {
 		Book upItem;
 		try {
-		BookService.updateBookPages(isbn,Long.valueOf(itemBarcode));
+		BookService.updateBookPages(page,Long.valueOf(itemBarcode));
 		}catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
@@ -331,7 +331,8 @@ public class BookRestController {
 	private TitleDto convertToTitleDto(Title title) {
 		if (title == null)
 			throw new NullPointerException("Cannot find this Title");
-		return new TitleDto(title.getName(), title.getPubDate(), convertToAuthorDto(title.getAuthor()));
+		TitleDto titles = new TitleDto(title.getTitleID(), title.getName(), title.getPubDate(), convertToAuthorDto(title.getAuthor()));
+		return titles;
 	}
 
 	private BookDto convertToBookDto(Book i) {

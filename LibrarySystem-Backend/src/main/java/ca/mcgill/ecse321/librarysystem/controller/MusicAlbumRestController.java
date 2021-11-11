@@ -339,7 +339,8 @@ public class MusicAlbumRestController {
 	private TitleDto convertToTitleDto(Title title) {
 		if (title == null)
 			throw new NullPointerException("Cannot find this Title");
-		return new TitleDto(title.getName(), title.getPubDate(), convertToAuthorDto(title.getAuthor()));
+		TitleDto titles = new TitleDto(title.getTitleID(), title.getName(), title.getPubDate(), convertToAuthorDto(title.getAuthor()));
+		return titles;
 	}
 
 	private MusicAlbumDto convertToMusicAlbumDto(MusicAlbum i) {

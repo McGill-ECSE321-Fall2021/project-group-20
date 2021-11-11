@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const NewspaperTest = async () => {
-    let remainingTests = 6;
+    let remainingTests = 7;
     let resultData;
     let resultStatus;
     let titleid;
@@ -61,6 +61,8 @@ const NewspaperTest = async () => {
 
         if (resultStatus === 200 && resultData.status.toString().includes("Available") && resultData.title.titleID === titleid) {
             id = resultData.itemBarcode;
+            remainingTests--;
+
         }
         else {
             console.log("Failed Test 1: Create Newspaper");

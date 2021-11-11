@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BookTest = async () => {
+const MovieTest = async () => {
     let remainingTests = 8;
     let resultData;
     let resultStatus;
@@ -30,7 +30,7 @@ const BookTest = async () => {
     }
 
     /*
-    Test 1: Create Book
+    Test 1: Create Movie
      */
     try {
         let response = await axios.post("http://localhost:8080/author/create?firstname=John&lastname=Doe");
@@ -54,30 +54,61 @@ const BookTest = async () => {
             console.log("");
         }
 
-        response = await axios.post("http://localhost:8080/Books/create?status=Available&titleId=" + titleid + "&isbn=10&pages=160");
+        response = await axios.post("http://localhost:8080/Movies/create?status=Available&titleId=" + titleid + "&length=10");
 
         resultData = response.data;
         resultStatus = response.status;
-        let isbn = response.data.isbn
-        let numPages = response.data.numPages
-        if (resultStatus === 200 && resultData.status.toString().includes("Available") && resultData.title.titleID === titleid && isbn.includes("10") && numPages.includes("160")) {
+        let duration = response.data.length
+        if (resultStatus === 200 && resultData.status.toString().includes("Available") && resultData.title.titleID === titleid && duration===10) {
             id = resultData.itemBarcode;
             remainingTests--;
         }
         else {
-            console.log("Failed Test 1: Create Book");
+            console.log("Failed Test 1: Create Movie");
             console.log("Error: " + resultData);
             console.log("");
         }
     } catch (errorMsg) {
-        console.log("Failed Test 1: Create Book");
+        console.log("Failed Test 1: Create Movie");
         console.log("Error: " + errorMsg.response.data);
         console.log("");
     }
 
+    /*
+    Test 2: Update Movie
+     */
+    try {
+        let response = await axios.post("http://localhost:8080/title/create?name=Booker&pubDate=11/10/2020&authors=" + authorid);
+
+        if (response.status === 200)  {
+            titleid = response.data.titleID;
+        }
+        else {
+            console.log("Failed Test 2: Create Title for test");
+            console.log("Error: " + response.data);
+            console.log("");
+        }
+
+        response = await axios.put("http://localhost:8080/Movies/updateall?ItemBarcode=" + id + "&status=Reserved&titleId="  + titleid + "&length=10") ;
+
+        resultData = response.data;
+        let duration = response.data.length
+        resultStatus = response.status;
+
+        if (resultStatus === 200 && resultData.itemBarcode === id && resultData.status.includes("Reserved") && resultData.title.titleID === titleid && duration===10) remainingTests--;
+        else {
+            console.log("Failed Test 2: Update Movie");
+            console.log("Error: " + resultData);
+            console.log("");
+        }
+    } catch (errorMsg) {
+        console.log("Failed Test 2: Update Movie");
+        console.log("Error: " + errorMsg.response.data);
+        console.log("");
+    }
 
     /*
-Test3 update Book
+Test3 update Movie
  */
 
     try {
@@ -91,83 +122,60 @@ Test3 update Book
             console.log("Error: " + response.data);
             console.log("");
         }
-        response = await axios.put("http://localhost:8080/Books/uptitle?itemBarcode=" + id + "&titleId=" + titleid);
+        response = await axios.put("http://localhost:8080/Movies/uptitle?itemBarcode=" + id + "&titleId=" + titleid);
         resultData = response.data;
         resultStatus = response.status;
-        let isbn = response.data.isbn
-        let numPages = response.data.numPages
-        if (resultStatus === 200 && resultData.itemBarcode === id && resultData.status === "Available" && resultData.title.titleID === titleid && pubdate === "12/10/2020"&&isbn.includes("10") && numPages.includes("160") ) remainingTests--;
+        let duration = response.data.length
+        if (resultStatus === 200 && resultData.itemBarcode === id && resultData.status === "Reserved" && resultData.title.titleID === titleid && pubdate === "12/10/2020"&& duration===10) remainingTests--;
     } catch (errorMsg){
-        console.log("Failed Test 3: Update Book");
+        console.log("Failed Test 3: Update Movie");
         console.log("Error: " + errorMsg.response.data);
         console.log("");
     }
 
     /*
-// Test4 update Book
-// */
-    try {
-
-        let response = await axios.put("http://localhost:8080/Books/upstatus?itemBarcode=" +id+ "&status=Damaged");
-        resultData = response.data;
-        resultStatus = response.status;
-        let isbn = response.data.isbn
-        let numPages = response.data.numPages
-        if (resultStatus === 200 && resultData.itemBarcode === id && resultData.status === "Damaged"&& isbn.includes("10") && numPages.includes("160")) remainingTests--;
-    } catch (errorMsg){
-        console.log("Failed Test 4: Update Book");
-        console.log("Error: " + errorMsg.response.data);
-        console.log("");
-    }
-
-
-
-    /*
-Test5 update Book
+Test4 update Movie
 */
     try {
 
-        let response = await axios.put("http://localhost:8080/Books/upisbn?itemBarcode=" +id+ "&isbn=30");
+        let response = await axios.put("http://localhost:8080/Movies/upstatus?itemBarcode=" +id+ "&status=Damaged");
         resultData = response.data;
         resultStatus = response.status;
-        let isbn = response.data.isbn
-        let numPages = response.data.numPages
-        let titleid2 = response.data.title.titleID;
-        if (resultStatus === 200 && resultData.itemBarcode === id && titleid2.includes(titleid) && isbn.includes("30") && numPages.includes("160") ) remainingTests--;
+        if (resultStatus === 200 && resultData.itemBarcode === id && resultData.status === "Damaged") remainingTests--;
     } catch (errorMsg){
-        console.log("Failed Test 5: Update Book");
+        console.log("Failed Test 4: Update Movie");
         console.log("Error: " + errorMsg.response.data);
         console.log("");
     }
 
+
+
     /*
-Test6 update Book
+Test5 update Movie
 */
     try {
 
-        let response = await axios.put("http://localhost:8080/Books/upage?itemBarcode=" +id+ "&page=90");
+        let response = await axios.put("http://localhost:8080/Movies/uplength?itemBarcode=" +id+ "&length=30");
         resultData = response.data;
         resultStatus = response.status;
-        let isbn = response.data.isbn
-        let numPages = response.data.numPages
-        let titleid2 = response.data.title.titleID;
-        if (resultStatus === 200 && resultData.itemBarcode === id && titleid2.includes(titleid) && isbn.includes("30") && numPages.includes("90") ) remainingTests--;
+        let duration = response.data.length
+        if (resultStatus === 200 && resultData.itemBarcode === id && duration===30) remainingTests--;
     } catch (errorMsg){
-        console.log("Failed Test 6: Update Book");
+        console.log("Failed Test 5: Update Movie");
         console.log("Error: " + errorMsg.response.data);
         console.log("");
     }
 
     /*
-     Test7 delet Book
+     Test6 delet Movie
     */
     try {
-        let response = await axios.delete("http://localhost:8080/Books/delitem?itemBarcode=" + id)
+        let response = await axios.delete("http://localhost:8080/Movies/delitem?itemBarcode=" + id)
         resultData = response.data
         resultStatus = response.status;
 
         if (resultStatus !== 200) {
-            console.log("Failed test 7: Delete Book");
+            console.log("Failed test 5: Delete Movie");
             console.log("Error: " + resultData);
             console.log("");
         }
@@ -176,21 +184,21 @@ Test6 update Book
         }
 
     }   catch (errorMsg){
-        console.log("Failed Test 7: deleat Book");
+        console.log("Failed Test 5: deleat Movie");
         console.log("Error: " + errorMsg.response.data);
         console.log("");
     }
 
     /*
-    * Test8
+    * Test7
     */
     try {
-        let response = await axios.delete("http://localhost:8080/Books/delitemstat?status=Available")
+        let response = await axios.delete("http://localhost:8080/Movies/delitemstat?status=Available")
         resultData = response.data
         resultStatus = response.status;
 
         if (resultStatus !== 200) {
-            console.log("Failed test 8: Delete Book");
+            console.log("Failed test 6: Delete Movie");
             console.log("Error: " + resultData);
             console.log("");
         }
@@ -199,7 +207,7 @@ Test6 update Book
         }
 
     }   catch (errorMsg){
-        console.log("Failed Test 8: deleat Book");
+        console.log("Failed Test 6: deleat Movie");
         console.log("Error: " + errorMsg.response.data);
         console.log("");
     }
@@ -207,7 +215,7 @@ Test6 update Book
     /*
 Compile
  */
-    if (remainingTests === 0) console.log("Passed all Books Tests :)");
+    if (remainingTests === 0) console.log("Passed all MusicAlbum Tests :)");
     else console.log("Failed " + remainingTests + " :(");
     console.log("");
 }
@@ -216,4 +224,4 @@ Compile
 
 
 
-export default BookTest;
+export default MovieTest;
