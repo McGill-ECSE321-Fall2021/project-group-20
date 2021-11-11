@@ -39,13 +39,15 @@ public class CalendarService {
      */
     @Transactional
     public boolean deleteCalendar(String calendarID) {
+        if (calendarID == null) throw new IllegalArgumentException("calendarID cannot be null");
         Calendar calendar = calendarRepository.findCalendarByCalendarID(calendarID);
         if (calendar == null) throw new NullPointerException("Calendar not found");
         calendarRepository.delete(calendar);
         calendar.delete();
 
-        Calendar test = calendarRepository.findCalendarByCalendarID(calendarID);
-        return (test == null);
+//        Calendar test = calendarRepository.findCalendarByCalendarID(calendarID);
+//        return (test == null);
+        return calendarRepository.existsByCalendarID(calendarID);
     }
 
     /**
@@ -55,6 +57,7 @@ public class CalendarService {
      */
     @Transactional
     public Calendar getCalendar(String calendarID) {
+        if (calendarID == null) throw new IllegalArgumentException("CalendarID cannot be null");
         Calendar calendar = calendarRepository.findCalendarByCalendarID(calendarID);
         if (calendar == null) throw new NullPointerException("Calendar not found");
         return calendar;
@@ -67,6 +70,7 @@ public class CalendarService {
      */
     @Transactional
     public boolean checkCalendarExists(String calendarID) {
+        if (calendarID == null) throw new IllegalArgumentException("CalendarID cannot be null");
         return calendarRepository.existsByCalendarID(calendarID);
     }
 }

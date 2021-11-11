@@ -47,7 +47,7 @@ public class LibrarySystemService {
 
     @Transactional
     public LibrarySystem changeAddress(LibrarySystem ls, Address newAddress) {
-        if (newAddress == null) throw new IllegalArgumentException("Please enter a valid address");
+        if (newAddress == null || ls == null) throw new IllegalArgumentException("Please enter a valid address");
         if (ls.setBusinessaddress(newAddress)) {
             librarySystemRepository.save(ls);
             return ls;
@@ -69,6 +69,7 @@ public class LibrarySystemService {
 
     @Transactional
     public boolean deleteLibrarySystem(String systemID) {
+        if (systemID == null) throw new IllegalArgumentException("SystemID cannot be null");
         LibrarySystem ls = librarySystemRepository.findLibrarySystemBySystemID(systemID);
         if (ls == null) throw new NullPointerException("Library System not found");
         librarySystemRepository.delete(ls);
@@ -77,6 +78,7 @@ public class LibrarySystemService {
 
     @Transactional
     public LibrarySystem getLibrarySystem(String systemID) {
+        if (systemID == null) throw new IllegalArgumentException("SystemID cannot be null");
         LibrarySystem ls = librarySystemRepository.findLibrarySystemBySystemID(systemID);
         if (ls == null) throw new NullPointerException(("Library System not found for this system ID"));
         return ls;
