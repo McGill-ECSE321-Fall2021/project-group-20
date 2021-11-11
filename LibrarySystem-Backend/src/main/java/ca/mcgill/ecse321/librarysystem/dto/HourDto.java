@@ -23,16 +23,8 @@ public class HourDto {
 	    weekday = aWeekday;
 	    startTime = aStartTime;
 	    endTime = aEndTime;
-	    boolean didAddEmployee = setEmployee(aEmployee);
-	    if (!didAddEmployee)
-	    {
-	      throw new RuntimeException("Unable to create employeehour due to employee. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-	    }
-	    boolean didAddCalendar = setCalendar(aCalendar);
-	    if (!didAddCalendar)
-	    {
-	      throw new RuntimeException("Unable to create hour due to calendar. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-	    }
+	    employee = aEmployee;
+		calendar = aCalendar;
 	  }
 
 	
@@ -113,28 +105,8 @@ public class HourDto {
 	  }
 	  public boolean setEvent(EventDto aNewEvent)
 	  {
-	    boolean wasSet = false;
-	    if (event != null && !event.equals(aNewEvent) && equals(event.getEventhour()))
-	    {
-	      return wasSet;
-	    }
-
 	    event = aNewEvent;
-	    HourDto anOldEventhour = aNewEvent != null ? aNewEvent.getEventhour() : null;
-
-	    if (!this.equals(anOldEventhour))
-	    {
-	      if (anOldEventhour != null)
-	      {
-	        anOldEventhour.event = null;
-	      }
-	      if (event != null)
-	      {
-	        event.setEventhour(this);
-	      }
-	    }
-	    wasSet = true;
-	    return wasSet;
+		return true;
 	  }
 	  public boolean setCalendar(CalendarDto aCalendar)
 	  {
@@ -175,10 +147,6 @@ public class HourDto {
 	    }
 	    EventDto existingEvent = event;
 	    event = null;
-	    if (existingEvent != null)
-	    {
-	      existingEvent.delete();
-	    }
 	    CalendarDto placeholderCalendar = calendar;
 	    this.calendar = null;
 	    if(placeholderCalendar != null)

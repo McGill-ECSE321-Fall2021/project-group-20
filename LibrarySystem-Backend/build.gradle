@@ -31,3 +31,21 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+task integrationTest(type: Exec) {
+	dependsOn 'build'
+	group='verification'
+	workingDir './src/test/javascript'
+
+	//on windows:
+	commandLine 'cmd', '/c', 'node IntegrationTests.js'
+
+	//else:
+	commandLine 'node IntegrationTests.js'
+
+	//store output
+	standardOutput = new ByteArrayOutputStream()
+
+	//to obtain output
+	ext.output = {return standardOutput.toString()}
+}

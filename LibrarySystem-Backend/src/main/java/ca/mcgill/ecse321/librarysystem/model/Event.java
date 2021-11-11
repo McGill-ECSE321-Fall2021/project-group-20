@@ -31,7 +31,7 @@ public class Event
   private Date eventDate;
 
   //Event Associations
-  @OneToOne(cascade=CascadeType.MERGE)
+  @OneToOne(cascade=CascadeType.ALL)
   @JoinColumn(name="eventhour")
   private Hour eventhour;
 

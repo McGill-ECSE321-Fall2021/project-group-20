@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const itemTest = async () => {
-  let remainingTests = 6;
-  let resultData;
-  let resultStatus;
-  let titleid;
-  let authorid;
-  let id;
+const NewspaperTest = async () => {
+    let remainingTests = 6;
+    let resultData;
+    let resultStatus;
+    let titleid;
+    let authorid;
+    let id;
 
     /*
       Clean database for testing (Test 0)
@@ -30,7 +30,7 @@ const itemTest = async () => {
     }
 
     /*
-    Test 1: Create Item
+    Test 1: Create Newspaper
      */
     try {
         let response = await axios.post("http://localhost:8080/author/create?firstname=John&lastname=Doe");
@@ -54,7 +54,7 @@ const itemTest = async () => {
             console.log("");
         }
 
-        response = await axios.post("http://localhost:8080/items/create?status=Available&titleId=" + titleid);
+        response = await axios.post("http://localhost:8080/Newspapers/create?status=Available&titleId=" + titleid);
 
         resultData = response.data;
         resultStatus = response.status;
@@ -63,18 +63,18 @@ const itemTest = async () => {
             id = resultData.itemBarcode;
         }
         else {
-            console.log("Failed Test 1: Create Item");
+            console.log("Failed Test 1: Create Newspaper");
             console.log("Error: " + resultData);
             console.log("");
         }
     } catch (errorMsg) {
-        console.log("Failed Test 1: Create Item");
+        console.log("Failed Test 1: Create Newspaper");
         console.log("Error: " + errorMsg.response.data);
         console.log("");
     }
 
     /*
-    Test 2: Update item
+    Test 2: Update Newspaper
      */
     try {
         let response = await axios.post("http://localhost:8080/title/create?name=Booker&pubDate=11/10/2020&authors=" + authorid);
@@ -88,25 +88,25 @@ const itemTest = async () => {
             console.log("");
         }
 
-        response = await axios.put("http://localhost:8080/items/updateall?itemBarcode=" + id + "&status=Reserved&titleId=" + titleid);
+        response = await axios.put("http://localhost:8080/Newspapers/updateall?NewspaperBarcode=" + id + "&status=Reserved&titleId=" + titleid);
 
         resultData = response.data;
         resultStatus = response.status;
 
-        if (resultStatus === 200 && resultData.itemBarcode === id && resultData.status === "Reserved" && resultData.title.titleID === titleid) remainingTests--;
+        if (resultStatus === 200 && resultData.itemBarcode === id && resultData.status.includes("Reserved") && resultData.title.titleID === titleid) remainingTests--;
         else {
-            console.log("Failed Test 2: Update item");
+            console.log("Failed Test 2: Update Newspaper");
             console.log("Error: " + resultData);
             console.log("");
         }
     } catch (errorMsg) {
-        console.log("Failed Test 2: Update item");
+        console.log("Failed Test 2: Update Newspaper");
         console.log("Error: " + errorMsg.response.data);
         console.log("");
     }
 
     /*
-Test3 update item
+Test3 update Newspaper
  */
 
     try {
@@ -120,50 +120,50 @@ Test3 update item
             console.log("Error: " + response.data);
             console.log("");
         }
-        response = await axios.put("http://localhost:8080/items/uptitle?itemBarcode=" + id + "&titleId=" + titleid);
+        response = await axios.put("http://localhost:8080/Newspapers/uptitle?NewspaperBarcode=" + id + "&titleId=" + titleid);
         resultData = response.data;
         resultStatus = response.status;
         if (resultStatus === 200 && resultData.itemBarcode === id && resultData.status === "Reserved" && resultData.title.titleID === titleid && pubdate === "12/10/2020") remainingTests--;
     } catch (errorMsg){
-        console.log("Failed Test 3: Update item");
+        console.log("Failed Test 3: Update Newspaper");
         console.log("Error: " + errorMsg.response.data);
         console.log("");
     }
 
     /*
-Test4 update item
+Test4 update Newspaper
 */
     try {
 
-        let response = await axios.put("http://localhost:8080/items/upstatus?itemBarcode=" +id+ "&status=Damaged");
+        let response = await axios.put("http://localhost:8080/Newspapers/upstatus?NewspaperBarcode=" +id+ "&status=Damaged");
         resultData = response.data;
         resultStatus = response.status;
         if (resultStatus === 200 && resultData.itemBarcode === id && resultData.status === "Damaged") remainingTests--;
     } catch (errorMsg){
-        console.log("Failed Test 4: Update item");
+        console.log("Failed Test 4: Update Newspaper");
         console.log("Error: " + errorMsg.response.data);
         console.log("");
     }
 
     /*
-     Test5 delet item
+     Test5 delet Newspaper
     */
     try {
-        let response = await axios.delete("http://localhost:8080/items/delitem?itemBarcode=" + id)
+        let response = await axios.delete("http://localhost:8080/Newspapers/delNewspaper?NewspaperBarcode=" + id)
         resultData = response.data
         resultStatus = response.status;
 
         if (resultStatus !== 200) {
-            console.log("Failed test 5: Delete Item");
+            console.log("Failed test 5: Delete Newspaper");
             console.log("Error: " + resultData);
             console.log("");
         }
-        else if (resultData.toString().includes("Item deleted on ")) {
+        else if (resultData.toString().includes("Newspaper deleted on ")) {
             remainingTests--;
         }
 
     }   catch (errorMsg){
-        console.log("Failed Test 5: deleat item");
+        console.log("Failed Test 5: deleat Newspaper");
         console.log("Error: " + errorMsg.response.data);
         console.log("");
     }
@@ -172,21 +172,21 @@ Test4 update item
     * Test6
     */
     try {
-        let response = await axios.delete("http://localhost:8080/items/delitemstat?status=Available")
+        let response = await axios.delete("http://localhost:8080/Newspapers/delNewspaperstat?status=Available")
         resultData = response.data
         resultStatus = response.status;
 
         if (resultStatus !== 200) {
-            console.log("Failed test 6: Delete Item");
+            console.log("Failed test 6: Delete Newspaper");
             console.log("Error: " + resultData);
             console.log("");
         }
-        else if (resultData.toString().includes("Item deleted on ")) {
+        else if (resultData.toString().includes("Newspaper deleted on ")) {
             remainingTests--;
         }
 
     }   catch (errorMsg){
-        console.log("Failed Test 6: deleat item");
+        console.log("Failed Test 6: deleat Newspaper");
         console.log("Error: " + errorMsg.response.data);
         console.log("");
     }
@@ -194,7 +194,7 @@ Test4 update item
     /*
 Compile
  */
-    if (remainingTests === 0) console.log("Passed all Items Tests :)");
+    if (remainingTests === 0) console.log("Passed all Newspapers Tests :)");
     else console.log("Failed " + remainingTests + " :(");
     console.log("");
 }
@@ -203,4 +203,4 @@ Compile
 
 
 
-export default itemTest;
+export default NewspaperTest;

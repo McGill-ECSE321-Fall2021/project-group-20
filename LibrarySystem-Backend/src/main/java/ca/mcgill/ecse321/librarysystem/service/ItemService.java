@@ -136,7 +136,6 @@ public class ItemService {
 		item.setStatus(aStatus);
 		item.setTitle(aTitle);
 		itemRepository.save(item);
-		titleRepository.save(aTitle);
 	}
 
 	@Transactional

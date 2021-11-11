@@ -17,6 +17,8 @@ import ca.mcgill.ecse321.librarysystem.service.HourService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -41,136 +43,192 @@ public class HourRestController {
 	
 	
 	@GetMapping(value = {"/hours", "/hours/"})
-	public List<HourDto> getAllHours(){
+	public ResponseEntity getAllHours(){
 		List<HourDto> hourList =  new ArrayList<>();
-		for (Hour h : hourService.getAllHours()) {
-			hourList.add(convertToDto(h));
+		List<Hour> hours;
+		try {
+			hours = hourService.getAllHours();
+
+			for (Hour h: hours) {
+				hourList.add(convertToDto(h));
+			}
+
+			if (hourList.size() == 0) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any Hours in system");
+			return new ResponseEntity<>(hourList, HttpStatus.OK);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		
-		return hourList;
 	}
 	
 	
-	@GetMapping(value = {"/hour/calendar","/hour/calendar/"})
-	public List<HourDto> getHourListBycalendar(@RequestParam String calendarID){
-		Calendar c = calendarService.getCalendar(calendarID);
-		List<HourDto> hourList =  new ArrayList<>();
-		for (Hour h : hourService.getHourlistBycalendar(c)) {
-			hourList.add(convertToDto(h));
+	@GetMapping(value = {"/hours/calendar","/hours/calendar/"})
+	public ResponseEntity getHourListBycalendar(@RequestParam String calendarID){
+		try {
+			Calendar c = calendarService.getCalendar(calendarID);
+			List<HourDto> hourList =  new ArrayList<>();
+			for (Hour h : hourService.getHourlistBycalendar(c)) {
+				hourList.add(convertToDto(h));
+			}
+			if (hourList == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any Hours in this Calendar");
+			return new ResponseEntity<>(hourList, HttpStatus.OK);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		
-		return hourList;
-		
 	}
 	
 	
-	@GetMapping(value = {"/hour/employee","/hour/employee/"})
-	public List<HourDto> getHourListByemployee(@RequestParam String employeeUserName){
-		Employee e = employeeService.getEmployee(employeeUserName);
-		List<HourDto> hourList =  new ArrayList<>();
-		for (Hour h : hourService.getHourlistByEmployee(e)) {
-			hourList.add(convertToDto(h));
+	@GetMapping(value = {"/hours/employee","/hours/employee/"})
+	public ResponseEntity getHourListByemployee(@RequestParam String employeeUserName){
+		try {
+			Employee e = employeeService.getEmployee(employeeUserName);
+			List<HourDto> hourList =  new ArrayList<>();
+			for (Hour h : hourService.getHourlistByEmployee(e)) {
+				hourList.add(convertToDto(h));
+			}
+			if (hourList == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any Hours for this employee");
+			return new ResponseEntity<>(hourList, HttpStatus.OK);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		
-		return hourList;
-		
 	}
 	
 	
-	@GetMapping(value = {"/hour/endTime","/hour/endTime/"})
-	public List<HourDto> getHourListByendTime(@RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") String endTime){
-		List<HourDto> hourList =  new ArrayList<>();
-		for (Hour h : hourService.getHourListbyendTime(Time.valueOf(endTime))) {
-			hourList.add(convertToDto(h));
+	@GetMapping(value = {"/hours/endTime","/hours/endTime/"})
+	public ResponseEntity getHourListByendTime(@RequestParam String endTime){
+		try {
+			if (!endTime.contains(":")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please format time as HH:mm:ss");
+			List<HourDto> hourList =  new ArrayList<>();
+			for (Hour h : hourService.getHourListbyendTime(Time.valueOf(endTime))) {
+				hourList.add(convertToDto(h));
+			}
+			if (hourList == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any Hours by this end time");
+			return new ResponseEntity<>(hourList, HttpStatus.OK);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		
-		return hourList;
-		
 	}
-	@GetMapping(value = {"/hour/startTime","/hour/startTime/"})
-	public List<HourDto> getHourListBystartTime(@RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") String startTime){
-		List<HourDto> hourList =  new ArrayList<>();
-		for (Hour h : hourService.getHourListbystartTime(Time.valueOf(startTime))) {
-			hourList.add(convertToDto(h));
+	@GetMapping(value = {"/hours/startTime","/hours/startTime/"})
+	public ResponseEntity getHourListBystartTime(@RequestParam String startTime){
+		try {
+			if (!startTime.contains(":")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please format time as HH:mm:ss");
+			List<HourDto> hourList =  new ArrayList<>();
+			for (Hour h : hourService.getHourListbystartTime(Time.valueOf(startTime))) {
+				hourList.add(convertToDto(h));
+			}
+			if (hourList == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any Hours by this end time");
+			return new ResponseEntity<>(hourList, HttpStatus.OK);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		
-		return hourList;
-		
 	}
 	
 	@GetMapping(value = {"/hour/eventDate","/hour/eventDate/"})
-	public HourDto getHourbyEvent(@RequestParam("eventDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  String eventDate){
-	Event e = eventService.getEventByDate(Date.valueOf(eventDate));
-	return convertToDto(hourService.getHourbyEvent(e));
+	public ResponseEntity getHourbyEvent(@RequestParam String eventDate){
+		try {
+			if (!eventDate.contains("/")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please format date as MM/dd/yyyy");
+			Event e = eventService.getEventByDate(Date.valueOf(eventDate));
+			return new ResponseEntity<>(convertToDto(hourService.getHourbyEvent(e)), HttpStatus.OK);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
 	}
 	
 	@GetMapping(value = {"/hour/weekday", "/hour/weekday/"})
-	public HourDto getHourbyWeekday(@RequestParam String weekday) {
-		return convertToDto(hourService.getHourbyWeekday(weekday));
+	public ResponseEntity getHourbyWeekday(@RequestParam String weekday) {
+		try {
+			HourDto hour = convertToDto(hourService.getHourbyWeekday(weekday));
+			if (hour == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Could not find Hour by weekday");
+			return new ResponseEntity<>(hour, HttpStatus.OK);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
 	}
 	
 	
-	@DeleteMapping (value = {"/hour/{eventID}","/hour/{eventID}/"})
-	public void deleteHourbyEvent (@PathVariable String eventID) {
-		Event e = eventService.getEventByID(eventID);
-		hourService.deleteHourbyEvent(e);
-		return;
-		
+	@DeleteMapping (value = {"/hour/event/{eventID}","/hour/event/{eventID}/"})
+	public ResponseEntity deleteHourbyEvent (@PathVariable("eventID") String eventID) {
+		try {
+			Event e = eventService.getEventByID(eventID);
+			hourService.deleteHourbyEvent(e);
+			return ResponseEntity.status(HttpStatus.OK).body("Hour has been deleted");
+
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
 	}
 	
 	
 	
 	@DeleteMapping (value = {"/hour/{employeeID}","/hour/{employeeID}/"})
-	public void deleteHourbyEmployee (@PathVariable String employeeID) {
-		Employee e = employeeService.getEmployee(Integer.valueOf(employeeID));
-		hourService.deleteHourbyEmployee(e);
-		return;
-		
+	public ResponseEntity deleteHourbyEmployee (@PathVariable("employeeID") String employeeID) {
+		try {
+			Employee e = employeeService.getEmployee(Integer.valueOf(employeeID));
+			hourService.deleteHourbyEmployee(e);
+			return ResponseEntity.status(HttpStatus.OK).body("Hour has been deleted");
+
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
 	}
 	
 	@DeleteMapping(value = {"/hour/weekday", "/hour/weekday/"})
-	public void deleteHourbyWeekday(@RequestParam String weekday) {
-		hourService.deleteHourbyWeekday(weekday);
-		return;
+	public ResponseEntity deleteHourbyWeekday(@RequestParam String weekday) {
+		try {
+			hourService.deleteHourbyWeekday(weekday);
+			return ResponseEntity.status(HttpStatus.OK).body("Hour has been deleted");
+
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
 	}
 	
 	@PutMapping (value = {"/hour/update/startTime","/hour/update/startTime/" })
-	public HourDto updateHourStartTimebyWeekday(@RequestParam String weekday,@RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") String startTime) {
-		if( hourService.updateHourStartTimebyWeekday(weekday, Time.valueOf(startTime)))
-			return convertToDto(hourService.getHourbyWeekday(weekday));
-		return null;
+	public ResponseEntity updateHourStartTimebyWeekday(@RequestParam String weekday, @RequestParam String startTime) {
+		try {
+			if (!startTime.contains(":")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please format time as HH:mm:ss");
+			if (hourService.updateHourStartTimebyWeekday(weekday, Time.valueOf(startTime))) return new ResponseEntity<>(convertToDto(hourService.getHourbyWeekday(weekday)), HttpStatus.OK);
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not update Hour");
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
 	}
+
 	@PutMapping (value = {"/hour/update/endTime","/hour/update/endTime/" })
-	public HourDto updateHourEndTimebyWeekday(@RequestParam String weekday,@RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") String endTime) {
-		if (hourService.updateHourEndTimebyWeekday(weekday, Time.valueOf(endTime)))
-			return convertToDto(hourService.getHourbyWeekday(weekday));
-		return null;
+	public ResponseEntity updateHourEndTimebyWeekday(@RequestParam String weekday, @RequestParam String endTime) {
+		try {
+			if (!endTime.contains(":")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please format time as HH:mm:ss");
+			if (hourService.updateHourEndTimebyWeekday(weekday, Time.valueOf(endTime))) return new ResponseEntity<>(convertToDto(hourService.getHourbyWeekday(weekday)), HttpStatus.OK);
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not update Hour");
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
 	}
 	
 	@PutMapping (value = {"/hour/update/employee","/hour/update/employee/" })
-	public HourDto updateHourEmployeebyWeekday(@RequestParam String weekday,@RequestParam String newemployeeID) {
-		Employee e = employeeService.getEmployee(Integer.valueOf(newemployeeID));
-		if (hourService.updateHourEmployeebyWeekday(weekday, e))
-			return convertToDto(hourService.getHourbyWeekday(weekday));
-		return null;
-	}
-	
-	//Dont update calendar since once calendar for the whole system wouldnt make sense to change the calendar to a new one
-	
-	@PutMapping (value = {"/hour/update/event","/hour/update/event/" })
-	public HourDto updateEventatThisHourbyWeekday(@RequestParam String weekday,@RequestParam String newEventid) {
-		Event e = eventService.getEventByID(newEventid);
-		if (hourService.updateEventatThisHourbyWeekday(weekday, e))
-			return convertToDto(hourService.getHourbyEvent(e));
-		return null;
+	public ResponseEntity updateHourEmployeebyWeekday(@RequestParam String weekday,@RequestParam String newEmployeeID) {
+		try {
+			Employee e = employeeService.getEmployee(Integer.valueOf(newEmployeeID));
+			if (hourService.updateHourEmployeebyWeekday(weekday, e)) return new ResponseEntity<>(convertToDto(hourService.getHourbyWeekday(weekday)), HttpStatus.OK);
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not update Hour");
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
 	}
 	
 	@PostMapping (value = {"/hour/create", "/hour/create/"})
-	public HourDto createHour(@RequestParam String weekday,@RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") String startTime,@RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") String endTime, @RequestParam String EmployeeId , @RequestParam String calendarId) {
-		Employee e = employeeService.getEmployee(Integer.valueOf(EmployeeId));
-		Calendar c = calendarService.getCalendar(calendarId);
-		return convertToDto(hourService.createHour(weekday,Time.valueOf(startTime),Time.valueOf(endTime),e,c));
+	public ResponseEntity createHour(@RequestParam String weekday, @RequestParam String startTime, @RequestParam String endTime, @RequestParam String EmployeeId , @RequestParam String calendarId) {
+		try {
+			if (!startTime.contains(":")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please format time as HH:mm:ss");
+			Employee e = employeeService.getEmployee(Integer.valueOf(EmployeeId));
+			Calendar c = calendarService.getCalendar(calendarId);
+			Hour h = hourService.createHour(weekday, Time.valueOf(startTime), Time.valueOf(endTime), e, c);
+			HourDto hour = convertToDto(h);
+			if (hour == null) return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not create Hour");
+			return new ResponseEntity<>(hour, HttpStatus.OK);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
+	}
 	
 	private EventDto convertToDto (Event e ) {
 		if (e == null) throw new IllegalArgumentException("Cannot find this event");
@@ -192,7 +250,7 @@ public class HourRestController {
 
 	 private AddressDto convertToDto(Address a) {
 	        if (a == null) throw new NullPointerException("Cannot find Address");
-	        return new AddressDto(a.getCivicNumber(), a.getStreet(), a.getCity(), a.getPostalCode(), a.getProvince(), a.getCountry());
+	        return new AddressDto(a.getAddressID(), a.getCivicNumber(), a.getStreet(), a.getCity(), a.getPostalCode(), a.getProvince(), a.getCountry());
 	    }
 	
 	private CalendarDto convertToDto (Calendar c) {
