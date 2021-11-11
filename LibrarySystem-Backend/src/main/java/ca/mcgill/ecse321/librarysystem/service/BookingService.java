@@ -30,19 +30,19 @@ public class BookingService {
 	@Autowired
 	private EmployeeService employeeService;
 	
-	@Transactional
-	public Booking createBooking() {
-		Booking newBooking = new Booking();
-		bookingRepository.save(newBooking);
-		return newBooking;
-	}
-	
+//	@Transactional
+//	public Booking createBooking() {
+//		Booking newBooking = new Booking();
+//		bookingRepository.save(newBooking);
+//		return newBooking;
+//	}
+//	
 	
 	@Transactional
 	public Booking createBooking(Date aStartDate, Date aEndDate, BookingType aType, Item aitem, User aUser) {
 		if (aStartDate == null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d");
 		if (aEndDate == null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d");
-		if (aType != BookingType.Borrow || aType != BookingType.Reservation) throw new IllegalArgumentException ("Please enter a valid booking type");
+		if (aType != BookingType.Borrow && aType != BookingType.Reservation) throw new IllegalArgumentException ("Please enter a valid booking type");
 		if (aitem == null) throw new IllegalArgumentException ("Please enter valid item");
 		if (aitem.hasBooking()) throw new IllegalArgumentException("Cannot book a borrowed/reserved item");
 		if (aitem.getClass().getName().equals("Newspaper")) throw new IllegalArgumentException("Cannot book a newspaper/journal");
@@ -98,7 +98,7 @@ public class BookingService {
 	
 	@Transactional
 	public List<Booking> getBookingListbyUser (User aUser){
-		if (aUser == null) throw new IllegalArgumentException("Please enter valid item");
+		if (aUser == null) throw new IllegalArgumentException("Please enter valid user");
 		List<Booking> bookings = bookingRepository.findBookingByUser(aUser);
 		if (bookings.size()== 0 ) throw new NullPointerException("Bookings not found");
 		return bookings;
@@ -107,7 +107,7 @@ public class BookingService {
 	
 	@Transactional
 	public List<Booking> getBookingListbyBookingType (BookingType aBookingType){
-		if (aBookingType != BookingType.Borrow || aBookingType != BookingType.Reservation) throw new IllegalArgumentException ("Please enter a valid booking type");
+		if (aBookingType != BookingType.Borrow && aBookingType != BookingType.Reservation) throw new IllegalArgumentException ("Please enter a valid booking type");
 		List<Booking> bookings = bookingRepository.findBookingByType(aBookingType);
 		if (bookings.size()== 0 ) throw new NullPointerException("Bookings not found");
 		return bookings;
@@ -129,23 +129,6 @@ public class BookingService {
 	public void returnItemByItem(Item item) {
 		if (item == null) throw new IllegalArgumentException("Please enter a valid Item");
 		Booking myBooking = bookingRepository.findBookingByItem(item);
-		if (myBooking == null) throw new NullPointerException("Cannot find Booking with Item");
-		Date date = new Date();
-		if (myBooking.getEndDate().before(new Date())) {
-			if (myBooking.getUser().getClass().getName().equals("Customer")) customerService.changeDemeritPts(myBooking.getUser().getLibraryCardID(), 1);
-			else employeeService.changeDemeritPts(myBooking.getUser().getLibraryCardID(), 1);
-		}
-		bookingRepository.delete(myBooking);
-		myBooking.delete();
-		item.setStatus(Item.Status.Available);
-		itemRepository.save(item);
-	}
-
-	@Transactional
-	public void returnItemByID(String bookingID) {
-		if (bookingID == null || bookingID.length() == 0) throw new IllegalArgumentException("Please enter a valid bookingID");
-		Booking myBooking = bookingRepository.findBookingByBookingID(bookingID);
-		Item item = itemRepository.findItemByBooking(myBooking);
 		if (myBooking == null) throw new NullPointerException("Cannot find Booking with Item");
 		Date date = new Date();
 		if (myBooking.getEndDate().before(new Date())) {
@@ -194,7 +177,7 @@ public class BookingService {
 		if (aItem == null) throw new IllegalArgumentException ("Please enter a valid item");
 		if (updatedEndDate == null) throw new IllegalArgumentException("Please enter valid date yyyy-[m]m-[d]d");
 		Booking myBooking = bookingRepository.findBookingByItem(aItem);
-		if (myBooking.setStartDate(updatedEndDate)) {
+		if (myBooking.setEndDate(updatedEndDate)) {
 			bookingRepository.save(myBooking);
 			return true;
 		}
@@ -206,7 +189,7 @@ public class BookingService {
 	@Transactional
 	public boolean updateBookingTypeofBookingbyItem(Item aItem, BookingType updatedType) {
 		if (aItem == null) throw new IllegalArgumentException ("Please enter a valid item");
-		if (updatedType != BookingType.Borrow || updatedType != BookingType.Reservation) throw new IllegalArgumentException ("Please enter a valid booking type");
+		if (updatedType != BookingType.Borrow && updatedType != BookingType.Reservation) throw new IllegalArgumentException ("Please enter a valid booking type");
 		Booking myBooking = bookingRepository.findBookingByItem(aItem);
 		if (myBooking.setType(updatedType)) {
 			bookingRepository.save(myBooking);
@@ -260,7 +243,7 @@ public class BookingService {
 	@Transactional
 	public boolean updateBookingTypeofBookingbyID(String  BID, BookingType updatedType) {
 		if (BID == null || BID.length() == 0) throw new IllegalArgumentException ("Please enter valid Booking ID");
-		if (updatedType != BookingType.Borrow || updatedType != BookingType.Reservation) throw new IllegalArgumentException ("Please enter a valid booking type");
+		if (updatedType != BookingType.Borrow && updatedType != BookingType.Reservation) throw new IllegalArgumentException ("Please enter a valid booking type");
 		Booking myBooking = bookingRepository.findBookingByBookingID(BID);
 		if (myBooking.setType(updatedType)) {
 			bookingRepository.save(myBooking);

@@ -73,7 +73,7 @@ public class HourService {
 	
 	@Transactional 
 	public Hour getHourbyEvent (Event aEvent) {
-		if (aEvent == null) throw new IllegalArgumentException("Please enter a valid Employee");
+		if (aEvent == null) throw new IllegalArgumentException("Please enter a valid Event");
 		return (Hour) hourRepository.getByevent(aEvent);
 	}
 
@@ -87,7 +87,7 @@ public class HourService {
 	
 	@Transactional
 	public Hour getHourbyWeekday (String aWeekday) {
-		if (aWeekday != "Monday" || aWeekday != "monday"||aWeekday != "Tuesday" || aWeekday != "tuesday"||aWeekday != "Wednesday" || aWeekday != "wednesday"|| aWeekday != "Thursday"||aWeekday != "thursday"  || aWeekday != "Friday"||aWeekday != "friday" ) throw new IllegalArgumentException("Please enter a valid Weekday, with either a Capital first letter or all lowercase");
+		if (!aWeekday.equals("Monday") && !aWeekday.equals("monday") && !aWeekday.equals("Tuesday") && !aWeekday.equals("tuesday") && !aWeekday.equals("Wednesday") && !aWeekday.equals("wednesday") && !aWeekday.equals("Thursday") && !aWeekday.equals("thursday")  && !aWeekday.equals("Friday") && !aWeekday.equals("friday") ) throw new IllegalArgumentException("Please enter a valid Weekday, with either a Capital first letter or all lowercase");
 		return (Hour) hourRepository.findByweekday(aWeekday);
 	}
 	
@@ -120,7 +120,7 @@ public class HourService {
 	
 	@Transactional
 	public void deleteHourbyWeekday (String aWeekday) {
-	if	(aWeekday != "Monday" || aWeekday != "monday"||aWeekday != "Tuesday" || aWeekday != "tuesday"||aWeekday != "Wednesday" || aWeekday != "wednesday"|| aWeekday != "Thursday"||aWeekday != "thursday"  || aWeekday != "Friday"||aWeekday != "friday" ) throw new IllegalArgumentException("Please enter a valid Weekday, with either a Capital first letter or all lowercase");
+	if	(!aWeekday.equals("Monday") && !aWeekday.equals("monday") && !aWeekday.equals("Tuesday") && !aWeekday.equals("tuesday") && !aWeekday.equals("Wednesday") && !aWeekday.equals("wednesday") && !aWeekday.equals("Thursday") && !aWeekday.equals("thursday")  && !aWeekday.equals("Friday") && !aWeekday.equals("friday") )  throw new IllegalArgumentException("Please enter a valid Weekday, with either a Capital first letter or all lowercase");
 	Hour myHour = hourRepository.findByweekday(aWeekday);
 	hourRepository.delete(myHour);
 	myHour.delete();
@@ -129,7 +129,7 @@ public class HourService {
 	
 	@Transactional
 	public boolean updateHourStartTimebyWeekday(String aWeekday, Time updateStartT) {
-		if	(aWeekday != "Monday" || aWeekday != "monday"||aWeekday != "Tuesday" || aWeekday != "tuesday"||aWeekday != "Wednesday" || aWeekday != "wednesday"|| aWeekday != "Thursday"||aWeekday != "thursday"  || aWeekday != "Friday"||aWeekday != "friday" ) throw new IllegalArgumentException("Please enter a valid Weekday, with either a Capital first letter or all lowercase");
+		if	(!aWeekday.equals("Monday") && !aWeekday.equals("monday") && !aWeekday.equals("Tuesday") && !aWeekday.equals("tuesday") && !aWeekday.equals("Wednesday") && !aWeekday.equals("wednesday") && !aWeekday.equals("Thursday") && !aWeekday.equals("thursday")  && !aWeekday.equals("Friday") && !aWeekday.equals("friday") ) throw new IllegalArgumentException("Please enter a valid Weekday, with either a Capital first letter or all lowercase");
 		if (updateStartT == null ) throw new IllegalArgumentException("Pleace enter a valid startTIME");
 		Hour myHour = hourRepository.findByweekday(aWeekday);
 		if (myHour.setStartTime(updateStartT)) {
@@ -142,10 +142,10 @@ public class HourService {
 	
 	@Transactional
 	public boolean updateHourEndTimebyWeekday(String aWeekday, Time updateEndT) {
-		if	(aWeekday != "Monday" || aWeekday != "monday"||aWeekday != "Tuesday" || aWeekday != "tuesday"||aWeekday != "Wednesday" || aWeekday != "wednesday"|| aWeekday != "Thursday"||aWeekday != "thursday"  || aWeekday != "Friday"||aWeekday != "friday" ) throw new IllegalArgumentException("Please enter a valid Weekday, with either a Capital first letter or all lowercase");
+		if	(!aWeekday.equals("Monday") && !aWeekday.equals("monday") && !aWeekday.equals("Tuesday") && !aWeekday.equals("tuesday") && !aWeekday.equals("Wednesday") && !aWeekday.equals("wednesday") && !aWeekday.equals("Thursday") && !aWeekday.equals("thursday")  && !aWeekday.equals("Friday") && !aWeekday.equals("friday") ) throw new IllegalArgumentException("Please enter a valid Weekday, with either a Capital first letter or all lowercase");
 		if (updateEndT == null ) throw new IllegalArgumentException("Pleace enter a valid EndTime");
 		Hour myHour = hourRepository.findByweekday(aWeekday);
-		if (myHour.setStartTime(updateEndT)) {
+		if (myHour.setEndTime(updateEndT)) {
 			hourRepository.save(myHour);
 			return true;
 		}
@@ -155,7 +155,7 @@ public class HourService {
 	
 	@Transactional 
 	public boolean updateHourEmployeebyWeekday(String aWeekday, Employee updatedEmp) {
-		if	(aWeekday != "Monday" || aWeekday != "monday"||aWeekday != "Tuesday" || aWeekday != "tuesday"||aWeekday != "Wednesday" || aWeekday != "wednesday"|| aWeekday != "Thursday"||aWeekday != "thursday"  || aWeekday != "Friday"||aWeekday != "friday" ) throw new IllegalArgumentException("Please enter a valid Weekday, with either a Capital first letter or all lowercase");
+		if	(!aWeekday.equals("Monday") && !aWeekday.equals("monday") && !aWeekday.equals("Tuesday") && !aWeekday.equals("tuesday") && !aWeekday.equals("Wednesday") && !aWeekday.equals("wednesday") && !aWeekday.equals("Thursday") && !aWeekday.equals("thursday")  && !aWeekday.equals("Friday") && !aWeekday.equals("friday") )  throw new IllegalArgumentException("Please enter a valid Weekday, with either a Capital first letter or all lowercase");
 		if (updatedEmp == null ) throw new IllegalArgumentException("Pleace enter a valid Employee");
 		Hour myHour = hourRepository.findByweekday(aWeekday);
 		if (myHour.setEmployee(updatedEmp)) {
@@ -171,7 +171,7 @@ public class HourService {
 
 	@Transactional
 	public boolean updateEventatThisHourbyWeekday(String aWeekday, Event updatedEvent) {
-		if	(aWeekday != "Monday" || aWeekday != "monday"||aWeekday != "Tuesday" || aWeekday != "tuesday"||aWeekday != "Wednesday" || aWeekday != "wednesday"|| aWeekday != "Thursday"||aWeekday != "thursday"  || aWeekday != "Friday"||aWeekday != "friday" ) throw new IllegalArgumentException("Please enter a valid Weekday, with either a Capital first letter or all lowercase");
+		if	(!aWeekday.equals("Monday") && !aWeekday.equals("monday") && !aWeekday.equals("Tuesday") && !aWeekday.equals("tuesday") && !aWeekday.equals("Wednesday") && !aWeekday.equals("wednesday") && !aWeekday.equals("Thursday") && !aWeekday.equals("thursday")  && !aWeekday.equals("Friday") && !aWeekday.equals("friday") ) throw new IllegalArgumentException("Please enter a valid Weekday, with either a Capital first letter or all lowercase");
 		if (updatedEvent == null ) throw new IllegalArgumentException("Pleace enter a valid Event Object");
 		Hour myHour = hourRepository.findByweekday(aWeekday);
 		if (myHour.setEvent(updatedEvent)) {

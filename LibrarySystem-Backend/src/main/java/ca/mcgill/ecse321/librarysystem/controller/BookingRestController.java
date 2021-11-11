@@ -144,11 +144,7 @@ public class BookingRestController {
 		
 	 }
 	 
-	 @PutMapping(value = {"/booking/return/id", "/booking/return/id/"})
-	 public void returnItemByID(@RequestParam String BID) {
-		 bookingService.returnItemByID(BID);
-		 return;
-	 }
+
 	 
 	 @DeleteMapping(value = {"/booking/User", "/booking/User/"})
 	 public boolean deleteBookingByUser(@RequestParam String LibID) {
