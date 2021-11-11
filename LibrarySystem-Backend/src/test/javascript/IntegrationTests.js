@@ -4,6 +4,9 @@ import addressTest from "./AddressTest.js";
 import authorTest from "./AuthorTest.js";
 import titleTest from "./TitleTest.js";
 import itemTest from "./ItemTest.js";
+import calendarTest from "./CalendarTest.js";
+import librarySystemTest from "./LibrarySystemTest.js";
+import hourTest from "./HourTest.js";
 
 console.log("");
 
@@ -12,7 +15,13 @@ customerTest().then( () => {
         addressTest().then ( () => {
             authorTest().then( () => {
                 titleTest().then ( () => {
-                  itemTest();
+                  itemTest().then ( () => {
+                      calendarTest().then ( () => {
+                          librarySystemTest().then ( () => {
+                            hourTest();
+                          })
+                      })
+                  })
                 })
             })
         })

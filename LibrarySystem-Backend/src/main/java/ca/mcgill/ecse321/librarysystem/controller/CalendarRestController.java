@@ -38,7 +38,7 @@ public class CalendarRestController {
         return new ResponseEntity<>(convertToDto(calendarService.createCalendar()), HttpStatus.OK);
     }
 
-    @DeleteMapping(value = {"/calendar/id", "/calendar/id/"})
+    @DeleteMapping(value = {"/calendar/{id}", "/calendar/{id}/"})
     public ResponseEntity deleteCalendar(@PathVariable("id") String id) {
         boolean b;
         try {
@@ -50,7 +50,7 @@ public class CalendarRestController {
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not delete calendar");
     }
 
-    @GetMapping(value = {"/calendar/id", "/calendar/id/"})
+    @GetMapping(value = {"/calendar/{id}", "/calendar/{id}/"})
     public ResponseEntity getCalendarByCalendarID(@PathVariable("id") String id) {
         Calendar c;
         try {

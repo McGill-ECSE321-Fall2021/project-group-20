@@ -83,7 +83,7 @@ public class LibrarySystemRestController {
         }
         LibrarySystem librarySystem;
         try {
-            librarySystem = librarySystemService.createLibrarySystem();
+            librarySystem = librarySystemService.createLibrarySystem(a);
         } catch (IllegalArgumentException | NullPointerException msg) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
         }
@@ -122,7 +122,7 @@ public class LibrarySystemRestController {
         } catch (IllegalArgumentException | NullPointerException msg) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
         }
-        if (b) return ResponseEntity.status(HttpStatus.OK).body("Deleted LibrarySystem");
+        if (!b) return ResponseEntity.status(HttpStatus.OK).body("Deleted LibrarySystem");
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not delete LibrarySystem");
     }
 

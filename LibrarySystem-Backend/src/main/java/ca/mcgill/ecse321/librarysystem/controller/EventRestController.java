@@ -77,12 +77,15 @@ public class EventRestController {
 	    }
 	    
 	    @PostMapping(value = {"/event/create","/event/create/"})
-	    public EventDto createEvent(@RequestParam String name, @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  String date,String weekday, @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") String startTime,
-					@RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") String endTime,@RequestParam String employeeUserName, @RequestParam String calendarID) {
+	    public EventDto createEvent(@RequestParam String name, @RequestParam String date, @RequestParam String weekday, @RequestParam String startTime,
+					@RequestParam String endTime,@RequestParam String employeeUserName, @RequestParam String calendarID) {
 	    	 Employee e = employeeService.getEmployee(employeeUserName);
 			 Calendar c = calendarService.getCalendar(calendarID);
 			 Hour h = new Hour (weekday,Time.valueOf(startTime),Time.valueOf(endTime),e,c);
-	    	return convertToDto(eventService.createEvent(name,Date.valueOf(date) , h));
+			 String[] dateS = date.split("/");
+			 Date d = Date.valueOf(dateS[2] + "-" + dateS[0] + "-" + dateS[1]);
+			 Event event = eventService.createEvent(name, d, h);
+	    	return convertToDto(event);
 	    }
 	    
 	    

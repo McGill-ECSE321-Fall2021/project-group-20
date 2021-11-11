@@ -263,7 +263,7 @@ public class TestTitleService {
 		Title title = null;
 		String error =null;
 		try {
-			title = titleService.createTitle(NAME_1, PUB_DATE_1, null);			
+			title = titleService.createTitle(NAME_1, PUB_DATE_1, (Author[]) null);
 		} catch (IllegalArgumentException msg) {
 			error= msg.getMessage();
 		}

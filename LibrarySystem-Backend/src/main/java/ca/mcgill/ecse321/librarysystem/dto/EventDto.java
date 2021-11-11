@@ -1,4 +1,6 @@
 package ca.mcgill.ecse321.librarysystem.dto;
+import ca.mcgill.ecse321.librarysystem.service.HourService;
+
 import java.sql.Date;
 
 
@@ -7,7 +9,8 @@ public class EventDto {
 	  private String eventID;
 	  private String name;
 	  private Date eventDate;
-	  private HourDto eventhour;
+	  private String eventhour;
+	  private HourService hourService;
 
 	  public EventDto () {}
 	  public EventDto(String aName, Date aEventDate, HourDto aEventhour)
@@ -72,45 +75,15 @@ public class EventDto {
 	    {
 	      return eventDate;
 	    }
-	    public HourDto getEventhour()
+	    public String getEventhour()
 	    {
 	      return eventhour;
 	    }
 	    
 	    public boolean setEventhour(HourDto aNewEventhour)
 	    {
-	      boolean wasSet = false;
-	      if (aNewEventhour == null)
-	      {
-	        return wasSet;
-	      }
-	      
-	      EventDto existingEvent = aNewEventhour.getEvent();
-	      if (existingEvent != null && !equals(existingEvent))
-	      {
-	        return wasSet;
-	      }
-	      
-	      HourDto anOldEventhour = eventhour;
-	      eventhour = aNewEventhour;
-	      eventhour.setEvent(this);
-
-	      if (anOldEventhour != null)
-	      {
-	        anOldEventhour.setEvent(null);
-	      }
-	      wasSet = true;
-	      return wasSet;
-	    }
-
-	    public void delete()
-	    {
-	      HourDto existingEventhour = eventhour;
-	      eventhour = null;
-	      if (existingEventhour != null)
-	      {
-	        existingEventhour.setEvent(null);
-	      }
+	      eventhour = aNewEventhour.getWeekday();
+		  return true;
 	    }
 
 

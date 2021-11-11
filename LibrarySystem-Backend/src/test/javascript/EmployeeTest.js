@@ -104,7 +104,7 @@ const employeeTest = async () => {
         resultData = response.data;
         resultStatus = response.status;
 
-        if (resultData.libraryCardID === 3 && resultData.isLoggedIn && resultStatus === 200) {
+        if (resultData.libraryCardID === id && resultData.isLoggedIn && resultStatus === 200) {
             remainingTests--;
         } else {
             console.log("Failed Test 4: Employee Login Name Pass");
@@ -148,7 +148,7 @@ const employeeTest = async () => {
         resultData = response.data;
         resultStatus = response.status;
 
-        if (resultData.libraryCardID === 3 && resultData.isLoggedIn && resultStatus === 200) {
+        if (resultData.libraryCardID === id && resultData.isLoggedIn && resultStatus === 200) {
             remainingTests--;
         } else {
             console.log("Failed Test 6: Employee Login ID Pass");
