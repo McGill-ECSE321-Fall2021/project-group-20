@@ -46,7 +46,7 @@ public class CalendarRestController {
         } catch (IllegalArgumentException | NullPointerException msg) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
         }
-        if (b) return ResponseEntity.status(HttpStatus.OK).body("Deleted calendar");
+        if (!b) return ResponseEntity.status(HttpStatus.OK).body("Deleted calendar");
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not delete calendar");
     }
 

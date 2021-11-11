@@ -10,7 +10,7 @@ public class ItemDto {
 	private Status status;
 	private long itemBarcode;
 	private TitleDto title;
-	private BookingDto booking;
+	private String booking;
 
 	public ItemDto(Item.Status astatus, long aItemBarcode, TitleDto aTitle) {
 		status = astatus;
@@ -58,7 +58,7 @@ public class ItemDto {
 	  }
 	  /* Code from template association_GetOne */
 	  
-	  public BookingDto getBooking()
+	  public String getBooking()
 	  {
 	    return booking;
 	  }
@@ -76,43 +76,27 @@ public class ItemDto {
 		return true;
 	  }
 	  /* Code from template association_SetOptionalOneToOne */
-	  public boolean setBooking(BookingDto aNewBooking)
-	  {
-	    boolean wasSet = false;
-	    if (booking != null && !booking.equals(aNewBooking) && equals(booking.getItem()))
-	    {
-	      //Unable to setBooking, as existing booking would become an orphan
-	      return wasSet;
-	    }
+	  public boolean setBooking(BookingDto aNewBooking) {
+		  boolean wasSet = false;
+		  booking = aNewBooking.getBookingID();
+		  ItemDto anOldItembooked = aNewBooking != null ? aNewBooking.getItem() : null;
 
-	    booking = aNewBooking;
-	    ItemDto anOldItembooked = aNewBooking != null ? aNewBooking.getItem() : null;
+		  if (!this.equals(anOldItembooked)) {
+			  if (anOldItembooked != null) {
+				  anOldItembooked.booking = null;
+			  }
 
-	    if (!this.equals(anOldItembooked))
-	    {
-	      if (anOldItembooked != null)
-	      {
-	        anOldItembooked.booking = null;
-	      }
-	      if (booking != null)
-	      {
-	        booking.setItem(this);
-	      }
-	    }
-	    wasSet = true;
-	    return wasSet;
+			  wasSet = true;
+			  return wasSet;
+		  }
+		  return wasSet;
 	  }
 	 
 	  public void delete()
 	  {
 	    TitleDto placeholderTitle = title;
 	    this.title = null;
-	    BookingDto existingBooking = booking;
 	    booking = null;
-	    if (existingBooking != null)
-	    {
-	      existingBooking.delete();
-	    }
 	  }
 	 
 	 

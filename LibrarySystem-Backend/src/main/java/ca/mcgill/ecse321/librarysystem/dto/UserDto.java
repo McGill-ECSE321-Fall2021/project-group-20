@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.librarysystem.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDto {
@@ -15,7 +16,7 @@ public class UserDto {
     private String lastName;
     private String username;
     private String email;
-    private List<BookingDto> bookings;
+    private List<String> bookings;
 
     public UserDto() {}
 
@@ -29,6 +30,7 @@ public class UserDto {
         demeritPts = aDemeritPts;
         address = aAddress;
         this.outstandingBalance = outstandingBalance;
+        bookings = new ArrayList<>();
     }
 
     public UserDto(int libraryCardID, boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress, String username, String email, int outstandingBalance) {
@@ -43,6 +45,7 @@ public class UserDto {
         this.username = username;
         this.email = email;
         this.outstandingBalance = outstandingBalance;
+        bookings = new ArrayList<>();
     }
 
     public AddressDto getAddress() {
@@ -89,12 +92,15 @@ public class UserDto {
         return  outstandingBalance;
     }
 
-    public List<BookingDto> getBookings() {
+    public List<String> getBookings() {
         return bookings;
     }
 
     public void setBookings(List<BookingDto> bookings) {
-        this.bookings = bookings;
+        this.bookings = new ArrayList<>();
+        for (BookingDto b: bookings) {
+            this.bookings.add(b.getBookingID());
+        }
     }
 
     public int numberOfUserbooking()
@@ -111,12 +117,6 @@ public class UserDto {
     public boolean addUserbooking(BookingDto aUserbooking)
     {
         boolean wasAdded = false;
-        if (bookings.contains(aUserbooking)) { return false; }
-        if (numberOfUserbooking() >= maximumNumberOfUserbooking())
-        {
-            return wasAdded;
-        }
-
         UserDto existingUser = aUserbooking.getUser();
         boolean isNewUser = existingUser != null && !this.equals(existingUser);
         if (isNewUser)
@@ -125,7 +125,7 @@ public class UserDto {
         }
         else
         {
-            bookings.add(aUserbooking);
+            bookings.add(aUserbooking.getBookingID());
         }
         wasAdded = true;
         return wasAdded;
@@ -137,7 +137,7 @@ public class UserDto {
         //Unable to remove aUserbooking, as it must always have a user
         if (!this.equals(aUserbooking.getUser()))
         {
-            bookings.remove(aUserbooking);
+            bookings.remove(aUserbooking.getBookingID());
             wasRemoved = true;
         }
         return wasRemoved;

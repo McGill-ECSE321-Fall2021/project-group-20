@@ -9,6 +9,8 @@ import librarySystemTest from "./LibrarySystemTest.js";
 import hourTest from "./HourTest.js";
 import NewspaperTest from "./NewspaperTest.js";
 import ArchiveTest from "./ArchiveTest.js";
+import eventTest from "./EventTest.js";
+import bookingTest from "./BookingTest.js";
 console.log("");
 
 customerTest().then( () => {
@@ -21,7 +23,11 @@ customerTest().then( () => {
                           librarySystemTest().then ( () => {
                             hourTest().then( () => {
 								NewspaperTest().then( () => {
-									ArchiveTest();
+									ArchiveTest().then( () => {
+                                        eventTest().then( () => {
+											bookingTest();
+										})
+                                    })
 								})
 							})
 						  })
@@ -32,4 +38,3 @@ customerTest().then( () => {
 		})
 	})
 })
-	

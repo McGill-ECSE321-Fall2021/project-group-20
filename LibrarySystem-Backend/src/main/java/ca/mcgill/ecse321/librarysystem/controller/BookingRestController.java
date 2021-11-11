@@ -34,6 +34,8 @@ import ca.mcgill.ecse321.librarysystem.service.ItemService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -47,179 +49,216 @@ public class BookingRestController {
 
 	@Autowired
 	private HourService hourService;
-	
+
 	@Autowired
 	private EventService eventService;
 
 	@Autowired
 	private EmployeeService employeeService;
-	
+
 	@Autowired
 	private CalendarService calendarService;
 	@Autowired
 	private BookingService bookingService;
-	@Autowired 
+	@Autowired
 	private ItemService itemService;
 	@Autowired
 	private CustomerService customerService;
-	
-	 @GetMapping(value = {"/bookings", "/bookings/"})
-	    public List<BookingDto> getAllBookings() {
-	        List<BookingDto> bookingList = new ArrayList<>();
-	        for (Booking b : bookingService.getAllBookings()) {
-	        	getAllBookings().add(convertToDto(b));
-	        }
-	        return bookingList;
-	    }
-	
-	 
-	 @GetMapping(value = {"/booking/id","/booking/id/"})
-	 public BookingDto getBookingbyId(@RequestParam String bID) {
-		 return convertToDto(bookingService.getBookingbyId(bID));
-	 }
-	 
-	 
-	 @PostMapping(value= {"/booking/create","/booking/create/"})
-	 public BookingDto createBooking(@RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  String startDate,@RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  String endDate,@RequestParam String type,@RequestParam String barcode,@RequestParam String LibraryId) {
-		 Item i = itemService.getItemById(Long.valueOf(barcode));
-		 Customer c = customerService.getCustomer(Integer.valueOf(LibraryId));
-		 return convertToDto(bookingService.createBooking(Date.valueOf(startDate),Date.valueOf(endDate),Booking.BookingType.valueOf(type),(i),(c)));
 
+	 @GetMapping(value = {"/bookings", "/bookings/"})
+	    public ResponseEntity getAllBookings() {
+	        List<BookingDto> bookingList = new ArrayList<>();
+			List<Booking> bookings;
+			try {
+				bookings = bookingService.getAllBookings();
+
+				for (Booking b : bookings) {
+					bookingList.add(convertToDto(b));
+				}
+				if (bookingList.size() == 0) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any bookings in system");
+				return new ResponseEntity<>(bookingList, HttpStatus.OK);
+			} catch (Exception msg) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+			}
+	    }
+
+	 @GetMapping(value = {"/booking/id","/booking/id/"})
+	 public ResponseEntity getBookingbyId(@RequestParam String bID) {
+		 try {
+			 BookingDto bDto = convertToDto(bookingService.getBookingbyId(bID));
+			 if (bDto == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find booking by ID");
+			 return new ResponseEntity<>(bDto, HttpStatus.OK);
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		 }
 	 }
-	 
+
+	 @PostMapping(value= {"/booking/create","/booking/create/"})
+	 public ResponseEntity createBooking(@RequestParam String startDate,@RequestParam String endDate,@RequestParam String type,@RequestParam String barcode,@RequestParam String LibraryId) {
+		 try {
+			 Item i = itemService.getItemById(Long.valueOf(barcode));
+			 Customer c = customerService.getCustomer(Integer.valueOf(LibraryId));
+			 String[] dateS = startDate.split("/");
+			 Date s = Date.valueOf(dateS[2] + "-" + dateS[0] + "-" + dateS[1]);
+			 String[] dateE = endDate.split("/");
+			 Date e = Date.valueOf(dateE[2] + "-" + dateE[0] + "-" + dateE[1]);
+			 Booking b = bookingService.createBooking(s, e, Booking.BookingType.valueOf(type), (i), (c));
+			 if (b == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot create booking");
+			 return new ResponseEntity<>(convertToDto(b), HttpStatus.OK);
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		 }
+	 }
+
 	 @GetMapping(value = {"/booking/startDate", "/booking/startDate/"})
-	 public List<BookingDto> getBookingListbystartDate(@RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  String startDate){
+	 public ResponseEntity getBookingListbystartDate(@RequestParam String startDate){
 		 List<BookingDto> bookingDtos = new ArrayList<>();
-		 for (Booking b : bookingService.getBookingListbystartDate(Date.valueOf(startDate))) {
-			 bookingDtos.add(convertToDto(b));
+		 List<Booking> bookings;
+		 try {
+			 String[] dateS = startDate.split("/");
+			 Date d = Date.valueOf(dateS[2] + "-" + dateS[0] + "-" + dateS[1]);
+			 bookings = bookingService.getBookingListbystartDate(d);
+			 for (Booking b : bookings) {
+				 bookingDtos.add(convertToDto(b));
+			 }
+			 if (bookingDtos.size() == 0) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find bookings by this date");
+			 return new ResponseEntity<>(bookingDtos, HttpStatus.OK);
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		 }
-		 return bookingDtos;
 	 }
-	 
+
 	 @GetMapping(value = {"/booking/endDate", "/booking/endDate/"})
-	 public List<BookingDto> getBookingListbyendDate(@RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  String endDate){
+	 public ResponseEntity getBookingListbyendDate(@RequestParam String endDate){
 		 List<BookingDto> bookingDtos = new ArrayList<>();
-		 for (Booking b : bookingService.getBookingListbystartDate(Date.valueOf(endDate))) {
-			 bookingDtos.add(convertToDto(b));
+		 List<Booking> bookings;
+		 try {
+			 String[] dateS = endDate.split("/");
+			 Date d = Date.valueOf(dateS[2] + "-" + dateS[0] + "-" + dateS[1]);
+			 bookings = bookingService.getBookingListbyendDate(d);
+			 for (Booking b : bookings) {
+				 bookingDtos.add(convertToDto(b));
+			 }
+			 if (bookingDtos.size() == 0) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find bookings by this date");
+			 return new ResponseEntity<>(bookingDtos, HttpStatus.OK);
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		 }
-		 return bookingDtos;
 	 }
-	 
+
 	 @GetMapping(value = {"/booking/item","/booking/item/"})
-	 public BookingDto getBookingbyItem (@RequestParam String barcode) {
-		 Item i = itemService.getItemById(Long.valueOf(barcode));
-		 return convertToDto(bookingService.getBookingbyItem(i));
+	 public ResponseEntity getBookingbyItem (@RequestParam String barcode) {
+		 try {
+			 Item i = itemService.getItemById(Long.valueOf(barcode));
+			 Booking b = bookingService.getBookingbyItem(i);
+			 if (b == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find booking by item");
+			 return new ResponseEntity<>(convertToDto(b), HttpStatus.OK);
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		 }
 	 }
-	 
+
 	 @GetMapping(value = {"/booking/user/", "/booking/user/"})
-	 public List<BookingDto> getBookingListbyUser(@RequestParam String LibraryId){
-		 List<BookingDto> bookingDtos = new ArrayList<>();
-		 Customer c = customerService.getCustomer(Integer.valueOf(LibraryId));
-		 for (Booking b : bookingService.getBookingListbyUser(c)) {
-			 bookingDtos.add(convertToDto(b));
+	 public ResponseEntity getBookingListbyUser(@RequestParam String libraryId){
+		 try {
+			 List<BookingDto> bookingDtos = new ArrayList<>();
+			 Customer c = customerService.getCustomer(Integer.valueOf(libraryId));
+			 List<Booking> bookings = bookingService.getBookingListbyUser(c);
+			 for (Booking b : bookings) {
+				 bookingDtos.add(convertToDto(b));
+			 }
+			 if (bookingDtos.size() == 0) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find bookings by this user");
+			 return new ResponseEntity<>(bookingDtos, HttpStatus.OK);
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		 }
-		 return bookingDtos;
 	 }
-	 
+
 	 @GetMapping(value = {"/booking/type", "/booking/type/"})
-	 public List<BookingDto> getBookingListbyBookingType(@RequestParam String type){
-		 List<BookingDto> bookingDtos = new ArrayList<>();
-		 for (Booking b : bookingService.getBookingListbyBookingType(Booking.BookingType.valueOf(type))) {
-			 bookingDtos.add(convertToDto(b));
+	 public ResponseEntity getBookingListbyBookingType(@RequestParam String type){
+		 try {
+			 List<BookingDto> bookingDtos = new ArrayList<>();
+			 for (Booking b : bookingService.getBookingListbyBookingType(Booking.BookingType.valueOf(type))) {
+				 bookingDtos.add(convertToDto(b));
+			 }
+			 if (bookingDtos.size() == 0) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find bookings by this type");
+			 return new ResponseEntity<>(bookingDtos, HttpStatus.OK);
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		 }
-		 return bookingDtos;
 	 }
 	 
 	 @DeleteMapping(value = {"/booking/id", "/booking/id/"})
-	 public void deleteBookingbyID(@RequestParam String Bid) {
-		 bookingService.deleteBookingbyID(Bid);
-		 return;
+	 public ResponseEntity deleteBookingbyID(@RequestParam String bid) {
+		 try {
+			 bookingService.deleteBookingbyID(bid);
+			 return ResponseEntity.status(HttpStatus.OK).body("Booking has been deleted");
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		 }
 	 }
 	 
 	 @PutMapping(value = {"/booking/return/item", "/booking/return/item/"})
-	 public void returnItemByItem(@RequestParam String Barcode) {
-		 Item i = itemService.getItemById(Long.valueOf(Barcode));
-		 bookingService.returnItemByItem(i);
-		 return ;
-		
-	 }
-	 
-
-	 
-	 @DeleteMapping(value = {"/booking/User", "/booking/User/"})
-	 public boolean deleteBookingByUser(@RequestParam String LibID) {
-		 Customer c = customerService.getCustomer(Integer.valueOf(LibID));
-		 return bookingService.deleteBookingByUser(c);
-	 }
-	 
-	 @PutMapping(value = {"/booking/updatebyItem/startDate", "/booking/updatebyItem/startDate/"})
-	 public BookingDto updateStartDateBookingbyItem(@RequestParam String Barcode, @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  String startDate) {
-		 Item i = itemService.getItemById(Long.valueOf(Barcode));
-		 if (bookingService.updateStartDateBookingbyItem(i, Date.valueOf(startDate))) {
-			 return convertToDto(bookingService.getBookingbyItem(i));
+	 public ResponseEntity returnItemByItem(@RequestParam String barcode) {
+		 try {
+			 Item i = itemService.getItemById(Long.valueOf(barcode));
+			 bookingService.returnItemByItem(i);
+			 return ResponseEntity.status(HttpStatus.OK).body("Item has been returned & booking removed");
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		 }
-		 return null;
-	 }
-	 
-	 @PutMapping(value = {"/booking/updatebyItem/endDate", "/booking/updatebyItem/endDate/"})
-	 public BookingDto updateEndDateBookingbyItem(@RequestParam String Barcode, @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  String endDate) {
-		 Item i = itemService.getItemById(Long.valueOf(Barcode));
-		 if (bookingService.updateEndDateBookingbyItem(i, Date.valueOf(endDate))) {
-			 return convertToDto(bookingService.getBookingbyItem(i));
-		 }
-		 return null;
-	 }
-	 
-	 @PutMapping(value = {"/booking/updatebyItem/type", "/booking/updatebyItem/type/"})
-	 public BookingDto updateBookingTypeofBookingbyItem(@RequestParam String Barcode, @RequestParam String type) {
-		 Item i = itemService.getItemById(Long.valueOf(Barcode));
-		 if (bookingService.updateBookingTypeofBookingbyItem(i, Booking.BookingType.valueOf(type))) {
-			 return convertToDto(bookingService.getBookingbyItem(i));
-		 }
-		 return null;
-	 }
-	 
-	 @PutMapping(value = {"/booking/updatebyItem/user", "/booking/updatebyItem/user/"})
-	 public BookingDto updateUserofBookingByItem(@RequestParam String Barcode, @RequestParam String LibID) {
-		 Item i = itemService.getItemById(Long.valueOf(Barcode));
-		 Customer c = customerService.getCustomer(Integer.valueOf(LibID));
-		 if (bookingService.updateUserofBookingByItem(i, c)) {
-			 return convertToDto(bookingService.getBookingbyItem(i));
-		 }
-		 return null;
 	 }
 	 
 	 @PutMapping(value = {"/booking/updatebyID/startDate", "/booking/updatebyID/startDate/"})
-	 public BookingDto updateStartDateBookingbyID(@RequestParam String BID, @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  String startDate) {
-		 if (bookingService.updateStartDateBookingbyID(BID, Date.valueOf(startDate))) {
-			 return convertToDto(bookingService.getBookingbyId(BID));
+	 public ResponseEntity updateStartDateBookingbyID(@RequestParam String bid, String startDate) {
+		 try {
+			 String[] dateS = startDate.split("/");
+			 Date d = Date.valueOf(dateS[2] + "-" + dateS[0] + "-" + dateS[1]);
+			 if (bookingService.updateStartDateBookingbyID(bid, d)) {
+				 return new ResponseEntity<>(convertToDto(bookingService.getBookingbyId(bid)), HttpStatus.OK);
+			 }
+			 return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not update booking start date");
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		 }
-		 return null;
 	 }
 	 
 	 @PutMapping(value = {"/booking/updatebyID/endDate", "/booking/updatebyID/endDate/"})
-	 public BookingDto updateEndDateBookingbyID(@RequestParam String BID, @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  String endDate) {
-		 if (bookingService.updateEndDateBookingbyID(BID, Date.valueOf(endDate))) {
-			 return convertToDto(bookingService.getBookingbyId(BID));
+	 public ResponseEntity updateEndDateBookingbyID(@RequestParam String bid, @RequestParam String endDate) {
+		 try {
+			 String[] dateS = endDate.split("/");
+			 Date d = Date.valueOf(dateS[2] + "-" + dateS[0] + "-" + dateS[1]);
+			 if (bookingService.updateEndDateBookingbyID(bid, d)) {
+				 return new ResponseEntity<>(convertToDto(bookingService.getBookingbyId(bid)), HttpStatus.OK);
+			 }
+			 return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not update booking end date");
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		 }
-		 return null;
 	 }
-	 
-	 
+
 	 @PutMapping(value = {"/booking/updatebyID/type", "/booking/updatebyID/type/"})
-	 public BookingDto updateBookingTypeofBookingbyID(@RequestParam String BID, @RequestParam String type) {
-		 if (bookingService.updateBookingTypeofBookingbyID(BID, Booking.BookingType.valueOf(type))) {
-			 return convertToDto(bookingService.getBookingbyId(BID));
+	 public ResponseEntity updateBookingTypeofBookingbyID(@RequestParam String bid, @RequestParam String type) {
+		 try {
+			 if (bookingService.updateBookingTypeofBookingbyID(bid, Booking.BookingType.valueOf(type))) {
+				 return new ResponseEntity<>(convertToDto(bookingService.getBookingbyId(bid)), HttpStatus.OK);
+			 }
+			 return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not update booking type");
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		 }
-		 return null;
 	 }
 	 @PutMapping(value = {"/booking/updatebyID/user", "/booking/updatebyID/user/"})
-	 public BookingDto updateUserofBookingByID(@RequestParam String BID, @RequestParam String LIBID) {
-		 Customer c = customerService.getCustomer(Integer.valueOf(LIBID));
-		 if (bookingService.updateUserofBookingByID(BID, c)) {
-			 return convertToDto(bookingService.getBookingbyId(BID));
+	 public ResponseEntity updateUserofBookingByID(@RequestParam String bid, @RequestParam String libId) {
+		 try {
+			 Customer c = customerService.getCustomer(Integer.valueOf(libId));
+			 if (bookingService.updateUserofBookingByID(bid, c)) {
+				 return new ResponseEntity<>(convertToDto(bookingService.getBookingbyId(bid)), HttpStatus.OK);
+			 }
+			 return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not update booking user");
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		 }
-		 return null;
 	 }
 	 
 	 	private BookingDto convertToDto (Booking b) {

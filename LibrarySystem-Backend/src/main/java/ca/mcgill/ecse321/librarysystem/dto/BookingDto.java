@@ -116,18 +116,7 @@ public class BookingDto {
 	  }
 	  public boolean setItem(ItemDto aNewitem)
 	  {
-	    boolean wasSet = false;
-	    if (aNewitem == null)
-	    {
-	      return wasSet;
-	    }
-	    
-	    BookingDto existingBooking = aNewitem.getBooking();
-	    if (existingBooking != null && !equals(existingBooking))
-	    {
-	      return wasSet;
-	    }
-	    
+		  boolean wasSet = false;
 	    ItemDto anOlditem = item;
 	    item = aNewitem;
 	    item.setBooking(this);
@@ -147,22 +136,7 @@ public class BookingDto {
 	      return wasSet;
 	    }
 
-	    if (aUser.numberOfUserbooking() >= UserDto.maximumNumberOfUserbooking())
-	    {
-	      return wasSet;
-	    }
-	    
-	    UserDto existingUser = user;
 	    user = aUser;
-	    if (existingUser != null && !existingUser.equals(aUser))
-	    {
-	      boolean didRemove = existingUser.removeUserbooking(this);
-	      if (!didRemove)
-	      {
-	        user = existingUser;
-	        return wasSet;
-	      }
-	    }
 	    user.addUserbooking(this);
 	    wasSet = true;
 	    return wasSet;

@@ -13,8 +13,11 @@ import ca.mcgill.ecse321.librarysystem.model.Hour;
 import ca.mcgill.ecse321.librarysystem.service.CalendarService;
 import ca.mcgill.ecse321.librarysystem.service.EmployeeService;
 import ca.mcgill.ecse321.librarysystem.service.EventService;
+import ca.mcgill.ecse321.librarysystem.service.HourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -34,118 +37,174 @@ public class EventRestController {
 	
 	@Autowired
 	private CalendarService calendarService;
+
+	@Autowired
+	private HourService hourService;
 	
 	 @GetMapping(value = {"/events", "/events/"})
-	    public List<EventDto> getAllEvents() {
+	    public ResponseEntity getAllEvents() {
 	        List<EventDto> eventList = new ArrayList<>();
-	        for (Event e : eventService.getAllEvents()) {
-	            eventList.add(convertToDto(e));
-	        }
-	        return eventList;
+			List<Event> events;
+			try {
+				events = eventService.getAllEvents();
+				for (Event e : events) {
+					eventList.add(convertToDto(e));
+				}
+				if (eventList.size() == 0) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any events in system");
+				return new ResponseEntity<>(eventList, HttpStatus.OK);
+			} catch (IllegalArgumentException | NullPointerException msg) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+			}
 	    }
 	 
 	 @GetMapping(value = {"/event/date", "/event/date/"})
-	 public EventDto getEventbyDate(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  String date) {
-		 return convertToDto(eventService.getEventByDate(Date.valueOf(date)));
-		 
+	 public ResponseEntity getEventbyDate(@RequestParam String date) {
+		 try {
+			 String[] dateS = date.split("/");
+			 Date d = Date.valueOf(dateS[2] + "-" + dateS[0] + "-" + dateS[1]);
+			 Event event = eventService.getEventByDate(d);
+			 if (event == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find event by this date");
+			 return new ResponseEntity<>(convertToDto(event), HttpStatus.OK);
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		 }
 	 }
 	 
 	 @GetMapping(value = {"/event/{id}", "/event/{id}/"})
-	 public EventDto getEventbyId(@PathVariable("id") String id) {
-		 return convertToDto(eventService.getEventByID(id));
+	 public ResponseEntity getEventbyId(@PathVariable("id") String id) {
+		 try {
+			 Event event = eventService.getEventByID(id);
+			 if (event == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find event by this ID");
+			 return new ResponseEntity<>(convertToDto(event), HttpStatus.OK);
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		 }
 	 }
 	 
 	 @GetMapping(value = {"/event/hour", "/event/hour/"})
-	 public EventDto getEventbyHour(@RequestParam String weekday, @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") String startTime,
-			 						@RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") String endTime,@RequestParam String employeeUsername, @RequestParam String calendarID) {
-		 Employee e = employeeService.getEmployee(employeeUsername);
-		 Calendar c = calendarService.getCalendar(calendarID);
-		 Hour h = new Hour (weekday,Time.valueOf(startTime),Time.valueOf(endTime),e,c);
-		 return convertToDto(eventService.getEventByHour((h)));
-		 
-		 
+	 public ResponseEntity getEventbyHour(@RequestParam String weekday) {
+		 try {
+			 Hour hour = hourService.getHourbyWeekday(weekday);
+			 if (hour == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find Hour");
+			 Event event = eventService.getEventByHour(hour);
+			 if (event == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find event by this hour");
+			 return new ResponseEntity<>(convertToDto(event), HttpStatus.OK);
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		 }
 	 }
 	
 
-	    @GetMapping(value = { "/events/name", "/events/name/"})
-	    public List<EventDto> getEventlistByName(@RequestParam String name) {
+	    @GetMapping(value = { "/events/{name}", "/events/{name}/"})
+	    public ResponseEntity getEventlistByName(@PathVariable("name") String name) {
 	        List<EventDto> eventDtos = new ArrayList<>();
-	        for (Event e : eventService.getEventlistByName(name)) {
-	            eventDtos.add(convertToDto(e));
-	        }
-	        return eventDtos;
+			List<Event> events;
+			try {
+				events = eventService.getEventlistByName(name);
+				for (Event e : eventService.getEventlistByName(name)) {
+					eventDtos.add(convertToDto(e));
+				}
+				if (eventDtos.size() == 0) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any events by this name");
+				return new ResponseEntity<>(eventDtos, HttpStatus.OK);
+			} catch (Exception msg) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+			}
 	    }
 	    
 	    @PostMapping(value = {"/event/create","/event/create/"})
-	    public EventDto createEvent(@RequestParam String name, @RequestParam String date, @RequestParam String weekday, @RequestParam String startTime,
+	    public ResponseEntity createEvent(@RequestParam String name, @RequestParam String date, @RequestParam String weekday, @RequestParam String startTime,
 					@RequestParam String endTime,@RequestParam String employeeUserName, @RequestParam String calendarID) {
-	    	 Employee e = employeeService.getEmployee(employeeUserName);
+
+		 try {
+			 Employee e = employeeService.getEmployee(employeeUserName);
 			 Calendar c = calendarService.getCalendar(calendarID);
 			 Hour h = new Hour (weekday,Time.valueOf(startTime),Time.valueOf(endTime),e,c);
 			 String[] dateS = date.split("/");
 			 Date d = Date.valueOf(dateS[2] + "-" + dateS[0] + "-" + dateS[1]);
 			 Event event = eventService.createEvent(name, d, h);
-	    	return convertToDto(event);
+			 return new ResponseEntity<>(convertToDto(event), HttpStatus.OK);
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		 }
 	    }
 	    
 	    
 	    
 	    @DeleteMapping(value = { "/event/date", "/event/date/" })
-	    public void deleteEventbyDate(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  String date) throws IllegalArgumentException, NullPointerException {
-	          eventService.deleteEventbyDate(Date.valueOf(date)); 
-	          return;
-	
+	    public ResponseEntity deleteEventbyDate(@RequestParam String date) {
+		 try {
+			 String[] dateS = date.split("/");
+			 Date d = Date.valueOf(dateS[2] + "-" + dateS[0] + "-" + dateS[1]);
+			 eventService.deleteEventbyDate(d);
+			 return ResponseEntity.status(HttpStatus.OK).body("Event has been deleted");
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		 }
 	    }
 	    
 	    @DeleteMapping(value = {"/event/{id}", "/event/{id}/"})
-	    public void deleteEventByID (@PathVariable("id") String id) {
-	    	eventService.deleteEventByID(id);
-	    	return;
-	    	
+	    public ResponseEntity deleteEventByID (@PathVariable("id") String id) {
+	    	try {
+				eventService.deleteEventByID(id);
+				return ResponseEntity.status(HttpStatus.OK).body("Event has been deleted");
+			} catch (Exception msg) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+			}
 	    }
 	    
 	    @DeleteMapping(value = {"/event/hour", "/event/hour/"})
-	    public void deleteEventbyHour (@RequestParam String weekday, @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") String startTime,
-			@RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") String endTime,@RequestParam String employeeUserName, @RequestParam String calendarID) {
-	   	 Employee e = employeeService.getEmployee(employeeUserName);
-		 Calendar c = calendarService.getCalendar(calendarID);
-		 Hour h = new Hour (weekday,Time.valueOf(startTime),Time.valueOf(endTime),e,c);
-	    	eventService.deleteEventbyHour(h);
-	    	return;
+	    public ResponseEntity deleteEventbyHour (@RequestParam String weekday) {
+	   	 try {
+				Hour hour = hourService.getHourbyWeekday(weekday);
+				eventService.deleteEventbyHour(hour);
+				return ResponseEntity.status(HttpStatus.OK).body("Event has been deleted");
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		 }
 	    }
-	    
-	    
-	    
-	    
+
 	    //Dont allow delete event by name cause that would delete all events with the same name which we don not want
 	    
 	    @PutMapping(value = {"/event/update/date", "/event/update/date/"})
-	    public EventDto updateEventdate(@RequestParam String id, @RequestParam ("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  String date) {
-	    	if( eventService.updateEventdate(id, Date.valueOf(date)))
-	    		return convertToDto(eventService.getEventByDate(Date.valueOf(date)));
-	    	return null;
+	    public ResponseEntity updateEventdate(@RequestParam String id, @RequestParam String date) {
+		 try {
+			 String[] dateS = date.split("/");
+			 Date d = Date.valueOf(dateS[2] + "-" + dateS[0] + "-" + dateS[1]);
+			 if (eventService.updateEventdate(id, d)) {
+				 EventDto eventDto = convertToDto(eventService.getEventByID(id));
+				 return new ResponseEntity<>(eventDto, HttpStatus.OK);
+			 }
+			 return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not update date");
+		 } catch (Exception msg) {
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		 }
 	    }
 	    
 	    
 	    @PutMapping(value = {"/event/update/hour", "/event/update/hour/"})
-	    public EventDto updateEventHour(@RequestParam String Upweekday ,@RequestParam String id, @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") String UpstartTime,
-			@RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") String UpendTime,@RequestParam String employeeUserName, @RequestParam String calendarID) {
-	    	Employee e = employeeService.getEmployee(employeeUserName);
-			 Calendar c = calendarService.getCalendar(calendarID);
-			 Hour h = new Hour (Upweekday,Time.valueOf(UpstartTime),Time.valueOf(UpendTime),e,c);
-	    	if( eventService.updateEventHour(id, h))
-	    		return convertToDto(eventService.getEventByHour(h));
-	    	return null;
+	    public ResponseEntity updateEventHour(@RequestParam String upweekday ,@RequestParam String id, @RequestParam String upstartTime,
+			@RequestParam String upendTime,@RequestParam String employeeUserName, @RequestParam String calendarID) {
+	    	try {
+				Employee e = employeeService.getEmployee(employeeUserName);
+				Calendar c = calendarService.getCalendar(calendarID);
+				Hour h = new Hour(upweekday, Time.valueOf(upstartTime), Time.valueOf(upendTime), e, c);
+				if (eventService.updateEventHour(id, h)) return new ResponseEntity<>(convertToDto(eventService.getEventByHour(h)), HttpStatus.OK);
+				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not update hour");
+			} catch (Exception msg) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+			}
 	    }
 	    
 	    
 	    
 	    @PutMapping(value = {"/event/update/name", "/event/update/name/"})
-	    public EventDto updateEventNameByID(@RequestParam String id, @RequestParam String updatedName) {
-	    	
-	    	if( eventService.updateEventNameByID(id, updatedName))
-	    		convertToDto(eventService.getEventByID(id));
-	    	return null;
+	    public ResponseEntity updateEventNameByID(@RequestParam String id, @RequestParam String updatedName) {
+	    	try {
+				if (eventService.updateEventNameByID(id, updatedName)) return new ResponseEntity<>(convertToDto(eventService.getEventByID(id)), HttpStatus.OK);
+				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not update name");
+			} catch (Exception msg) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+			}
 	    }
 	    
 	    
