@@ -21,20 +21,20 @@ private static Map<String, TitleDto> titlesByTitleID = new HashMap<String, Title
   private String pubDate;
 
   //Title Associations
-  private List<ItemDto> item;
+  private List<Long> items;
   private List<AuthorDto> author;
   //------------------------
   // CONSTRUCTOR
   //------------------------
   public TitleDto() {
-	  item = new ArrayList<ItemDto>();
+	  items = new ArrayList<Long>();
 	  author = new ArrayList<AuthorDto>();
   }
   public TitleDto(String aName, String aPubDate, AuthorDto... allAuthor)
   {
     name = aName;
     pubDate = aPubDate;
-    item = new ArrayList<ItemDto>();
+    items = new ArrayList<Long>();
     author = new ArrayList<AuthorDto>();
     boolean didAddAuthor = setAuthor(allAuthor);
     if (!didAddAuthor)
@@ -49,7 +49,7 @@ private static Map<String, TitleDto> titlesByTitleID = new HashMap<String, Title
     titleID = aTitleID;
     name = aName;
     pubDate = aPubDate;
-    item = new ArrayList<ItemDto>();
+    items = new ArrayList<Long>();
     author = new ArrayList<AuthorDto>();
     boolean didAddAuthor = setAuthor(allAuthor);
     if (!didAddAuthor)
@@ -122,34 +122,27 @@ private static Map<String, TitleDto> titlesByTitleID = new HashMap<String, Title
   {
     return pubDate;
   }
-  /* Code from template association_GetMany */
-  public ItemDto getItemDto(int index)
-  {
-    ItemDto aItem = item.get(index);
-    return aItem;
-  }
-
-  public List<ItemDto> getItem()
-  {
-    List<ItemDto> newItem = Collections.unmodifiableList(item);
-    return newItem;
-  }
 
   public int numberOfItem()
   {
-    int number = item.size();
+    int number = items.size();
     return number;
   }
 
   public boolean hasItem()
   {
-    boolean has = item.size() > 0;
+    boolean has = items.size() > 0;
     return has;
+  }
+
+  public boolean setItem(ItemDto item) {
+    items.add(item.getItemBarcode());
+    return true;
   }
 
   public int indexOfItem(ItemDto aItem)
   {
-    int index = item.indexOf(aItem);
+    int index = items.indexOf(aItem);
     return index;
   }
   /* Code from template association_GetMany */
@@ -198,81 +191,6 @@ private static Map<String, TitleDto> titlesByTitleID = new HashMap<String, Title
   {
     ItemDto aNewItem = new ItemDto(aStatus, aItemBarcode, this);
     return aNewItem;
-  }
-
-  public boolean addItem(ItemDto aItem)
-  {
-    boolean wasAdded = false;
-    if (item.contains(aItem)) { return false; }
-    TitleDto existingTitle = aItem.getTitle();
-    boolean isNewTitle = existingTitle != null && !this.equals(existingTitle);
-
-    if (isNewTitle && existingTitle.numberOfItem() <= minimumNumberOfItem())
-    {
-      return wasAdded;
-    }
-    if (isNewTitle)
-    {
-      aItem.setTitle(this);
-    }
-    else
-    {
-      item.add(aItem);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeItem(ItemDto aItem)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aItem, as it must always have a title
-    if (this.equals(aItem.getTitle()))
-    {
-      return wasRemoved;
-    }
-
-    //title already at minimum (1)
-    if (numberOfItem() <= minimumNumberOfItem())
-    {
-      return wasRemoved;
-    }
-
-    item.remove(aItem);
-    wasRemoved = true;
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addItemAt(ItemDto aItem, int index)
-  {  
-    boolean wasAdded = false;
-    if(addItem(aItem))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfItem()) { index = numberOfItem() - 1; }
-      item.remove(aItem);
-      item.add(index, aItem);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveItemAt(ItemDto aItem, int index)
-  {
-    boolean wasAdded = false;
-    if(item.contains(aItem))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfItem()) { index = numberOfItem() - 1; }
-      item.remove(aItem);
-      item.add(index, aItem);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addItemAt(aItem, index);
-    }
-    return wasAdded;
   }
   /* Code from template association_IsNumberOfValidMethod */
   public boolean isNumberOfAuthorValid()

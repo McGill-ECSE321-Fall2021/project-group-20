@@ -71,32 +71,9 @@ public class ItemDto {
 	  /* Code from template association_SetOneToMandatoryMany */
 	  public boolean setTitle(TitleDto aTitle)
 	  {
-	    boolean wasSet = false;
-	    //Must provide title to item
-	    if (aTitle == null)
-	    {
-	      return wasSet;
-	    }
-
-	    if (title != null && title.numberOfItem() <= TitleDto.minimumNumberOfItem())
-	    {
-	      return wasSet;
-	    }
-
-	    TitleDto existingTitle = title;
 	    title = aTitle;
-	    if (existingTitle != null && !existingTitle.equals(aTitle))
-	    {
-	      boolean didRemove = existingTitle.removeItem(this);
-	      if (!didRemove)
-	      {
-	        title = existingTitle;
-	        return wasSet;
-	      }
-	    }
-	    title.addItem(this);
-	    wasSet = true;
-	    return wasSet;
+		title.setItem(this);
+		return true;
 	  }
 	  /* Code from template association_SetOptionalOneToOne */
 	  public boolean setBooking(BookingDto aNewBooking)
@@ -130,10 +107,6 @@ public class ItemDto {
 	  {
 	    TitleDto placeholderTitle = title;
 	    this.title = null;
-	    if(placeholderTitle != null)
-	    {
-	      placeholderTitle.removeItem(this);
-	    }
 	    BookingDto existingBooking = booking;
 	    booking = null;
 	    if (existingBooking != null)

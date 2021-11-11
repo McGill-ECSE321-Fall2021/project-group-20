@@ -193,7 +193,7 @@ public class Title
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfItem()
   {
-    return 1;
+    return 0;
   }
   /* Code from template association_AddMandatoryManyToOne */
   public Item addItem(Item.Status aStatus, long aItemBarcode)

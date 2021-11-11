@@ -152,7 +152,7 @@ public class ItemRestController {
 	}
 
 	@PostMapping(value = { "/items/create", "/items/create/" })
-	public ResponseEntity createItem(@RequestParam String ItemBarcode, @RequestParam String status,
+	public ResponseEntity createItem(@RequestParam String status,
 			@RequestParam String titleId) {
 		Title title;
 		Item item;
@@ -166,7 +166,7 @@ public class ItemRestController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Title returned null");
 
 		try {
-			item = itemService.createItem(Status.valueOf(status), Long.valueOf(ItemBarcode), title);
+			item = itemService.createItem(Status.valueOf(status), title);
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
@@ -191,7 +191,7 @@ public class ItemRestController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Title returned null");
 
 		try {
-			itemService.updateItem(Status.valueOf(status), Long.valueOf(itemBarcode), title);
+			itemService.updateItem(Item.Status.valueOf(status), Long.valueOf(itemBarcode), title);
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
@@ -281,17 +281,6 @@ public class ItemRestController {
 		return ResponseEntity.status(HttpStatus.OK).body("Item deleted on " + new Date());
 	}
 
-	@DeleteMapping(value = { "/items/delitemByBooking", "/items/delitemByBooking/" })
-	public ResponseEntity deleteItemsByBooking(@RequestParam String bookingId) {
-		try {
-			itemService.deleteItemByItemBooking(bookingService.getBookingbyId(bookingId));
-		} catch (IllegalArgumentException msg) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
-		}
-
-		return ResponseEntity.status(HttpStatus.OK).body("Item deleted on " + new Date());
-	}
-
 	private AuthorDto[] convertToAuthorDto(List<Author> authors) {
 		if (authors == null || authors.size() == 0)
 			throw new IllegalArgumentException("Cannot find these authors");
@@ -307,7 +296,8 @@ public class ItemRestController {
 	private TitleDto convertToTitleDto(Title title) {
 		if (title == null)
 			throw new NullPointerException("Cannot find this Title");
-		return new TitleDto(title.getName(), title.getPubDate(), convertToAuthorDto(title.getAuthor()));
+		TitleDto titles = new TitleDto(title.getTitleID(), title.getName(), title.getPubDate(), convertToAuthorDto(title.getAuthor()));
+		return titles;
 	}
 
 	private ItemDto convertToItemDto(Item i) {
@@ -315,7 +305,9 @@ public class ItemRestController {
 			throw new IllegalArgumentException("There is no such Item!");
 		}
 		Status mystatus = i.getStatus();
-		return new ItemDto(mystatus, i.getItemBarcode(), convertToTitleDto(i.getTitle()));
+		TitleDto title = convertToTitleDto(i.getTitle());
+		ItemDto item = new ItemDto(mystatus, i.getItemBarcode(), title);
+		return item;
 	}
 
 	private List<ItemDto> convertToItem(List<Item> i) {

@@ -47,7 +47,10 @@ const titleTest = async () => {
 
         response = await axios.post("http://localhost:8080/title/create?name=Book&pubDate=11/10/2020&authors=" + id);
 
-        if (response.status === 200) titleid = response.data.titleID;
+        if (response.status === 200)  {
+            remainingTests--;
+            titleid = response.data.titleID;
+        }
         else {
             console.log("Failed Test 1: Create Title");
             console.log("Error: " + response.data);
@@ -282,7 +285,7 @@ const titleTest = async () => {
             console.log("");
         }
 
-        response = await axios.delete("http://localhost:8080/title/deleteByName?name=Booker");
+        response = await axios.delete("http://localhost:8080/titles/deleteByName?name=Booker");
 
         resultData = response.data;
         resultStatus = response.status;
@@ -313,7 +316,7 @@ const titleTest = async () => {
             console.log("");
         }
 
-        response = await axios.delete("http://localhost:8080/title/deleteByPubDate?pubDate=11/10/2020");
+        response = await axios.delete("http://localhost:8080/titles/deleteByPubDate?pubDate=11/10/2020");
 
         resultData = response.data;
         resultStatus = response.status;
