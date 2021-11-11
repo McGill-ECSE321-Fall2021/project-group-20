@@ -47,7 +47,7 @@ public class TitleService {
 
     @Transactional
     public Title getTitleByTitleID(String titleID) {
-    	if (titleID == null || titleID.length() == 0) throw new IllegalArgumentException("Please enter a valid titleID"); 
+    	if (titleID == null || titleID.length() == 0) throw new IllegalArgumentException("Please enter a valid title id"); 
         Title title = titleRepository.findByTitleID(titleID);
         if (title == null) throw new NullPointerException("Title not found");
         return title;
@@ -77,13 +77,13 @@ public class TitleService {
         return title;
     }
 
-    @Transactional
-    public List<Title> getTitlesByItemBarcodes(List<Item> itemBarcode) {
-    	if (itemBarcode == null || itemBarcode.size() == 0) throw new IllegalArgumentException("Please enter a valid list of items");
-        List<Title> titles = titleRepository.findByItemIn(itemBarcode);
-        if (titles.size() == 0) throw new NullPointerException("Titles not found");
-        return titles;
-    }
+//    @Transactional
+//    public List<Title> getTitlesByItemBarcodes(List<Item> itemBarcode) {
+//    	if (itemBarcode == null || itemBarcode.size() == 0) throw new IllegalArgumentException("Please enter a valid list of items");
+//        List<Title> titles = titleRepository.findByItemIn(itemBarcode);
+//        if (titles.size() == 0) throw new NullPointerException("Titles not found");
+//        return titles;
+//    }
 
     @Transactional
     public List<Title> getTitlesByName(String name) {
@@ -112,6 +112,7 @@ public class TitleService {
     
     @Transactional
     public boolean updateName(String titleID, String name) {
+    	if (titleID == null || titleID.length() == 0) throw new IllegalArgumentException("Please enter a valid title id");
     	Title title = getTitleByTitleID(titleID);
     	if (name == null || name.length() == 0) throw new IllegalArgumentException("Please enter a valid title name");
     	if (title.setName(name)) {
@@ -123,6 +124,7 @@ public class TitleService {
     
     @Transactional
     public boolean updatePubDate(String titleID, String pubDate) {
+    	if (titleID == null || titleID.length() == 0) throw new IllegalArgumentException("Please enter a valid title id");
     	Title title = getTitleByTitleID(titleID);
     	if (pubDate == null || pubDate.length() == 0) throw new IllegalArgumentException("Please enter a valid publish date");
     	if (title.setPubDate(pubDate)) {
@@ -152,7 +154,7 @@ public class TitleService {
             titleRepository.save(title);
             return true;
         }
-        return false;
+        return false; 
     }
     
     @Transactional
@@ -194,7 +196,7 @@ public class TitleService {
     
     @Transactional
     public boolean deleteTitleByTitleID(String titleID) {
-    	if (titleID == null || titleID.length() == 0) throw new IllegalArgumentException("Please enter a valid titleID"); 
+    	if (titleID == null || titleID.length() == 0) throw new IllegalArgumentException("Please enter a valid title id"); 
         Title title = titleRepository.findByTitleID(titleID);
         if (title == null) throw new NullPointerException("Title not found");
         titleRepository.delete(title);
@@ -232,7 +234,7 @@ public class TitleService {
 
     @Transactional
     public boolean isTitleExistsByTitleID(String titleID) {
-    	if (titleID == null || titleID.length() == 0) throw new IllegalArgumentException("Please enter a valid titleID"); 
+    	if (titleID == null || titleID.length() == 0) throw new IllegalArgumentException("Please enter a valid title id"); 
         return (titleRepository.existsByTitleID(titleID));
     }
 
