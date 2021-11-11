@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.librarysystem.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.mcgill.ecse321.librarysystem.dao.TitleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,12 +18,23 @@ import ca.mcgill.ecse321.librarysystem.model.Title;
 public class ItemService {
 	@Autowired
 	private ItemRepository itemRepository;
+	@Autowired
+	private TitleRepository titleRepository;
 
 	@Transactional
 	public Item createItem(Status aStatus, long aItemBarcode, Title aTitle) {
 		if (aStatus == null || aTitle == null)
 			throw new IllegalArgumentException("Please enter a valid status, title or Id");
 		Item item = new Item(aStatus, aItemBarcode, aTitle);
+		itemRepository.save(item);
+		return item;
+	}
+
+	@Transactional
+	public Item createItem(Status aStatus, Title aTitle) {
+		if (aStatus == null || aTitle == null)
+			throw new IllegalArgumentException("Please enter a valid status, title or Id");
+		Item item = new Item(aStatus, aTitle);
 		itemRepository.save(item);
 		return item;
 	}
@@ -124,6 +136,7 @@ public class ItemService {
 		item.setStatus(aStatus);
 		item.setTitle(aTitle);
 		itemRepository.save(item);
+		titleRepository.save(aTitle);
 	}
 
 	@Transactional

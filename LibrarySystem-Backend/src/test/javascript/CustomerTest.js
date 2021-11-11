@@ -1,9 +1,11 @@
 import axios from "axios";
 
 const customerTest = async () => {
-    let remainingTests = 13;
+    let remainingTests = 15;
     let resultData;
     let resultStatus;
+    let id;
+    let idO;
 
     /*
     Clean database for testing (Test 0)
@@ -30,14 +32,15 @@ const customerTest = async () => {
     Integration Test 1: Create a local customer Pass
      */
     try {
-        let payload = "firstname=John&lastname=Doe&civic=1&street=Univeristy&city=Montreal&postalCode=H2X1D3&province=QC&country=CA";
+        let payload = "firstname=John&lastname=Doe&civic=1&street=Univeristy&city=Montreal&postalCode=H2X1D3&province=QC&country=Canada";
         let response = await axios.post("http://localhost:8080/customer/createLocal?" + payload)
 
         resultData = response.data;
         resultStatus = response.status;
 
-        if (resultData.firstName === "John" && resultData.lastName === "Doe" && resultData.libraryCardID === 1 && resultStatus === 200) {
+        if (resultData.firstName === "John" && resultData.lastName === "Doe" && resultStatus === 200) {
             remainingTests--;
+            id = resultData.libraryCardID;
         } else {
             console.log("Failed Test 1: Customer createLocal");
             console.log("Error: " + resultData);
@@ -86,8 +89,9 @@ const customerTest = async () => {
         resultData = response.data;
         resultStatus = response.status;
 
-        if (resultData.firstName === "John" && resultData.lastName === "Doe" && resultData.username === "johndoe" && resultData.email === "a@a.ca" && resultData.libraryCardID === 2 && resultStatus === 200) {
+        if (resultData.firstName === "John" && resultData.lastName === "Doe" && resultData.username === "johndoe" && resultData.email === "a@a.ca" && resultStatus === 200) {
             remainingTests--;
+            idO = resultData.libraryCardID;
         } else {
             console.log("Failed Test 3: Customer create online");
             console.log("Error: " + resultData);
@@ -135,7 +139,7 @@ const customerTest = async () => {
         resultData = response.data;
         resultStatus = response.status;
 
-        if (resultData.libraryCardID === 2 && resultData.isLoggedIn && resultStatus === 200) {
+        if (resultData.libraryCardID === idO && resultData.isLoggedIn && resultStatus === 200) {
             remainingTests--;
         } else {
             console.log("Failed Test 5: Login Name Pass");
@@ -174,12 +178,12 @@ const customerTest = async () => {
     Integration Test 7: Login ID Pass
      */
     try {
-        let response = await axios.put("http://localhost:8080/customer/login/2?password=12345678");
+        let response = await axios.put("http://localhost:8080/customer/login/" + idO + "?password=12345678");
 
         resultData = response.data;
         resultStatus = response.status;
 
-        if (resultData.libraryCardID === 2 && resultData.isLoggedIn && resultStatus === 200) {
+        if (resultData.libraryCardID === idO && resultData.isLoggedIn && resultStatus === 200) {
             remainingTests--;
         } else {
             console.log("Failed Test 7: Login ID Pass");
@@ -196,7 +200,7 @@ const customerTest = async () => {
     Integration Test 8: Logout ID Pass
      */
     try {
-        let response = await axios.put("http://localhost:8080/customer/logout/2");
+        let response = await axios.put("http://localhost:8080/customer/logout/" + idO);
 
         resultData = response.data;
         resultStatus = response.status;
@@ -218,12 +222,12 @@ const customerTest = async () => {
     Integration Test 9: Modify Balance Pass
      */
     try {
-        let response = await axios.put("http://localhost:8080/customer/balance/1?toModify=50")
+        let response = await axios.put("http://localhost:8080/customer/balance/" + id + "?toModify=50")
 
         resultData = response.data;
         resultStatus = response.status;
 
-        if (resultStatus === 200 && resultData.libraryCardID === 1 && resultData.outstandingBalance === 50) {
+        if (resultStatus === 200 && resultData.libraryCardID === id && resultData.outstandingBalance === 50) {
             remainingTests--;
         }
         else {
@@ -241,12 +245,12 @@ const customerTest = async () => {
     Integration Test 10: Validate Customer Pass
      */
     try {
-        let response = await axios.put("http://localhost:8080/customer/validate/2")
+        let response = await axios.put("http://localhost:8080/customer/validate/" + idO)
 
         resultData = response.data;
         resultStatus = response.status;
 
-        if (resultStatus === 200 && resultData.libraryCardID === 2 && resultData.isVerified) {
+        if (resultStatus === 200 && resultData.libraryCardID === idO && resultData.isVerified) {
             remainingTests--;
         }
         else {
@@ -264,7 +268,7 @@ const customerTest = async () => {
     Integration Test 11: Delete Customer
      */
     try {
-        let response = await axios.delete("http://localhost:8080/customer/2")
+        let response = await axios.delete("http://localhost:8080/customer/" + idO)
 
         resultData = response.data;
         resultStatus = response.status;
@@ -274,7 +278,7 @@ const customerTest = async () => {
             console.log("Error: " + resultData);
             console.log("");
         }
-        else if (resultData.toString() === "Customer with ID 2 has been successfully deleted") {
+        else if (resultData.toString() === "Customer with ID " + idO + " has been successfully deleted") {
             remainingTests--;
         }
     } catch (errorMsg) {
@@ -287,7 +291,7 @@ const customerTest = async () => {
     Integration Test 12: Convert Local Customer Pass
      */
     try {
-        let response = await axios.put("http://localhost:8080/customer/convert/1?username=jjjj&password=12345678&email=a.b@c.d")
+        let response = await axios.put("http://localhost:8080/customer/convert/" + id + "?username=jjjj&password=12345678&email=a.b@c.d")
 
         resultData = response.data;
         resultStatus = response.status;
@@ -307,9 +311,53 @@ const customerTest = async () => {
     }
 
     /*
+    Integration Test 13: Update Customer Online Info Pass
+     */
+    try {
+        let response = await axios.put("http://localhost:8080/customer/updateOnline/" + id + "?username=alex&password=12345678&email=a@z.y")
+
+        resultData = response.data;
+        resultStatus = response.status;
+
+        if (resultStatus === 200 && resultData.username === "alex" && resultData.email === "a@z.y") remainingTests--;
+        else {
+            console.log("Failed test 13: Update Customer Online Info Pass");
+            console.log("Error: " + resultData);
+            console.log("");
+        }
+    } catch (errorMsg) {
+        console.log("Failed test 13: Update Customer Online Info Pass");
+        console.log("Error: " + errorMsg.response.data);
+        console.log("");
+    }
+
+    /*
+    Integration Test 14: Update Customer Info Pass
+     */
+    try {
+        let payload = "firstName=Alex&lastName=John&civic=1&street=Univeristy&city=Montreal&postalCode=H2X1D3&province=QC&country=Canada";
+        let response = await axios.put("http://localhost:8080/customer/update/" + id + "?" + payload);
+
+        resultData = response.data;
+        resultStatus = response.status;
+
+        if (resultStatus === 200 && resultData.firstName === "Alex" && resultData.lastName === "John" && resultData.libraryCardID === id) remainingTests--;
+        else {
+            console.log("Failed test 14: Update Customer Info Pass");
+            console.log("Error: " + resultData);
+            console.log("");
+        }
+
+    } catch (errorMsg) {
+        console.log("Failed test 14: Update Customer Info Pass");
+        console.log("Error: " + errorMsg.response.data);
+        console.log("");
+    }
+
+    /*
     Compile
      */
-    if (remainingTests === 0) console.log("Passed all 12 Customer Tests :)");
+    if (remainingTests === 0) console.log("Passed all Customer Tests :)");
     else console.log("Failed " + remainingTests + " :(");
     console.log("");
 };

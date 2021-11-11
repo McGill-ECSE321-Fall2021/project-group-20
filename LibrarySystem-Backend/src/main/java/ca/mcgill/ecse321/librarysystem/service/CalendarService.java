@@ -61,47 +61,12 @@ public class CalendarService {
     }
 
     /**
-     * Retrieves all calendars from the LibrarySystem.
-     * @return list of calendars
-     */
-    @Transactional
-    public List<Calendar> getAllCalendars() {
-        return toList(calendarRepository.findAll());
-    }
-
-    /**
      *
      * @param calendarID
      * @return true if the calendar with calendarID exits, false else.
      */
     @Transactional
     public boolean checkCalendarExists(String calendarID) {
-       return calendarRepository.existsByCalendarID(calendarID);
-    }
-
-    @Transactional
-    public boolean addHourToCalendar(String calendarID, Hour hour) {
-        if (calendarID == null || calendarID.length() == 0) throw new IllegalArgumentException("Please enter a valid calendarID");
-        if (hour == null) throw new IllegalArgumentException("Please enter a valid Hour");
-        Calendar calendar = calendarRepository.findCalendarByCalendarID(calendarID);
-        if (calendar == null) throw new NullPointerException("Cannot find Calendar with given ID");
-        if (calendar.addHour(hour)) {
-            calendarRepository.save(calendar);
-            return true;
-        }
-        return false;
-    }
-
-    @Transactional
-    public boolean removeHour(String calendarID, Hour hour) {
-        if (calendarID == null || calendarID.length() == 0) throw new IllegalArgumentException("Please enter a valid calendarID");
-        if (hour == null) throw new IllegalArgumentException("Please enter a valid Hour to remove");
-        Calendar calendar = calendarRepository.findCalendarByCalendarID(calendarID);
-        if (calendar == null) throw new NullPointerException("Cannot find Calendar with given ID");
-        if (calendar.removeHour(hour)) {
-            calendarRepository.save(calendar);
-            return true;
-        }
-        return false;
+        return calendarRepository.existsByCalendarID(calendarID);
     }
 }

@@ -1,9 +1,12 @@
 package ca.mcgill.ecse321.librarysystem.controller;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,130 +41,287 @@ public class MovieRestController {
 	private BookingService bookingService;
 	
 	@GetMapping(value = { "/movies", "/movies/" })
-	public List<MovieDto> getAllitems() {
-		return movieService.getAllMovies().stream().map(p -> convertToMovieDto(p)).collect(Collectors.toList());
+	public ResponseEntity getAllitems() {
+		List<MovieDto> items = new ArrayList<>();
+		List<Movie> itemList;
+		try {
+			itemList = movieService.getAllMovies();
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		for (Movie i : itemList) {
+			items.add(convertToMovieDto(i));
+		}
+		if (items.size() == 0)
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find any Items in System");
+		return new ResponseEntity<>(items, HttpStatus.OK);
 	}
 
 	@GetMapping(value = { "/movies/status/{status}", "/movies/status/{status}" })
-	public List<MovieDto> getAllitemsBystatus(@PathVariable("status") String name) throws IllegalArgumentException {
-		List<Movie> item = movieService.getItemByStat(Status.valueOf(name));
-		List<MovieDto> itemDtoList = convertToItem(item);
-		return itemDtoList;
+	public ResponseEntity getAllitemsBystatus(@PathVariable("status") String name) throws IllegalArgumentException {
+		List<MovieDto> items = new ArrayList<>();
+		List<Movie> itemList;
+		try {
+			itemList = movieService.getItemByStat(Status.valueOf(name));
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		items= convertToItem(itemList);
+		
+		if (items.size() == 0)
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any Items matching this Status");
+		return new ResponseEntity<>(items, HttpStatus.OK);
 
 	}
 
 	@GetMapping(value = { "/movies/title", "/movies/title/" })
-	public List<MovieDto> getAllItemsByTitleName(@RequestParam String titleName) throws IllegalArgumentException {
-		List<Title> titles = titleService.getTitlesByName(titleName);
-		List<Movie> movie = new ArrayList<Movie>();
-		for (Title title: titles) {
+	public ResponseEntity getAllItemsByTitleName(@RequestParam String titleName) throws IllegalArgumentException {
+		List<Title> titles;
+		try {
+			titles = titleService.getTitlesByName(titleName);
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		List<Movie> item = new ArrayList<>();
+		for (Title title : titles) {
 			if (title.getName().equals(titleName)) {
-				movie.addAll(movieService.getItemByTitle(title));
+				try {
+					item.addAll(movieService.getItemByTitle(title));
+				} catch (IllegalArgumentException | NullPointerException msg) {
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+				}
 			}
 		}
-		List<MovieDto> items = convertToItem(movie);
-		return items;
+		List<MovieDto> items = convertToItem(item);
+		if (items.size() == 0)
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any Items matching this Title name");
+		return new ResponseEntity<>(items, HttpStatus.OK);
 	}
 	
 	
 	
 	@GetMapping(value = {"/movies/booking","/movies/booking/"})
-	public MovieDto getItemByBooking(@RequestParam String bookingId) throws IllegalArgumentException {
-		Booking b = bookingService.getBookingbyId(bookingId);
-		Movie item = movieService.getItemByItemBooking(b);
+	public ResponseEntity getItemByBooking(@RequestParam String bookingId) throws IllegalArgumentException {
+		Booking b;
+		Movie item;
+
+		try {
+			b = bookingService.getBookingbyId(bookingId);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		try {
+			item = movieService.getItemByItemBooking(b);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
 		MovieDto itemDto = convertToMovieDto(item);
-		return itemDto; 
+		return new ResponseEntity<>(itemDto, HttpStatus.OK);
 	}
 	
 	
 	@GetMapping(value = {"/movies/TitleId","/movies/TitleId/"})
-	public List<MovieDto> getItemsByTitleId(@RequestParam String titleId) throws IllegalArgumentException {
-		Title t = titleService.getTitleByTitleID(titleId);
-		List<Movie> item = movieService.getItemByTitle(t);
-		List<MovieDto> itemDto = convertToItem(item);
-		return itemDto; 
+	public ResponseEntity getItemsByTitleId(@RequestParam String titleId) throws IllegalArgumentException {
+		Title t;
+		List<Movie> item;
+		List<MovieDto> itemDto;
+
+		try {
+			t = titleService.getTitleByTitleID(titleId);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		try {
+			item = movieService.getItemByTitle(t);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		itemDto = convertToItem(item);
+		return new ResponseEntity<>(itemDto, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = {"/movies/Id","/movies/Id/"})
-	public MovieDto getItemById(@RequestParam String itemId) throws IllegalArgumentException {
-		Movie item = movieService.getItemById(Long.valueOf(itemId));
+	public ResponseEntity getItemById(@RequestParam String itemId) throws IllegalArgumentException {
+		Movie item;
+
+		try {
+			item = movieService.getItemById(Long.valueOf(itemId));
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
 		MovieDto itemDto = convertToMovieDto(item);
-		return itemDto; 
+		return new ResponseEntity<>(itemDto, HttpStatus.OK);
 	}
 	
 	
 	
 	@PostMapping(value = { "/movies/create", "/items/create/" })
-	public MovieDto createItem(@RequestParam String ItemBarcode, @RequestParam String status,
+	public ResponseEntity createItem(@RequestParam String ItemBarcode, @RequestParam String status,
 			@RequestParam String titleId, @RequestParam String length) throws Exception {
-		Title title = titleService.getTitleByTitleID(titleId);
-		if (title==null) {
-			throw new Exception ("this returned null");
+		Title title;
+		Movie item;
+		try {
+			title = titleService.getTitleByTitleID(titleId);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		Movie item = movieService.createItem(Status.valueOf(status), Long.valueOf(ItemBarcode), title,Integer.valueOf(length));
-		MovieDto itemDto = convertToMovieDto(item);
-		return itemDto;
+
+		if (title == null)
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Title returned null");
+
+		try {
+			item = movieService.createItem(Status.valueOf(status), Long.valueOf(ItemBarcode), title,Integer.valueOf(length));
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		if (item == null)
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Item returned null");
+		return new ResponseEntity<>(convertToMovieDto(item), HttpStatus.OK);
 	}
 	
 	@PutMapping(value = { "/movies/updateall", "/movies/updateall/" })
-	public MovieDto updateItem(@RequestParam String ItemBarcode, @RequestParam String status,
+	public ResponseEntity updateItem(@RequestParam String ItemBarcode, @RequestParam String status,
 			@RequestParam String titleId, @RequestParam String length) throws Exception {
-		Title title = titleService.getTitleByTitleID(titleId);
-		if (title==null) {
-			throw new Exception ("this returned null");
+		Title title;
+		Movie item;
+		try {
+			title = titleService.getTitleByTitleID(titleId);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		movieService.updateItem(Status.valueOf(status), Long.valueOf(ItemBarcode), title,Integer.valueOf(length));
-		Movie item = movieService.getItemById(Long.valueOf(ItemBarcode));
-		MovieDto itemDto = convertToMovieDto(item);
-		return itemDto;
+
+		if (title == null)
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Title returned null");
+
+		try {
+			movieService.updateItem(Status.valueOf(status), Long.valueOf(ItemBarcode), title,Integer.valueOf(length));
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		try {
+			item = movieService.getItemById(Long.valueOf(ItemBarcode));
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		if (item == null)
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Item returned null");
+		return new ResponseEntity<>(convertToMovieDto(item), HttpStatus.OK);
 	}
 	
 	@PutMapping(value = { "/movies/upstatus", "/movies/upstatus/" })
-	public MovieDto updateItemStatus(@RequestParam String itemBarcode, @RequestParam String status) throws Exception {
-		movieService.updateItem(Status.valueOf(status), Long.valueOf(itemBarcode));
-		Movie upItem = movieService.getItemById(Long.valueOf(itemBarcode));
-		if (upItem==null) {
-			throw new Exception ("this returned null");
+	public ResponseEntity updateItemStatus(@RequestParam String itemBarcode, @RequestParam String status) throws Exception {
+		Movie item;
+
+		try {
+			movieService.updateItem(Status.valueOf(status), Long.valueOf(itemBarcode));
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		MovieDto itemDto = convertToMovieDto(upItem);
-		return itemDto;
+
+		try {
+			item = movieService.getItemById(Long.valueOf(itemBarcode));
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		if (item == null)
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Item returned null");
+		return new ResponseEntity<>(convertToMovieDto(item), HttpStatus.OK);
 	}
 	
 	@PutMapping(value = { "/movies/uptitle", "/movies/uptitle/" })
-	public MovieDto updateItemTitle(@RequestParam String itemBarcode, @RequestParam String titleId) throws Exception {
-		movieService.updateItem(Long.valueOf(itemBarcode),titleService.getTitleByTitleID(titleId));
-		Movie upItem = movieService.getItemById(Long.valueOf(itemBarcode));
-		if (upItem==null) {
-			throw new Exception ("this returned null");
+	public ResponseEntity updateItemTitle(@RequestParam String itemBarcode, @RequestParam String titleId) throws Exception {
+		Title title;
+		Movie item;
+
+		try {
+			title = titleService.getTitleByTitleID(titleId);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		MovieDto itemDto = convertToMovieDto(upItem);
-		return itemDto;
+
+		try {
+			movieService.updateItem(Long.valueOf(itemBarcode), title);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+
+		}
+
+		try {
+			item = movieService.getItemById(Long.valueOf(itemBarcode));
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		if (item == null)
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Item returned null");
+		return new ResponseEntity<>(convertToMovieDto(item), HttpStatus.OK);
 	}
 	
 	@PutMapping(value = { "/movies/uplength", "/movies/uplength/" })
-	public MovieDto updateItemLength(@RequestParam String itemBarcode, @RequestParam String length) throws Exception {
+	public ResponseEntity updateItemLength(@RequestParam String itemBarcode, @RequestParam String length) throws Exception {
+		Movie upItem;
+		try {
 		movieService.updateItem(Integer.valueOf(length),Long.valueOf(itemBarcode));
-		Movie upItem = movieService.getItemById(Long.valueOf(itemBarcode));
-		if (upItem==null) {
-			throw new Exception ("this returned null");
+		}catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
+		
+		try {
+			upItem = movieService.getItemById(Long.valueOf(itemBarcode));
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (upItem == null)
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Item returned null");
+		
 		MovieDto itemDto = convertToMovieDto(upItem);
-		return itemDto;
+		
+		return new ResponseEntity<>(convertToMovieDto(upItem), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = { "/movies/delitem", "/movies/delitem/"})
-	public void deleatItem(@RequestParam String itemBarcode) {
-		movieService.deleatItemById(Long.valueOf(itemBarcode));
+	public ResponseEntity deleatItem(@RequestParam String itemBarcode) {
+		try {
+			movieService.deleatItemById(Long.valueOf(itemBarcode));
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		if (movieService.getexistanceByItemBarcode(Long.valueOf(itemBarcode)))
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not delete Item");
+		return ResponseEntity.status(HttpStatus.OK).body("Item deleted on " + new Date());
 	}
 	
 	@DeleteMapping(value = { "/movies/delitemstat", "/movies/delitemstat/"})
-	public void deleatItemsByStatus(@RequestParam String status) {
-		movieService.deleatItemByStat(Status.valueOf(status));
+	public ResponseEntity deleatItemsByStatus(@RequestParam String status) {
+		try {
+			movieService.deleatItemByStat(Status.valueOf(status));
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body("Item deleted on " + new Date());
 	}
 	
 	@DeleteMapping(value = { "/movies/delitemByBooking", "/movies/delitemByBooking/"})
-	public void deleatItemsByBooking(@RequestParam String bookingId) {
-		movieService.deleatItemByItemBooking(bookingService.getBookingbyId(bookingId));
+	public ResponseEntity deleatItemsByBooking(@RequestParam String bookingId) {
+		try {
+			movieService.deleatItemByItemBooking(bookingService.getBookingbyId(bookingId));
+		} catch (IllegalArgumentException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body("Item deleted on " + new Date());
 	}
 	
 	private AuthorDto[] convertToAuthorDto(List<Author> authors) {

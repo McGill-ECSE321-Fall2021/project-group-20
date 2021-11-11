@@ -19,6 +19,8 @@ public class LibrarySystemRestController {
 
     @Autowired
     private LibrarySystemService librarySystemService;
+    @Autowired
+    private AddressService addressService;
 
     @Autowired
     private LibrarySystemRepository librarySystemRepository;
@@ -56,7 +58,7 @@ public class LibrarySystemRestController {
     private NewspaperRepository newspaperRepository;
 
 
-    public LibrarySystemDto convertToDto(LibrarySystem ls) throws IllegalArgumentException, NullPointerException {
+    private LibrarySystemDto convertToDto(LibrarySystem ls) throws IllegalArgumentException, NullPointerException {
         Address businessAddress = ls.getBusinessaddress();
         Calendar calendar = ls.getCalendar();
         String systemID = ls.getSystemID();
@@ -70,57 +72,74 @@ public class LibrarySystemRestController {
     }
 
     @PostMapping(value = {"/librarySystem/create", "/librarySystem/create/"})
-    public LibrarySystemDto createLibrarySystem(@RequestParam Address businessAddress, @RequestParam Calendar calendar)
-        throws IllegalArgumentException, NullPointerException {
-        return convertToDto(librarySystemService.createLibrarySystem(businessAddress, calendar));
+    public ResponseEntity createLibrarySystem(@RequestParam String civicNumber, @RequestParam String street,
+                                              @RequestParam String city, @RequestParam String postalCode,
+                                              @RequestParam String province, @RequestParam String country) {
+        Address a;
+        try {
+            a = addressService.createAddress(civicNumber, street, city, postalCode, province, country);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+        }
+        LibrarySystem librarySystem;
+        try {
+            librarySystem = librarySystemService.createLibrarySystem();
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+        }
+        if (librarySystem == null)
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Could not create library system");
+        return new ResponseEntity<>(convertToDto(librarySystem), HttpStatus.OK);
     }
 
     @PutMapping(value = {"/librarySystem/updateAddress/{id}", "/librarySystem/updateAddress/{id}/"})
-    public boolean updateAddress(@PathVariable("id") String id, @RequestParam Address address)
-            throws IllegalArgumentException, NullPointerException {
-        if (librarySystemService.changeAddress(id, address) != null) return true;
-        return false;
-    }
+    public ResponseEntity updateAddress(@PathVariable("id") String id, @RequestParam String civicNumber, @RequestParam String street,
+                                        @RequestParam String city, @RequestParam String postalCode,
+                                        @RequestParam String province, @RequestParam String country) {
+        LibrarySystem librarySystem;
+        Address a;
+        try {
+            a = addressService.createAddress(civicNumber, street, city, postalCode, province, country);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+        }
 
-    @PutMapping(value = {"/librarySystem/updateCalendar/{id}", "/librarySystem/updateCalendar/{id}/"})
-    public boolean updateCalendar(@PathVariable("id") String id, @RequestParam Calendar calendar)
-            throws IllegalArgumentException, NullPointerException {
-        if (librarySystemService.changeCalendar(id, calendar) != null) return true;
-        return false;
+        try {
+            librarySystem = librarySystemService.changeAddress(id, a);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+        }
+        if (librarySystem == null)
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not change address");
+        return new ResponseEntity<>(convertToDto(librarySystem), HttpStatus.OK);
     }
 
     @DeleteMapping(value = {"/librarySystem/delete/{id}", "/librarySystem/delete/{id}"})
-    public boolean deleteLibrarySystem(@PathVariable("id") String id) throws NullPointerException {
-        return librarySystemService.deleteLibrarySystem(id);
+    public ResponseEntity deleteLibrarySystem(@PathVariable("id") String id) {
+        boolean b;
+        try {
+            b = librarySystemService.deleteLibrarySystem(id);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+        }
+        if (b) return ResponseEntity.status(HttpStatus.OK).body("Deleted LibrarySystem");
+        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not delete LibrarySystem");
     }
 
     @GetMapping(value = {"/librarySystem/{id}", "/librarySystem/{id}/"})
-    public LibrarySystemDto getLibrarySystem(@PathVariable("id") String id) throws NullPointerException {
-        return convertToDto(librarySystemService.getLibrarySystem(id));
+    public ResponseEntity getLibrarySystem(@PathVariable("id") String id) {
+        LibrarySystem librarySystem;
+        try {
+            librarySystem = librarySystemService.getLibrarySystem(id);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+        }
+        if (librarySystem == null)
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find Library System");
+        return new ResponseEntity<>(convertToDto(librarySystem), HttpStatus.OK);
     }
 
-    @GetMapping(value = {"/librarySystem/user", "/librarySystem/user/"})
-    public LibrarySystemDto getLibrarySystem(@RequestParam User user) throws NullPointerException {
-        return convertToDto(librarySystemService.getLibrarySystem(user));
-    }
-
-    @GetMapping(value = {"/librarySystem/businessAddress", "/librarySystem/businessAddress/"})
-    public LibrarySystemDto getLibrarySystem(@RequestParam Address businessAddress)
-            throws NullPointerException {
-        return convertToDto(librarySystemService.getLibrarySystem(businessAddress));
-    }
-
-    @GetMapping(value = {"/librarySystem/items", "/librarySystem/items/"})
-    public LibrarySystemDto getLibrarySystem(@RequestParam Item items) throws NullPointerException {
-        return convertToDto(librarySystemService.getLibrarySystem(items));
-    }
-
-    @GetMapping(value = {"/librarySystem/calendar", "/librarySystem/calendar/"})
-    public LibrarySystemDto getLibrarySystem(@RequestParam Calendar calendar) throws NullPointerException {
-        return convertToDto(librarySystemService.getLibrarySystem(calendar));
-    }
-
-    @DeleteMapping(value = { "/librarySystem/clear", "/librarySystem/clear/"})
+    @DeleteMapping(value = {"/librarySystem/clear", "/librarySystem/clear/"})
     public ResponseEntity clear(@RequestParam String confirmbool) {
         try {
             if (confirmbool.equalsIgnoreCase("true")) {
@@ -141,12 +160,10 @@ public class LibrarySystemRestController {
                 userRepository.deleteAll();
                 addressRepository.deleteAll();
                 calendarRepository.deleteAll();
-                return ResponseEntity.status(HttpStatus.OK).body("Database has been wiped on " + (new Date()).toString());
-            }
-            else return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Refused request to wipe database!");
+                return ResponseEntity.status(HttpStatus.OK).body("Database has been wiped on " + new Date());
+            } else return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Refused request to wipe database!");
         } catch (Exception msg) {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not delete because of: " + msg.getMessage());
         }
     }
-
 }

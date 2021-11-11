@@ -175,7 +175,7 @@ public class AuthorRestController {
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		if (b) return ResponseEntity.status(HttpStatus.OK).body("Author has been deleted");
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Authors have been deleted");
 		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot delete author");
 	}
 	
@@ -187,7 +187,7 @@ public class AuthorRestController {
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		if (b) return ResponseEntity.status(HttpStatus.OK).body("Author has been deleted");
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Authors have been deleted");
 		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot delete author");
 	}
 	
@@ -199,7 +199,7 @@ public class AuthorRestController {
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		if (b) return ResponseEntity.status(HttpStatus.OK).body("Author has been deleted");
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Authors have been deleted");
 		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot delete author");
 	}
 	
@@ -221,7 +221,7 @@ public class AuthorRestController {
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		if (b) return ResponseEntity.status(HttpStatus.OK).body("Author has been deleted");
+		if (b) return ResponseEntity.status(HttpStatus.OK).body("Authors have been deleted");
 		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot delete author");
 	}
 	

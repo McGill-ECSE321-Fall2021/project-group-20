@@ -27,31 +27,27 @@ public class AuthorDto
   private String lastName;
 
   //Author Associations
-  private List<TitleDto> titles;
+  private List<String> titles;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public AuthorDto(){
-	  titles = new ArrayList<TitleDto>();
-  }
+  public AuthorDto(){}
+
   public AuthorDto(String aFirstName, String aLastName)
   {
     firstName = aFirstName;
     lastName = aLastName;
-    titles = new ArrayList<TitleDto>();
+    titles = new ArrayList<String>();
   }
   
   public AuthorDto(String aAuthorID, String aFirstName, String aLastName)
   {
     firstName = aFirstName;
     lastName = aLastName;
-    if (!setAuthorID(aAuthorID))
-    {
-      throw new RuntimeException("Cannot create due to duplicate authorID. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
-    titles = new ArrayList<TitleDto>();
+    setAuthorID(aAuthorID);
+    titles = new ArrayList<String>();
   }
 
   //------------------------
@@ -60,21 +56,9 @@ public class AuthorDto
 
   public boolean setAuthorID(String aAuthorID)
   {
-    boolean wasSet = false;
-    String anOldAuthorID = getAuthorID();
-    if (anOldAuthorID != null && anOldAuthorID.equals(aAuthorID)) {
-      return true;
-    }
-    if (hasWithAuthorID(aAuthorID)) {
-      return wasSet;
-    }
+
     authorID = aAuthorID;
-    wasSet = true;
-    if (anOldAuthorID != null) {
-      authorsByAuthorID.remove(anOldAuthorID);
-    }
-    authorsByAuthorID.put(aAuthorID, this);
-    return wasSet;
+    return true;
   }
 
   public boolean setFirstName(String aFirstName)
@@ -118,15 +102,15 @@ public class AuthorDto
     return lastName;
   }
   /* Code from template association_GetMany */
-  public TitleDto getTitle(int index)
+  public String getTitleID(int index)
   {
-    TitleDto aTitle = titles.get(index);
+    String aTitle = titles.get(index);
     return aTitle;
   }
 
-  public List<TitleDto> getTitles()
+  public List<String> getTitles()
   {
-    List<TitleDto> newTitles = Collections.unmodifiableList(titles);
+    List<String> newTitles = Collections.unmodifiableList(titles);
     return newTitles;
   }
 
@@ -142,112 +126,32 @@ public class AuthorDto
     return has;
   }
 
-  public int indexOfTitle(TitleDto aTitle)
-  {
-    int index = titles.indexOf(aTitle);
-    return index;
-  }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfTitles()
   {
     return 0;
   }
   /* Code from template association_AddManyToManyMethod */
-  public boolean addTitle(TitleDto aTitle)
+  public boolean addTitle(TitleDto title)
   {
+    String aTitle = title.getTitleID();
     boolean wasAdded = false;
     if (titles.contains(aTitle)) { return false; }
     titles.add(aTitle);
-    if (aTitle.indexOfAuthor(this) != -1)
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aTitle.addAuthor(this);
-      if (!wasAdded)
-      {
-        titles.remove(aTitle);
-      }
-    }
     return wasAdded;
   }
   /* Code from template association_RemoveMany */
-  public boolean removeTitle(TitleDto aTitle)
-  {
+  public boolean removeTitle(TitleDto title) {
     boolean wasRemoved = false;
-    if (!titles.contains(aTitle))
-    {
+    String aTitle = title.getTitleID();
+    if (!titles.contains(aTitle)) {
       return wasRemoved;
     }
 
     int oldIndex = titles.indexOf(aTitle);
     titles.remove(oldIndex);
-    if (aTitle.indexOfAuthor(this) == -1)
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aTitle.removeAuthor(this);
-      if (!wasRemoved)
-      {
-        titles.add(oldIndex,aTitle);
-      }
-    }
     return wasRemoved;
   }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addTitleAt(TitleDto aTitle, int index)
-  {  
-    boolean wasAdded = false;
-    if(addTitle(aTitle))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfTitles()) { index = numberOfTitles() - 1; }
-      titles.remove(aTitle);
-      titles.add(index, aTitle);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveTitleAt(TitleDto aTitle, int index)
-  {
-    boolean wasAdded = false;
-    if(titles.contains(aTitle))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfTitles()) { index = numberOfTitles() - 1; }
-      titles.remove(aTitle);
-      titles.add(index, aTitle);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addTitleAt(aTitle, index);
-    }
-    return wasAdded;
-  }
-
-  public void delete()
-  {
-    authorsByAuthorID.remove(getAuthorID());
-    ArrayList<TitleDto> copyOfTitles = new ArrayList<TitleDto>(titles);
-    titles.clear();
-    for(TitleDto aTitle : copyOfTitles)
-    {
-      if (aTitle.numberOfAuthor() <= TitleDto.minimumNumberOfAuthor())
-      {
-        aTitle.delete();
-      }
-      else
-      {
-        aTitle.removeAuthor(this);
-      }
-    }
-  }
-
 
   public String toString()
   {

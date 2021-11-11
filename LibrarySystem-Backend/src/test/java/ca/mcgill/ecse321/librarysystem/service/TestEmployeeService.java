@@ -50,26 +50,11 @@ public class TestEmployeeService {
 
     @BeforeEach
     public void setMockOutput() {
-        lenient().when(employeeRepository.existsByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
-            if (invocation.getArgument(0).equals(EMAIL_KEY)) {
-                return true;
-            }
-            return false;
-        });
+        lenient().when(employeeRepository.existsByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> invocation.getArgument(0).equals(EMAIL_KEY));
         
-        lenient().when(employeeRepository.existsByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
-            if (invocation.getArgument(0).equals(USER_KEY)) {
-                return true;
-            }
-            return false;
-        });
+        lenient().when(employeeRepository.existsByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> invocation.getArgument(0).equals(USER_KEY));
 
-        lenient().when(employeeRepository.existsByLibraryCardID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-           if (invocation.getArgument(0).equals(3)) {
-               return true;
-           }
-           return false;
-        });
+        lenient().when(employeeRepository.existsByLibraryCardID(anyInt())).thenAnswer((InvocationOnMock invocation) -> invocation.getArgument(0).equals(3));
 
         lenient().when(employeeRepository.findEmployeeByLibraryCardID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
            if (invocation.getArgument(0).equals(ID_1) || invocation.getArgument(0).equals(3)) {
@@ -169,7 +154,7 @@ public class TestEmployeeService {
             return new ArrayList<>();
         });
         
-        Answer<?> returnParamAsAnswer = (InvocationOnMock invocation) -> {return invocation.getArgument(0);};
+        Answer<?> returnParamAsAnswer = (InvocationOnMock invocation) -> invocation.getArgument(0);
         lenient().when(employeeRepository.save(any(Employee.class))).thenAnswer(returnParamAsAnswer);
         lenient().when(addressRepository.save(any(Address.class))).thenAnswer(returnParamAsAnswer);
     }
@@ -404,7 +389,7 @@ public class TestEmployeeService {
             fail(msg.getMessage());
         }
         assertNotNull(e);
-        assertEquals(true, e.getIsLoggedIn());
+        assertTrue(e.getIsLoggedIn());
     }
 
     @Test
@@ -442,7 +427,7 @@ public class TestEmployeeService {
             fail(msg.getMessage());
         }
         assertNotNull(e);
-        assertEquals(true, e.getIsLoggedIn());
+        assertTrue(e.getIsLoggedIn());
     }
 
     @Test
@@ -480,7 +465,7 @@ public class TestEmployeeService {
             fail(msg.getMessage());
         }
         assertNotNull(e);
-        assertEquals(true, e.getIsLoggedIn());
+        assertTrue(e.getIsLoggedIn());
     }
 
     @Test
@@ -1112,5 +1097,45 @@ public class TestEmployeeService {
         }
         assertNull(e);
         assertEquals("Cannot find Employee with this ID", error);
+    }
+
+    @Test
+    public void deletePass() {
+        Employee e = null;
+        try {
+            e = employeeService.deleteEmployeeByID(1);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            fail(msg.getMessage());
+        }
+        assertNull(e);
+        assertEquals(employeeService.getAllEmployees().size(), 0);
+    }
+
+    @Test
+    public void deleteFailID() {
+        Employee e = employeeService.createEmployee(FIRSTNAME_1,LASTNAME_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1,EMAIL_1,USERNAME_1,PASS_1, Employee.Role.Librarian);
+        e.setLibraryCardID(1);
+        String error = null;
+        try {
+            e = employeeService.deleteEmployeeByID(0);
+        } catch (IllegalArgumentException msg) {
+            error = msg.getMessage();
+        }
+        assertNotNull(e);
+        assertEquals("Please enter a valid libraryCardID", error);
+    }
+
+    @Test
+    public void deleteFailMatch() {
+        Employee e = employeeService.createEmployee(FIRSTNAME_1,LASTNAME_1,CIVIC_1,STREET_1,CITY_1,POST_1,PROV_1,COUNTRY_1,EMAIL_1,USERNAME_1,PASS_1, Employee.Role.Librarian);
+        e.setLibraryCardID(1);
+        String error = null;
+        try {
+            e = employeeService.deleteEmployeeByID(10);
+        } catch (NullPointerException msg) {
+            error = msg.getMessage();
+        }
+        assertNotNull(e);
+        assertEquals("Cannot find Employee matching this libraryCardID", error);
     }
 }
