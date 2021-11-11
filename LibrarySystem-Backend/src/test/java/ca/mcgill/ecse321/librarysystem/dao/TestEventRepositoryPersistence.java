@@ -72,8 +72,7 @@ public class TestEventRepositoryPersistence {
 		librarySystemRepository.save(myLibrary);
 		Employee aUser = new Employee(true, true, "Alex", "Bangala", true, 0, myAdress, Role.Librarian);
 		userRepository.save(aUser);
-		Hour myHour = new Hour("mardi", sTime, dTime, aUser, myCalendar);
-		hourRepository.save(myHour);
+		Hour myHour = new Hour("Friday", sTime, dTime, aUser, myCalendar);
 		Event myEvent = new Event("LasFiesta", sDate, myHour);
 		eventRepository.save(myEvent);
 		myAdress = null;
@@ -113,8 +112,7 @@ public class TestEventRepositoryPersistence {
 		librarySystemRepository.save(myLibrary);
 		Employee aUser = new Employee(true, true, "Alex", "Bangala", true, 0, myAdress, Role.Librarian);
 		userRepository.save(aUser);
-		Hour myHour = new Hour("mardi", sTime, dTime, aUser, myCalendar);
-		hourRepository.save(myHour);
+		Hour myHour = new Hour("Tuesday", sTime, dTime, aUser, myCalendar);
 		Event myEvent = new Event("LasFiesta", sDate, myHour);
 		eventRepository.save(myEvent);
 		myAdress = null;
@@ -153,8 +151,7 @@ public class TestEventRepositoryPersistence {
 		librarySystemRepository.save(myLibrary);
 		Employee aUser = new Employee(true, true, "Alex", "Bangala", true, 0, myAdress, Role.Librarian);
 		userRepository.save(aUser);
-		Hour myHour = new Hour("mardi", sTime, dTime, aUser, myCalendar);
-		hourRepository.save(myHour);
+		Hour myHour = new Hour("Wednesday", sTime, dTime, aUser, myCalendar);
 		Event myEvent = new Event("LasFiesta", sDate, myHour);
 		eventRepository.save(myEvent);
 		myHour.setEvent(myEvent);
@@ -196,8 +193,7 @@ public class TestEventRepositoryPersistence {
 		librarySystemRepository.save(myLibrary);
 		Employee aUser = new Employee(true, true,"Alex", "Bangala", true, 0, myAdress, Role.Librarian);
 		userRepository.save(aUser);
-		Hour myHour = new Hour("mardi", sTime, dTime, aUser, myCalendar);
-		hourRepository.save(myHour);
+		Hour myHour = new Hour("Thursday", sTime, dTime, aUser, myCalendar);
 		Event myEvent = new Event("LasFiesta", sDate, myHour);
 		eventRepository.save(myEvent);
 		myAdress = null;

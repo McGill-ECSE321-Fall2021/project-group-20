@@ -87,11 +87,8 @@ public class TestHourRepositoryPersistence {
 		librarySystemRepository.save(myLibrary);
 		Employee aUser = new Employee(true, true,"Alex", "Bangala", true, 0, myadress, Role.Librarian);
 		userRepository.save(aUser);
-		Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
-		Hour myhour1 = new Hour("lundi", sTime, dTime , aUser, mycalendar); 
-
-		hourRepository.save(myhour);
-		hourRepository.save(myhour1);
+		Hour myhour = new Hour("Tuesday", sTime, dTime , aUser, mycalendar);
+		Hour myhour1 = new Hour("Monday", sTime, dTime , aUser, mycalendar);
 		Event myevent = new Event("LasFiesta", sdate , myhour);
 		Event myevent1= new Event("LasFiestaMcGill", sdate , myhour1);
 
@@ -150,11 +147,8 @@ public class TestHourRepositoryPersistence {
 		librarySystemRepository.save(myLibrary);
 		Employee aUser = new Employee(true, true, "Alex", "Bangala", true, 0, myadress, Role.Librarian);
 		userRepository.save(aUser);
-		Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
-		Hour myhour1 = new Hour("lundi", sTime, dTime , aUser, mycalendar); 
-
-		hourRepository.save(myhour);
-		hourRepository.save(myhour1);
+		Hour myhour = new Hour("Tuesday", sTime, dTime , aUser, mycalendar);
+		Hour myhour1 = new Hour("Monday", sTime, dTime , aUser, mycalendar);
 		Event myevent = new Event("LasFiesta", sdate , myhour);
 		Event myevent1= new Event("LasFiestaMcGill", sdate , myhour1);
 
@@ -224,11 +218,8 @@ public class TestHourRepositoryPersistence {
 		librarySystemRepository.save(myLibrary);
 		Employee aUser = new Employee(true, true, "Alex", "Bangala", true, 0, myadress, Role.Librarian);
 		userRepository.save(aUser);
-		Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
-		Hour myhour1 = new Hour("lundi", sTime1, dTime1 , aUser, mycalendar); 
-
-		hourRepository.save(myhour);
-		hourRepository.save(myhour1);
+		Hour myhour = new Hour("Tuesday", sTime, dTime , aUser, mycalendar);
+		Hour myhour1 = new Hour("Monday", sTime1, dTime1 , aUser, mycalendar);
 		Event myevent = new Event("LasFiesta", sdate , myhour);
 		Event myevent1= new Event("LasFiestaMcGill", sdate1 , myhour1);
 
@@ -309,11 +300,8 @@ public class TestHourRepositoryPersistence {
 		librarySystemRepository.save(myLibrary);
 		Employee aUser = new Employee(true, true, "Alex", "Bangala", true, 0, myadress, Role.Librarian);
 		userRepository.save(aUser);
-		Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
-		Hour myhour1 = new Hour("lundi", sTime1, dTime1 , aUser, mycalendar); 
-
-		hourRepository.save(myhour);
-		hourRepository.save(myhour1);
+		Hour myhour = new Hour("Tuesday", sTime, dTime , aUser, mycalendar);
+		Hour myhour1 = new Hour("Monday", sTime1, dTime1 , aUser, mycalendar);
 		Event myevent = new Event("LasFiesta", sdate , myhour);
 		Event myevent1= new Event("LasFiestaMcGill", sdate1 , myhour1);
 
@@ -389,8 +377,7 @@ public class TestHourRepositoryPersistence {
 		librarySystemRepository.save(myLibrary);
 		Employee aUser = new Employee(true, true, "Alex", "Bangala", true, 0, myadress, Role.Librarian);
 		employeeRepository.save(aUser);
-		Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
-		hourRepository.save(myhour);
+		Hour myhour = new Hour("Tuesday", sTime, dTime , aUser, mycalendar);
 		Event myevent = new Event("LasFiesta", sdate , myhour);
 		eventRepository.save(myevent);
 	
@@ -462,9 +449,7 @@ public class TestHourRepositoryPersistence {
 		librarySystemRepository.save(myLibrary);
 		Employee aUser = new Employee(true, true, "Alex", "Bangala", true, 0, myadress, Role.Librarian);
 		userRepository.save(aUser);
-		Hour myhour = new Hour("mardi", sTime, dTime , aUser, mycalendar); 
-
-		hourRepository.save(myhour);
+		Hour myhour = new Hour("Tuesday", sTime, dTime , aUser, mycalendar);
 		Event myevent = new Event("LasFiesta", sdate , myhour);
 
 		eventRepository.save(myevent);
@@ -475,7 +460,7 @@ public class TestHourRepositoryPersistence {
 		myLibrary=null;
 		aUser=null;
 		
-		Hour HourofEvent = hourRepository.findByweekday("mardi");
+		Hour HourofEvent = hourRepository.findByweekday("Tuesday");
 	
 		assertEquals(myhour.getWeekday(),HourofEvent.getWeekday());
 		assertEquals(myhour.getStartTime(),HourofEvent.getStartTime());
