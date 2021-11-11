@@ -198,7 +198,7 @@ public class TestAuthorService {
 		String error = null;
 		
 		try {
-			author = authorService.createAuthor(AUTHOR_ID, FIRSTNAME_1, LASTNAME_1);
+			author = authorService.createAuthor("6456", FIRSTNAME_1, LASTNAME_1);
 			
 		} catch (IllegalArgumentException msg) {
 			error= msg.getMessage();
@@ -206,7 +206,7 @@ public class TestAuthorService {
 		
 		assertNotNull(author);
 		
-		assertEquals(author.getAuthorID(),AUTHOR_ID);
+		assertEquals(author.getAuthorID(),"6456");
 		assertEquals(author.getFirstName(),FIRSTNAME_1);
 		assertEquals(author.getLastName(),LASTNAME_1);
 	}
