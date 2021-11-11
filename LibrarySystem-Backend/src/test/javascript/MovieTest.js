@@ -215,7 +215,7 @@ Test5 update Movie
     /*
 Compile
  */
-    if (remainingTests === 0) console.log("Passed all MusicAlbum Tests :)");
+    if (remainingTests === 0) console.log("Passed all Movie Tests :)");
     else console.log("Failed " + remainingTests + " :(");
     console.log("");
 }

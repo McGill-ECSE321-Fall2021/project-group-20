@@ -11,6 +11,10 @@ import NewspaperTest from "./NewspaperTest.js";
 import ArchiveTest from "./ArchiveTest.js";
 import eventTest from "./EventTest.js";
 import bookingTest from "./BookingTest.js";
+import MusicAlbumTest from "./MusicAlbumTest.js";
+import MovieTest from "./MovieTest.js";
+import BookTest from "./BookTest.js";
+
 console.log("");
 
 customerTest().then( () => {
@@ -25,7 +29,13 @@ customerTest().then( () => {
 								NewspaperTest().then( () => {
 									ArchiveTest().then( () => {
                                         eventTest().then( () => {
-											bookingTest();
+											bookingTest().then( () => {
+												MusicAlbumTest().then( () => {
+													MovieTest().then( () => {
+														BookTest()
+													})
+												})
+											});
 										})
                                     })
 								})
