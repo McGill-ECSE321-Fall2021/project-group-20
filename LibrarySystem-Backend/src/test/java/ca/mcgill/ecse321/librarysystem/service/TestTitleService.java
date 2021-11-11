@@ -209,6 +209,10 @@ public class TestTitleService {
 		
 	}
 	
+	/*
+	 * Testing the create service methods
+	 * 
+	 * */
 	@Test
 	public void createTitleSuccessful() {
 		assertEquals(titleService.getTitles().size(),0);
@@ -271,6 +275,10 @@ public class TestTitleService {
         assertEquals("Please enter a list of valid authors", error);
 	}
 	
+	/*
+	 * Testing the get title service methods
+	 * 
+	 * */
 	@Test
 	public void getTitlesSuccessful() {
 		assertEquals(titleService.getTitles().size(),0);
@@ -609,7 +617,10 @@ public class TestTitleService {
 		assertEquals("Please enter a valid publish date", error);
 	}
 	
-		
+	/*
+	 * Testing the update title service methods
+	 * 
+	 * */
 	@Test
 	public void updateNameSuccessful() {
 		assertEquals(titleService.getTitles().size(),0);
@@ -792,6 +803,10 @@ public class TestTitleService {
 		assertEquals(error,"Title not found");
 	}
 	
+	/*
+	 * Testing the add title service methods
+	 * 
+	 * */
 	@Test
 	public void addAuthorToTitleSuccessful() {
 		assertEquals(titleService.getTitles().size(),0);
@@ -900,6 +915,10 @@ public class TestTitleService {
 //		assertEquals(isRemoved,true);
 //	}
 	
+	/*
+	 * Testing the remove title service methods
+	 * 
+	 * */
 	@Test
 	public void removeAuthorFromTitleSuccessful2() {
 		assertEquals(titleService.getTitles().size(),0);
@@ -989,6 +1008,10 @@ public class TestTitleService {
 //		assertEquals(isDeleted,true);
 //	}
 	
+	/*
+	 * Testing the delete title service methods
+	 * 
+	 * */
 	@Test
 	public void deleteTitleByTitleIDSuccessful2() {
 		assertEquals(titleService.getTitles().size(),0);
@@ -1109,6 +1132,10 @@ public class TestTitleService {
 		assertEquals(error,"Please enter a valid publish date");
 	}
 	
+	/*
+	 * Testing the boolean existing title service methods
+	 * 
+	 * */
 	@Test
 	public void isTitleExistsByTitleIDSuccessful() {
 		assertEquals(titleService.getTitles().size(),0);

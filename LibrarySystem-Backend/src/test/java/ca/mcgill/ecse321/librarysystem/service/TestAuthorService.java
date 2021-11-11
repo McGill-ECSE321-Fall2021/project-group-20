@@ -191,6 +191,10 @@ public class TestAuthorService {
 //      return authors;
 //  }
 	
+	/*
+	 * Testing the create author service methods
+	 * 
+	 * */
 	@Test
 	public void createAuthorSuccessful() {
 		assertEquals(authorService.getAuthors().size(),0);
@@ -338,6 +342,11 @@ public class TestAuthorService {
 		assertEquals(author.getFirstName(),FIRSTNAME_1);
 		assertEquals(author.getLastName(),LASTNAME_1);
 	}
+	
+	/*
+	 * Testing the get author service methods
+	 * 
+	 * */
 	
 	@Test
 	public void getAuthorByAuthorIDNull() {
@@ -703,6 +712,11 @@ public class TestAuthorService {
 		
 	}
 	
+	/*
+	 * Testing the update author service methods
+	 * 
+	 * */
+	
 	@Test
 	public void updateFirstNameSuccessful() {
 		assertEquals(authorService.getAuthors().size(),0);
@@ -886,6 +900,11 @@ public class TestAuthorService {
 		assertEquals(isUpdated,false);
 		assertEquals(error,"Author not found");
 	}
+	
+	/*
+	 * Testing the delete author service methods
+	 * 
+	 * */
 	
 	@Test
 	public void deleteAuthorByAuthorIDInvalidInput() {
@@ -1115,6 +1134,11 @@ public class TestAuthorService {
 		assertEquals(isDeleted,false);
 		assertEquals(error,"Please enter a valid list of titles");
 	}
+	
+	/*
+	 * Testing the boolean existing author service methods
+	 * 
+	 * */
     
     @Test
 	public void isAuthorsExistsByFirstNameSuccessful() {
@@ -1378,6 +1402,9 @@ public class TestAuthorService {
 		assertEquals(error,"Please enter a valid author id");
 	}
 	
+	/*
+	 *Testing if program can get all authors from database
+	 */
 	@Test
 	public void getAuthorsSuccessful() {
 		assertEquals(authorService.getAuthors().size(),0);
