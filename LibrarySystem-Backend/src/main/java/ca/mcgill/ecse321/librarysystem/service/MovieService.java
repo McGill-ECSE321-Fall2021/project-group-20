@@ -22,7 +22,14 @@ public class MovieService extends Item {
 		movieRepository.save(item);
 		return item;
 	}
-
+	@Transactional
+	public Movie createItem(Status aStatus, Title aTitle, int length) {
+		if (aStatus == null || aTitle == null)
+			throw new IllegalArgumentException("Please enter a valid status, title or Id");
+		Movie item = new Movie(aStatus, aTitle, length);
+		movieRepository.save(item);
+		return item;
+	}
 	@Transactional
 	public Movie getItemById(Long itemBarcode) {
 		Movie item = (Movie) movieRepository.findItemByItemBarcode(itemBarcode);

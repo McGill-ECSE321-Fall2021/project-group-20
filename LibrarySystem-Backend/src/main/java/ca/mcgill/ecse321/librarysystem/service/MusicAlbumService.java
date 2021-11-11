@@ -27,6 +27,14 @@ public class MusicAlbumService {
 		musicAlbumRepository.save(item);
 		return item;
 	}
+	
+	@Transactional
+	public MusicAlbum createItem(Status aStatus, Title aTitle, int duration) {
+		if (aStatus == null || aTitle == null) throw new IllegalArgumentException("Please enter a valid status, title or Id");
+		MusicAlbum item = new MusicAlbum(aStatus, aTitle,duration);
+		musicAlbumRepository.save(item);
+		return item;
+	}
 
 	@Transactional
 	public MusicAlbum getItemById(Long itemBarcode) {

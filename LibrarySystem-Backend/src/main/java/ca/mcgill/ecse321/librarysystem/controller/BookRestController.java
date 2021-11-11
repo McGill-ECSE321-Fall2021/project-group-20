@@ -17,52 +17,52 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.librarysystem.dto.AuthorDto;
-import ca.mcgill.ecse321.librarysystem.dto.MusicAlbumDto;
+import ca.mcgill.ecse321.librarysystem.dto.BookDto;
 import ca.mcgill.ecse321.librarysystem.dto.TitleDto;
 import ca.mcgill.ecse321.librarysystem.model.Author;
 import ca.mcgill.ecse321.librarysystem.model.Booking;
 import ca.mcgill.ecse321.librarysystem.model.Title;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
-import ca.mcgill.ecse321.librarysystem.model.MusicAlbum;
+import ca.mcgill.ecse321.librarysystem.model.Book;
 import ca.mcgill.ecse321.librarysystem.service.BookingService;
-import ca.mcgill.ecse321.librarysystem.service.MusicAlbumService;
+import ca.mcgill.ecse321.librarysystem.service.BookService;
 import ca.mcgill.ecse321.librarysystem.service.TitleService;
 
 @CrossOrigin(origins = "*")
 
 @RestController
-public class MusicAlbumRestController {
+public class BookRestController {
 
 	@Autowired
-	private MusicAlbumService MusicAlbumService;
+	private BookService BookService;
 	@Autowired
 	private TitleService titleService;
 	@Autowired 
 	private BookingService bookingService;
 	
-	@GetMapping(value = { "/MusicAlbums", "/MusicAlbums/" })
+	@GetMapping(value = { "/Books", "/Books/" })
 	public ResponseEntity getAllitems() {
-		List<MusicAlbumDto> items = new ArrayList<>();
-		List<MusicAlbum> itemList;
+		List<BookDto> items = new ArrayList<>();
+		List<Book> itemList;
 		try {
-			itemList = MusicAlbumService.getAllAlbums();
+			itemList = BookService.getBooks();
 		} catch (IllegalArgumentException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
-		for (MusicAlbum i : itemList) {
-			items.add(convertToMusicAlbumDto(i));
+		for (Book i : itemList) {
+			items.add(convertToBookDto(i));
 		}
 		if (items.size() == 0)
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find any Items in System");
 		return new ResponseEntity<>(items, HttpStatus.OK);
 	}
 
-	@GetMapping(value = { "/MusicAlbums/status/{status}", "/MusicAlbums/status/{status}" })
+	@GetMapping(value = { "/Books/status/{status}", "/Books/status/{status}" })
 	public ResponseEntity getAllitemsBystatus(@PathVariable("status") String name) throws IllegalArgumentException {
-		List<MusicAlbumDto> items = new ArrayList<>();
-		List<MusicAlbum> itemList;
+		List<BookDto> items = new ArrayList<>();
+		List<Book> itemList;
 		try {
-			itemList = MusicAlbumService.getItemByStat(Status.valueOf(name));
+			itemList = BookService.getBookByStat(Status.valueOf(name));
 		} catch (IllegalArgumentException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
@@ -74,7 +74,7 @@ public class MusicAlbumRestController {
 
 	}
 
-	@GetMapping(value = { "/MusicAlbums/title", "/MusicAlbums/title/" })
+	@GetMapping(value = { "/Books/title", "/Books/title/" })
 	public ResponseEntity getAllItemsByTitleName(@RequestParam String titleName) throws IllegalArgumentException {
 		List<Title> titles;
 		try {
@@ -83,17 +83,17 @@ public class MusicAlbumRestController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
-		List<MusicAlbum> item = new ArrayList<>();
+		List<Book> item = new ArrayList<>();
 		for (Title title : titles) {
 			if (title.getName().equals(titleName)) {
 				try {
-					item.addAll(MusicAlbumService.getItemByTitle(title));
+					item.addAll(BookService.getBookByTitle(title));
 				} catch (IllegalArgumentException | NullPointerException msg) {
 					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 				}
 			}
 		}
-		List<MusicAlbumDto> items = convertToItem(item);
+		List<BookDto> items = convertToItem(item);
 		if (items.size() == 0)
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any Items matching this Title name");
 		return new ResponseEntity<>(items, HttpStatus.OK);
@@ -101,10 +101,10 @@ public class MusicAlbumRestController {
 	
 	
 	
-	@GetMapping(value = {"/MusicAlbums/booking","/MusicAlbums/booking/"})
+	@GetMapping(value = {"/Books/booking","/Books/booking/"})
 	public ResponseEntity getItemByBooking(@RequestParam String bookingId) throws IllegalArgumentException {
 		Booking b;
-		MusicAlbum item;
+		Book item;
 
 		try {
 			b = bookingService.getBookingbyId(bookingId);
@@ -113,21 +113,21 @@ public class MusicAlbumRestController {
 		}
 
 		try {
-			item = MusicAlbumService.getItemByItemBooking(b);
+			item = BookService.getBookByBookBooking(b);
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
-		MusicAlbumDto itemDto = convertToMusicAlbumDto(item);
+		BookDto itemDto = convertToBookDto(item);
 		return new ResponseEntity<>(itemDto, HttpStatus.OK);
 	}
 	
 	
-	@GetMapping(value = {"/MusicAlbums/TitleId","/MusicAlbums/TitleId/"})
+	@GetMapping(value = {"/Books/TitleId","/Books/TitleId/"})
 	public ResponseEntity getItemsByTitleId(@RequestParam String titleId) throws IllegalArgumentException {
 		Title t;
-		List<MusicAlbum> item;
-		List<MusicAlbumDto> itemDto;
+		List<Book> item;
+		List<BookDto> itemDto;
 
 		try {
 			t = titleService.getTitleByTitleID(titleId);
@@ -136,7 +136,7 @@ public class MusicAlbumRestController {
 		}
 
 		try {
-			item = MusicAlbumService.getItemByTitle(t);
+			item = BookService.getBookByTitle(t);
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
@@ -145,27 +145,27 @@ public class MusicAlbumRestController {
 		return new ResponseEntity<>(itemDto, HttpStatus.OK);
 	}
 	
-	@GetMapping(value = {"/MusicAlbums/Id","/MusicAlbums/Id/"})
+	@GetMapping(value = {"/Books/Id","/Books/Id/"})
 	public ResponseEntity getItemById(@RequestParam String itemId) throws IllegalArgumentException {
-		MusicAlbum item;
+		Book item;
 
 		try {
-			item = MusicAlbumService.getItemById(Long.valueOf(itemId));
+			item = BookService.getBookById(Long.valueOf(itemId));
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
-		MusicAlbumDto itemDto = convertToMusicAlbumDto(item);
+		BookDto itemDto = convertToBookDto(item);
 		return new ResponseEntity<>(itemDto, HttpStatus.OK);
 	}
 	
 	
 	
-	@PostMapping(value = { "/MusicAlbums/create", "/items/create/" })
+	@PostMapping(value = { "/Books/create", "/items/create/" })
 	public ResponseEntity createItem(@RequestParam String status,
-			@RequestParam String titleId, @RequestParam String length) throws Exception {
+			@RequestParam String titleId, @RequestParam String isbn, @RequestParam String pages) throws Exception {
 		Title title;
-		MusicAlbum item;
+		Book item;
 		try {
 			title = titleService.getTitleByTitleID(titleId);
 		} catch (IllegalArgumentException | NullPointerException msg) {
@@ -176,72 +176,42 @@ public class MusicAlbumRestController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Title returned null");
 
 		try {
-			item = MusicAlbumService.createItem(Status.valueOf(status),title,Integer.valueOf(length));
+			item = BookService.createBook(Status.valueOf(status),title,isbn, pages);
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
 		if (item == null)
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Item returned null");
-		return new ResponseEntity<>(convertToMusicAlbumDto(item), HttpStatus.OK);
+		return new ResponseEntity<>(convertToBookDto(item), HttpStatus.OK);
 	}
 	
-	@PutMapping(value = { "/MusicAlbums/updateall", "/MusicAlbums/updateall/" })
-	public ResponseEntity updateItem(@RequestParam String ItemBarcode, @RequestParam String status,
-			@RequestParam String titleId, @RequestParam String length) throws Exception {
-		Title title;
-		MusicAlbum item;
-		try {
-			title = titleService.getTitleByTitleID(titleId);
-		} catch (IllegalArgumentException | NullPointerException msg) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
-		}
 
-		if (title == null)
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Title returned null");
-
-		try {
-			MusicAlbumService.updateItem(Status.valueOf(status), Long.valueOf(ItemBarcode), title,Integer.valueOf(length));
-		} catch (IllegalArgumentException | NullPointerException msg) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
-		}
-
-		try {
-			item = MusicAlbumService.getItemById(Long.valueOf(ItemBarcode));
-		} catch (IllegalArgumentException | NullPointerException msg) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
-		}
-
-		if (item == null)
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Item returned null");
-		return new ResponseEntity<>(convertToMusicAlbumDto(item), HttpStatus.OK);
-	}
-	
-	@PutMapping(value = { "/MusicAlbums/upstatus", "/MusicAlbums/upstatus/" })
+	@PutMapping(value = { "/Books/upstatus", "/Books/upstatus/" })
 	public ResponseEntity updateItemStatus(@RequestParam String itemBarcode, @RequestParam String status) throws Exception {
-		MusicAlbum item;
+		Book item;
 
 		try {
-			MusicAlbumService.updateItem(Status.valueOf(status), Long.valueOf(itemBarcode));
+			BookService.updateBook(Status.valueOf(status), Long.valueOf(itemBarcode));
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
 		try {
-			item = MusicAlbumService.getItemById(Long.valueOf(itemBarcode));
+			item = BookService.getBookById(Long.valueOf(itemBarcode));
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
 		if (item == null)
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Item returned null");
-		return new ResponseEntity<>(convertToMusicAlbumDto(item), HttpStatus.OK);
+		return new ResponseEntity<>(convertToBookDto(item), HttpStatus.OK);
 	}
 	
-	@PutMapping(value = { "/MusicAlbums/uptitle", "/MusicAlbums/uptitle/" })
+	@PutMapping(value = { "/Books/uptitle", "/Books/uptitle/" })
 	public ResponseEntity updateItemTitle(@RequestParam String itemBarcode, @RequestParam String titleId) throws Exception {
 		Title title;
-		MusicAlbum item;
+		Book item;
 
 		try {
 			title = titleService.getTitleByTitleID(titleId);
@@ -250,62 +220,84 @@ public class MusicAlbumRestController {
 		}
 
 		try {
-			MusicAlbumService.updateItem(Long.valueOf(itemBarcode), title);
+			BookService.updateBook(Long.valueOf(itemBarcode), title);
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 
 		}
 
 		try {
-			item = MusicAlbumService.getItemById(Long.valueOf(itemBarcode));
+			item = BookService.getBookById(Long.valueOf(itemBarcode));
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
 		if (item == null)
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Item returned null");
-		return new ResponseEntity<>(convertToMusicAlbumDto(item), HttpStatus.OK);
+		return new ResponseEntity<>(convertToBookDto(item), HttpStatus.OK);
 	}
 	
-	@PutMapping(value = { "/MusicAlbums/uplength", "/MusicAlbums/uplength/" })
-	public ResponseEntity updateItemLength(@RequestParam String itemBarcode, @RequestParam String length) throws Exception {
-		MusicAlbum upItem;
+	@PutMapping(value = { "/Books/upisbn", "/Books/upisbn/" })
+	public ResponseEntity updateItemIsbn(@RequestParam String itemBarcode, @RequestParam String isbn) throws Exception {
+		Book upItem;
 		try {
-		MusicAlbumService.updateItem(Integer.valueOf(length),Long.valueOf(itemBarcode));
+		BookService.updateBookIsbn(isbn,Long.valueOf(itemBarcode));
 		}catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 		
 		try {
-			upItem = MusicAlbumService.getItemById(Long.valueOf(itemBarcode));
+			upItem = BookService.getBookById(Long.valueOf(itemBarcode));
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 		if (upItem == null)
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Item returned null");
 		
-		MusicAlbumDto itemDto = convertToMusicAlbumDto(upItem);
+		BookDto itemDto = convertToBookDto(upItem);
 		
-		return new ResponseEntity<>(convertToMusicAlbumDto(upItem), HttpStatus.OK);
+		return new ResponseEntity<>(convertToBookDto(upItem), HttpStatus.OK);
 	}
 	
-	@DeleteMapping(value = { "/MusicAlbums/delitem", "/MusicAlbums/delitem/"})
+	@PutMapping(value = { "/Books/uppage", "/Books/uppage/" })
+	public ResponseEntity updateItemPages(@RequestParam String itemBarcode, @RequestParam String isbn) throws Exception {
+		Book upItem;
+		try {
+		BookService.updateBookPages(isbn,Long.valueOf(itemBarcode));
+		}catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		
+		try {
+			upItem = BookService.getBookById(Long.valueOf(itemBarcode));
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+		if (upItem == null)
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Item returned null");
+		
+		BookDto itemDto = convertToBookDto(upItem);
+		
+		return new ResponseEntity<>(convertToBookDto(upItem), HttpStatus.OK);
+	}
+	
+	@DeleteMapping(value = { "/Books/delitem", "/Books/delitem/"})
 	public ResponseEntity deleatItem(@RequestParam String itemBarcode) {
 		try {
-			MusicAlbumService.deleatItemById(Long.valueOf(itemBarcode));
+			BookService.deleatBookById(Long.valueOf(itemBarcode));
 		} catch (IllegalArgumentException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 
-		if (MusicAlbumService.getexistanceByItemBarcode(Long.valueOf(itemBarcode)))
+		if (BookService.getexistanceByBookBarcode(Long.valueOf(itemBarcode)))
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not delete Item");
 		return ResponseEntity.status(HttpStatus.OK).body("Item deleted on " + new Date());
 	}
 	
-	@DeleteMapping(value = { "/MusicAlbums/delitemstat", "/MusicAlbums/delitemstat/"})
+	@DeleteMapping(value = { "/Books/delitemstat", "/Books/delitemstat/"})
 	public ResponseEntity deleatItemsByStatus(@RequestParam String status) {
 		try {
-			MusicAlbumService.deleatItemByStat(Status.valueOf(status));
+			BookService.deleatBookByStat(Status.valueOf(status));
 		} catch (IllegalArgumentException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
@@ -313,10 +305,10 @@ public class MusicAlbumRestController {
 		return ResponseEntity.status(HttpStatus.OK).body("Item deleted on " + new Date());
 	}
 	
-	@DeleteMapping(value = { "/MusicAlbums/delitemByBooking", "/MusicAlbums/delitemByBooking/"})
+	@DeleteMapping(value = { "/Books/delitemByBooking", "/Books/delitemByBooking/"})
 	public ResponseEntity deleatItemsByBooking(@RequestParam String bookingId) {
 		try {
-			MusicAlbumService.deleatItemByItemBooking(bookingService.getBookingbyId(bookingId));
+			BookService.deleatBookByBookBooking(bookingService.getBookingbyId(bookingId));
 		} catch (IllegalArgumentException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
@@ -342,19 +334,19 @@ public class MusicAlbumRestController {
 		return new TitleDto(title.getName(), title.getPubDate(), convertToAuthorDto(title.getAuthor()));
 	}
 
-	private MusicAlbumDto convertToMusicAlbumDto(MusicAlbum i) {
+	private BookDto convertToBookDto(Book i) {
 		if (i == null) {
 			throw new IllegalArgumentException("There is no such Item!");
 		}
 		Status mystatus = i.getStatus();
-		MusicAlbumDto itemDto = new MusicAlbumDto(mystatus, i.getItemBarcode(), convertToTitleDto(i.getTitle()),i.getDuration());
+		BookDto itemDto = new BookDto(mystatus, i.getItemBarcode(), convertToTitleDto(i.getTitle()),i.getIsbn(),i.getNumPages());
 		return itemDto;
 	}
 
-	private List<MusicAlbumDto> convertToItem(List<MusicAlbum> i) {
-		List<MusicAlbumDto> itemDtoList = new ArrayList<MusicAlbumDto>();
-		for (MusicAlbum c : i) {
-			MusicAlbumDto itemDto = convertToMusicAlbumDto(c);
+	private List<BookDto> convertToItem(List<Book> i) {
+		List<BookDto> itemDtoList = new ArrayList<BookDto>();
+		for (Book c : i) {
+			BookDto itemDto = convertToBookDto(c);
 			itemDtoList.add(itemDto);
 		}
 		return itemDtoList;

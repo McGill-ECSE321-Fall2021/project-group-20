@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.librarysystem.dao.NewspaperRepository;
+//import ca.mcgill.ecse321.librarysystem.dao.TitleRepository;
 import ca.mcgill.ecse321.librarysystem.model.Booking;
 import ca.mcgill.ecse321.librarysystem.model.Item;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
@@ -20,10 +21,19 @@ public class NewspaperService {
 	@Autowired
 	private NewspaperRepository newspaperRepository;
 
+//	@Autowired
+//	private TitleRepository titleRepository;
 	@Transactional
 	public Newspaper createNewspaper(Status aStatus, long aNewspaperBarcode, Title aTitle) {
 		if (aStatus == null || aTitle == null) throw new IllegalArgumentException("Please enter a valid status, title or Id");
 		Newspaper item = new Newspaper(aStatus, aNewspaperBarcode, aTitle);
+		newspaperRepository.save(item);
+		return item;
+	}
+	@Transactional
+	public Newspaper createNewspaper(Status aStatus,Title aTitle) {
+		if (aStatus == null || aTitle == null) throw new IllegalArgumentException("Please enter a valid status, title or Id");
+		Newspaper item = new Newspaper(aStatus,aTitle);
 		newspaperRepository.save(item);
 		return item;
 	}
@@ -146,6 +156,8 @@ public class NewspaperService {
 		item.setStatus(aStatus);
 		item.setTitle(aTitle);
 		newspaperRepository.save(item);
+		//titleRepository.save(aTitle);
+
 	}
 	
 	@Transactional 

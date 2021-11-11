@@ -7,7 +7,8 @@ import itemTest from "./ItemTest.js";
 import calendarTest from "./CalendarTest.js";
 import librarySystemTest from "./LibrarySystemTest.js";
 import hourTest from "./HourTest.js";
-
+import NewspaperTest from "./NewspaperTest.js";
+import ArchiveTest from "./ArchiveTest.js";
 console.log("");
 
 customerTest().then( () => {
@@ -18,12 +19,17 @@ customerTest().then( () => {
                   itemTest().then ( () => {
                       calendarTest().then ( () => {
                           librarySystemTest().then ( () => {
-                            hourTest();
-                          })
-                      })
-                  })
-                })
-            })
-        })
-    })
+                            hourTest().then( () => {
+								NewspaperTest().then( () => {
+									ArchiveTest();
+								})
+							})
+						  })
+					  })
+				  })
+				})
+			})
+		})
+	})
 })
+	

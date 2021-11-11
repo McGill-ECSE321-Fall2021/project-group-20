@@ -29,6 +29,15 @@ public class BookService {
         bookRepository.save(item);
         return item;
     }
+    @Transactional
+    public Book createBook(Status aStatus,Title aTitle, String aIsbn, String aNumPages) {
+        if (aStatus == null || aTitle == null || aIsbn==null ||aNumPages.isEmpty() ||aIsbn.isEmpty() ||aNumPages.isEmpty()) throw new IllegalArgumentException("Please enter a valid status, title or Id");
+        if (aIsbn == null || aIsbn.length() == 0) throw new IllegalArgumentException("Please enter a valid ISBN");
+        if (aNumPages == null || aNumPages.length() == 0 || aNumPages.contains("-")) throw new IllegalArgumentException("Please enter a valid status, title or Id");
+        Book item = new Book(aStatus, aTitle, aIsbn, aNumPages);
+        bookRepository.save(item);
+        return item;
+    }
 
     @Transactional
     public Book getBookById(Long itemBarcode) {

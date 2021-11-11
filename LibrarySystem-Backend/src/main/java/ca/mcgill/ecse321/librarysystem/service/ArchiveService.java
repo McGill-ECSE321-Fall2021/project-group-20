@@ -27,6 +27,15 @@ public class ArchiveService {
 		ArchiveRepository.save(item);
 		return item;
 	}
+	
+	@Transactional
+	public Archive createArchive(Status aStatus, Title aTitle) {
+		if (aStatus == null || aTitle == null) throw new IllegalArgumentException("Please enter a valid status, title or Id");
+		Archive item = new Archive(aStatus,aTitle);
+		ArchiveRepository.save(item);
+		return item;
+	}
+
 
 	@Transactional
 	public Archive getArchiveById(Long itemBarcode) {
