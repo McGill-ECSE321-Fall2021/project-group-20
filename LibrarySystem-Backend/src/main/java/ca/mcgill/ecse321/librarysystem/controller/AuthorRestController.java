@@ -31,8 +31,11 @@ public class AuthorRestController {
 	
 	@Autowired
 	private TitleService titleService;
-	
-	
+
+	/**
+	 * Get all authors.
+	 * @return a list of authors.
+	 */
 	@GetMapping(value = { "/authors", "/authors/"})
     public ResponseEntity getAllAuthors() {
         List<AuthorDto> titleDtos = new ArrayList<>();
@@ -44,7 +47,12 @@ public class AuthorRestController {
         }
         return new ResponseEntity<>(titleDtos, HttpStatus.OK);
     }
-	
+
+	/**
+	 * Get an author by an author id.
+	 * @param id
+	 * @return an author.
+	 */
 	@GetMapping(value = { "/author/{id}", "/author/{id}/"})
     public ResponseEntity getAuthorByAuthorID(@PathVariable("id") String id) {
 		Author author;
@@ -55,7 +63,12 @@ public class AuthorRestController {
 		}
         return new ResponseEntity<>(convertToAuthorDto(author), HttpStatus.OK);
     }
-	
+
+	/**
+	 * Gets a list of authors with a given first name.
+	 * @param firstname
+	 * @return a list of authors.
+	 */
 	@GetMapping(value = { "/authors/getByFirstName", "/authors/getByFirstName/"})
     public ResponseEntity getAuthorsByFirstName(@RequestParam String firstname) {
 		List<Author> author;
@@ -66,7 +79,12 @@ public class AuthorRestController {
 		}
 		return new ResponseEntity<>(convertToAuthorsDto(author), HttpStatus.OK);
 	}
-	
+
+	/**
+	 * Gets a list of authors with a given last name.
+	 * @param lastname
+	 * @return a list of authors.
+	 */
 	@GetMapping(value = { "/authors/getByLastName", "/authors/getByLastName/"})
     public ResponseEntity getAuthorByLastName(@RequestParam String lastname) {
 		List<Author> author;
@@ -77,7 +95,13 @@ public class AuthorRestController {
 		}
 		return new ResponseEntity<>(convertToAuthorsDto(author), HttpStatus.OK);
     }
-	
+
+	/**
+	 * Gets a list of authors with given first and last name.
+	 * @param firstname
+	 * @param lastname
+	 * @return a list of authors.
+	 */
 	@GetMapping(value = { "/authors/getByFirstNameAndLastName", "/authors/getByFirstNameAndLastName/"})
     public ResponseEntity getAuthorsByFirstNameAndLastName(@RequestParam String firstname, @RequestParam String lastname) {
 		List<Author> author;
@@ -88,7 +112,12 @@ public class AuthorRestController {
 		}
 		return new ResponseEntity<>(convertToAuthorsDto(author), HttpStatus.OK);
     }
-	
+
+	/**
+	 * Gets a list of authors by titles.
+	 * @param titles
+	 * @return a list of authors.
+	 */
 	@GetMapping(value = { "/authors/getByTitles", "/authors/getByTitles/"})
     public ResponseEntity getAuthorsByTitles(@RequestParam String titles) {
 		List<Title> titleList = new ArrayList<>();
@@ -102,7 +131,13 @@ public class AuthorRestController {
         }
         return new ResponseEntity<>(convertToAuthorsDto(authorService.getAuthorsByTitles(titleList)), HttpStatus.OK);
     }
-	
+
+	/**
+	 * Creates an author object with given parameters.
+	 * @param firstname
+	 * @param lastname
+	 * @return ab author.
+	 */
 	@PostMapping(value = {"/author/create", "/author/create/"})
 	public ResponseEntity createByAuthorIDAndFirstNameAndLastName(@RequestParam String firstname, @RequestParam String lastname) {
 		Author author;
@@ -114,7 +149,13 @@ public class AuthorRestController {
 		if (author == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot create Author");
 		return new ResponseEntity<>(author, HttpStatus.OK);
 	}
-	
+
+	/**
+	 * Updates the first name of an author.
+	 * @param id
+	 * @param firstname
+	 * @return a message "First name has been updated" if successful, else "Cannot update first name".
+	 */
 	@PutMapping(value = { "/author/{id}/updateFirstName", "/author/{id}/updateFirstName/" })
 	public ResponseEntity updateFirstName(@PathVariable("id") String id, @RequestParam String firstname) {
 		boolean b;
@@ -126,7 +167,13 @@ public class AuthorRestController {
 		if (b) return ResponseEntity.status(HttpStatus.OK).body("Firstname has been updated");
 		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot update firstname");
 	}
-	
+
+	/**
+	 * Updates the last name of an author.
+	 * @param id
+	 * @param lastname
+	 * @return a message "Last name has been updates" if successful, else "Cannot update last name".
+	 */
 	@PutMapping(value = { "/author/{id}/updateLastName", "/author/{id}/updateLastName/" })
 	public ResponseEntity updateLastName(@PathVariable("id") String id, @RequestParam String lastname) {
 		boolean b;
@@ -138,7 +185,14 @@ public class AuthorRestController {
 		if (b) return ResponseEntity.status(HttpStatus.OK).body("Lastname has been updated");
 		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot update lastname");
 	}
-	
+
+	/**
+	 * Updates the full name of an author.
+	 * @param id
+	 * @param firstname
+	 * @param lastname
+	 * @return a message "Full name has been updated" if successful, else "Cannot update name"
+	 */
 	@PutMapping(value = { "/author/{id}/updateFullName", "/author/{id}/updateFullName/" })
 	public ResponseEntity updateFullName(@PathVariable("id") String id, @RequestParam String firstname, @RequestParam String lastname) {
 		boolean b;
@@ -150,7 +204,12 @@ public class AuthorRestController {
 		if (b) return ResponseEntity.status(HttpStatus.OK).body("Name has been updated");
 		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot update name");
 	}
-	
+
+	/**
+	 * Delets an author by author Id.
+	 * @param id
+	 * @return a message "Author has been deleted" if successful, else "Cannot delete author".
+	 */
 	@DeleteMapping(value = {"/author/{id}", "/author/{id}/"})
 	public ResponseEntity deleteAuthorByAuthorID(@PathVariable("id") String id) {
 		boolean b;
@@ -162,7 +221,12 @@ public class AuthorRestController {
 		if (b) return ResponseEntity.status(HttpStatus.OK).body("Author has been deleted");
 		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot delete author");
 	}
-	
+
+	/**
+	 * Deletes an author by first name.
+	 * @param firstname
+	 * @return a message "Authors have been deleted" if successful, else "Cannot delete author"
+	 */
 	@DeleteMapping(value = {"/author/deleteAuthorsByFirstName", "/author/deleteAuthorsByFirstName/"})
 	public ResponseEntity deleteAuthorsByFirstName(@RequestParam String firstname) {
 		boolean b;
@@ -174,7 +238,7 @@ public class AuthorRestController {
 		if (b) return ResponseEntity.status(HttpStatus.OK).body("Authors have been deleted");
 		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Cannot delete author");
 	}
-	
+
 	@DeleteMapping(value = {"/author/deleteAuthorsByLastName", "/author/deleteAuthorsByLastName/"})
 	public ResponseEntity deleteAuthorsByLastName(@RequestParam String lastname) {
 		boolean b;

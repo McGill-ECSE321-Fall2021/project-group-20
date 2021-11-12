@@ -234,6 +234,12 @@ public class BookingRestController {
 		 }
 	 }
 
+	/**
+	 * Updates the type of a booking object.
+	 * @param bid
+	 * @param type
+	 * @return a successful or failure message.
+	 */
 	 @PutMapping(value = {"/booking/updatebyID/type", "/booking/updatebyID/type/"})
 	 public ResponseEntity updateBookingTypeofBookingbyID(@RequestParam String bid, @RequestParam String type) {
 		 try {

@@ -35,6 +35,10 @@ public class ArchiveRestController {
 	@Autowired
 	private BookingService bookingService;
 
+	/**
+	 * Retrieves all archives in the system.
+	 * @return a list of archives if successful, else a message "Cannot find any Archives in System".
+	 */
 	@GetMapping(value = { "/Archives", "/Archives/" })
 	public ResponseEntity getAllArchives() {
 		List<ArchiveDto> Archives = new ArrayList<>();
@@ -52,6 +56,11 @@ public class ArchiveRestController {
 		return new ResponseEntity<>(Archives, HttpStatus.OK);
 	}
 
+	/**
+	 * Retrieves all archives by a given status.
+	 * @param name
+	 * @return a list of archives.
+	 */
 	@GetMapping(value = { "/Archives/status/{status}", "/Archives/status/{status}" })
 	public ResponseEntity getAllArchivesBystatus(@PathVariable("status") String name) {
 		List<ArchiveDto> Archives = new ArrayList<>();
@@ -69,6 +78,11 @@ public class ArchiveRestController {
 		return new ResponseEntity<>(Archives, HttpStatus.OK);
 	}
 
+	/**
+	 * Retrieves all archives by a given title.
+	 * @param titlename
+	 * @return a list of all archives if successful, else a message "Cannot find any Archives matching this Title name".
+	 */
 	@GetMapping(value = { "/Archives/title", "/Archives/title/" })
 	public ResponseEntity getAllArchivesByTitleName(@RequestParam String titlename) {
 		List<Title> titles;
@@ -94,6 +108,11 @@ public class ArchiveRestController {
 		return new ResponseEntity<>(Archives, HttpStatus.OK);
 	}
 
+	/**
+	 * Retrieves an archive given a booking.
+	 * @param bookingId
+	 * @return a n archive dto object.
+	 */
 	@GetMapping(value = { "/Archives/booking", "/Archives/booking/" })
 	public ResponseEntity getArchiveByBooking(@RequestParam String bookingId) {
 		Booking b;
@@ -115,6 +134,11 @@ public class ArchiveRestController {
 		return new ResponseEntity<>(ArchiveDto, HttpStatus.OK);
 	}
 
+	/**
+	 * Retrieves all archives given the title ID.
+	 * @param titleId
+	 * @return a list of archives.
+	 */
 	@GetMapping(value = { "/Archives/titleId", "/Archives/titleId/" })
 	public ResponseEntity getArchivesByTitleId(@RequestParam String titleId) {
 		Title t;
@@ -137,6 +161,11 @@ public class ArchiveRestController {
 		return new ResponseEntity<>(ArchiveDto, HttpStatus.OK);
 	}
 
+	/**
+	 * Retrieves an archives given an id.
+	 * @param ArchiveId
+	 * @return a archive dto object.
+	 */
 	@GetMapping(value = { "/Archives/id", "/Archives/id/" })
 	public ResponseEntity getArchiveById(@RequestParam String ArchiveId) {
 		Archive Archive;
@@ -151,6 +180,12 @@ public class ArchiveRestController {
 		return new ResponseEntity<>(ArchiveDto, HttpStatus.OK);
 	}
 
+	/**
+	 * Creates an archive with given status and title ID.
+	 * @param status
+	 * @param titleId
+	 * @return an archive dto object.
+	 */
 	@PostMapping(value = { "/Archives/create", "/Archives/create/" })
 	public ResponseEntity createArchive(@RequestParam String status,
 										@RequestParam String titleId) {
@@ -176,6 +211,13 @@ public class ArchiveRestController {
 		return new ResponseEntity<>(convertToArchiveDto(Archive), HttpStatus.OK);
 	}
 
+	/**
+	 * Updates an archive's status and title id.
+	 * @param ArchiveBarcode
+	 * @param status
+	 * @param titleId
+	 * @return an archive dto object if successful, else a message "Archive returned null".
+	 */
 	@PutMapping(value = { "/Archives/updateall", "/Archives/updateall/" })
 	public ResponseEntity updateArchive(@RequestParam String ArchiveBarcode, @RequestParam String status,
 										@RequestParam String titleId) {
@@ -207,6 +249,12 @@ public class ArchiveRestController {
 		return new ResponseEntity<>(convertToArchiveDto(Archive), HttpStatus.OK);
 	}
 
+	/**
+	 * Updates an archive's barcode.
+	 * @param ArchiveBarcode
+	 * @param status
+	 * @return an archive dto object if successful, else a message "Archive returned null".
+	 */
 	@PutMapping(value = { "/Archives/upstatus", "/Archives/upstatus/" })
 	public ResponseEntity updateArchiveStatus(@RequestParam String ArchiveBarcode, @RequestParam String status) {
 		Archive Archive;
@@ -228,6 +276,12 @@ public class ArchiveRestController {
 		return new ResponseEntity<>(convertToArchiveDto(Archive), HttpStatus.OK);
 	}
 
+	/**
+	 * Updates an archive's title id.
+	 * @param ArchiveBarcode
+	 * @param titleId
+	 * @return an archive dto object if successful, else a message "Archive returned null".
+	 */
 	@PutMapping(value = { "/Archives/uptitle", "/Archives/uptitle/" })
 	public ResponseEntity updateArchiveTitle(@RequestParam String ArchiveBarcode, @RequestParam String titleId) {
 		Title title;
@@ -257,6 +311,11 @@ public class ArchiveRestController {
 		return new ResponseEntity<>(convertToArchiveDto(Archive), HttpStatus.OK);
 	}
 
+	/**
+	 * Deletes an archive from the system.
+	 * @param ArchiveBarcode
+	 * @return a message "Archive deleted" if successful, else "Could not delete Archive".
+	 */
 	@DeleteMapping(value = { "/Archives/delArchive", "/Archives/delArchive/" })
 	public ResponseEntity deleteArchive(@RequestParam String ArchiveBarcode) {
 		try {
@@ -270,6 +329,11 @@ public class ArchiveRestController {
 		return ResponseEntity.status(HttpStatus.OK).body("Archive deleted on " + new Date());
 	}
 
+	/**
+	 * Deletes an archive based on the status.
+	 * @param status
+	 * @return a message "Archive deleted" if successful.
+	 */
 	@DeleteMapping(value = { "/Archives/delArchivestat", "/Archives/delArchivestat/" })
 	public ResponseEntity deleteArchivesByStatus(@RequestParam String status) {
 		try {
@@ -281,6 +345,11 @@ public class ArchiveRestController {
 		return ResponseEntity.status(HttpStatus.OK).body("Archive deleted on " + new Date());
 	}
 
+	/**
+	 * Deletes an archive based on a booking.
+	 * @param bookingId
+	 * @return a message "Archive Deleted".
+	 */
 	@DeleteMapping(value = { "/Archives/delArchiveByBooking", "/Archives/delArchiveByBooking/" })
 	public ResponseEntity deleteArchivesByBooking(@RequestParam String bookingId) {
 		try {
@@ -292,6 +361,11 @@ public class ArchiveRestController {
 		return ResponseEntity.status(HttpStatus.OK).body("Archive deleted on " + new Date());
 	}
 
+	/**
+	 * Converts a list of model objects to a list of dto objects.
+	 * @param authors
+	 * @return a list of dto authors.
+	 */
 	private AuthorDto[] convertToAuthorDto(List<Author> authors) {
 		if (authors == null || authors.size() == 0)
 			throw new IllegalArgumentException("Cannot find these authors");
@@ -304,12 +378,22 @@ public class ArchiveRestController {
 		return arrayAuthors;
 	}
 
+	/**
+	 * Converts a title model class to title dto class.
+	 * @param title
+	 * @return a title dto object.
+	 */
 	private TitleDto convertToTitleDto(Title title) {
 		if (title == null)
 			throw new NullPointerException("Cannot find this Title");
 		return new TitleDto(title.getTitleID(), title.getName(), title.getPubDate(), convertToAuthorDto(title.getAuthor()));
 	}
 
+	/**
+	 * Converts an archive model class to archive dto class.
+	 * @param i
+	 * @return an archive dto object.
+	 */
 	private ArchiveDto convertToArchiveDto(Archive i) {
 		if (i == null) {
 			throw new IllegalArgumentException("There is no such Item!");

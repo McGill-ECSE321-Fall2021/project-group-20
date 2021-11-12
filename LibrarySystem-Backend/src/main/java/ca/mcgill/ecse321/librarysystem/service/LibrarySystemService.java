@@ -34,6 +34,7 @@ public class LibrarySystemService {
 
     @Transactional
     public LibrarySystem createLibrarySystem(Address aBusinessaddress) {
+        if (aBusinessaddress == null) throw new NullPointerException("Address cannot be null");
         Calendar c = new Calendar();
         calendarRepository.save(c);
         LibrarySystem ls = new LibrarySystem(aBusinessaddress, c);
