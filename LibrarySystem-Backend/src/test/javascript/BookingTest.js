@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const bookingTest = async () => {
-    let remainingTests = 7;
+    let remainingTests = 8;
     let resultData;
     let resultStatus;
     let id;
@@ -222,34 +222,34 @@ const bookingTest = async () => {
     /*
     Test 7: Return Item by item
      */
-    // try {
-    //     let response = await axios.post("http://localhost:8080/booking/create?startDate=12/12/2021&endDate=12/25/2021&type=Reservation&barcode=" + iid + "&LibraryId=" + cid);
-    //
-    //     resultData = response.data;
-    //     resultStatus = response.status;
-    //
-    //     if (resultStatus === 200 && resultData.type.toString() === "Reservation" && resultData.item.itemBarcode === iid && resultData.user.libraryCardID === cid) {
-    //         id = resultData.bookingID;
-    //     } else {
-    //         console.log("Failed Test 1: Create Booking");
-    //         console.log("Error: " + resultData);
-    //         console.log("");
-    //     }
-    //
-    //     response = await axios.delete("http://localhost:8080/booking/return/item?barcode=" + iid);
-    //     resultData = response.data;
-    //     resultStatus = response.status;
-    //     if (resultStatus === 200 && resultData.toString().includes("Item has been returned & booking removed")) remainingTests--;
-    //     else {
-    //         console.log("Failed Test 7: Return item");
-    //         console.log("Error: " + resultData);
-    //         console.log("");
-    //     }
-    // } catch (errorMsg) {
-    //     console.log("Failed Test 7: Return item");
-    //     console.log("Error: " + errorMsg.response.data);
-    //     console.log("");
-    // }
+    try {
+        let response = await axios.post("http://localhost:8080/booking/create?startDate=12/12/2021&endDate=12/25/2021&type=Reservation&barcode=" + iid + "&LibraryId=" + cid);
+
+        resultData = response.data;
+        resultStatus = response.status;
+
+        if (resultStatus === 200 && resultData.type.toString() === "Reservation" && resultData.item.itemBarcode === iid && resultData.user.libraryCardID === cid) {
+            id = resultData.bookingID;
+        } else {
+            console.log("Failed Test 1: Create Booking");
+            console.log("Error: " + resultData);
+            console.log("");
+        }
+
+        response = await axios.put("http://localhost:8080/booking/return/item?barcode=" + iid);
+        resultData = response.data;
+        resultStatus = response.status;
+        if (resultStatus === 200 && resultData.toString().includes("Item has been returned & booking removed")) remainingTests--;
+        else {
+            console.log("Failed Test 7: Return item");
+            console.log("Error: " + resultData);
+            console.log("");
+        }
+    } catch (errorMsg) {
+        console.log("Failed Test 7: Return item");
+        console.log("Error: " + errorMsg.response.data);
+        console.log("");
+    }
 
     /*
     Compile

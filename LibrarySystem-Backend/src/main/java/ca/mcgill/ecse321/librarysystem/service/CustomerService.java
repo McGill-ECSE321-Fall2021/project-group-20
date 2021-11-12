@@ -55,7 +55,9 @@ public class CustomerService {
         newOnlineCustomer.setUsername(username);
         newOnlineCustomer.setPassword(password);
         customerRepository.save(newOnlineCustomer);
-        LibrarySystem librarySystem = librarySystemRepository.findLibrarySystemByUsers(newOnlineCustomer);
+        List<LibrarySystem> ls = new ArrayList<>();
+        librarySystemRepository.findAll().forEach(ls::add);
+        LibrarySystem librarySystem = ls.get(0);
 //         THIS IS TEMPORARY ONLY!!!!!!!!!
         if (!a.getCity().equalsIgnoreCase(librarySystem.getBusinessaddress().getCity()) || !a.getCountry().equalsIgnoreCase(librarySystem.getBusinessaddress().getCountry()) || !a.getProvince().equalsIgnoreCase(librarySystem.getBusinessaddress().getProvince())) {
             newOnlineCustomer.setOutstandingBalance(newOnlineCustomer.getOutstandingBalance() + 50);

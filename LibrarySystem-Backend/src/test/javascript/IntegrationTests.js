@@ -32,10 +32,10 @@ customerTest().then( () => {
 											bookingTest().then( () => {
 												MusicAlbumTest().then( () => {
 													MovieTest().then( () => {
-														BookTest()
+														BookTest();
 													})
 												})
-											});
+											})
 										})
                                     })
 								})

@@ -1,3 +1,5 @@
+import static org.apache.tools.ant.taskdefs.condition.Os.*
+
 plugins {
 	id 'org.springframework.boot' version '2.5.5'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -37,15 +39,17 @@ task integrationTest(type: Exec) {
 	group='verification'
 	workingDir './src/test/javascript'
 
-	//on windows:
-	commandLine 'cmd', '/c', 'node IntegrationTests.js'
+	if(isFamily(FAMILY_WINDOWS)) {
+		commandLine 'cmd', '/c', 'node IntegrationTests.js'
+	}
 
-	//else:
-	commandLine 'node IntegrationTests.js'
+	if(!isFamily(FAMILY_WINDOWS)) {
+		commandLine 'node IntegrationTests.js'
+	}
 
 	//store output
-	standardOutput = new ByteArrayOutputStream()
+	standardOutput = new ByteArrayOutputStream();
 
 	//to obtain output
-	ext.output = {return standardOutput.toString()}
+	ext.output = {return standardOutput.toString();}
 }

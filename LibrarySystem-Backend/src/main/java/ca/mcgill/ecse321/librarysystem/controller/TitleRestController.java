@@ -73,7 +73,7 @@ public class TitleRestController {
     }
 
     @GetMapping(value = { "/titles/author/{id}","/titles/author/{id}/"})
-    public ResponseEntity getTitlesByAuthorID(@RequestParam String author) {
+    public ResponseEntity getTitlesByAuthorID(@PathVariable("id") String author) {
 		Author a;
 		List<Title> titles;
 		try {

@@ -105,11 +105,13 @@ public class TestCustomerService {
             return null;
         });
 
-        lenient().when(libraryDao.findLibrarySystemByUsers(any(User.class))).thenAnswer((InvocationOnMock invocation) -> {
+        lenient().when(libraryDao.findAll()).thenAnswer((InvocationOnMock invocation) -> {
             Address a = new Address(CIVIC_1, STREET_1, CITY_1, POST_1, PROV_1, COUNTRY_1);
             Calendar c = new Calendar();
             LibrarySystem ls = new LibrarySystem(a, c);
-            return ls;
+            List<LibrarySystem> list = new ArrayList<>();
+            list.add(ls);
+            return list;
         });
 
         Answer<?> returnParamAsAnswer = (InvocationOnMock invocation) -> invocation.getArgument(0);

@@ -88,7 +88,7 @@ public class EmployeeRestController {
         return new ResponseEntity<>(employeeDtos, HttpStatus.OK);
     }
 
-    @GetMapping(value = {"/employees/role/{role}", "/employees/role/{role}/"})
+    @GetMapping(value = {"/employees/role", "/employees/role/"})
     public ResponseEntity getEmployeesByRole(@RequestParam String role) {
         List<EmployeeDto> employeeDtos = new ArrayList<>();
         List<Employee> employees;
