@@ -35,8 +35,11 @@ const bookingTest = async () => {
     Test 1: Create Booking
      */
     try {
-        let payload = "firstname=John&lastname=Doe&civic=1&street=Univeristy&city=Montreal&postalCode=H2X1D3&province=QC&country=Canada";
-        let response = await axios.post("http://localhost:8080/customer/createLocal?" + payload)
+        let payload = "?civicNumber=1&street=University&city=Montreal&postalCode=&W2E3E3&province=QC&country=Canada";
+        let response = await axios.post("http://localhost:8080/librarySystem/create" + payload);
+
+        payload = "firstname=John&lastname=Doe&civic=1&street=Univeristy&city=Montreal&postalCode=H2X1D3&province=QC&country=Canada";
+        response = await axios.post("http://localhost:8080/customer/createLocal?" + payload)
 
         resultData = response.data;
         resultStatus = response.status;

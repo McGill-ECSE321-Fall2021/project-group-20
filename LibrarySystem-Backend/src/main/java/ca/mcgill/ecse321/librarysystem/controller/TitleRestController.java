@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.librarysystem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,11 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import ca.mcgill.ecse321.librarysystem.dto.AuthorDto;
-import ca.mcgill.ecse321.librarysystem.dto.ItemDto;
 import ca.mcgill.ecse321.librarysystem.dto.TitleDto;
 import ca.mcgill.ecse321.librarysystem.model.Author;
 import ca.mcgill.ecse321.librarysystem.model.Item;

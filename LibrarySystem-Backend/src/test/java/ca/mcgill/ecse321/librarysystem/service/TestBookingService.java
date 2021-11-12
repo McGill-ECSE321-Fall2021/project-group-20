@@ -1,18 +1,14 @@
 package ca.mcgill.ecse321.librarysystem.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 
 import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,24 +23,17 @@ import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.librarysystem.dao.BookingRepository;
 import ca.mcgill.ecse321.librarysystem.dao.EmployeeRepository;
-import ca.mcgill.ecse321.librarysystem.dao.EventRepository;
-import ca.mcgill.ecse321.librarysystem.dao.HourRepository;
 import ca.mcgill.ecse321.librarysystem.dao.ItemRepository;
 import ca.mcgill.ecse321.librarysystem.model.Address;
 import ca.mcgill.ecse321.librarysystem.model.Author;
 import ca.mcgill.ecse321.librarysystem.model.Booking;
 import ca.mcgill.ecse321.librarysystem.model.Item;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
-import ca.mcgill.ecse321.librarysystem.model.LibrarySystem;
 import ca.mcgill.ecse321.librarysystem.model.Title;
 import ca.mcgill.ecse321.librarysystem.model.User;
 import ca.mcgill.ecse321.librarysystem.model.Booking.BookingType;
-import ca.mcgill.ecse321.librarysystem.model.Calendar;
 import ca.mcgill.ecse321.librarysystem.model.Employee;
 import ca.mcgill.ecse321.librarysystem.model.Employee.Role;
-import ca.mcgill.ecse321.librarysystem.model.Event;
-import ca.mcgill.ecse321.librarysystem.model.Hour;
-
 
 
 @ExtendWith(MockitoExtension.class)

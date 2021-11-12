@@ -3,7 +3,6 @@
 
 package ca.mcgill.ecse321.librarysystem.model;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 

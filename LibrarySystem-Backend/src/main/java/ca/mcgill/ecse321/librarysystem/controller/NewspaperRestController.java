@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 import ca.mcgill.ecse321.librarysystem.dto.AuthorDto;
-import ca.mcgill.ecse321.librarysystem.dto.ItemDto;
 import ca.mcgill.ecse321.librarysystem.dto.NewspaperDto;
 import ca.mcgill.ecse321.librarysystem.dto.TitleDto;
 import ca.mcgill.ecse321.librarysystem.service.BookingService;

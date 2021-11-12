@@ -1,9 +1,6 @@
 package ca.mcgill.ecse321.librarysystem.dto;
 import java.sql.Time;
 
-
-
-import java.sql.Date;
 public class HourDto {
 	 private String weekday;
 	  private Time startTime;

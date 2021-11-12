@@ -83,8 +83,11 @@ const customerTest = async () => {
     Integration Test 3: Create an online customer Pass
      */
     try {
-        let payload = "firstname=John&lastname=Doe&email=a@a.ca&username=johndoe&password=12345678&civic=1&street=Univeristy&city=Montreal&postalCode=H2X1D3&province=QC&country=Canada";
-        let response = await axios.post("http://localhost:8080/customer/create?" + payload);
+        let payload = "?civicNumber=1&street=University&city=Montreal&postalCode=&W2E3E3&province=QC&country=Canada";
+        let response = await axios.post("http://localhost:8080/librarySystem/create" + payload);
+
+        payload = "firstname=John&lastname=Doe&email=a@a.ca&username=johndoe&password=12345678&civic=1&street=Univeristy&city=Montreal&postalCode=H2X1D3&province=QC&country=Canada";
+        response = await axios.post("http://localhost:8080/customer/create?" + payload);
 
         resultData = response.data;
         resultStatus = response.status;

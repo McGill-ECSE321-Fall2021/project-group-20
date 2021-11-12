@@ -2,13 +2,9 @@ package ca.mcgill.ecse321.librarysystem.service;
 
 import ca.mcgill.ecse321.librarysystem.dao.*;
 import ca.mcgill.ecse321.librarysystem.model.*;
-import org.apache.tomcat.jni.Library;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import static org.hibernate.internal.util.collections.ArrayHelper.toList;
 
 @Service
 public class LibrarySystemService {

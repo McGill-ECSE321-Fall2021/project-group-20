@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,10 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.mcgill.ecse321.librarysystem.dao.TitleRepository;
 import ca.mcgill.ecse321.librarysystem.dto.AuthorDto;
-import ca.mcgill.ecse321.librarysystem.dto.ItemDto;
-import ca.mcgill.ecse321.librarysystem.dto.TitleDto;
 import ca.mcgill.ecse321.librarysystem.model.Author;
 import ca.mcgill.ecse321.librarysystem.model.Title;
 import ca.mcgill.ecse321.librarysystem.service.AuthorService;
@@ -96,7 +92,7 @@ public class AuthorRestController {
 	@GetMapping(value = { "/authors/getByTitles", "/authors/getByTitles/"})
     public ResponseEntity getAuthorsByTitles(@RequestParam String titles) {
 		List<Title> titleList = new ArrayList<>();
-        List<String> seperatedAuthorStringList = Arrays.asList(titles.split(","));
+        String[] seperatedAuthorStringList = titles.split(",");
         for (String s : seperatedAuthorStringList) {
 			try {
 				titleList.add(titleService.getTitleByTitleID(s));
@@ -207,7 +203,7 @@ public class AuthorRestController {
 	@DeleteMapping(value = {"/author/deleteAuthorsByTitles", "/author/deleteAuthorsByTitles/"})
 	public ResponseEntity deleteAuthorsByTitles(@RequestParam String titles) {
 		List<Title> titleList = new ArrayList<>();
-        List<String> seperatedAuthorStringList = Arrays.asList(titles.split(","));
+        String[] seperatedAuthorStringList = titles.split(",");
         for (String s : seperatedAuthorStringList) {
 			try {
 				titleList.add(titleService.getTitleByTitleID(s));
@@ -232,7 +228,7 @@ public class AuthorRestController {
 	
 	private List <AuthorDto> convertToAuthorsDto(List<Author> authors) throws IllegalArgumentException, NullPointerException {
 		if (authors == null || authors.size() == 0) throw new NullPointerException("Cannot find this Title");
-		List <AuthorDto> list_authors = new ArrayList<AuthorDto>();
+		List <AuthorDto> list_authors = new ArrayList<>();
 		for (int i = 0; i < authors.size(); i++) list_authors.add(convertToAuthorDto(authors.get(i)));
 		return list_authors; 
 	}

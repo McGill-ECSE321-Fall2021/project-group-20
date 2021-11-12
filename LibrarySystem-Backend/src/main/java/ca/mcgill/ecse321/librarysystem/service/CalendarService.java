@@ -3,14 +3,9 @@ package ca.mcgill.ecse321.librarysystem.service;
 import ca.mcgill.ecse321.librarysystem.dao.CalendarRepository;
 import ca.mcgill.ecse321.librarysystem.dao.HourRepository;
 import ca.mcgill.ecse321.librarysystem.model.Calendar;
-import ca.mcgill.ecse321.librarysystem.model.Hour;
-import ca.mcgill.ecse321.librarysystem.model.LibrarySystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import static org.hibernate.internal.util.collections.ArrayHelper.toList;
 
 @Service
 public class CalendarService {

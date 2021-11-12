@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.librarysystem.controller;
 
 import ca.mcgill.ecse321.librarysystem.dto.CalendarDto;
 import ca.mcgill.ecse321.librarysystem.model.Calendar;
-import ca.mcgill.ecse321.librarysystem.model.Hour;
 import ca.mcgill.ecse321.librarysystem.service.CalendarService;
 import ca.mcgill.ecse321.librarysystem.service.HourService;
 import ca.mcgill.ecse321.librarysystem.service.LibrarySystemService;
@@ -10,9 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController

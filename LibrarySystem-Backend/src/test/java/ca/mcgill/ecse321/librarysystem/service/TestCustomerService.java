@@ -2,9 +2,8 @@ package ca.mcgill.ecse321.librarysystem.service;
 
 import ca.mcgill.ecse321.librarysystem.dao.AddressRepository;
 import ca.mcgill.ecse321.librarysystem.dao.CustomerRepository;
-import ca.mcgill.ecse321.librarysystem.model.Address;
-import ca.mcgill.ecse321.librarysystem.model.Customer;
-import ca.mcgill.ecse321.librarysystem.model.User;
+import ca.mcgill.ecse321.librarysystem.dao.LibrarySystemRepository;
+import ca.mcgill.ecse321.librarysystem.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,6 +45,9 @@ public class TestCustomerService {
 
     @Mock
     private AddressRepository addressDao;
+
+    @Mock
+    private LibrarySystemRepository libraryDao;
 
     @InjectMocks
     private CustomerService customerService;
@@ -101,6 +103,13 @@ public class TestCustomerService {
                 return c;
             }
             return null;
+        });
+
+        lenient().when(libraryDao.findLibrarySystemByUsers(any(User.class))).thenAnswer((InvocationOnMock invocation) -> {
+            Address a = new Address(CIVIC_1, STREET_1, CITY_1, POST_1, PROV_1, COUNTRY_1);
+            Calendar c = new Calendar();
+            LibrarySystem ls = new LibrarySystem(a, c);
+            return ls;
         });
 
         Answer<?> returnParamAsAnswer = (InvocationOnMock invocation) -> invocation.getArgument(0);

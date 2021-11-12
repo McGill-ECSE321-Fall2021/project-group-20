@@ -1,10 +1,8 @@
 package ca.mcgill.ecse321.librarysystem.controller;
 
 import ca.mcgill.ecse321.librarysystem.dto.AddressDto;
-import ca.mcgill.ecse321.librarysystem.dto.CustomerDto;
 import ca.mcgill.ecse321.librarysystem.dto.EmployeeDto;
 import ca.mcgill.ecse321.librarysystem.model.Address;
-import ca.mcgill.ecse321.librarysystem.model.Customer;
 import ca.mcgill.ecse321.librarysystem.model.Employee;
 import ca.mcgill.ecse321.librarysystem.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
 
 @CrossOrigin(origins = "*")

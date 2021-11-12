@@ -10,7 +10,6 @@ import ca.mcgill.ecse321.librarysystem.dto.BookingDto;
 import ca.mcgill.ecse321.librarysystem.dto.ItemDto;
 import ca.mcgill.ecse321.librarysystem.dto.TitleDto;
 import ca.mcgill.ecse321.librarysystem.dto.UserDto;
-import ca.mcgill.ecse321.librarysystem.dto.BookingDto.BookingType;
 import ca.mcgill.ecse321.librarysystem.model.Address;
 import ca.mcgill.ecse321.librarysystem.model.Author;
 import ca.mcgill.ecse321.librarysystem.model.Calendar;
@@ -33,13 +32,11 @@ import ca.mcgill.ecse321.librarysystem.service.HourService;
 import ca.mcgill.ecse321.librarysystem.service.ItemService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,7 +94,7 @@ public class BookingRestController {
 	 public ResponseEntity createBooking(@RequestParam String startDate,@RequestParam String endDate,@RequestParam String type,@RequestParam String barcode,@RequestParam String LibraryId) {
 		 try {
 			 Item i = itemService.getItemById(Long.valueOf(barcode));
-			 Customer c = customerService.getCustomer(Integer.valueOf(LibraryId));
+			 Customer c = customerService.getCustomer(Integer.parseInt(LibraryId));
 			 String[] dateS = startDate.split("/");
 			 Date s = Date.valueOf(dateS[2] + "-" + dateS[0] + "-" + dateS[1]);
 			 String[] dateE = endDate.split("/");
@@ -162,7 +159,7 @@ public class BookingRestController {
 	 public ResponseEntity getBookingListbyUser(@RequestParam String libraryId){
 		 try {
 			 List<BookingDto> bookingDtos = new ArrayList<>();
-			 Customer c = customerService.getCustomer(Integer.valueOf(libraryId));
+			 Customer c = customerService.getCustomer(Integer.parseInt(libraryId));
 			 List<Booking> bookings = bookingService.getBookingListbyUser(c);
 			 for (Booking b : bookings) {
 				 bookingDtos.add(convertToDto(b));
@@ -251,7 +248,7 @@ public class BookingRestController {
 	 @PutMapping(value = {"/booking/updatebyID/user", "/booking/updatebyID/user/"})
 	 public ResponseEntity updateUserofBookingByID(@RequestParam String bid, @RequestParam String libId) {
 		 try {
-			 Customer c = customerService.getCustomer(Integer.valueOf(libId));
+			 Customer c = customerService.getCustomer(Integer.parseInt(libId));
 			 if (bookingService.updateUserofBookingByID(bid, c)) {
 				 return new ResponseEntity<>(convertToDto(bookingService.getBookingbyId(bid)), HttpStatus.OK);
 			 }
@@ -323,7 +320,7 @@ public class BookingRestController {
 	    }
 
 	    private List<ItemDto> convertToItem(List<Item> i) {
-	        List<ItemDto> itemDtoList = new ArrayList<ItemDto>();
+	        List<ItemDto> itemDtoList = new ArrayList<>();
 	        for (Item c : i) {
 	            ItemDto itemDto = convertToItemDto(c);
 	            itemDtoList.add(itemDto);

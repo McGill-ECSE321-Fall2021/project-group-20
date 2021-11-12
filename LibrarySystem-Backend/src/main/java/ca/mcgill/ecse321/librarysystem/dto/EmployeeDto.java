@@ -1,8 +1,5 @@
 package ca.mcgill.ecse321.librarysystem.dto;
 
-import ca.mcgill.ecse321.librarysystem.model.Employee;
-import ca.mcgill.ecse321.librarysystem.model.Hour;
-
 import java.util.List;
 
 public class EmployeeDto extends UserDto {

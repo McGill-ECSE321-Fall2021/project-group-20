@@ -55,13 +55,12 @@ public class CustomerService {
         newOnlineCustomer.setUsername(username);
         newOnlineCustomer.setPassword(password);
         customerRepository.save(newOnlineCustomer);
-        //LibrarySystem librarySystem = librarySystemRepository.findLibrarySystemByUsers(newOnlineCustomer);
-        // THIS IS TEMPORARY ONLY!!!!!!!!!
-//        if (!a.getCity().equalsIgnoreCase(librarySystem.getBusinessaddress().getCity()) || !a.getCountry().equalsIgnoreCase(librarySystem.getBusinessaddress().getCountry()) || !a.getProvince().equalsIgnoreCase(librarySystem.getBusinessaddress().getProvince())) {
-//            newOnlineCustomer.setOutstandingBalance(newOnlineCustomer.getOutstandingBalance() + 50);
-        if (!a.getCity().equalsIgnoreCase("Montreal") || !a.getCountry().equalsIgnoreCase("Canada") || !a.getProvince().equalsIgnoreCase("QC")) {
+        LibrarySystem librarySystem = librarySystemRepository.findLibrarySystemByUsers(newOnlineCustomer);
+//         THIS IS TEMPORARY ONLY!!!!!!!!!
+        if (!a.getCity().equalsIgnoreCase(librarySystem.getBusinessaddress().getCity()) || !a.getCountry().equalsIgnoreCase(librarySystem.getBusinessaddress().getCountry()) || !a.getProvince().equalsIgnoreCase(librarySystem.getBusinessaddress().getProvince())) {
             newOnlineCustomer.setOutstandingBalance(newOnlineCustomer.getOutstandingBalance() + 50);
-            System.out.println("Note: you will have to pay " + newOnlineCustomer.getOutstandingBalance() + " before you can start using the Library");
+//        if (!a.getCity().equalsIgnoreCase("Montreal") || !a.getCountry().equalsIgnoreCase("Canada") || !a.getProvince().equalsIgnoreCase("QC")) {
+//            newOnlineCustomer.setOutstandingBalance(newOnlineCustomer.getOutstandingBalance() + 50);
             customerRepository.save(newOnlineCustomer);
         }
         return newOnlineCustomer;

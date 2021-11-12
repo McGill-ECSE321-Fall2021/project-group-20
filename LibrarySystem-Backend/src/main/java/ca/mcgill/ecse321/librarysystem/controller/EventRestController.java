@@ -15,7 +15,6 @@ import ca.mcgill.ecse321.librarysystem.service.EmployeeService;
 import ca.mcgill.ecse321.librarysystem.service.EventService;
 import ca.mcgill.ecse321.librarysystem.service.HourService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

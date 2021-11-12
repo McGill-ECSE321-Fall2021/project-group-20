@@ -23,14 +23,12 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
-import ca.mcgill.ecse321.librarysystem.dao.MovieRepository;
 import ca.mcgill.ecse321.librarysystem.dao.MusicAlbumRepository;
 import ca.mcgill.ecse321.librarysystem.model.Address;
 import ca.mcgill.ecse321.librarysystem.model.Author;
 import ca.mcgill.ecse321.librarysystem.model.Booking;
 import ca.mcgill.ecse321.librarysystem.model.Item;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
-import ca.mcgill.ecse321.librarysystem.model.Movie;
 import ca.mcgill.ecse321.librarysystem.model.MusicAlbum;
 import ca.mcgill.ecse321.librarysystem.model.Title;
 import ca.mcgill.ecse321.librarysystem.model.User;

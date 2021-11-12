@@ -1,7 +1,5 @@
 package ca.mcgill.ecse321.librarysystem.dto;
 
-import ca.mcgill.ecse321.librarysystem.model.Address;
-
 public class AddressDto {
 
     private String addressID;

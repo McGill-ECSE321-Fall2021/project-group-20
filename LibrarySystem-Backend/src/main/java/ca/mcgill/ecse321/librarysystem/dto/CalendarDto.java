@@ -1,9 +1,5 @@
 package ca.mcgill.ecse321.librarysystem.dto;
 
-import ca.mcgill.ecse321.librarysystem.model.Calendar;
-import ca.mcgill.ecse321.librarysystem.model.Hour;
-
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

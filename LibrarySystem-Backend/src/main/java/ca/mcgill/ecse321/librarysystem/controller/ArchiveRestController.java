@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 import ca.mcgill.ecse321.librarysystem.dto.AuthorDto;
-import ca.mcgill.ecse321.librarysystem.dto.ItemDto;
 import ca.mcgill.ecse321.librarysystem.dto.ArchiveDto;
 import ca.mcgill.ecse321.librarysystem.dto.TitleDto;
 import ca.mcgill.ecse321.librarysystem.service.BookingService;
@@ -192,7 +191,7 @@ public class ArchiveRestController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Title returned null");
 
 		try {
-			ArchiveService.updateArchive(Status.valueOf(status), Long.valueOf(ArchiveBarcode), title);
+			ArchiveService.updateArchive(Status.valueOf(status), Long.parseLong(ArchiveBarcode), title);
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
@@ -213,7 +212,7 @@ public class ArchiveRestController {
 		Archive Archive;
 
 		try {
-			ArchiveService.updateArchive(Status.valueOf(status), Long.valueOf(ArchiveBarcode));
+			ArchiveService.updateArchive(Status.valueOf(status), Long.parseLong(ArchiveBarcode));
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
@@ -241,7 +240,7 @@ public class ArchiveRestController {
 		}
 
 		try {
-			ArchiveService.updateArchive(Long.valueOf(ArchiveBarcode), title);
+			ArchiveService.updateArchive(Long.parseLong(ArchiveBarcode), title);
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 
@@ -308,8 +307,7 @@ public class ArchiveRestController {
 	private TitleDto convertToTitleDto(Title title) {
 		if (title == null)
 			throw new NullPointerException("Cannot find this Title");
-		TitleDto titles = new TitleDto(title.getTitleID(), title.getName(), title.getPubDate(), convertToAuthorDto(title.getAuthor()));
-		return titles;
+		return new TitleDto(title.getTitleID(), title.getName(), title.getPubDate(), convertToAuthorDto(title.getAuthor()));
 	}
 
 	private ArchiveDto convertToArchiveDto(Archive i) {
@@ -318,8 +316,7 @@ public class ArchiveRestController {
 		}
 		Status mystatus = i.getStatus();
 		TitleDto title = convertToTitleDto(i.getTitle());
-		ArchiveDto item = new ArchiveDto(mystatus, i.getItemBarcode(), title);
-		return item;
+		return new ArchiveDto(mystatus, i.getItemBarcode(), title);
 	}
 	private List<ArchiveDto> convertToArchive(List<Archive> i) {
 		List<ArchiveDto> ArchiveDtoList = new ArrayList<>();

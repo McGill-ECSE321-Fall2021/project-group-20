@@ -1,8 +1,6 @@
 package ca.mcgill.ecse321.librarysystem.dto;
 
-import ca.mcgill.ecse321.librarysystem.model.Booking;
 import ca.mcgill.ecse321.librarysystem.model.Item;
-import ca.mcgill.ecse321.librarysystem.model.Title;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 
 

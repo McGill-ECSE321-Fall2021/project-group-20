@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ca.mcgill.ecse321.librarysystem.dao.EventRepository;
 import ca.mcgill.ecse321.librarysystem.model.Event;
 import ca.mcgill.ecse321.librarysystem.model.Hour;
-import ca.mcgill.ecse321.librarysystem.model.Title;
 
 
 @Service

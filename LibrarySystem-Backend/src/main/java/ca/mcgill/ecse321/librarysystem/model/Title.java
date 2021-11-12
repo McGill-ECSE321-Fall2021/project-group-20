@@ -11,7 +11,6 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.springframework.core.annotation.Order;
 
 // line 19 "../../../../../librarysystem.ump"
 @Entity
