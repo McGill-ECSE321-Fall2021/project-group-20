@@ -13,7 +13,7 @@ var AXIOS = axios.create({
 })
 
 export default {
-  name: 'customer_login_script',
+  name: 'create_account_script',
   data() {
     return {
       error: '',
@@ -22,9 +22,12 @@ export default {
   },
 
   methods: {
-    login: function (name, password) {
-      AXIOS.put(backendUrl + '/customer/login?name=' + name + '&password=' + password).then(response => {
-        this.response = response.data
+    create: function (firstname, lastname, email, username, password, civic, street, city, postalCode, province, country) {
+      AXIOS.post(backendUrl + '/customer/create?firstname=' + firstname + '&lastname=' + lastname +
+        '&email=' + email + '&username=' + username + '&password=' + password + '&civic=' + civic +
+        '&street=' + street + '&city=' + city + '&postalCode=' + postalCode + '&province=' +
+        province + '&country=' + country).then(response => {
+          this.response = response.data
         this.error = ''
         console.log(response)
         if (this.response != '') {
@@ -36,11 +39,8 @@ export default {
         this.error = msg.response.data;
       })
     },
-    employee: function () {
-      this.$router.push('employee')
-    },
-    create: function () {
-      this.$router.push('create')
+    cancel: function () {
+      this.$router.push('/')
     }
   }
 }

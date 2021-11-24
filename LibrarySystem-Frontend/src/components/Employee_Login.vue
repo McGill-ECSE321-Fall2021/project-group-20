@@ -1,5 +1,8 @@
 <template>
   <div id="employee_login">
+    <div class="header_img">
+      <img src="../assets/LS.png" style="width:20vh; height:auto;">
+    </div>
     <div class="login_msg">
       <h1>Welcome to Group 20's Library System Application!</h1>
       <br>
@@ -16,15 +19,20 @@
       </form>
     </div>
     <div class="login_button">
-      <button class="btn btn-primary" @click="login(username, password)">Login</button>
+      <button class="btn btn-success" @click="login(username, password)">Login</button>
+      <br><br>
+      <button class="btn btn-danger" @click="back">Return</button>
     </div>
     <p>
       <span v-if="error" style="color: red">Error: {{error}}</span>
     </p>
+    <div class="easter_egg">
+      <img src="../assets/Signature.png" style="width:35%; height:auto;">
+    </div>
   </div>
 </template>
 
-<script>
+<script src="./employee_login_script.js">
 export default {
   name: "employee_login"
 }
@@ -35,6 +43,7 @@ export default {
   position: relative;
   text-align: center;
   padding-bottom: 5vh;
+  padding-top: 5vh;
 }
 
 .input {
@@ -48,6 +57,12 @@ export default {
 .login_button {
   position: relative;
   align-content: center;
-  padding-bottom: 5vh;
+  padding-bottom: 3vh;
+}
+
+.easter_egg {
+  position: relative;
+  align-content: center;
+  padding-top: 5vh;
 }
 </style>

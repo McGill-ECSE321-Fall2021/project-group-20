@@ -13,7 +13,7 @@ var AXIOS = axios.create({
 })
 
 export default {
-  name: 'customer_login_script',
+  name: 'employee_login_script',
   data() {
     return {
       error: '',
@@ -23,7 +23,7 @@ export default {
 
   methods: {
     login: function (name, password) {
-      AXIOS.put(backendUrl + '/customer/login?name=' + name + '&password=' + password).then(response => {
+      AXIOS.put(backendUrl + '/employee/login?name=' + name + '&password=' + password).then(response => {
         this.response = response.data
         this.error = ''
         console.log(response)
@@ -36,11 +36,8 @@ export default {
         this.error = msg.response.data;
       })
     },
-    employee: function () {
-      this.$router.push('employee')
-    },
-    create: function () {
-      this.$router.push('create')
+    back: function () {
+      this.$router.push('/')
     }
   }
 }
