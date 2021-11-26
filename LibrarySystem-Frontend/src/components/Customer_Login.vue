@@ -22,6 +22,8 @@
       <br><br>
       <button class="btn btn-primary" @click="create">Create Account</button>
       <button class="btn btn-danger" @click="employee">Employee Login</button>
+      <button class="btn btn-primary" @click="voirpageEmployee">Employee View</button>
+
     </div>
     <p>
       <span v-if="error" style="color: red">Error: {{error}}</span>

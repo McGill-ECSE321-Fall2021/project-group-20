@@ -41,6 +41,10 @@ export default {
     },
     create: function () {
       this.$router.push('create')
+    },
+    voirpageEmployee: function () {
+      this.$router.push('EmployeePage')
     }
+
   }
 }

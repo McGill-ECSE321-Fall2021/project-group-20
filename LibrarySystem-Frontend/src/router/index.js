@@ -4,6 +4,11 @@ import Hello from '@/components/Hello'
 import Customer_Login from '@/components/Customer_Login';
 import Employee_Login from "@/components/Employee_Login";
 import Create_Account from "@/components/Create_Account";
+import Employee_View from "../components/Employee_View";
+import Booking_View from "../components/Booking_View";
+import Management_View from "../components/Management_View";
+import Event_View from "../components/Event_View";
+import Schedule_View from "../components/Schedule_View";
 
 Vue.use(Router)
 
@@ -28,6 +33,32 @@ export default new Router({
       path: '/create',
       name: 'create_account',
       component: Create_Account
+    },
+
+    {
+      path: '/EmployeePage',
+      name: 'employee_view',
+      component: Employee_View
+    },
+    {
+      path: '/EmployeePage/Booking',
+      name: 'booking_view',
+      component: Booking_View
+    },
+    {
+      path: '/EmployeePage/Management',
+      name: 'management_view',
+      component: Management_View
+    },
+    {
+      path: '/EmployeePage/Event',
+      name: 'event_view',
+      component: Event_View
+    },
+    {
+      path: '/EmployeePage/Schedule',
+      name: 'schedule_view',
+      component: Schedule_View
     }
   ],
   mode: "history"
