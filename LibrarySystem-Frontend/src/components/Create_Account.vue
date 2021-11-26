@@ -83,6 +83,10 @@ export default {
 </script>
 
 <style scoped>
+#create_account {
+  background-color: rgba(66, 185, 131, 0.91);
+}
+
 .msg {
   padding-top: 2vh;
   padding-bottom: 5vh;
@@ -94,6 +98,6 @@ export default {
 }
 
 .buttons {
-  padding-bottom: 3vh;
+  padding-bottom: 28vh;
 }
 </style>

@@ -11,7 +11,13 @@
     </div>
     <div class="input">
       <form>
-        <label for="username">Username/Email/ID:</label>
+        <label for="username">
+          <label for="loginType">Choose method of login:</label>
+          <select v-model="type" id="loginType">
+            <option selected="selected" value="name">Username/Email</option>
+            <option value="id">Library Card ID</option>
+          </select>
+        </label>
         <input type="text" v-model="username" id="username" class="form-control" required>
         <br>
         <label for="password">Password:</label>
@@ -19,7 +25,7 @@
       </form>
     </div>
     <div class="login_button">
-      <button class="btn btn-success" @click="login(username, password)">Login</button>
+      <button class="btn btn-success" @click="login(username, password, type)">Login</button>
       <br><br>
       <button class="btn btn-danger" @click="back">Return</button>
     </div>
@@ -39,6 +45,10 @@ export default {
 </script>
 
 <style scoped>
+#employee_login {
+  background-color: rgba(66, 185, 131, 0.91);
+}
+
 .login_msg {
   position: relative;
   text-align: center;
@@ -64,5 +74,6 @@ export default {
   position: relative;
   align-content: center;
   padding-top: 5vh;
+  padding-bottom: 15vh;
 }
 </style>

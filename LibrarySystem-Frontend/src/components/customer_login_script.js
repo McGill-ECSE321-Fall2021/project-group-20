@@ -22,17 +22,29 @@ export default {
   },
 
   methods: {
-    login: function (name, password) {
-      AXIOS.put(backendUrl + '/customer/login?name=' + name + '&password=' + password).then(response => {
+    login: function (name, password, type) {
+      let url = backendUrl + '/customer/login'
+      let sts = 0;
+      if (type === "name") {
+        url += '?name=' + name + '&password=' + password;
+        sts = 1;
+      }
+      else {
+        url += '/' + name + '?password=' + password;
+        sts = 2;
+      }
+
+      AXIOS.put(url).then(response => {
         this.response = response.data
         this.error = ''
         console.log(response)
-        if (this.response != '') {
+        if (this.response.isLoggedIn) {
+          document.cookie = "libraryCardID=" + this.response.libraryCardID;
           this.$router.push('home')
         }
       }).catch(msg => {
         console.log(msg.response.data)
-        console.log(msg.response.status)
+        console.log(msg.status)
         this.error = msg.response.data;
       })
     },
