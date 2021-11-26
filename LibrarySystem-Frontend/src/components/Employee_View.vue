@@ -11,7 +11,7 @@
           <b-navbar-nav>
             <b-nav-item href="#">Library </b-nav-item>
             <b-nav-item @click="openBooking">Booking </b-nav-item>
-            <b-nav-item @click="openBooking">Management</b-nav-item>
+            <b-nav-item @click="openManagement">Management</b-nav-item>
             <b-nav-item @click="openEvent">Event </b-nav-item>
             <b-nav-item @click="openSchedule">Schedule </b-nav-item>
           </b-navbar-nav>
@@ -25,7 +25,7 @@
                 <em>User</em>
               </template>
               <b-dropdown-item @click="openProfile">Profile</b-dropdown-item>
-              <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+              <b-dropdown-item @click="signout">Sign Out</b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>

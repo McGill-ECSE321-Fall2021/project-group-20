@@ -22,10 +22,10 @@ export default {
   },
 
   methods: {
-    login: function (name, password, type) {
+    login: function (name, password) {
       let url = backendUrl + '/customer/login'
       let sts = 0;
-      if (type === "name") {
+      if (document.getElementById('loginType').value === "name") {
         url += '?name=' + name + '&password=' + password;
         sts = 1;
       }
@@ -39,7 +39,8 @@ export default {
         this.error = ''
         console.log(response)
         if (this.response.isLoggedIn) {
-          document.cookie = "libraryCardID=" + this.response.libraryCardID;
+          document.cookie = "libraryCardID=" + this.response.libraryCardID + "; path=/";
+          document.cookie = "usertype=customer ; path=/";
           this.$router.push('home')
         }
       }).catch(msg => {
@@ -57,6 +58,17 @@ export default {
     voirpageEmployee: function () {
       this.$router.push('EmployeePage')
     }
-
-  }
+  },
+  beforeMount(){
+    if (document.cookie.indexOf('libraryCardID=') !== -1) {
+      let splits = document.cookie.split(';');
+      let type = splits[1].split('=')
+      if (type[1] === 'employee') {
+        this.$router.push('EmployeePage')
+      }
+      else {
+        this.$router.push('home')
+      }
+    }
+  },
 }

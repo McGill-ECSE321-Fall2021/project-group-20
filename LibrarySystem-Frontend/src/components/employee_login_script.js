@@ -22,10 +22,10 @@ export default {
   },
 
   methods: {
-    login: function (name, password, type) {
+    login: function (name, password) {
       let url = backendUrl + '/employee/login'
       let sts = 0;
-      if (type === "name") {
+      if (document.getElementById('loginType').value === "name") {
         url += '?name=' + name + '&password=' + password;
         sts = 1;
       }
@@ -39,8 +39,9 @@ export default {
         this.error = ''
         console.log(response)
         if (this.response.isLoggedIn) {
-          document.cookie = "libraryCardID=" + this.response.libraryCardID;
-          this.$router.push('home')
+          document.cookie = "libraryCardID=" + this.response.libraryCardID + "; path=/";
+          document.cookie = "usertype=employee; path=/";
+          this.$router.push('EmployeePage')
         }
       }).catch(msg => {
         console.log(msg.response.data)

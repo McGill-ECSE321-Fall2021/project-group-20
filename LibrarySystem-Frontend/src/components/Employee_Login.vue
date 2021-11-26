@@ -13,8 +13,8 @@
       <form>
         <label for="username">
           <label for="loginType">Choose method of login:</label>
-          <select v-model="type" id="loginType">
-            <option selected="selected" value="name">Username/Email</option>
+          <select id="loginType">
+            <option selected value="name">Username/Email</option>
             <option value="id">Library Card ID</option>
           </select>
         </label>
@@ -24,14 +24,16 @@
         <input type="password" v-model="password" id="password" class="form-control" required>
       </form>
     </div>
+    <div class="error">
+      <p>
+        <span v-if="error" style="color: red">Error: {{error}}</span>
+      </p>
+    </div>
     <div class="login_button">
-      <button class="btn btn-success" @click="login(username, password, type)">Login</button>
+      <button class="btn btn-success" @click="login(username, password)">Login</button>
       <br><br>
       <button class="btn btn-danger" @click="back">Return</button>
     </div>
-    <p>
-      <span v-if="error" style="color: red">Error: {{error}}</span>
-    </p>
     <div class="easter_egg">
       <img src="../assets/Signature.png" style="width:35%; height:auto;">
     </div>
