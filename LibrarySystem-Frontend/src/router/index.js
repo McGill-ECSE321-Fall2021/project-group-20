@@ -9,6 +9,7 @@ import Booking_View from "../components/Booking_View";
 import Management_View from "../components/Management_View";
 import Event_View from "../components/Event_View";
 import Schedule_View from "../components/Schedule_View";
+import Profile_View from "../components/Profile_View";
 
 Vue.use(Router)
 
@@ -59,6 +60,11 @@ export default new Router({
       path: '/EmployeePage/Schedule',
       name: 'schedule_view',
       component: Schedule_View
+    },
+    {
+      path: '/EmployeePage/Profile',
+      name: 'profile_view',
+      component: Profile_View
     }
   ],
   mode: "history"
