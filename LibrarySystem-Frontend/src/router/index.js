@@ -12,7 +12,8 @@ import Schedule_View from "../components/Schedule_View";
 import Profile_View from "../components/Profile_View";
 import HeadLibrarian_View from "../components/HeadLibrarian_View";
 import Organize_View from "../components/Organize_View";
-
+import Event_Create from "../components/Event_Create";
+import Event_Update from "../components/Event_Update";
 Vue.use(Router)
 
 export default new Router({
@@ -77,6 +78,16 @@ export default new Router({
       path: '/HeadLibrarian/Organize',
       name: 'organize_view',
       component: Organize_View
+    },
+    {
+      path: '/EmployeePage/Event/Update',
+      name: 'event_update',
+      component: Event_Update
+    },
+    {
+      path: '/EmployeePage/Event/Create',
+      name: 'event_create',
+      component: Event_Create
     }
 
   ],
