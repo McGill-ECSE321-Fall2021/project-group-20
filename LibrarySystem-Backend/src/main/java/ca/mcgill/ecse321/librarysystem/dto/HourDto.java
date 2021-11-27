@@ -125,7 +125,6 @@ public class HourDto {
 	        return wasSet;
 	      }
 	    }
-	    calendar.addHour(this);
 	    wasSet = true;
 	    return wasSet;
 	  }

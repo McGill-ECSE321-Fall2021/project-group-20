@@ -195,7 +195,7 @@ public class BookService {
     public List<Book> getBooks() {
         List<Book> Books = new ArrayList<>();
         for (Item i : bookRepository.findAll()) {
-            Books.add((Book) i);
+            if (i instanceof Book) Books.add((Book) i);
         }
         return Books;
     }

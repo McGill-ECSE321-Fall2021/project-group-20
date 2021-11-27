@@ -222,18 +222,18 @@ public class EventRestController {
 	 private EmployeeDto convertToDto(Employee e) {
 	        if (e == null) throw new IllegalArgumentException("Cannot find this Employee");
 	        return new EmployeeDto(e.getLibraryCardID(), e.getIsLoggedIn(), e.getIsOnlineAcc(), e.getFirstName(),
-	                e.getLastName(), e.getIsVerified(), e.getDemeritPts(), convertToDto(e.getAddress()),
-	                EmployeeDto.Role.valueOf(e.getRole().name()), e.getOutstandingBalance());
+	                e.getLastName(), e.getIsVerified(), e.getDemeritPts(), convertToDto(e.getAddress()), e.getUsername(), e.getEmail(),
+					e.getOutstandingBalance(), EmployeeDto.Role.valueOf(e.getRole().name()), e.getUserbooking());
 	    }
 
 	 private AddressDto convertToDto(Address a) {
 	        if (a == null) throw new NullPointerException("Cannot find Address");
-	        return new AddressDto(a.getCivicNumber(), a.getStreet(), a.getCity(), a.getPostalCode(), a.getProvince(), a.getCountry());
+	        return new AddressDto(a.getAddressID(), a.getCivicNumber(), a.getStreet(), a.getCity(), a.getPostalCode(), a.getProvince(), a.getCountry());
 	    }
 	
 	private CalendarDto convertToDto (Calendar c) {
 		if (c== null) throw new IllegalArgumentException("Cannot find this Calendar");
-		return new CalendarDto(c.getCalendarID());
+		return new CalendarDto(c.getCalendarID(), c.getHour());
 	}
 	
 	

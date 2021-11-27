@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.librarysystem.dto;
 
+import ca.mcgill.ecse321.librarysystem.model.Booking;
+
 import java.util.List;
 
 public class EmployeeDto extends UserDto {
@@ -11,13 +13,13 @@ public class EmployeeDto extends UserDto {
 
     public EmployeeDto() {}
 
-    public EmployeeDto(int libraryCardID, boolean isLoggedIn, boolean aIsOnlineAcc, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress, Role role, int outstandingBalance) {
-        super(libraryCardID, aIsOnlineAcc, isLoggedIn, aFirstName, aLastName, aIsVerified, aDemeritPts, aAddress, outstandingBalance);
+    public EmployeeDto(int libraryCardID, boolean isLoggedIn, boolean aIsOnlineAcc, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress, Role role, int outstandingBalance, List<Booking> bookings) {
+        super(libraryCardID, aIsOnlineAcc, isLoggedIn, aFirstName, aLastName, aIsVerified, aDemeritPts, aAddress, outstandingBalance, bookings);
         this.role = role;
     }
 
-    public EmployeeDto(int libraryCardID, boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress, String username, String email, int outstandingBalance, Role role) {
-        super(libraryCardID, aIsOnlineAcc, aIsLoggedIn, aFirstName, aLastName, aIsVerified, aDemeritPts, aAddress, username, email, outstandingBalance);
+    public EmployeeDto(int libraryCardID, boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress, String username, String email, int outstandingBalance, Role role, List<Booking> bookings) {
+        super(libraryCardID, aIsOnlineAcc, aIsLoggedIn, aFirstName, aLastName, aIsVerified, aDemeritPts, aAddress, username, email, outstandingBalance, bookings);
         this.role = role;
     }
 

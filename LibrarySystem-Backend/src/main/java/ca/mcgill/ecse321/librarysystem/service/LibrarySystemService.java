@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class LibrarySystemService {
 
@@ -79,5 +82,15 @@ public class LibrarySystemService {
         LibrarySystem ls = librarySystemRepository.findLibrarySystemBySystemID(systemID);
         if (ls == null) throw new NullPointerException(("Library System not found for this system ID"));
         return ls;
+    }
+
+    @Transactional
+    public List<LibrarySystem> getAll() {
+        List<LibrarySystem> lists = new ArrayList<>();
+        for (LibrarySystem ls : librarySystemRepository.findAll()) {
+            lists.add(ls);
+        }
+        if (lists.size() == 0) throw new NullPointerException("No Library Systems found");
+        return lists;
     }
 }

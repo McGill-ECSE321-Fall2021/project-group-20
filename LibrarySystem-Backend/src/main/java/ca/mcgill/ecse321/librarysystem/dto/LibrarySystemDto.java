@@ -6,15 +6,15 @@ import java.util.List;
 
 public class LibrarySystemDto {
     private String systemID;
-    private List<UserDto> users;
-    private List<ItemDto> items;
+//    private List<UserDto> users;
+//    private List<ItemDto> items;
     private AddressDto businessaddress;
     private CalendarDto calendar;
 
 
     public LibrarySystemDto() {
-        users = new ArrayList<UserDto>();
-        items = new ArrayList<ItemDto>();
+//        users = new ArrayList<UserDto>();
+//        items = new ArrayList<ItemDto>();
     }
 
     public LibrarySystemDto(AddressDto aBusinessaddress, CalendarDto aCalendar) {
@@ -26,8 +26,8 @@ public class LibrarySystemDto {
         if (!didAddCalendar) {
             throw new RuntimeException("Unable to create librarySystem due to calendar. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
         }
-        users = new ArrayList<UserDto>();
-        items = new ArrayList<ItemDto>();
+//        users = new ArrayList<UserDto>();
+//        items = new ArrayList<ItemDto>();
     }
 
     public LibrarySystemDto(String aSystemID, AddressDto aBusinessaddress, CalendarDto aCalendar) {
@@ -40,8 +40,8 @@ public class LibrarySystemDto {
         if (!didAddCalendar) {
             throw new RuntimeException("Unable to create librarySystem due to calendar. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
         }
-        users = new ArrayList<UserDto>();
-        items = new ArrayList<ItemDto>();
+//        users = new ArrayList<UserDto>();
+//        items = new ArrayList<ItemDto>();
     }
 
     public boolean setSystemID(String aSystemID) {
@@ -66,20 +66,20 @@ public class LibrarySystemDto {
         return calendar;
     }
 
-    public UserDto getUser(int index) {
-        UserDto aUser = users.get(index);
-        return aUser;
-    }
-
-    public List<UserDto> getUsers() {
-        List<UserDto> newUsers = Collections.unmodifiableList(users);
-        return newUsers;
-    }
-
-    public List<ItemDto> getItems() {
-        List<ItemDto> newItems = Collections.unmodifiableList(items);
-        return newItems;
-    }
+//    public UserDto getUser(int index) {
+//        UserDto aUser = users.get(index);
+//        return aUser;
+//    }
+//
+//    public List<UserDto> getUsers() {
+//        List<UserDto> newUsers = Collections.unmodifiableList(users);
+//        return newUsers;
+//    }
+//
+//    public List<ItemDto> getItems() {
+//        List<ItemDto> newItems = Collections.unmodifiableList(items);
+//        return newItems;
+//    }
 
     public boolean setBusinessaddress(AddressDto aNewBusinessaddress) {
         this.businessaddress=aNewBusinessaddress;

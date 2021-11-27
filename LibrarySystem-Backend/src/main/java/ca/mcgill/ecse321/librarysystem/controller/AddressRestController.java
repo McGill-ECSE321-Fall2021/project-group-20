@@ -93,7 +93,7 @@ public class AddressRestController {
      * @param civicNumber
      * @return a list of addresses if successful, else a message "Could not find addresses".
      */
-    @GetMapping(value = {"/address/{civicNumber}", "/address/{civicNumber}/"})
+    @GetMapping(value = {"/address/civic/{civicNumber}", "/address/civic/{civicNumber}/"})
     public ResponseEntity getAddressByCivicNumber(@PathVariable("civicNumber") String civicNumber) {
         List<AddressDto> addressDtos = new ArrayList<>();
         List<Address> addresses;
@@ -114,7 +114,7 @@ public class AddressRestController {
      * @param street
      * @return a list of addresses if successful, else a message "Could not find addresses".
      */
-    @GetMapping(value = {"/address/{street}", "/address/{street}/"})
+    @GetMapping(value = {"/address/street/{street}", "/address/street/{street}/"})
     public ResponseEntity getAddressByCStreet(@PathVariable("street") String street) {
         List<AddressDto> addressDtos = new ArrayList<>();
         List<Address> addresses;
@@ -135,7 +135,7 @@ public class AddressRestController {
      * @param city
      * @return a list of addresses if successful, else a message "Could not find addresses".
      */
-    @GetMapping(value = {"/address/{city}", "/address/{city}/"})
+    @GetMapping(value = {"/address/city/{city}", "/address/city/{city}/"})
     public ResponseEntity getAddressByCity(@PathVariable("city") String city) {
         List<AddressDto> addressDtos = new ArrayList<>();
         List<Address> addresses;
@@ -156,7 +156,7 @@ public class AddressRestController {
      * @param postalCode
      * @return a list of addresses if successful, else a message "Could not find addresses".
      */
-    @GetMapping(value = {"/address/{postalCode}", "/address/{postalCode}/"})
+    @GetMapping(value = {"/address/post/{postalCode}", "/address/post/{postalCode}/"})
     public ResponseEntity getAddressByPostalCode(@PathVariable("postalCode") String postalCode) {
         List<AddressDto> addressDtos = new ArrayList<>();
         List<Address> addresses;
@@ -177,7 +177,7 @@ public class AddressRestController {
      * @param province
      * @return a list of addresses if successful, else a message "Could not find addresses".
      */
-    @GetMapping(value = {"/address/{province}", "/address/{province}/"})
+    @GetMapping(value = {"/address/province/{province}", "/address/province/{province}/"})
     public ResponseEntity getAddressByProvince(@PathVariable("province") String province) {
         List<AddressDto> addressDtos = new ArrayList<>();
         List<Address> addresses;
@@ -198,7 +198,7 @@ public class AddressRestController {
      * @param country
      * @return a list of addresses if successful, else a message "Could not find addresses".
      */
-    @GetMapping(value = {"/address/{country}", "/address/{country}/"})
+    @GetMapping(value = {"/address/country/{country}", "/address/country/{country}/"})
     public ResponseEntity getAddressByCountry(@PathVariable("country") String country) {
         List<AddressDto> addressDtos = new ArrayList<>();
         List<Address> addresses;

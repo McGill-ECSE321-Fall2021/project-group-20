@@ -317,7 +317,7 @@ public class NewspaperRestController {
 		}
 		Status mystatus = i.getStatus();
 		TitleDto title = convertToTitleDto(i.getTitle());
-		NewspaperDto item = new NewspaperDto(mystatus, i.getItemBarcode(), title);
+		NewspaperDto item = new NewspaperDto(mystatus, i.getItemBarcode(), title, i.getBooking());
 		return item;
 	}
 	private List<NewspaperDto> convertToNewspaper(List<Newspaper> i) {

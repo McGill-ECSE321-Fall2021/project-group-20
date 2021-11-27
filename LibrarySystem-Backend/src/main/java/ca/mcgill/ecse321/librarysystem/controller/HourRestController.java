@@ -244,7 +244,7 @@ public class HourRestController {
 	        if (e == null) throw new IllegalArgumentException("Cannot find this Employee");
 	        return new EmployeeDto(e.getLibraryCardID(), e.getIsLoggedIn(), e.getIsOnlineAcc(), e.getFirstName(),
 	                e.getLastName(), e.getIsVerified(), e.getDemeritPts(), convertToDto(e.getAddress()),
-	                EmployeeDto.Role.valueOf(e.getRole().name()), e.getOutstandingBalance());
+	                EmployeeDto.Role.valueOf(e.getRole().name()), e.getOutstandingBalance(), e.getUserbooking());
 	    }
 
 	 private AddressDto convertToDto(Address a) {
@@ -254,7 +254,7 @@ public class HourRestController {
 	
 	private CalendarDto convertToDto (Calendar c) {
 		if (c== null) throw new IllegalArgumentException("Cannot find this Calendar");
-		return new CalendarDto(c.getCalendarID());
+		return new CalendarDto(c.getCalendarID(), c.getHour());
 	}
 	
 	

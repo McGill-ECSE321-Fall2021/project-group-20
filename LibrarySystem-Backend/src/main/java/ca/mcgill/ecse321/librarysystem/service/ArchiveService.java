@@ -178,7 +178,7 @@ public class ArchiveService {
 	public List<Archive> getAllArchives() {
 		List<Archive> Archives = new ArrayList<>();
 		for (Item i : ArchiveRepository.findAll()) {
-			Archives.add((Archive) i);
+			if (i instanceof Archive) Archives.add((Archive) i);
 		}
 		for (Item iteme : Archives) {
 			if (!(iteme instanceof Archive)) {

@@ -186,12 +186,6 @@ private static Map<String, TitleDto> titlesByTitleID = new HashMap<String, Title
   {
     return 1;
   }
-  /* Code from template association_AddMandatoryManyToOne */
-  public ItemDto addItem(Item.Status aStatus, long aItemBarcode)
-  {
-    ItemDto aNewItem = new ItemDto(aStatus, aItemBarcode, this);
-    return aNewItem;
-  }
   /* Code from template association_IsNumberOfValidMethod */
   public boolean isNumberOfAuthorValid()
   {
@@ -215,24 +209,12 @@ private static Map<String, TitleDto> titlesByTitleID = new HashMap<String, Title
       verifiedAuthor.add(aAuthor);
     }
 
-    if (verifiedAuthor.size() != newAuthor.length || verifiedAuthor.size() < minimumNumberOfAuthor()) {
-      return wasSet;
-    }
-
     ArrayList<AuthorDto> oldAuthor = new ArrayList<AuthorDto>(author);
     author.clear();
     for (AuthorDto aNewAuthor : verifiedAuthor) {
       author.add(aNewAuthor);
-      if (oldAuthor.contains(aNewAuthor)) {
-        oldAuthor.remove(aNewAuthor);
-      } else {
-        aNewAuthor.addTitle(this);
-      }
     }
 
-    for (AuthorDto anOldAuthor : oldAuthor) {
-      anOldAuthor.removeTitle(this);
-    }
     wasSet = true;
     return wasSet;
   }

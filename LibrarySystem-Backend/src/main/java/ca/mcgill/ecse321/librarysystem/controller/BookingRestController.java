@@ -101,6 +101,8 @@ public class BookingRestController {
 			 Date e = Date.valueOf(dateE[2] + "-" + dateE[0] + "-" + dateE[1]);
 			 Booking b = bookingService.createBooking(s, e, Booking.BookingType.valueOf(type), (i), (c));
 			 if (b == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot create booking");
+			 if (type.equals("Reservation")) itemService.updateItem(Item.Status.Reserved, Long.valueOf(barcode));
+			 else itemService.updateItem(Item.Status.Borrowed, Long.valueOf(barcode));
 			 return new ResponseEntity<>(convertToDto(b), HttpStatus.OK);
 		 } catch (Exception msg) {
 			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
@@ -285,18 +287,18 @@ public class BookingRestController {
 		 private EmployeeDto convertToDto(Employee e) {
 		        if (e == null) throw new IllegalArgumentException("Cannot find this Employee");
 		        return new EmployeeDto(e.getLibraryCardID(), e.getIsLoggedIn(), e.getIsOnlineAcc(), e.getFirstName(),
-		                e.getLastName(), e.getIsVerified(), e.getDemeritPts(), convertToDto(e.getAddress()),
-		                EmployeeDto.Role.valueOf(e.getRole().name()), e.getOutstandingBalance());
+		                e.getLastName(), e.getIsVerified(), e.getDemeritPts(), convertToDto(e.getAddress()), e.getUsername(), e.getEmail(),
+						e.getOutstandingBalance(), EmployeeDto.Role.valueOf(e.getRole().name()), e.getUserbooking());
 		    }
 
 		 private AddressDto convertToDto(Address a) {
 		        if (a == null) throw new NullPointerException("Cannot find Address");
-		        return new AddressDto(a.getCivicNumber(), a.getStreet(), a.getCity(), a.getPostalCode(), a.getProvince(), a.getCountry());
+		        return new AddressDto(a.getAddressID(), a.getCivicNumber(), a.getStreet(), a.getCity(), a.getPostalCode(), a.getProvince(), a.getCountry());
 		    }
 		
 		private CalendarDto convertToDto (Calendar c) {
 			if (c== null) throw new IllegalArgumentException("Cannot find this Calendar");
-			return new CalendarDto(c.getCalendarID());
+			return new CalendarDto(c.getCalendarID(), c.getHour());
 		}
 		private AuthorDto[] convertToAuthorDto(List<Author> authors) {
 	        if (authors == null || authors.size() == 0)
@@ -313,7 +315,7 @@ public class BookingRestController {
 	    private TitleDto convertToTitleDto(Title title) {
 	        if (title == null)
 	            throw new NullPointerException("Cannot find this Title");
-	        return new TitleDto(title.getName(), title.getPubDate(), convertToAuthorDto(title.getAuthor()));
+	        return new TitleDto(title.getTitleID(), title.getName(), title.getPubDate(), convertToAuthorDto(title.getAuthor()));
 	    }
 
 	    private ItemDto convertToItemDto(Item i) {
@@ -321,7 +323,7 @@ public class BookingRestController {
 	            throw new IllegalArgumentException("There is no such Item!");
 	        }
 	        Status mystatus = i.getStatus();
-	        ItemDto itemDto = new ItemDto(mystatus, i.getItemBarcode(), convertToTitleDto(i.getTitle()));
+	        ItemDto itemDto = new ItemDto(mystatus, i.getItemBarcode(), convertToTitleDto(i.getTitle()), i.getBooking());
 	        return itemDto;
 	    }
 
@@ -337,13 +339,13 @@ public class BookingRestController {
 	    private CustomerDto convertToDto(Customer c) {
 	        if (c == null) throw new NullPointerException("Cannot find this Customer");
 	        return new CustomerDto(c.getLibraryCardID(), c.getIsOnlineAcc(), c.getIsLoggedIn(), c.getFirstName(),
-	                c.getLastName(), c.getIsVerified(), c.getDemeritPts(), convertToDto(c.getAddress()), c.getOutstandingBalance());
+	                c.getLastName(), c.getIsVerified(), c.getDemeritPts(), convertToDto(c.getAddress()), c.getUsername(), c.getEmail(), c.getOutstandingBalance(), c.getUserbooking());
 	    }
 
 	    private UserDto convertToDto (User u ) {
 	        if (u == null) throw new NullPointerException("Cannot find this User");
 	        return new UserDto(u.getLibraryCardID(), u.getIsOnlineAcc(), u.getIsLoggedIn(), u.getFirstName(),
-            u.getLastName(), u.getIsVerified(), u.getDemeritPts(), convertToDto(u.getAddress()), u.getOutstandingBalance());
+            u.getLastName(), u.getIsVerified(), u.getDemeritPts(), convertToDto(u.getAddress()), u.getUsername(), u.getEmail(), u.getOutstandingBalance(), u.getUserbooking());
 
 	    }
 	

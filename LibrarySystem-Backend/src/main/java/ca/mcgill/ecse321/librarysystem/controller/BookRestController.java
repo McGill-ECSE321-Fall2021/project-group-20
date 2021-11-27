@@ -339,7 +339,7 @@ public class BookRestController {
 			throw new IllegalArgumentException("There is no such Item!");
 		}
 		Status mystatus = i.getStatus();
-		BookDto itemDto = new BookDto(mystatus, i.getItemBarcode(), convertToTitleDto(i.getTitle()),i.getIsbn(),i.getNumPages());
+		BookDto itemDto = new BookDto(mystatus, i.getItemBarcode(), convertToTitleDto(i.getTitle()),i.getIsbn(),i.getNumPages(), i.getBooking());
 		return itemDto;
 	}
 

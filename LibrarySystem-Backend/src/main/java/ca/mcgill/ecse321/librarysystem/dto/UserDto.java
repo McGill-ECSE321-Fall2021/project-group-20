@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.librarysystem.dto;
 
+import ca.mcgill.ecse321.librarysystem.model.Booking;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class UserDto {
 
     public UserDto() {}
 
-    public UserDto(int libraryCardID, boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress, int outstandingBalance) {
+    public UserDto(int libraryCardID, boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress, int outstandingBalance, List<Booking> booking) {
         this.libraryCardID = libraryCardID;
         isLoggedIn = aIsLoggedIn;
         isOnlineAcc = aIsOnlineAcc;
@@ -31,9 +33,14 @@ public class UserDto {
         address = aAddress;
         this.outstandingBalance = outstandingBalance;
         bookings = new ArrayList<>();
+        if (booking != null) {
+            for (Booking b : booking) {
+                bookings.add(b.getBookingID());
+            }
+        }
     }
 
-    public UserDto(int libraryCardID, boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress, String username, String email, int outstandingBalance) {
+    public UserDto(int libraryCardID, boolean aIsOnlineAcc, boolean aIsLoggedIn, String aFirstName, String aLastName, boolean aIsVerified, int aDemeritPts, AddressDto aAddress, String username, String email, int outstandingBalance, List<Booking> booking) {
         this.libraryCardID = libraryCardID;
         isOnlineAcc = aIsOnlineAcc;
         isLoggedIn = aIsLoggedIn;
@@ -46,6 +53,11 @@ public class UserDto {
         this.email = email;
         this.outstandingBalance = outstandingBalance;
         bookings = new ArrayList<>();
+        if (booking != null) {
+            for (Booking b : booking) {
+                bookings.add(b.getBookingID());
+            }
+        }
     }
 
     public AddressDto getAddress() {

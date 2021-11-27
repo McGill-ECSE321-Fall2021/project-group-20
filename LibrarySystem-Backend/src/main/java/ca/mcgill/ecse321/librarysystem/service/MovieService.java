@@ -202,7 +202,7 @@ public class MovieService extends Item {
 	public List<Movie> getAllMovies() {
 		List<Movie> movies = new ArrayList<>();
 		for (Item i : movieRepository.findAll()) {
-			movies.add((Movie) i);
+			if (i instanceof Movie) movies.add((Movie) i);
 		}
 
 		for (Item iteme : movies) {

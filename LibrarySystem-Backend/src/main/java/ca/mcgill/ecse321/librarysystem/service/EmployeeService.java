@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -172,7 +173,11 @@ public class EmployeeService {
 
     @Transactional
     public List<Employee> getAllEmployees() {
-        return (List<Employee>) employeeRepository.findAll();
+        List<Employee> employees = new ArrayList<>();
+        for (User u : employeeRepository.findAll()) {
+            if (u instanceof Employee) employees.add((Employee) u);
+        }
+        return employees;
     }
 
     @Transactional
