@@ -43,7 +43,7 @@
           <input type="text" v-model="postal" id="postal" class="form-control" required>
         </b-col>
         <b-col>
-          <label for="province">Province:</label>
+          <label for="province">Province (short i.e. QC):</label>
           <input type="text" v-model="province" id="province" class="form-control" required>
         </b-col>
         <b-col>
@@ -66,13 +66,15 @@
         </b-col>
       </b-row>
     </b-container>
+    <div class="error">
+      <p>
+        <span v-if="error" style="color: red">Error: {{error}}</span>
+      </p>
+    </div>
     <div class="buttons">
       <button class="btn btn-danger" @click="cancel">Cancel</button>&nbsp
-      <button class="btn btn-success" @click="create(firstname, lastname, email, username, password, civic, street, city, postal, province, country)">Create Account</button>
+      <button class="btn btn-success" @click="create(firstname, lastname, email, username, password, password_conf, civic, street, city, postal, province, country)">Create Account</button>
     </div>
-    <p>
-      <span v-if="error" style="color: red">Error: {{error}}</span>
-    </p>
   </div>
 </template>
 
@@ -83,6 +85,10 @@ export default {
 </script>
 
 <style scoped>
+#create_account {
+  background-color: rgba(66, 185, 131, 0.91);
+}
+
 .msg {
   padding-top: 2vh;
   padding-bottom: 5vh;
@@ -94,6 +100,10 @@ export default {
 }
 
 .buttons {
-  padding-bottom: 3vh;
+  padding-bottom: 20vh;
+}
+
+.error {
+  padding-bottom: 5vh;
 }
 </style>

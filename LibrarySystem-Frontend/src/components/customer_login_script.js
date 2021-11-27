@@ -23,16 +23,29 @@ export default {
 
   methods: {
     login: function (name, password) {
-      AXIOS.put(backendUrl + '/customer/login?name=' + name + '&password=' + password).then(response => {
+      let url = backendUrl + '/customer/login'
+      let sts = 0;
+      if (document.getElementById('loginType').value === "name") {
+        url += '?name=' + name + '&password=' + password;
+        sts = 1;
+      }
+      else {
+        url += '/' + name + '?password=' + password;
+        sts = 2;
+      }
+
+      AXIOS.put(url).then(response => {
         this.response = response.data
         this.error = ''
         console.log(response)
-        if (this.response != '') {
+        if (this.response.isLoggedIn) {
+          document.cookie = "libraryCardID=" + this.response.libraryCardID + "; path=/";
+          document.cookie = "usertype=customer ; path=/";
           this.$router.push('home')
         }
       }).catch(msg => {
         console.log(msg.response.data)
-        console.log(msg.response.status)
+        console.log(msg.status)
         this.error = msg.response.data;
       })
     },
@@ -45,6 +58,17 @@ export default {
     voirpageEmployee: function () {
       this.$router.push('EmployeePage')
     }
-
-  }
+  },
+  beforeMount(){
+    if (document.cookie.indexOf('libraryCardID=') !== -1) {
+      let splits = document.cookie.split(';');
+      let type = splits[1].split('=')
+      if (type[1] === 'employee') {
+        this.$router.push('EmployeePage')
+      }
+      else {
+        this.$router.push('home')
+      }
+    }
+  },
 }

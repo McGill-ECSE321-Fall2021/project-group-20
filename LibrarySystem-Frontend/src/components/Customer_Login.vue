@@ -10,12 +10,23 @@
     </div>
     <div class="input">
       <form>
-        <label for="username">Username/Email/ID:</label>
+        <label for="username">
+          <label for="loginType">Choose method of login:</label>
+          <select id="loginType">
+            <option selected value="name">Username/Email</option>
+            <option value="id">Library Card ID</option>
+          </select>
+        </label>
         <input type="text" v-model="username" id="username" class="form-control" required>
         <br>
         <label for="password">Password:</label>
         <input type="password" v-model="password" id="password" class="form-control" required>
       </form>
+    </div>
+    <div class="error">
+      <p>
+        <span v-if="error" style="color: red">Error: {{error}}</span>
+      </p>
     </div>
     <div class="login_button">
       <button class="btn btn-success" @click="login(username, password)">Login</button>
@@ -25,9 +36,6 @@
       <button class="btn btn-primary" @click="voirpageEmployee">Employee View</button>
 
     </div>
-    <p>
-      <span v-if="error" style="color: red">Error: {{error}}</span>
-    </p>
     <div class="easter_egg">
       <img src="../assets/Signature.png" style="width:35%; height:auto;">
     </div>
@@ -41,6 +49,10 @@ export default {
 </script>
 
 <style scoped>
+#customer_login {
+  background-color: rgba(66, 185, 131, 0.91);
+}
+
 .login_msg {
   position: relative;
   text-align: center;
@@ -66,5 +78,6 @@ export default {
   position: relative;
   align-content: center;
   padding-top: 7vh;
+  padding-bottom: 15vh;
 }
 </style>

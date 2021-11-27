@@ -14,7 +14,7 @@ var AXIOS = axios.create({
 
 
 export default {
-  name: 'employee_view_script',
+  name: 'headlibrarian_view_script',
   data() {
     return {
       error: '',
@@ -26,12 +26,6 @@ export default {
 
   methods: {
 
-    onSlideStart(slide) {
-      this.sliding = true
-    },
-    onSlideEnd(slide) {
-      this.sliding = false
-    },
     openBooking(){
       this.$router.push('/EmployeePage/Booking')
     },
@@ -46,6 +40,9 @@ export default {
     },
     openProfile(){
       this.$router.push('Employee/Profile')
+    },
+    openOrganize(){
+      this.$router.push('HeadLibrarian/Organize')
     },
     signout() {
       let id = document.cookie.split('=');
