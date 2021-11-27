@@ -306,7 +306,7 @@ public class ItemRestController {
 		}
 		Status mystatus = i.getStatus();
 		TitleDto title = convertToTitleDto(i.getTitle());
-		ItemDto item = new ItemDto(mystatus, i.getItemBarcode(), title);
+		ItemDto item = new ItemDto(mystatus, i.getItemBarcode(), title, i.getBooking());
 		return item;
 	}
 

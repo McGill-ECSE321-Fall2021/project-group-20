@@ -26,7 +26,7 @@ public class CalendarRestController {
 
     private CalendarDto convertToDto(Calendar c) {
         if (c == null) throw new NullPointerException("Cannot find Calendar");
-        return new CalendarDto(c.getCalendarID());
+        return new CalendarDto(c.getCalendarID(), c.getHour());
     }
 
     @PostMapping(value = {"/calendar/create", "/calendar/create/"})

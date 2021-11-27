@@ -12,6 +12,7 @@ import Schedule_View from "../components/Schedule_View";
 import Profile_View from "../components/Profile_View";
 import HeadLibrarian_View from "../components/HeadLibrarian_View";
 import Organize_View from "../components/Organize_View";
+import Setup from "../components/Setup";
 
 Vue.use(Router)
 
@@ -21,6 +22,11 @@ export default new Router({
       path: '/',
       name: 'customer_login',
       component: Customer_Login
+    },
+    {
+      path: '/setup',
+      name: 'setup',
+      component: Setup
     },
     {
       path: '/home',

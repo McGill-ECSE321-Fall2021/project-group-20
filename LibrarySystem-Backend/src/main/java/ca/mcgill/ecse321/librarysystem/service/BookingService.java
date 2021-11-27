@@ -29,6 +29,8 @@ public class BookingService {
 	private CustomerService customerService;
 	@Autowired
 	private EmployeeService employeeService;
+	@Autowired
+	private ItemService itemService;
 	
 //	@Transactional
 //	public Booking createBooking() {

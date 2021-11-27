@@ -180,7 +180,7 @@ public class NewspaperService {
 	public List<Newspaper> getAllNewspapers() {
 		List<Newspaper> newspapers = new ArrayList<>();
 		for (Item i : newspaperRepository.findAll()) {
-			newspapers.add((Newspaper) i);
+			if (i instanceof Newspaper) newspapers.add((Newspaper) i);
 		}
 		for (Item iteme : newspapers) {
 			if (!(iteme instanceof Newspaper)) {

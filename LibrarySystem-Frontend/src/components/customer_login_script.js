@@ -81,5 +81,18 @@ export default {
         this.$router.push('home');
       }
     }
+    else {
+      AXIOS.get(backendUrl + '/librarySystem').then(response => {
+        this.response = response.data
+        this.error = ''
+        if (this.response === 'No Library Systems found') {
+          this.$router.push('setup')
+        }
+      }).catch(msg => {
+        if (msg.response.data === 'No Library Systems found') {
+          this.$router.push('setup')
+        }
+      })
+    }
   },
 }

@@ -347,7 +347,7 @@ public class MusicAlbumRestController {
 			throw new IllegalArgumentException("There is no such Item!");
 		}
 		Status mystatus = i.getStatus();
-		MusicAlbumDto itemDto = new MusicAlbumDto(mystatus, i.getItemBarcode(), convertToTitleDto(i.getTitle()),i.getDuration());
+		MusicAlbumDto itemDto = new MusicAlbumDto(mystatus, i.getItemBarcode(), convertToTitleDto(i.getTitle()),i.getDuration(), i.getBooking());
 		return itemDto;
 	}
 

@@ -400,7 +400,7 @@ public class ArchiveRestController {
 		}
 		Status mystatus = i.getStatus();
 		TitleDto title = convertToTitleDto(i.getTitle());
-		return new ArchiveDto(mystatus, i.getItemBarcode(), title);
+		return new ArchiveDto(mystatus, i.getItemBarcode(), title, i.getBooking());
 	}
 	private List<ArchiveDto> convertToArchive(List<Archive> i) {
 		List<ArchiveDto> ArchiveDtoList = new ArrayList<>();

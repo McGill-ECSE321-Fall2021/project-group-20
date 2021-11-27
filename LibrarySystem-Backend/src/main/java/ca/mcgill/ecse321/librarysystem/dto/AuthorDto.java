@@ -27,7 +27,7 @@ public class AuthorDto
   private String lastName;
 
   //Author Associations
-  private List<String> titles;
+  //private List<String> titles;
 
   //------------------------
   // CONSTRUCTOR
@@ -39,7 +39,7 @@ public class AuthorDto
   {
     firstName = aFirstName;
     lastName = aLastName;
-    titles = new ArrayList<String>();
+    //titles = new ArrayList<String>();
   }
   
   public AuthorDto(String aAuthorID, String aFirstName, String aLastName)
@@ -47,7 +47,7 @@ public class AuthorDto
     firstName = aFirstName;
     lastName = aLastName;
     setAuthorID(aAuthorID);
-    titles = new ArrayList<String>();
+    //titles = new ArrayList<String>();
   }
 
   //------------------------
@@ -101,57 +101,57 @@ public class AuthorDto
   {
     return lastName;
   }
-  /* Code from template association_GetMany */
-  public String getTitleID(int index)
-  {
-    String aTitle = titles.get(index);
-    return aTitle;
-  }
-
-  public List<String> getTitles()
-  {
-    List<String> newTitles = Collections.unmodifiableList(titles);
-    return newTitles;
-  }
-
-  public int numberOfTitles()
-  {
-    int number = titles.size();
-    return number;
-  }
-
-  public boolean hasTitles()
-  {
-    boolean has = titles.size() > 0;
-    return has;
-  }
-
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfTitles()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToManyMethod */
-  public boolean addTitle(TitleDto title)
-  {
-    String aTitle = title.getTitleID();
-    boolean wasAdded = false;
-    if (titles.contains(aTitle)) { return false; }
-    titles.add(aTitle);
-    return wasAdded;
-  }
-  /* Code from template association_RemoveMany */
-  public boolean removeTitle(TitleDto title) {
-    boolean wasRemoved = false;
-    String aTitle = title.getTitleID();
-    if (!titles.contains(aTitle)) {
-      return wasRemoved;
-    }
-
-    int oldIndex = titles.indexOf(aTitle);
-    titles.remove(oldIndex);
-    return wasRemoved;
-  }
+//  /* Code from template association_GetMany */
+//  public String getTitleID(int index)
+//  {
+//    String aTitle = titles.get(index);
+//    return aTitle;
+//  }
+//
+//  public List<String> getTitles()
+//  {
+//    List<String> newTitles = Collections.unmodifiableList(titles);
+//    return newTitles;
+//  }
+//
+//  public int numberOfTitles()
+//  {
+//    int number = titles.size();
+//    return number;
+//  }
+//
+//  public boolean hasTitles()
+//  {
+//    boolean has = titles.size() > 0;
+//    return has;
+//  }
+//
+//  /* Code from template association_MinimumNumberOfMethod */
+//  public static int minimumNumberOfTitles()
+//  {
+//    return 0;
+//  }
+//  /* Code from template association_AddManyToManyMethod */
+//  public boolean addTitle(TitleDto title)
+//  {
+//    String aTitle = title.getTitleID();
+//    boolean wasAdded = false;
+//    if (titles.contains(aTitle)) { return false; }
+//    titles.add(aTitle);
+//    return wasAdded;
+//  }
+//  /* Code from template association_RemoveMany */
+//  public boolean removeTitle(TitleDto title) {
+//    boolean wasRemoved = false;
+//    String aTitle = title.getTitleID();
+//    if (!titles.contains(aTitle)) {
+//      return wasRemoved;
+//    }
+//
+//    int oldIndex = titles.indexOf(aTitle);
+//    titles.remove(oldIndex);
+//    return wasRemoved;
+//  }
 
   public String toString()
   {

@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.librarysystem.dto;
 
+import ca.mcgill.ecse321.librarysystem.model.Booking;
 import ca.mcgill.ecse321.librarysystem.model.Item;
 import ca.mcgill.ecse321.librarysystem.model.Item.Status;
 
@@ -10,9 +11,10 @@ public class ItemDto {
 	private TitleDto title;
 	private String booking;
 
-	public ItemDto(Item.Status astatus, long aItemBarcode, TitleDto aTitle) {
+	public ItemDto(Item.Status astatus, long aItemBarcode, TitleDto aTitle, Booking aBooking) {
 		status = astatus;
 		itemBarcode = aItemBarcode;
+		if (aBooking != null) booking = aBooking.getBookingID();
 		boolean didAddTitle = setTitle(aTitle);
 
 		if (!didAddTitle) {

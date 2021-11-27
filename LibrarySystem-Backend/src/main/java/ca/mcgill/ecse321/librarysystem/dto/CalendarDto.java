@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.librarysystem.dto;
 
+import ca.mcgill.ecse321.librarysystem.model.Hour;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,16 +10,21 @@ import java.util.List;
 public class CalendarDto {
 
     private String calendarID;
-    private List<HourDto> hour;
+    private List<String> hour;
 
     public CalendarDto(){
-        hour = new ArrayList<HourDto>();
+        hour = new ArrayList<String>();
     }
 
 
-    public CalendarDto(String aCalendarID) {
+    public CalendarDto(String aCalendarID, List<Hour> hours) {
         calendarID = aCalendarID;
-        hour = new ArrayList<HourDto>();
+        hour = new ArrayList<String>();
+        if (hours != null) {
+            for (Hour h : hours) {
+                hour.add(h.getWeekday());
+            }
+        }
     }
 
     public boolean setCalendarID(String aCalendarID) {
@@ -29,17 +36,6 @@ public class CalendarDto {
 
     public String getCalendarID() {
         return calendarID;
-    }
-
-    public HourDto getHour(int index)
-    {
-        HourDto aHour = hour.get(index);
-        return aHour;
-    }
-
-    public List<HourDto> getHour() {
-        List<HourDto> newHour = Collections.unmodifiableList(hour);
-        return newHour;
     }
 
     public int numberOfHour() {
@@ -82,34 +78,5 @@ public class CalendarDto {
         wasRemoved = true;
         return wasRemoved;
     }
-
-    public void delete() {
-        for(int i=hour.size(); i > 0; i--) {
-            HourDto aHour = hour.get(i - 1);
-            aHour.delete();
-        }
-    }
-
-    public boolean addHour(HourDto aHour)
-    {
-        boolean wasAdded = false;
-        if (hour.contains(aHour)) { return false; }
-        CalendarDto existingCalendar = aHour.getCalendar();
-        boolean isNewCalendar = existingCalendar != null && !this.equals(existingCalendar);
-
-        if (isNewCalendar && existingCalendar.numberOfHour() <= minimumNumberOfHour())
-        {
-            return wasAdded;
-        }
-        if (isNewCalendar)
-        {
-            aHour.setCalendar(this);
-        }
-        else
-        {
-            hour.add(aHour);
-        }
-        wasAdded = true;
-        return wasAdded;
-    }
+    
 }

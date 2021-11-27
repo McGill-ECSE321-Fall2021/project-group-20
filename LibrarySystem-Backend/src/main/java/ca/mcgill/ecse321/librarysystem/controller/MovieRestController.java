@@ -347,7 +347,7 @@ public class MovieRestController {
 			throw new IllegalArgumentException("There is no such Item!");
 		}
 		Status mystatus = i.getStatus();
-		MovieDto itemDto = new MovieDto(mystatus, i.getItemBarcode(), convertToTitleDto(i.getTitle()),i.getLength());
+		MovieDto itemDto = new MovieDto(mystatus, i.getItemBarcode(), convertToTitleDto(i.getTitle()),i.getLength(), i.getBooking());
 		return itemDto;
 	}
 

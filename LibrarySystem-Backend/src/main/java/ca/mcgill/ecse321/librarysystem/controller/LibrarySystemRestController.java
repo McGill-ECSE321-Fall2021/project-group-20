@@ -6,12 +6,15 @@ import ca.mcgill.ecse321.librarysystem.dto.CalendarDto;
 import ca.mcgill.ecse321.librarysystem.dto.LibrarySystemDto;
 import ca.mcgill.ecse321.librarysystem.model.*;
 import ca.mcgill.ecse321.librarysystem.service.*;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -67,7 +70,7 @@ public class LibrarySystemRestController {
                 businessAddress.getCivicNumber(), businessAddress.getStreet(), businessAddress.getCity(),
                 businessAddress.getPostalCode(), businessAddress.getProvince(), businessAddress.getCountry());
 
-        CalendarDto calendarDto = new CalendarDto(calendar.getCalendarID());
+        CalendarDto calendarDto = new CalendarDto(calendar.getCalendarID(), calendar.getHour());
         return new LibrarySystemDto(systemID, addressDto, calendarDto);
     }
 
@@ -137,6 +140,22 @@ public class LibrarySystemRestController {
         if (librarySystem == null)
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find Library System");
         return new ResponseEntity<>(convertToDto(librarySystem), HttpStatus.OK);
+    }
+
+    @GetMapping(value = {"/librarySystem", "/librarySystem/"})
+    public ResponseEntity getAll() {
+        List<LibrarySystem> ls = new ArrayList<>();
+        try {
+            ls = librarySystemService.getAll();
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+        }
+        if (ls.size() == 0) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any library systems");
+        List<LibrarySystemDto> lsDto = new ArrayList<>();
+        for (LibrarySystem l : ls) {
+            lsDto.add(convertToDto(l));
+        }
+        return new ResponseEntity<>(lsDto, HttpStatus.OK);
     }
 
     @DeleteMapping(value = {"/librarySystem/clear", "/librarySystem/clear/"})

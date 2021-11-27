@@ -308,10 +308,10 @@ public class CustomerRestController {
         else if (c.getIsOnlineAcc()) {
             return new CustomerDto(c.getLibraryCardID(), c.getIsOnlineAcc(), c.getIsLoggedIn(), c.getFirstName(),
                     c.getLastName(), c.getIsVerified(), c.getDemeritPts(), convertToDto(c.getAddress()), c.getUsername(),
-                    c.getEmail(), c.getOutstandingBalance());
+                    c.getEmail(), c.getOutstandingBalance(), c.getUserbooking());
         }
         return new CustomerDto(c.getLibraryCardID(), c.getIsOnlineAcc(), c.getIsLoggedIn(), c.getFirstName(),
-                c.getLastName(), c.getIsVerified(), c.getDemeritPts(), convertToDto(c.getAddress()), c.getOutstandingBalance());
+                c.getLastName(), c.getIsVerified(), c.getDemeritPts(), convertToDto(c.getAddress()), c.getOutstandingBalance(), c.getUserbooking());
     }
 
     private AddressDto convertToDto(Address a) {

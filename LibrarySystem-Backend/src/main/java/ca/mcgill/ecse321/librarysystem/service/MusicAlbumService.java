@@ -193,12 +193,7 @@ public class MusicAlbumService {
 	public List<MusicAlbum> getAllAlbums() {
 		List<MusicAlbum> musicAlbums = new ArrayList<>();
 		for (Item i : musicAlbumRepository.findAll()) {
-			musicAlbums.add((MusicAlbum) i);
-		}
-		for (Item iteme : musicAlbums) {
-			if (!(iteme instanceof Movie)) {
-				musicAlbums.remove(iteme);
-			}
+			if (i instanceof MusicAlbum) musicAlbums.add((MusicAlbum) i);
 		}
 		return musicAlbums;
 	}
