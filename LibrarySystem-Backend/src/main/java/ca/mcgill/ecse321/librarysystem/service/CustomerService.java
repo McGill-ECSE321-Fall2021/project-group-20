@@ -28,7 +28,7 @@ public class CustomerService {
     public Customer createCustomer(String firstName, String lastName, String civic, String street, String city, String postalCode, String province, String country) {
         if (firstName == null || lastName == null || firstName.length() == 0 || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid name");
         if (civic == null || civic.equals("0") || civic.length() == 0 || street == null || street.length() == 0 || city == null || city.length() == 0 ||
-        postalCode == null || postalCode.length() == 0 || province == null || province.length() != 2 || country == null || country.length() == 0) throw new IllegalArgumentException("Please enter a valid address");
+        postalCode == null || postalCode.length() == 0 || province == null || country == null || country.length() == 0) throw new IllegalArgumentException("Please enter a valid address");
         Address a = new Address(civic, street, city, postalCode, province, country);
         addressRepository.save(a);
         Customer newCustomer = new Customer(false, false, firstName, lastName, true, 0, a);
@@ -45,7 +45,7 @@ public class CustomerService {
         if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
         if (username == null || username.length() == 0) throw new IllegalArgumentException("Please enter a valid username");
         if (password == null || password.length() < 8) throw new IllegalArgumentException("Please enter a password that is at least 8 characters long");
-        if (civic == null || civic.equals("0") || civic.length() == 0 || street == null || street.length() == 0 || city == null || city.length() == 0 || postalCode == null || postalCode.length() == 0 || province == null || province.length() != 2 || country == null || country.length() == 0) throw new IllegalArgumentException("Please enter a valid address");
+        if (civic == null || civic.equals("0") || civic.length() == 0 || street == null || street.length() == 0 || city == null || city.length() == 0 || postalCode == null || postalCode.length() == 0 || province == null || country == null || country.length() == 0) throw new IllegalArgumentException("Please enter a valid address");
         if(customerRepository.existsByEmail(email)) throw new IllegalArgumentException("Email in use, please enter a new email");
         if (customerRepository.existsByUsername(username)) throw new IllegalArgumentException("Username in use, please enter a new username");
         Address a = new Address(civic, street, city, postalCode, province, country);
@@ -205,7 +205,7 @@ public class CustomerService {
     public List<Customer> getAllCustomers() {
         List<Customer> customers = new ArrayList<>();
         for (User u: customerRepository.findAll()) {
-            customers.add((Customer) u);
+            if (u instanceof Customer) customers.add((Customer) u);
         }
         return customers;
     }

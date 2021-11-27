@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script>
+<script src="./booking_view_script.js">
 export default {
   name: "booking_view_script"
 }
