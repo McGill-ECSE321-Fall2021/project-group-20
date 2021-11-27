@@ -12,7 +12,7 @@ import Schedule_View from "../components/Schedule_View";
 import Profile_View from "../components/Profile_View";
 import HeadLibrarian_View from "../components/HeadLibrarian_View";
 import Organize_View from "../components/Organize_View";
-import Setup from "../components/Setup";
+import Customer_profile_view from "../components/Customer_profile_view";
 
 Vue.use(Router)
 
@@ -83,9 +83,12 @@ export default new Router({
       path: '/HeadLibrarian/Organize',
       name: 'organize_view',
       component: Organize_View
+    },
+    {
+      path: '/Customer/Profile',
+      name: 'customer_profile_view',
+      component: Customer_profile_view
     }
-
   ],
-
   mode: "history"
 })

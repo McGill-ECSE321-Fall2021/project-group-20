@@ -17,7 +17,19 @@ export default {
   data() {
     return {
       error: '',
-      response: []
+      response: [],
+      username: '',
+      libraryCardID: 0,
+      email: '',
+      firstname: '',
+      lastname: '',
+      civicNumber: '',
+      street: '',
+      country: '',
+      province: '',
+      postalCode: '',
+      civic: '',
+      city: ''
     }
   },
 
@@ -41,7 +53,8 @@ export default {
 
     /* Calls updateInfo */
     updateInfo: function (firstname, lastname, civic, street, city, postalCode, province, country) {
-      AXIOS.put(backendUrl + '/employee/update/{id}?firstname=' + firstname + '&lastname=' + lastname + '&civic=' +
+      let id = document.cookie.split('=');
+      AXIOS.put(backendUrl + '/employee/update/' + id[1] + '?firstname=' + firstname + '&lastname=' + lastname + '&civic=' +
       civic + '&street=' + street + '&city=' + city + '&postalCode=' + postalCode + '&province=' + province +
         '&country=' + country).then(response => {
           this.response = response.data
@@ -62,16 +75,34 @@ export default {
       this.$router.push('/EmployeePage')
     }
   },
+
   beforeMount() {
-    if (document.cookie.indexOf('usertype=') !== -1) {
-      let splits = document.cookie.split(';');
-      let type = splits[1].split('=');
-      if (type[1] === 'customer') {
-        this.$router.push('home');
-      }
-    }
-    else {
-      this.$router.push('/');
-    }
+    // if (document.cookie.indexOf('usertype=') !== -1) {
+    //   let splits = document.cookie.split(';');
+    //   let type = splits[1].split('=');
+    //   if (type[1] === 'customer') {
+    //     this.$router.push('home');
+    //   }
+    // }
+    // else {
+    //   this.$router.push('/');
+    // }
+    let id = document.cookie.split('=');
+    AXIOS.get(backendUrl + '/employee/' + id[1]).then(response => {
+      this.response = response.data;
+      this.username = this.response.username;
+      this.libraryCardID = this.response.libraryCardID;
+      this.email = this.response.email;
+      this.firstname = this.response.firstname;
+      this.lastname = this.response.lastname;
+      this.civicNumber = this.response.address.civicNumber;
+      this.street = this.response.address.street;
+      this.city = this.response.address.city;
+      this.province = this.response.address.province;
+      this.country = this.response.address.country;
+      this.postalCode = this.response.address.postalCode;
+    }).catch(msg => {
+      this.error = msg.response.data;
+    })
   }
 }

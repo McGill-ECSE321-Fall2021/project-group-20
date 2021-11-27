@@ -19,6 +19,16 @@
               <input type="text" v-model="libraryCardID" id="libraryCardID" class="form-control" readonly>
             </div>
 
+            <div class="demeritPoints inputLabel">
+              <label for="demeritPoints">Demerit Points</label>
+              <input type="number" v-model="demeritPoints" id="demeritPoints" class="form-control" readonly>
+            </div>
+
+            <div class="Balance inputLabel">
+              <label for="balance">Balance</label>
+              <input type="number" v-model="balance" id="balance" class="form-control" readonly>
+            </div>
+
             <div class="oldPasswordLabel inputLabel">
               <label for="oldPassword">Old Password</label>
               <input type="password" id="oldPassword" class="form-control" required>
@@ -39,7 +49,7 @@
           <div class="buttonAccountFrame inputLabel">
             <button class="btn-cancel-acc" @click="cancel">Back
             </button>
-            <button class="btn-success-acc" @click="updateOnlineInfo(userName, newPassword, email)">Save Changes
+            <button class="btn-success-acc" @click="customerUpdateOnlineInfo(username, newPassword, email)">Save Changes
             </button>
           </div>
 
@@ -93,7 +103,7 @@
           <div class="buttonPersonalFrame inputPersLabel">
             <button class="btn-cancel-pers" @click="cancel">Back
             </button>
-            <button class="btn-success-pers" @click="updateInfo(firstname, lastname, civic, street, city, postalCode,
+            <button class="btn-success-pers" @click="customerUpdateInfo(firstname, lastname, civic, street, city, postalCode,
               province, country)">Save Changes
             </button>
           </div>
@@ -106,9 +116,9 @@
   </div>
 </template>
 
-<script src="./profile_vue_script.js">
+<script src="./customer_profile_view_script.js">
 export default {
-  name: "profile_view"
+  name: "customer_profile_view"
 }
 </script>
 
@@ -210,7 +220,7 @@ a:link {
   color: #333333;
 }
 a:hover {
- text-decoration: None;
+  text-decoration: None;
 }
 
 </style>
