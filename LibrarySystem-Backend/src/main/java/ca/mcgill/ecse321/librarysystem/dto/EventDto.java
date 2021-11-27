@@ -9,7 +9,7 @@ public class EventDto {
 	  private String eventID;
 	  private String name;
 	  private Date eventDate;
-	  private String eventhour;
+	  private HourDto eventhour;
 	  private HourService hourService;
 
 	  public EventDto () {}
@@ -75,14 +75,14 @@ public class EventDto {
 	    {
 	      return eventDate;
 	    }
-	    public String getEventhour()
+	    public HourDto getEventhour()
 	    {
 	      return eventhour;
 	    }
 	    
 	    public boolean setEventhour(HourDto aNewEventhour)
 	    {
-	      eventhour = aNewEventhour.getWeekday();
+	      eventhour = aNewEventhour;
 		  return true;
 	    }
 

@@ -61,5 +61,20 @@ export default {
         this.error = msg.response.data;
       })
     }
+  },
+  beforeMount() {
+    if (document.cookie.indexOf('usertype=') !== -1) {
+      let splits = document.cookie.split(';');
+      let type = splits[1].split('=');
+      if (type[1] === 'customer') {
+        this.$router.push('home');
+      }
+      else if (type[1] === 'Librarian') {
+        this.$router.push('EmployeePage');
+      }
+    }
+    else {
+      this.$router.push('/');
+    }
   }
 }

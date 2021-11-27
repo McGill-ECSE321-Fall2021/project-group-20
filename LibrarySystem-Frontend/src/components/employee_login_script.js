@@ -40,22 +40,22 @@ export default {
           url += '/' + name + '?password=' + password;
           sts = 2;
         }
-      }
 
-      AXIOS.put(url).then(response => {
-        this.response = response.data
-        this.error = ''
-        console.log(response)
-        if (this.response.isLoggedIn) {
-          document.cookie = "libraryCardID=" + this.response.libraryCardID + "; path=/";
-          document.cookie = "usertype=employee; path=/";
-          this.$router.push('EmployeePage')
-        }
-      }).catch(msg => {
-        console.log(msg.response.data)
-        console.log(msg.status)
-        this.error = msg.response.data;
-      })
+        AXIOS.put(url).then(response => {
+          this.response = response.data
+          this.error = ''
+          console.log(response)
+          if (this.response.isLoggedIn) {
+            document.cookie = "libraryCardID=" + this.response.libraryCardID + "; path=/";
+            document.cookie = "usertype=" + this.response.role + "; path=/";
+            this.$router.push('EmployeePage')
+          }
+        }).catch(msg => {
+          console.log(msg.response.data)
+          console.log(msg.status)
+          this.error = msg.response.data;
+        })
+      }
     },
     back: function () {
       this.$router.push('/')

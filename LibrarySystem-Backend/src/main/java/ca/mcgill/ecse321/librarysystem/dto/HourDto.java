@@ -6,7 +6,7 @@ public class HourDto {
 	  private Time startTime;
 	  private Time endTime;
 	  private EmployeeDto employee;
-	  private EventDto event;
+	  private String event;
 	  private CalendarDto calendar;
 
 
@@ -15,13 +15,14 @@ public class HourDto {
 		  
 	  }
 	  
-	  public HourDto(String aWeekday, Time aStartTime, Time aEndTime, EmployeeDto aEmployee, CalendarDto aCalendar)
+	  public HourDto(String aEvent, String aWeekday, Time aStartTime, Time aEndTime, EmployeeDto aEmployee, CalendarDto aCalendar)
 	  {
 	    weekday = aWeekday;
 	    startTime = aStartTime;
 	    endTime = aEndTime;
 	    employee = aEmployee;
 		calendar = aCalendar;
+		event = aEvent;
 	  }
 
 	
@@ -68,7 +69,7 @@ public class HourDto {
 	  {
 	    return employee;
 	  }
-	  public EventDto getEvent()
+	  public String getEvent()
 	  {
 	    return event;
 	  }
@@ -99,11 +100,6 @@ public class HourDto {
 	    employee.addEmployeehour(this);
 	    wasSet = true;
 	    return wasSet;
-	  }
-	  public boolean setEvent(EventDto aNewEvent)
-	  {
-	    event = aNewEvent;
-		return true;
 	  }
 	  public boolean setCalendar(CalendarDto aCalendar)
 	  {
@@ -142,8 +138,6 @@ public class HourDto {
 	    {
 	      placeholderEmployee.removeEmployeehour(this);
 	    }
-	    EventDto existingEvent = event;
-	    event = null;
 	    CalendarDto placeholderCalendar = calendar;
 	    this.calendar = null;
 	    if(placeholderCalendar != null)

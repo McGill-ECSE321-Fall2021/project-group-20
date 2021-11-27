@@ -40,22 +40,22 @@ export default {
           url += '/' + name + '?password=' + password;
           sts = 2;
         }
-      }
 
-      AXIOS.put(url).then(response => {
-        this.response = response.data
-        this.error = ''
-        console.log(response)
-        if (this.response.isLoggedIn) {
-          document.cookie = "libraryCardID=" + this.response.libraryCardID + "; path=/";
-          document.cookie = "usertype=customer ; path=/";
-          this.$router.push('home')
-        }
-      }).catch(msg => {
-        console.log(msg.response.data)
-        console.log(msg.status)
-        this.error = msg.response.data;
-      })
+        AXIOS.put(url).then(response => {
+          this.response = response.data
+          this.error = ''
+          console.log(response)
+          if (this.response.isLoggedIn) {
+            document.cookie = "libraryCardID=" + this.response.libraryCardID + "; path=/";
+            document.cookie = "usertype=customer ; path=/";
+            this.$router.push('home')
+          }
+        }).catch(msg => {
+          console.log(msg.response.data)
+          console.log(msg.status)
+          this.error = msg.response.data;
+        })
+      }
     },
     employee: function () {
       this.$router.push('employee')
@@ -70,12 +70,15 @@ export default {
   beforeMount(){
     if (document.cookie.indexOf('libraryCardID=') !== -1) {
       let splits = document.cookie.split(';');
-      let type = splits[1].split('=')
-      if (type[1] === 'employee') {
-        this.$router.push('EmployeePage')
+      let type = splits[1].split('=');
+      if (type[1] === 'Librarian') {
+        this.$router.push('EmployeePage');
+      }
+      else if (type[1] === 'Head Librarian') {
+        this.$router.push('HeadLibrarian');
       }
       else {
-        this.$router.push('home')
+        this.$router.push('home');
       }
     }
   },

@@ -74,7 +74,7 @@ export default new Router({
       component: HeadLibrarian_View
     },
     {
-      path: 'HeadLibrarian/Organize',
+      path: '/HeadLibrarian/Organize',
       name: 'organize_view',
       component: Organize_View
     }
