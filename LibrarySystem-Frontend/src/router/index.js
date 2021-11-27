@@ -64,7 +64,7 @@ export default new Router({
       component: Schedule_View
     },
     {
-      path: '/EmployeePage/Profile',
+      path: '/Employee/Profile',
       name: 'profile_view',
       component: Profile_View
     },
