@@ -13,6 +13,9 @@ import Profile_View from "../components/Profile_View";
 import HeadLibrarian_View from "../components/HeadLibrarian_View";
 import Organize_View from "../components/Organize_View";
 import Customer_profile_view from "../components/Customer_profile_view";
+import Event_Create from "../components/Event_Create";
+import Event_Update from "../components/Event_Update";
+import Setup from "../components/Setup";
 
 Vue.use(Router)
 
@@ -88,6 +91,17 @@ export default new Router({
       path: '/Customer/Profile',
       name: 'customer_profile_view',
       component: Customer_profile_view
+    },
+
+    {
+      path: '/EmployeePage/Event/Update',
+      name: 'event_update',
+      component: Event_Update
+    },
+    {
+      path: '/EmployeePage/Event/Create',
+      name: 'event_create',
+      component: Event_Create
     }
   ],
   mode: "history"

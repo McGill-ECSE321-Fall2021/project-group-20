@@ -65,19 +65,19 @@ export default {
       })
     }
   },
-  beforeMount() {
-    if (document.cookie.indexOf('usertype=') !== -1) {
-      let splits = document.cookie.split(';');
-      let type = splits[1].split('=');
-      if (type[1] === 'customer') {
-        this.$router.push('home');
-      }
-      else if (type[1] === 'Head Librarian') {
-        this.$router.push('HeadLibrarian');
-      }
-    }
-    else {
-      this.$router.push('/');
-    }
-  }
+  // beforeMount() {
+  //   if (document.cookie.indexOf('usertype=') !== -1) {
+  //     let splits = document.cookie.split(';');
+  //     let type = splits[1].split('=');
+  //     if (type[1] === 'customer') {
+  //       this.$router.push('home');
+  //     }
+  //     else if (type[1] === 'Head Librarian') {
+  //       this.$router.push('HeadLibrarian');
+  //     }
+  //   }
+  //   else {
+  //     this.$router.push('/');
+  //   }
+  // }
 }
