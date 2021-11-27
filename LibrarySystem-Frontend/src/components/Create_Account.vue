@@ -43,12 +43,30 @@
           <input type="text" v-model="postal" id="postal" class="form-control" required>
         </b-col>
         <b-col>
-          <label for="province">Province (short i.e. QC):</label>
-          <input type="text" v-model="province" id="province" class="form-control" required>
+          <label for="province">Province:</label><br>
+          <select name="province" id="province">
+            <option value="AB">Alberta</option>
+            <option value="BC">British Columbia</option>
+            <option value="MB">Manitoba</option>
+            <option value="NB">New Brunswick</option>
+            <option value="NL">Newfoundland and Labrador</option>
+            <option value="NT">Northwest Territories</option>
+            <option value="NS">Nova Scotia</option>
+            <option value="NU">Nunavut</option>
+            <option value="ON">Ontario</option>
+            <option value="PE">Prince Edward Island</option>
+            <option selected value="QC">Quebec</option>
+            <option value="SK">Saskatchewan</option>
+            <option value="YK">Yukon</option>
+            <option value="Other">Other</option>
+          </select>
         </b-col>
         <b-col>
-          <label for="country">Country:</label>
-          <input type="text" v-model="country" id="country" class="form-control" required>
+          <label for="country">Country:</label><br>
+          <select name="country" id="country">
+            <option selected value="Canada">Canada</option>
+            <option value="Other">Other</option>
+          </select>
         </b-col>
       </b-row><br>
       <b-row>
@@ -73,7 +91,7 @@
     </div>
     <div class="buttons">
       <button class="btn btn-danger" @click="cancel">Cancel</button>&nbsp
-      <button class="btn btn-success" @click="create(firstname, lastname, email, username, password, password_conf, civic, street, city, postal, province, country)">Create Account</button>
+      <button class="btn btn-success" @click="create(firstname, lastname, email, username, password, password_conf, civic, street, city, postal)">Create Account</button>
     </div>
   </div>
 </template>
@@ -87,6 +105,16 @@ export default {
 <style scoped>
 #create_account {
   background-color: rgba(66, 185, 131, 0.91);
+}
+
+#province {
+  width: 100%;
+  height: 56%;
+}
+
+#country {
+  width: 100%;
+  height: 56%;
 }
 
 .msg {

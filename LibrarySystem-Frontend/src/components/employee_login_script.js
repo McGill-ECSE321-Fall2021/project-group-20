@@ -23,15 +23,23 @@ export default {
 
   methods: {
     login: function (name, password) {
-      let url = backendUrl + '/employee/login'
-      let sts = 0;
-      if (document.getElementById('loginType').value === "name") {
-        url += '?name=' + name + '&password=' + password;
-        sts = 1;
+      if (document.getElementById('username').value === '') {
+        this.error = "Please enter a valid username";
       }
+      else if (document.getElementById('password').value === '') {
+        this.error = "Please enter a valid password";
+      }
+
       else {
-        url += '/' + name + '?password=' + password;
-        sts = 2;
+        let url = backendUrl + '/employee/login'
+        let sts = 0;
+        if (document.getElementById('loginType').value === "name") {
+          url += '?name=' + name + '&password=' + password;
+          sts = 1;
+        } else {
+          url += '/' + name + '?password=' + password;
+          sts = 2;
+        }
       }
 
       AXIOS.put(url).then(response => {

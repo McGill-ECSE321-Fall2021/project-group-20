@@ -50,7 +50,7 @@ export default {
 
 <style scoped>
 #customer_login {
-  background-color: rgba(66, 185, 131, 0.91);
+  background-color: rgb(255, 216, 167);
 }
 
 .login_msg {
@@ -65,12 +65,13 @@ export default {
   align-content: center;
   padding-left: 30vw;
   padding-right: 30vw;
-  padding-bottom: 5vh;
+  padding-bottom: 3vh;
 }
 
 .login_button {
   position: relative;
   align-content: center;
+  padding-top: 2vh;
   padding-bottom: 3vh;
 }
 
