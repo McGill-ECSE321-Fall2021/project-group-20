@@ -89,7 +89,8 @@ export default {
           this.$router.push('setup')
         }
       }).catch(msg => {
-        if (msg.response.data === 'No Library Systems found') {
+        this.error = msg.response.data;
+        if (this.error === 'No Library Systems found') {
           this.$router.push('setup')
         }
       })
