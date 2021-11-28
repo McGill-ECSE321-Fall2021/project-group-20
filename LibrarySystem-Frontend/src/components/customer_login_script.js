@@ -74,7 +74,7 @@ export default {
       if (type[1] === 'Librarian') {
         this.$router.push('EmployeePage');
       }
-      else if (type[1] === 'Head Librarian') {
+      else if (type[1] === 'HeadLibrarian') {
         this.$router.push('HeadLibrarian');
       }
       else {

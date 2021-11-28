@@ -14,7 +14,7 @@ var AXIOS = axios.create({
 
 
 export default {
-  name: 'headlibrarian_view_script',
+  name: 'customer_view_script',
   data() {
     return {
       error: '',
@@ -25,6 +25,11 @@ export default {
   },
 
   methods: {
+    signout() {
 
+    },
+    openProfile(){
+      this.$router.push('/Customer/Profile')
+    },
   }
 }

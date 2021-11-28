@@ -35,33 +35,37 @@ export default {
 
   methods: {
     /* Calls updateOnlineInfo */
-    updateOnlineInfo: function (userName, newPassword, email) {
-      AXIOS.put(backendUrl + '/employee/updateOnline/{id}?username=' + userName + '&newPassword=' + newPassword +
-        '&email=' + email).then(response => {
-        this.response = response.data
-        this.error = ''
-        console.log(response)
-        if (this.response != '') {
-          this.$router.push('/EmployeePage/Profile')
-        }
-      }).catch(msg => {
-        console.log(msg.response.data)
-        console.log(msg.response.status)
-        this.error = msg.response.data;
-      })
+    updateOnlineInfo: function (userName, confirm, newPassword, email) {
+      if (confirm !== newPassword) {
+        this.error = "Please enter the new password twice"
+      }
+      else {
+        AXIOS.put(backendUrl + '/employee/updateOnline/' + this.libraryCardID + '?username=' + userName + '&password=' + newPassword +
+          '&email=' + email).then(response => {
+          this.response = response.data
+          this.error = ''
+          console.log(response)
+          if (this.response != '') {
+            this.$router.push('/')
+          }
+        }).catch(msg => {
+          console.log(msg.response.data)
+          console.log(msg.response.status)
+          this.error = msg.response.data;
+        })
+      }
     },
 
     /* Calls updateInfo */
     updateInfo: function (firstname, lastname, civic, street, city, postalCode, province, country) {
-      let id = document.cookie.split('=');
-      AXIOS.put(backendUrl + '/employee/update/' + id[1] + '?firstname=' + firstname + '&lastname=' + lastname + '&civic=' +
+      AXIOS.put(backendUrl + '/employee/update/' + this.libraryCardID + '?firstName=' + firstname + '&lastName=' + lastname + '&civic=' +
       civic + '&street=' + street + '&city=' + city + '&postalCode=' + postalCode + '&province=' + province +
         '&country=' + country).then(response => {
           this.response = response.data
           this.error = ''
           console.log(response)
         if (this.response != '') {
-          this.$router.push('/EmployeePage/Profile')
+          this.$router.push('/')
         }
       }).catch(msg => {
           console.log(msg.response.data)
@@ -72,7 +76,24 @@ export default {
 
 
     cancel: function () {
-      this.$router.push('/EmployeePage')
+      this.$router.push('/')
+    },
+
+    deleteAcc: function() {
+      AXIOS.delete(backendUrl + '/employee/' + this.libraryCardID).then(response => {
+        this.response = response.data
+        this.error = ''
+        console.log(response)
+        if (this.response != '') {
+          document.cookie = "libraryCardID=;Max-Age=0";
+          document.cookie = "usertype=;Max-Age=0"
+          this.error = this.response
+          this.$router.push('/')
+        }
+      }).catch(msg => {
+        console.log(msg.response.data)
+        console.log(msg.response.status)
+      })
     }
   },
 
@@ -87,14 +108,15 @@ export default {
     // else {
     //   this.$router.push('/');
     // }
-    let id = document.cookie.split('=');
+    let split = document.cookie.split(';')
+    let id = split[0].split('=');
     AXIOS.get(backendUrl + '/employee/' + id[1]).then(response => {
       this.response = response.data;
       this.username = this.response.username;
       this.libraryCardID = this.response.libraryCardID;
       this.email = this.response.email;
-      this.firstname = this.response.firstname;
-      this.lastname = this.response.lastname;
+      this.firstname = this.response.firstName;
+      this.lastname = this.response.lastName;
       this.civicNumber = this.response.address.civicNumber;
       this.street = this.response.address.street;
       this.city = this.response.address.city;

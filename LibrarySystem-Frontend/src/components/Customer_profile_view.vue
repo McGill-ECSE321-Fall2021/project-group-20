@@ -21,7 +21,7 @@
 
             <div class="demeritPoints inputLabel">
               <label for="demeritPoints">Demerit Points</label>
-              <input type="number" v-model="demeritPoints" id="demeritPoints" class="form-control" readonly>
+              <input type="number" v-model="demeritPts" id="demeritPoints" class="form-control" readonly>
             </div>
 
             <div class="Balance inputLabel">
@@ -30,13 +30,13 @@
             </div>
 
             <div class="oldPasswordLabel inputLabel">
-              <label for="oldPassword">Old Password</label>
-              <input type="password" id="oldPassword" class="form-control" required>
+              <label for="oldPassword">New Password</label>
+              <input type="password" v-model="confirm" id="oldPassword" class="form-control" required>
             </div>
 
             <div class="newPasswordLabel inputLabel">
-              <label for="newPassword">New Password</label>
-              <input type="password" id="newPassword" class="form-control" required>
+              <label for="newPassword">Confirm Password</label>
+              <input type="password" v-model="newPassword" id="newPassword" class="form-control" required>
             </div>
 
             <div class="emailLabel inputLabel">
@@ -49,7 +49,7 @@
           <div class="buttonAccountFrame inputLabel">
             <button class="btn-cancel-acc" @click="cancel">Back
             </button>
-            <button class="btn-success-acc" @click="customerUpdateOnlineInfo(username, newPassword, email)">Save Changes
+            <button class="btn-success-acc" @click="customerUpdateOnlineInfo(username, confirm, newPassword, email)">Save Changes
             </button>
           </div>
 
@@ -111,6 +111,14 @@
         </b-tab>
       </b-tabs>
 
+    </div>
+    <div class="delete">
+      <button class="btn-danger" @click="deleteAcc">Delete Account</button>
+    </div>
+    <div class="error">
+      <p>
+        <span v-if="error" style="color: red">Error: {{error}}</span>
+      </p>
     </div>
 
   </div>

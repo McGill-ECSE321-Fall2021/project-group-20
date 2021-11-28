@@ -2,13 +2,13 @@
   <div id="Customer_View">
     <div>
       <b-navbar toggleable="lg" variant="faded" type="light" >
-        <b-navbar-brand href="#">Menu</b-navbar-brand>
+        <b-navbar-brand href="/">Menu</b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item href="#">Library </b-nav-item>
+            <b-nav-item href="/Library">Library </b-nav-item>
             <b-nav-item href="#">Booking </b-nav-item>
 
 
@@ -23,8 +23,8 @@
               <template #button-content>
                 <em>User</em>
               </template>
-              <b-dropdown-item @click="">Profile</b-dropdown-item>
-              <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+              <b-dropdown-item @click="openProfile">Profile</b-dropdown-item>
+              <b-dropdown-item @click="signout">Sign Out</b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>
@@ -36,7 +36,7 @@
 
 <script src="./customer_view_script.js">
 export default {
-  name: "customer_view_script"
+  name: "customer_view"
 }
 </script>
 

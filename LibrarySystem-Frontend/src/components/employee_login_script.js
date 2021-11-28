@@ -48,7 +48,9 @@ export default {
           if (this.response.isLoggedIn) {
             document.cookie = "libraryCardID=" + this.response.libraryCardID + "; path=/";
             document.cookie = "usertype=" + this.response.role + "; path=/";
-            this.$router.push('EmployeePage')
+            if (this.response.role === 'HeadLibrarian') this.$router.push('HeadLibrarian')
+            else if (this.response.role === 'Librarian') this.$router.push('EmployeePage')
+
           }
         }).catch(msg => {
           console.log(msg.response.data)

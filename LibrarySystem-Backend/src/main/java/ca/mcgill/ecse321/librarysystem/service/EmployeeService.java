@@ -232,9 +232,9 @@ public class EmployeeService {
         if (password == null || password.length() < 8) throw new IllegalArgumentException("Please enter a valid password of min 8 chars long");
         if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
         if (!employeeRepository.existsByLibraryCardID(libraryCardID)) throw new NullPointerException("Cannot find Employee with given ID");
-        if (employeeRepository.existsByUsername(username)) throw new IllegalArgumentException("New username in use, please choose a valid one");
-        if (employeeRepository.existsByEmail(email)) throw new IllegalArgumentException("New email in use, please choose another");
         Employee employee = employeeRepository.findEmployeeByLibraryCardID(libraryCardID);
+        if (employeeRepository.existsByUsername(username) && !employee.getUsername().equals(username)) throw new IllegalArgumentException("New username in use, please choose a valid one");
+        if (employeeRepository.existsByEmail(email) && !employee.getEmail().equals(email)) throw new IllegalArgumentException("New email in use, please choose another");
         if (employee.setUsername(username) && employee.setPassword(password) && employee.setEmail(email)) {
             employeeRepository.save(employee);
             return employee;
@@ -247,7 +247,7 @@ public class EmployeeService {
         if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
         if (firstName == null || lastName == null || firstName.length() == 0 || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid name");
         if (civic == null || civic.equals("0") || civic.length() == 0 || street == null || street.length() == 0 || city == null || city.length() == 0 ||
-                postalCode == null || postalCode.length() == 0 || province == null || province.length() != 2 || country == null || country.length() == 0) throw new IllegalArgumentException("Please enter a valid address");
+                postalCode == null || postalCode.length() == 0 || province == null || country == null || country.length() == 0) throw new IllegalArgumentException("Please enter a valid address");
         if (!employeeRepository.existsByLibraryCardID(libraryCardID)) throw new NullPointerException("Cannot find Employee with given ID");
         Employee employee = employeeRepository.findEmployeeByLibraryCardID(libraryCardID);
         if (employee.setFirstName(firstName) && employee.setLastName(lastName)) {

@@ -18,6 +18,7 @@ import Event_Create from "../components/Event_Create";
 import Hour_View from "../components/Hour_View";
 import Customer_View from "../components/Customer_View";
 import Setup from "../components/Setup";
+import Library_View from "../components/Library_View";
 
 
 Vue.use(Router)
@@ -33,11 +34,6 @@ export default new Router({
       path: '/setup',
       name: 'setup',
       component: Setup
-    },
-    {
-      path: '/home',
-      name: 'hello',
-      component: Hello
     },
     {
       path: '/employee',
@@ -81,6 +77,11 @@ export default new Router({
       component: Profile_View
     },
     {
+      path: '/Library',
+      name: 'library_view',
+      component: Library_View
+    },
+    {
       path: '/HeadLibrarian',
       name: 'headlibrarian_view',
       component: HeadLibrarian_View
@@ -112,7 +113,7 @@ export default new Router({
       component: Hour_View
     },
     {
-      path: '/CustomerPage',
+      path: '/home',
       name: 'customer_view',
       component: Customer_View
     }

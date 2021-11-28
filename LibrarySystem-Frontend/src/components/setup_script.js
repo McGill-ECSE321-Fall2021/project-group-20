@@ -70,8 +70,10 @@ export default {
                 this.error = ''
                 console.log(response)
                 if (this.response.libraryCardID !== null) {
+                  document.cookie = "libraryCardID=" + this.response.libraryCardID + "; path=/";
+                  document.cookie = "usertype=" + this.response.role + "; path=/";
                   this.error = 'You may now log in!';
-                  this.$router.push('home');
+                  this.$router.push('HeadLibrarian');
                 }
               }).catch(msg => {
                 console.log(msg.response.data)

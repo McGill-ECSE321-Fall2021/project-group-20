@@ -236,7 +236,7 @@ public class HourRestController {
 	
 	private HourDto convertToDto(Hour h){
 		if (h== null) throw new IllegalArgumentException("Cannot find this hour");
-		return new HourDto(h.getEvent().getEventID(), h.getWeekday(),h.getStartTime(),h.getEndTime(),convertToDto(h.getEmployee()),convertToDto(h.getCalendar()));
+		return new HourDto(h.getEvent(), h.getWeekday(),h.getStartTime(),h.getEndTime(),convertToDto(h.getEmployee()),convertToDto(h.getCalendar()));
 		
 	}
 	

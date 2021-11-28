@@ -1,4 +1,6 @@
 package ca.mcgill.ecse321.librarysystem.dto;
+import ca.mcgill.ecse321.librarysystem.model.Event;
+
 import java.sql.Time;
 
 public class HourDto {
@@ -15,14 +17,14 @@ public class HourDto {
 		  
 	  }
 	  
-	  public HourDto(String aEvent, String aWeekday, Time aStartTime, Time aEndTime, EmployeeDto aEmployee, CalendarDto aCalendar)
+	  public HourDto(Event aEvent, String aWeekday, Time aStartTime, Time aEndTime, EmployeeDto aEmployee, CalendarDto aCalendar)
 	  {
 	    weekday = aWeekday;
 	    startTime = aStartTime;
 	    endTime = aEndTime;
 	    employee = aEmployee;
 		calendar = aCalendar;
-		event = aEvent;
+		if (aEvent != null) event = aEvent.getEventID();
 	  }
 
 	

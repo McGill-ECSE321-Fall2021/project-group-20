@@ -279,9 +279,9 @@ public class CustomerService {
         if (password == null || password.length() < 8) throw new IllegalArgumentException("Please enter a valid password of min 8 chars long");
         if (email == null || !email.contains("@")) throw new IllegalArgumentException("Please enter a valid email");
         if (!customerRepository.existsByLibraryCardID(libraryCardID)) throw new NullPointerException("Cannot find Customer with given ID");
-        if (customerRepository.existsByUsername(username)) throw new IllegalArgumentException("New username in use, please choose a valid one");
-        if (customerRepository.existsByEmail(email)) throw new IllegalArgumentException("New email in use, please choose another");
         Customer customer = (Customer) customerRepository.findUserByLibraryCardID(libraryCardID);
+        if (customerRepository.existsByUsername(username) && !customer.getUsername().equals(username)) throw new IllegalArgumentException("New username in use, please choose a valid one");
+        if (customerRepository.existsByEmail(email) && !customer.getEmail().equals(email)) throw new IllegalArgumentException("New email in use, please choose another");
         if (customer.setUsername(username) && customer.setPassword(password) && customer.setEmail(email)) {
             customerRepository.save(customer);
             return customer;
@@ -294,7 +294,7 @@ public class CustomerService {
         if (libraryCardID <= 0) throw new IllegalArgumentException("Please enter a valid libraryCardID");
         if (firstName == null || lastName == null || firstName.length() == 0 || lastName.length() == 0) throw new IllegalArgumentException("Please enter a valid name");
         if (civic == null || civic.equals("0") || civic.length() == 0 || civic.contains("-") || civic.contains("+") || street == null || street.length() == 0 || city == null || city.length() == 0 ||
-                postalCode == null || postalCode.length() == 0 || province == null || province.length() != 2 || country == null || country.length() == 0) throw new IllegalArgumentException("Please enter a valid address");
+                postalCode == null || postalCode.length() == 0 || province == null || country == null || country.length() == 0) throw new IllegalArgumentException("Please enter a valid address");
         if (!customerRepository.existsByLibraryCardID(libraryCardID)) throw new NullPointerException("Cannot find Customer with given ID");
         Customer customer = (Customer) customerRepository.findUserByLibraryCardID(libraryCardID);
         if (customer.setFirstName(firstName) && customer.setLastName(lastName)) {
