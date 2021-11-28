@@ -11,6 +11,8 @@
             <b-nav-item href="#">Library </b-nav-item>
             <b-nav-item @click="openManagement">Booking </b-nav-item>
             <b-nav-item @click="openBooking">Management</b-nav-item>
+            <b-nav-item @click="openHour">Organize </b-nav-item>
+            <b-nav-item @click="openHour">Hour </b-nav-item>
             <b-nav-item @click="openEvent">Event </b-nav-item>
             <b-nav-item @click="openSchedule">Schedule </b-nav-item>
             <b-nav-item @click="openOrganize">Organize </b-nav-item>

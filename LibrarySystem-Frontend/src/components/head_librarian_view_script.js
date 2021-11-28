@@ -44,6 +44,7 @@ export default {
     openOrganize(){
       this.$router.push('HeadLibrarian/Organize')
     },
+<<<<<<< Updated upstream
     signout() {
       let id = document.cookie.split('=');
       AXIOS.put(backendUrl + "/employee/logout/" + id[1]).then(response => {
@@ -75,6 +76,10 @@ export default {
     }
     else {
       this.$router.push('/');
+=======
+    openHour(){
+      this.$router.push('HeadLibrarian/Hour')
+>>>>>>> Stashed changes
     }
   }
 }
