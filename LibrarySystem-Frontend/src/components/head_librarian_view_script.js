@@ -26,23 +26,26 @@ export default {
 
   methods: {
 
-    openBooking(){
+    openBooking() {
       this.$router.push('/EmployeePage/Booking')
     },
-    openManagement(){
+    openManagement() {
       this.$router.push('/EmployeePage/Management')
     },
-    openEvent(){
+    openEvent() {
       this.$router.push('/EmployeePage/Event')
     },
-    openSchedule(){
+    openSchedule() {
       this.$router.push('/EmployeePage/Schedule')
     },
-    openProfile(){
+    openProfile() {
       this.$router.push('Employee/Profile')
     },
-    openOrganize(){
+    openOrganize() {
       this.$router.push('HeadLibrarian/Organize')
+    },
+    openHour() {
+      this.$router.push('HeadLibrarian/Hour')
     },
     signout() {
       let id = document.cookie.split('=');
@@ -68,12 +71,10 @@ export default {
       let type = splits[1].split('=');
       if (type[1] === 'customer') {
         this.$router.push('home');
-      }
-      else if (type[1] === 'Librarian') {
+      } else if (type[1] === 'Librarian') {
         this.$router.push('EmployeePage');
       }
-    }
-    else {
+    } else {
       this.$router.push('/');
     }
   }

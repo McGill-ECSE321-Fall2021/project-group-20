@@ -13,9 +13,12 @@ import Profile_View from "../components/Profile_View";
 import HeadLibrarian_View from "../components/HeadLibrarian_View";
 import Organize_View from "../components/Organize_View";
 import Customer_profile_view from "../components/Customer_profile_view";
-import Event_Create from "../components/Event_Create";
 import Event_Update from "../components/Event_Update";
+import Event_Create from "../components/Event_Create";
+import Hour_View from "../components/Hour_View";
+import Customer_View from "../components/Customer_View";
 import Setup from "../components/Setup";
+
 
 Vue.use(Router)
 
@@ -102,6 +105,16 @@ export default new Router({
       path: '/EmployeePage/Event/Create',
       name: 'event_create',
       component: Event_Create
+    },
+    {
+      path: '/HeadLibrarian/Hour',
+      name: 'hour_view',
+      component: Hour_View
+    },
+    {
+      path: '/CustomerPage',
+      name: 'customer_view',
+      component: Customer_View
     }
   ],
   mode: "history"
