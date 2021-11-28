@@ -20,6 +20,8 @@ import Customer_View from "../components/Customer_View";
 import Setup from "../components/Setup";
 import Library_View from "../components/Library_View";
 import Update_Item from "../components/Update_Item";
+import Create_Author from "../components/Create_Author";
+import Create_Title from "../components/Create_Title";
 
 
 Vue.use(Router)
@@ -122,6 +124,16 @@ export default new Router({
       path: '/EmployeePage/Management/Update',
       name: 'update_item_view',
       component: Update_Item
+    },
+    {
+      path: '/EmployeePage/Management/Create_Author',
+      name: 'create_author_view',
+      component: Create_Author
+    },
+    {
+      path: '/EmployeePage/Management/Create_Title',
+      name: 'create_title_view',
+      component: Create_Title
     }
   ],
   mode: "history"

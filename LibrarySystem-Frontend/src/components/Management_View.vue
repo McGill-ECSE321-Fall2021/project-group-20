@@ -6,19 +6,95 @@
 
   <div class="mainFrame">
 
-    <div><h2><b>Add to Library Inventory</b></h2></div>
+    <div><h2><b>Add Item to Library Inventory</b></h2></div>
     <br>
     <b-tabs content-class="mt-3" align="center">
 
-      <div class="global">
-        <label><b>Author Info: </b></label>
-        <input value="response.firstname" type="text" v-model="firstname" id="firstname" placeholder="First Name" class="form-control" required>
-        <input value="response.lastname" type="text" v-model="lastname" id="lastname" placeholder="Last Name" class="form-control" required>
+      <div class="tables">
+
+<!--      <div class="global">-->
+
+        <label><b>List of Authors: </b></label>
         <br>
-        <label><b>Title Info: </b></label>
-        <input v-model="titlename" id="titlename" placeholder="Title Name" class="form-control" required>
-        <input v-model="publishdate" id="publishdate" placeholder="Publish Date (mm/dd/yyyy)" class="form-control" required>
-        <br>
+
+<!--        <table class="table">-->
+<!--          <thead>-->
+<!--          <tr>-->
+<!--            <th scope="col">-->
+<!--              <div class="form-check">-->
+<!--                <input-->
+<!--                  class="form-check-input"-->
+<!--                  type="checkbox"-->
+<!--                  value=""-->
+<!--                  id="flexCheckDefault"-->
+<!--                />-->
+<!--              </div>-->
+<!--            </th>-->
+<!--            <th scope="col">Lorem</th>-->
+<!--            <th scope="col">Ipsum</th>-->
+<!--            <th scope="col">Dolor</th>-->
+<!--          </tr>-->
+<!--          </thead>-->
+<!--          <tbody>-->
+<!--          <tr>-->
+<!--            <th scope="row">-->
+<!--              <div class="form-check">-->
+<!--                <input-->
+<!--                  class="form-check-input"-->
+<!--                  type="checkbox"-->
+<!--                  value=""-->
+<!--                  id="flexCheckDefault"-->
+<!--                />-->
+<!--              </div>-->
+<!--            </th>-->
+<!--            <td>Sit</td>-->
+<!--            <td>Amet</td>-->
+<!--            <td>Consectetur</td>-->
+<!--          </tr>-->
+<!--          <tr>-->
+<!--            <th scope="row">-->
+<!--              <div class="form-check">-->
+<!--                <input-->
+<!--                  class="form-check-input"-->
+<!--                  type="checkbox"-->
+<!--                  value=""-->
+<!--                  id="flexCheckDefault"-->
+<!--                />-->
+<!--              </div>-->
+<!--            </th>-->
+<!--            <td>Adipisicing</td>-->
+<!--            <td>Elit</td>-->
+<!--            <td>Sint</td>-->
+<!--          </tr>-->
+<!--          <tr>-->
+<!--            <th scope="row">-->
+<!--              <div class="form-check">-->
+<!--                <input-->
+<!--                  class="form-check-input"-->
+<!--                  type="checkbox"-->
+<!--                  value=""-->
+<!--                  id="flexCheckDefault"-->
+<!--                />-->
+<!--              </div>-->
+<!--            </th>-->
+<!--            <td>Hic</td>-->
+<!--            <td>Fugiat</td>-->
+<!--            <td>Temporibus</td>-->
+<!--          </tr>-->
+<!--          </tbody>-->
+<!--        </table>-->
+
+
+        <label><b>List of Titles: </b></label>
+
+<!--        <label><b>Author Info: </b></label>-->
+<!--        <input value="response.firstname" type="text" v-model="firstname" id="firstname" placeholder="First Name" class="form-control" required>-->
+<!--        <input value="response.lastname" type="text" v-model="lastname" id="lastname" placeholder="Last Name" class="form-control" required>-->
+<!--        <br>-->
+<!--        <label><b>Title Info: </b></label>-->
+<!--        <input v-model="titlename" id="titlename" placeholder="Title Name" class="form-control" required>-->
+<!--        <input v-model="publishdate" id="publishdate" placeholder="Publish Date (mm/dd/yyyy)" class="form-control" required>-->
+<!--        <br>-->
       </div>
 
       <b-tab title="Archive" active>
@@ -131,14 +207,14 @@ export default {
 
 <style scoped>
 
-.global {
-  width: 24.75%;
-  min-width: 400px;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  padding-top: 2vh;
-}
+/*.global {*/
+/*  width: 24.75%;*/
+/*  min-width: 400px;*/
+/*  position: relative;*/
+/*  left: 50%;*/
+/*  transform: translateX(-50%);*/
+/*  padding-top: 2vh;*/
+/*}*/
 
 .inputFrame {
   width: 24.75%;
