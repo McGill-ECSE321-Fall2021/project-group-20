@@ -19,6 +19,7 @@ import Hour_View from "../components/Hour_View";
 import Customer_View from "../components/Customer_View";
 import Setup from "../components/Setup";
 import Library_View from "../components/Library_View";
+import Update_Item from "../components/Update_Item";
 
 
 Vue.use(Router)
@@ -116,6 +117,11 @@ export default new Router({
       path: '/home',
       name: 'customer_view',
       component: Customer_View
+    },
+    {
+      path: '/EmployeePage/Management/Update',
+      name: 'update_item_view',
+      component: Update_Item
     }
   ],
   mode: "history"
