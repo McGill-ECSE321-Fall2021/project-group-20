@@ -111,7 +111,7 @@ public class Calendar
   /* Code from template association_AddMandatoryManyToOne */
   public Hour addHour(String aWeekday, Time aStartTime, Time aEndTime, Employee aEmployee)
   {
-    Hour aNewHour = new Hour(aWeekday, aStartTime, aEndTime, aEmployee, this);
+    Hour aNewHour = new Hour(aWeekday, aStartTime, aEndTime, aEmployee, this, Hour.Type.System);
     return aNewHour;
   }
 

@@ -48,7 +48,7 @@ public class TestHourService {
 	private static final Time dTime = new Time(1, 30, 50);
 	private static final Time sTime = new Time(1, 10, 50);
 	
-	private static final Hour myHour = new Hour("tuesday", sTime, dTime, aUser, myCalendar);
+	private static final Hour myHour = new Hour("tuesday", sTime, dTime, aUser, myCalendar, Hour.Type.System);
 	private static final Event myEvent = new Event(Ename, sDate, myHour);
 	
 	@BeforeEach
@@ -127,7 +127,7 @@ public class TestHourService {
 		 Calendar myCalendar = new Calendar();
 		 Hour myHour = null;
 		try {
-			myHour = hour.createHour("monday", sTime, dTime, aUser, myCalendar);
+			myHour = hour.createHour("monday", sTime, dTime, aUser, myCalendar, "System");
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
@@ -155,7 +155,7 @@ public class TestHourService {
 		 Calendar myCalendar = new Calendar();
 		 Hour myHour = null;
 		try {
-			myHour = hour.createHour("monday", sTime, dTime, null, myCalendar);
+			myHour = hour.createHour("monday", sTime, dTime, null, myCalendar, "System");
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 
@@ -172,7 +172,7 @@ public class TestHourService {
 		String error = null;
 		lenient().when(Hrepo.findBycalendar(any(Calendar.class))).thenAnswer((InvocationOnMock invocation) -> {
 			if (invocation.getArgument(0).equals(myCalendar)) {
-				Hour myHour = new Hour("tuesday", sTime, dTime, aUser, myCalendar);
+				Hour myHour = new Hour("tuesday", sTime, dTime, aUser, myCalendar, Hour.Type.System);
 
 
 				List<Hour> myList = new ArrayList<Hour>();
@@ -220,7 +220,7 @@ public class TestHourService {
 
 		lenient().when(Hrepo.findByemployee(any(Employee.class))).thenAnswer((InvocationOnMock invocation) -> {
 			if (invocation.getArgument(0).equals(aUser)) {
-				Hour myHour = new Hour("tuesday", sTime, dTime, aUser, myCalendar);
+				Hour myHour = new Hour("tuesday", sTime, dTime, aUser, myCalendar, Hour.Type.System);
 				List<Hour> myList = new ArrayList<Hour>();
 				myList.add(myHour);
 				return myList;			}
@@ -268,7 +268,7 @@ public class TestHourService {
 		
 		lenient().when(Hrepo.findByendTime(any(Time.class))).thenAnswer((InvocationOnMock invocation) -> {
 			if (invocation.getArgument(0).equals(dTime)) {
-				Hour myHour = new Hour("tuesday", sTime, dTime, aUser, myCalendar);
+				Hour myHour = new Hour("tuesday", sTime, dTime, aUser, myCalendar, Hour.Type.System);
 
 				List<Hour> myList = new ArrayList<Hour>();
 				myList.add(myHour);
@@ -313,7 +313,7 @@ public class TestHourService {
 		List<Hour> myHourTEST = null;
 		lenient().when(Hrepo.findBystartTime(any(Time.class))).thenAnswer((InvocationOnMock invocation) -> {
 			if (invocation.getArgument(0).equals(sTime)) {
-				Hour myHour = new Hour("tuesday", sTime, dTime, aUser, myCalendar);
+				Hour myHour = new Hour("tuesday", sTime, dTime, aUser, myCalendar, Hour.Type.System);
 
 				List<Hour> myList = new ArrayList<Hour>();
 				myList.add(myHour);
@@ -359,7 +359,7 @@ public class TestHourService {
 		String error = null;
 		lenient().when(Hrepo.getByevent(any(Event.class))).thenAnswer((InvocationOnMock invocation) -> {
 			if (invocation.getArgument(0).equals(myEvent)) {
-				Hour myHour = new Hour("tuesday", sTime, dTime, aUser, myCalendar);
+				Hour myHour = new Hour("tuesday", sTime, dTime, aUser, myCalendar, Hour.Type.System);
 
 				return myHour;
 			}
@@ -400,7 +400,7 @@ public class TestHourService {
 		String error = null;
 		lenient().when(Hrepo.findByweekday(anyString())).thenAnswer((InvocationOnMock invocation) -> {
 			if (invocation.getArgument(0).equals("tuesday")) {
-				Hour myHour = new Hour("tuesday", sTime, dTime, aUser, myCalendar);
+				Hour myHour = new Hour("tuesday", sTime, dTime, aUser, myCalendar, Hour.Type.System);
 
 				return myHour;
 			}
@@ -516,7 +516,7 @@ public class TestHourService {
 		Time newTime = new Time(1, 00, 50);	
 		 Calendar myCalendar = new Calendar();
 		 String error = null;
-		 Hour myHour = new Hour ("tuesday", sTime, dTime, aUser, myCalendar);
+		 Hour myHour = new Hour ("tuesday", sTime, dTime, aUser, myCalendar, Hour.Type.System);
 		try {
 			hour.updateHourStartTimebyWeekday("tuesday",newTime);
 		} catch (IllegalArgumentException e) {
@@ -544,7 +544,7 @@ public class TestHourService {
 		Time newTime = new Time(1, 00, 50);	
 		 Calendar myCalendar = new Calendar();
 		 String error = null;
-		 Hour myHour = new Hour ("tuesday", sTime, dTime, aUser, myCalendar);
+		 Hour myHour = new Hour ("tuesday", sTime, dTime, aUser, myCalendar, Hour.Type.System);
 		try {
 			hour.updateHourEndTimebyWeekday("tuesday",newTime);
 		} catch (IllegalArgumentException e) {
@@ -576,7 +576,7 @@ public class TestHourService {
 		Time newTime = new Time(1, 00, 50);	
 		 Calendar myCalendar = new Calendar();
 		 String error = null;
-		 Hour myHour = new Hour ("tuesday", sTime, dTime, aUser, myCalendar);
+		 Hour myHour = new Hour ("tuesday", sTime, dTime, aUser, myCalendar, Hour.Type.System);
 		try {
 			hour.updateHourEmployeebyWeekday("tuesday",newUser);
 		} catch (IllegalArgumentException e) {
@@ -610,7 +610,7 @@ public class TestHourService {
 		 
 		 Employee newUser = new Employee(true, true, "Carey", "Price", true, 0, myAdress, Role.Librarian);
 
-		 Hour newHour = new Hour ("tuesday", newTime, dTime, newUser, myCalendar);
+		 Hour newHour = new Hour ("tuesday", newTime, dTime, newUser, myCalendar, Hour.Type.System);
 		 Event updatedEvent = new Event("PLeaseWORK", newDofEvent, newHour);	
 			try {
 				hour.updateEventatThisHourbyWeekday("tuesday",updatedEvent);

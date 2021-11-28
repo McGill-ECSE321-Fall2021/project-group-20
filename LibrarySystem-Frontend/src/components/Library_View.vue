@@ -13,11 +13,23 @@
   <div class="address">
     <p><b>Our library is located at:</b></p>
     <div class="centered">
-      <p>{{civic}} {{street}}</p>
-      <p>{{city}}, {{province}}</p>
-      <p>{{postalCode}}</p>
-      <p>{{country}}</p>
+      <p><br>{{civic}} {{street}}, {{city}}, {{province}}, {{postalCode}}, {{country}}</p>
     </div>
+  </div>
+  <div class="openingHours">
+    <p><b>Our library is open on:</b></p><br>
+    <table>
+      <tr>
+        <th>Weekday</th>
+        <th>Opening at</th>
+        <th>Closing at</th>
+      </tr>
+      <tr v-for="hour in hours">
+        <td>{{hour.weekday}}</td>
+        <td>{{hour.startTime}}</td>
+        <td>{{hour.endTime}}</td>
+      </tr>
+    </table>
   </div>
 </div>
 </template>
@@ -31,13 +43,13 @@ export default {
 <style scoped>
 .address {
   text-align: center;
-  padding-top: 15vh;
-  padding-left: 8vw;
-  padding-right: 81vw;
+  padding-top: 5vh;
+  padding-bottom: 10vh;
 }
 
-.centered {
-  padding-top: 2vh;
-  text-align: center;
+table {
+  margin-left: auto;
+  margin-right: auto;
+  border-spacing: 5vw 0;
 }
 </style>

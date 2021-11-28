@@ -100,7 +100,7 @@ public class TestCalendarService {
                 e1.setUsername(USERNAME_1);
                 e1.setPassword(PASS_1);
 
-                Hour shift = new Hour(weekday, startTime, endTime, e1, calendar);
+                Hour shift = new Hour(weekday, startTime, endTime, e1, calendar, Hour.Type.Shift);
                 list_hours.add(shift);
                 calendar.addHour(shift);
                 return calendar;

@@ -18,6 +18,12 @@ public class Hour
 {
 
   //------------------------
+  // ENUMERATIONS
+  //------------------------
+
+  public enum Type { System, Event, Shift }
+
+  //------------------------
   // MEMBER VARIABLES
   //------------------------
 
@@ -26,6 +32,7 @@ public class Hour
   private String weekday;
   private Time startTime;
   private Time endTime;
+  private Type type;
 
   //Hour Associations
   @ManyToOne(optional=true)
@@ -45,11 +52,12 @@ public class Hour
 	  
   }
   
-  public Hour(String aWeekday, Time aStartTime, Time aEndTime, Employee aEmployee, Calendar aCalendar)
+  public Hour(String aWeekday, Time aStartTime, Time aEndTime, Employee aEmployee, Calendar aCalendar, Type aType)
   {
     weekday = aWeekday;
     startTime = aStartTime;
     endTime = aEndTime;
+    this.type = aType;
     boolean didAddEmployee = setEmployee(aEmployee);
     if (!didAddEmployee)
     {
@@ -120,6 +128,11 @@ public class Hour
     boolean has = event != null;
     return has;
   }
+
+  public Type getType() {
+    return type;
+  }
+
   /* Code from template association_GetOne */
   public Calendar getCalendar()
   {

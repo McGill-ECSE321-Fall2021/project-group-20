@@ -87,8 +87,8 @@ public class TestHourRepositoryPersistence {
 		librarySystemRepository.save(myLibrary);
 		Employee aUser = new Employee(true, true,"Alex", "Bangala", true, 0, myadress, Role.Librarian);
 		userRepository.save(aUser);
-		Hour myhour = new Hour("Tuesday", sTime, dTime , aUser, mycalendar);
-		Hour myhour1 = new Hour("Monday", sTime, dTime , aUser, mycalendar);
+		Hour myhour = new Hour("Tuesday", sTime, dTime , aUser, mycalendar, Hour.Type.System);
+		Hour myhour1 = new Hour("Monday", sTime, dTime , aUser, mycalendar, Hour.Type.System);
 		Event myevent = new Event("LasFiesta", sdate , myhour);
 		Event myevent1= new Event("LasFiestaMcGill", sdate , myhour1);
 
@@ -147,8 +147,8 @@ public class TestHourRepositoryPersistence {
 		librarySystemRepository.save(myLibrary);
 		Employee aUser = new Employee(true, true, "Alex", "Bangala", true, 0, myadress, Role.Librarian);
 		userRepository.save(aUser);
-		Hour myhour = new Hour("Tuesday", sTime, dTime , aUser, mycalendar);
-		Hour myhour1 = new Hour("Monday", sTime, dTime , aUser, mycalendar);
+		Hour myhour = new Hour("Tuesday", sTime, dTime , aUser, mycalendar, Hour.Type.System);
+		Hour myhour1 = new Hour("Monday", sTime, dTime , aUser, mycalendar, Hour.Type.System);
 		Event myevent = new Event("LasFiesta", sdate , myhour);
 		Event myevent1= new Event("LasFiestaMcGill", sdate , myhour1);
 
@@ -218,8 +218,8 @@ public class TestHourRepositoryPersistence {
 		librarySystemRepository.save(myLibrary);
 		Employee aUser = new Employee(true, true, "Alex", "Bangala", true, 0, myadress, Role.Librarian);
 		userRepository.save(aUser);
-		Hour myhour = new Hour("Tuesday", sTime, dTime , aUser, mycalendar);
-		Hour myhour1 = new Hour("Monday", sTime1, dTime1 , aUser, mycalendar);
+		Hour myhour = new Hour("Tuesday", sTime, dTime , aUser, mycalendar, Hour.Type.System);
+		Hour myhour1 = new Hour("Monday", sTime1, dTime1 , aUser, mycalendar, Hour.Type.System);
 		Event myevent = new Event("LasFiesta", sdate , myhour);
 		Event myevent1= new Event("LasFiestaMcGill", sdate1 , myhour1);
 
@@ -300,8 +300,8 @@ public class TestHourRepositoryPersistence {
 		librarySystemRepository.save(myLibrary);
 		Employee aUser = new Employee(true, true, "Alex", "Bangala", true, 0, myadress, Role.Librarian);
 		userRepository.save(aUser);
-		Hour myhour = new Hour("Tuesday", sTime, dTime , aUser, mycalendar);
-		Hour myhour1 = new Hour("Monday", sTime1, dTime1 , aUser, mycalendar);
+		Hour myhour = new Hour("Tuesday", sTime, dTime , aUser, mycalendar, Hour.Type.System);
+		Hour myhour1 = new Hour("Monday", sTime1, dTime1 , aUser, mycalendar, Hour.Type.System);
 		Event myevent = new Event("LasFiesta", sdate , myhour);
 		Event myevent1= new Event("LasFiestaMcGill", sdate1 , myhour1);
 
@@ -377,7 +377,7 @@ public class TestHourRepositoryPersistence {
 		librarySystemRepository.save(myLibrary);
 		Employee aUser = new Employee(true, true, "Alex", "Bangala", true, 0, myadress, Role.Librarian);
 		employeeRepository.save(aUser);
-		Hour myhour = new Hour("Tuesday", sTime, dTime , aUser, mycalendar);
+		Hour myhour = new Hour("Tuesday", sTime, dTime , aUser, mycalendar, Hour.Type.System);
 		Event myevent = new Event("LasFiesta", sdate , myhour);
 		eventRepository.save(myevent);
 	
@@ -449,7 +449,7 @@ public class TestHourRepositoryPersistence {
 		librarySystemRepository.save(myLibrary);
 		Employee aUser = new Employee(true, true, "Alex", "Bangala", true, 0, myadress, Role.Librarian);
 		userRepository.save(aUser);
-		Hour myhour = new Hour("Tuesday", sTime, dTime , aUser, mycalendar);
+		Hour myhour = new Hour("Tuesday", sTime, dTime , aUser, mycalendar, Hour.Type.System);
 		Event myevent = new Event("LasFiesta", sdate , myhour);
 
 		eventRepository.save(myevent);

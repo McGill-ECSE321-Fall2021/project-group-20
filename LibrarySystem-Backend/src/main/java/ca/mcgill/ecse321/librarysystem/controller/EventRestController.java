@@ -117,7 +117,7 @@ public class EventRestController {
 		 try {
 			 Employee e = employeeService.getEmployee(employeeUserName);
 			 Calendar c = calendarService.getCalendar(calendarID);
-			 Hour h = new Hour (weekday,Time.valueOf(startTime),Time.valueOf(endTime),e,c);
+			 Hour h = new Hour (weekday,Time.valueOf(startTime),Time.valueOf(endTime),e,c, Hour.Type.Event);
 			 String[] dateS = date.split("/");
 			 Date d = Date.valueOf(dateS[2] + "-" + dateS[0] + "-" + dateS[1]);
 			 Event event = eventService.createEvent(name, d, h);
@@ -186,7 +186,7 @@ public class EventRestController {
 	    	try {
 				Employee e = employeeService.getEmployee(employeeUserName);
 				Calendar c = calendarService.getCalendar(calendarID);
-				Hour h = new Hour(upweekday, Time.valueOf(upstartTime), Time.valueOf(upendTime), e, c);
+				Hour h = new Hour(upweekday, Time.valueOf(upstartTime), Time.valueOf(upendTime), e, c, Hour.Type.Event);
 				if (eventService.updateEventHour(id, h)) return new ResponseEntity<>(convertToDto(eventService.getEventByHour(h)), HttpStatus.OK);
 				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not update hour");
 			} catch (Exception msg) {
@@ -215,7 +215,8 @@ public class EventRestController {
 	
 	private HourDto convertToDto(Hour h){
 		if (h== null) throw new IllegalArgumentException("Cannot find this hour");
-		return new HourDto(h.getEvent(), h.getWeekday(),h.getStartTime(),h.getEndTime(),convertToDto(h.getEmployee()),convertToDto(h.getCalendar()));
+		return new HourDto(h.getEvent(), h.getWeekday(),h.getStartTime(),h.getEndTime(),
+				convertToDto(h.getEmployee()),convertToDto(h.getCalendar()), HourDto.Type.valueOf(h.getType().toString()));
 		
 	}
 	

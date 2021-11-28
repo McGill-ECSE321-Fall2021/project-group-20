@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '../components/Hello'
 import Customer_Login from "../components/Customer_Login";
 import Employee_Login from "../components/Employee_Login";
 import Create_Account from "../components/Create_Account";

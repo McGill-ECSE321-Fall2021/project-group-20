@@ -48,7 +48,7 @@ public class TestEventService {
 	private static final Time dTime = new Time(1, 30, 50);
 	private static final Time sTime = new Time(1, 10, 50);
 	
-	private static final Hour myHour = new Hour("mardi", sTime, dTime, aUser, myCalendar);
+	private static final Hour myHour = new Hour("mardi", sTime, dTime, aUser, myCalendar, Hour.Type.Event);
 	private static final Event myEvent = new Event(Ename, sDate, myHour);
 
 	@BeforeEach
@@ -106,7 +106,7 @@ public class TestEventService {
 		 Time dTime = new Time(1, 50, 50);
 		Time sTime = new Time(1, 15, 50);		
 		 Calendar myCalendar = new Calendar();
-		 Hour myHour = new Hour("lundi", sTime, dTime, aUser, myCalendar);
+		 Hour myHour = new Hour("lundi", sTime, dTime, aUser, myCalendar, Hour.Type.Event);
 		 Event myEvent = null;
 		try {
 			myEvent = event.createEvent(name, sDate, myHour);
@@ -133,7 +133,7 @@ public class TestEventService {
 		 Time dTime = new Time(1, 50, 50);
 		Time sTime = new Time(1, 15, 50);		
 		 Calendar myCalendar = new Calendar();
-		 Hour myHour = new Hour("lundi", sTime, dTime, aUser, myCalendar);
+		 Hour myHour = new Hour("lundi", sTime, dTime, aUser, myCalendar, Hour.Type.Event);
 		 Event myEvent = null;
 		 String error = null;
 		try {
@@ -303,7 +303,7 @@ public class TestEventService {
 	@Test
 	public void testupdateByHour() {
 		 String name = "Alex Party";
-		 Hour zehour = new Hour("lundi", sTime, dTime, aUser, myCalendar);
+		 Hour zehour = new Hour("lundi", sTime, dTime, aUser, myCalendar, Hour.Type.Event);
 		 String Id = "HIII";
 		 String error = null;
 		try {
@@ -323,7 +323,7 @@ public class TestEventService {
 	@Test
 	public void testupdateEventNameByDayandID () {
 		 String name = "Majid's party is the best";
-		 Hour zehour = new Hour("lundi", sTime, dTime, aUser, myCalendar);
+		 Hour zehour = new Hour("lundi", sTime, dTime, aUser, myCalendar, Hour.Type.Event);
 		 String str1 = "2012-03-31";
 		 Date oldDate = Date.valueOf(str1);
 		 String Id = "HIII";

@@ -110,7 +110,7 @@ public class Employee extends User
   /* Code from template association_AddManyToOne */
   public Hour addEmployeehour(String aWeekday, Time aStartTime, Time aEndTime, Calendar aCalendar)
   {
-    return new Hour(aWeekday, aStartTime, aEndTime, this, aCalendar);
+    return new Hour(aWeekday, aStartTime, aEndTime, this, aCalendar, Hour.Type.Shift);
   }
 
   public boolean addEmployeehour(Hour aEmployeehour)

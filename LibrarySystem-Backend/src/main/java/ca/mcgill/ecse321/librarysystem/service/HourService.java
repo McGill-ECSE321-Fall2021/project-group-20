@@ -24,13 +24,13 @@ public class HourService {
 
 	
 	@Transactional
-	public Hour createHour(String aWeekday, Time aStartTime, Time aEndTime, Employee aEmployee, Calendar aCalendar) {
+	public Hour createHour(String aWeekday, Time aStartTime, Time aEndTime, Employee aEmployee, Calendar aCalendar, String aType) {
 		 if ( aEndTime == null ) throw new IllegalArgumentException("Please enter a valid end Time");
 		  if(aStartTime == null)throw new IllegalArgumentException("Please enter a valid start Time");
 		  if (aWeekday == null || aWeekday.length()==0) throw new IllegalArgumentException("Please enter a valid date");
 	      if( aEmployee == null )throw new IllegalArgumentException("Please enter a valid employee");
 	      if (aCalendar == null) throw new IllegalArgumentException("Please enter valid calendar");
-	      Hour newHour = new Hour ( aWeekday,  aStartTime,  aEndTime,  aEmployee,  aCalendar);
+	      Hour newHour = new Hour ( aWeekday,  aStartTime,  aEndTime,  aEmployee,  aCalendar, Hour.Type.valueOf(aType));
 	      hourRepository.save(newHour);
 	      return newHour;		
 	}

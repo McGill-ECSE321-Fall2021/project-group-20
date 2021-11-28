@@ -58,6 +58,78 @@ public class HourRestController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 	}
+
+	@GetMapping(value = {"/hours/system", "/hours/system/"})
+	public ResponseEntity getSystemHours() {
+		List<HourDto> hourList =  new ArrayList<>();
+		List<Hour> hours;
+		try {
+			hours = hourService.getAllHours();
+
+			for (Hour h: hours) {
+				if (h.getType().toString().equals("System")) hourList.add(convertToDto(h));
+			}
+
+			if (hourList.size() == 0) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any business hours in system");
+			return new ResponseEntity<>(hourList, HttpStatus.OK);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+	}
+
+	@GetMapping(value = {"/hours/shifts", "/hours/shifts/"})
+	public ResponseEntity getShifts() {
+		List<HourDto> hourList =  new ArrayList<>();
+		List<Hour> hours;
+		try {
+			hours = hourService.getAllHours();
+
+			for (Hour h: hours) {
+				if (h.getType().toString().equals("Shift")) hourList.add(convertToDto(h));
+			}
+
+			if (hourList.size() == 0) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any shifts in system");
+			return new ResponseEntity<>(hourList, HttpStatus.OK);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+	}
+
+	@GetMapping(value = {"/hours/shifts/{id}", "/hours/shifts/{id}/"})
+	public ResponseEntity getEmployeeShifts(@PathVariable String id) {
+		List<HourDto> hourList =  new ArrayList<>();
+		List<Hour> hours;
+		try {
+			hours = hourService.getAllHours();
+
+			for (Hour h: hours) {
+				if (h.getType().toString().equals("Shift") && h.getEmployee().getLibraryCardID() == Integer.parseInt(id)) hourList.add(convertToDto(h));
+			}
+
+			if (hourList.size() == 0) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any shifts in system");
+			return new ResponseEntity<>(hourList, HttpStatus.OK);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+	}
+
+	@GetMapping(value = {"/hours/events", "/hours/events/"})
+	public ResponseEntity getEvents() {
+		List<HourDto> hourList =  new ArrayList<>();
+		List<Hour> hours;
+		try {
+			hours = hourService.getAllHours();
+
+			for (Hour h: hours) {
+				if (h.getType().toString().equals("Event")) hourList.add(convertToDto(h));
+			}
+
+			if (hourList.size() == 0) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any events in system");
+			return new ResponseEntity<>(hourList, HttpStatus.OK);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+	}
 	
 	
 	@GetMapping(value = {"/hours/calendar","/hours/calendar/"})
@@ -215,12 +287,13 @@ public class HourRestController {
 	}
 	
 	@PostMapping (value = {"/hour/create", "/hour/create/"})
-	public ResponseEntity createHour(@RequestParam String weekday, @RequestParam String startTime, @RequestParam String endTime, @RequestParam String EmployeeId , @RequestParam String calendarId) {
+	public ResponseEntity createHour(@RequestParam String weekday, @RequestParam String startTime, @RequestParam String endTime, @RequestParam String EmployeeId,
+									 @RequestParam String calendarId, @RequestParam String type) {
 		try {
 			if (!startTime.contains(":")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please format time as HH:mm:ss");
 			Employee e = employeeService.getEmployee(Integer.valueOf(EmployeeId));
 			Calendar c = calendarService.getCalendar(calendarId);
-			Hour h = hourService.createHour(weekday, Time.valueOf(startTime), Time.valueOf(endTime), e, c);
+			Hour h = hourService.createHour(weekday, Time.valueOf(startTime), Time.valueOf(endTime), e, c, type);
 			HourDto hour = convertToDto(h);
 			if (hour == null) return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not create Hour");
 			return new ResponseEntity<>(hour, HttpStatus.OK);
@@ -236,7 +309,8 @@ public class HourRestController {
 	
 	private HourDto convertToDto(Hour h){
 		if (h== null) throw new IllegalArgumentException("Cannot find this hour");
-		return new HourDto(h.getEvent(), h.getWeekday(),h.getStartTime(),h.getEndTime(),convertToDto(h.getEmployee()),convertToDto(h.getCalendar()));
+		return new HourDto(h.getEvent(), h.getWeekday(),h.getStartTime(),h.getEndTime(),convertToDto(h.getEmployee()),
+				convertToDto(h.getCalendar()), HourDto.Type.valueOf(h.getType().toString()));
 		
 	}
 	

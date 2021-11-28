@@ -18,6 +18,7 @@ export default {
     return {
       error: '',
       response: [],
+      hours: [],
       civic: '',
       street: '',
       city: '',
@@ -33,7 +34,6 @@ export default {
 
   beforeMount() {
     AXIOS.get(backendUrl + '/librarySystem').then(response => {
-      console.log(response.data[0])
       this.response = response.data[0].businessaddress;
       this.civic = this.response.civicNumber;
       this.street = this.response.street;
@@ -43,6 +43,13 @@ export default {
       this.country = this.response.country;
     }).catch(msg => {
       this.error = msg.response.data;
+      console.log(this.error)
+    })
+
+    AXIOS.get(backendUrl + '/hours/system').then(response => {
+      this.hours = response.data
+    }).catch(msg => {
+      this.error = msg.response.data
       console.log(this.error)
     })
   }

@@ -55,11 +55,12 @@ public class TestCustomerService {
     @BeforeEach
     public void setMockOutput() {
         // Basically intercept every possible repository call here!
+
         lenient().when(customerDao.existsByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> invocation.getArgument(0).equals(EMAIL_KEY));
 
         lenient().when(customerDao.existsByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> invocation.getArgument(0).equals(USER_KEY));
 
-        lenient().when(customerDao.existsByLibraryCardID(anyInt())).thenAnswer((InvocationOnMock invocation) -> invocation.getArgument(0).equals(ID) || invocation.getArgument(0).equals(3) || invocation.getArgument(0).equals(4));
+        lenient().when(customerDao.existsByLibraryCardID(anyInt())).thenAnswer((InvocationOnMock invocation) -> invocation.getArgument(0).equals(ID) || invocation.getArgument(0).equals(3) || invocation.getArgument(0).equals(4) || invocation.getArgument(0).equals(5));
 
         lenient().when(customerDao.findUserByLibraryCardID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(ID_KEY) || invocation.getArgument(0).equals(4)) {
@@ -76,6 +77,15 @@ public class TestCustomerService {
                 Address a = new Address(CIVIC_1, STREET_1, CITY_1, POST_1, PROV_1, COUNTRY_1);
                 Customer c = new Customer(false, false, FIRSTNAME_1, LASTNAME_1, true, 0, a);
                 c.setLibraryCardID(3);
+                return c;
+            }
+            else if (invocation.getArgument(0).equals(5)) {
+                Address a = new Address(CIVIC_1, STREET_1, CITY_1, POST_1, PROV_1, COUNTRY_1);
+                Customer c = new Customer(true, false, FIRSTNAME_1, LASTNAME_1, true, 0, a);
+                c.setEmail("Test@Test.ca");
+                c.setUsername("Tester");
+                c.setPassword(PASS_1);
+                c.setLibraryCardID(5);
                 return c;
             }
             return null;
@@ -1235,7 +1245,7 @@ public class TestCustomerService {
         String error = null;
         Customer c = null;
         try {
-            c = customerService.updateOnlineInfo(3, USER_KEY, PASS_1, EMAIL_1);
+            c = customerService.updateOnlineInfo(5, USER_KEY, PASS_1, EMAIL_1);
         } catch (IllegalArgumentException msg) {
             error = msg.getMessage();
         }
@@ -1248,7 +1258,7 @@ public class TestCustomerService {
         String error = null;
         Customer c = null;
         try {
-            c = customerService.updateOnlineInfo(3, USERNAME_1, PASS_1, EMAIL_KEY);
+            c = customerService.updateOnlineInfo(5, USERNAME_1, PASS_1, EMAIL_KEY);
         } catch (IllegalArgumentException msg) {
             error = msg.getMessage();
         }

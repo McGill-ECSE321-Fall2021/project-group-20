@@ -10,6 +10,9 @@ public class HourDto {
 	  private EmployeeDto employee;
 	  private String event;
 	  private CalendarDto calendar;
+	  private Type type;
+
+	  public enum Type {System, Event, Shift}
 
 
 
@@ -17,13 +20,14 @@ public class HourDto {
 		  
 	  }
 	  
-	  public HourDto(Event aEvent, String aWeekday, Time aStartTime, Time aEndTime, EmployeeDto aEmployee, CalendarDto aCalendar)
+	  public HourDto(Event aEvent, String aWeekday, Time aStartTime, Time aEndTime, EmployeeDto aEmployee, CalendarDto aCalendar, Type aType)
 	  {
 	    weekday = aWeekday;
 	    startTime = aStartTime;
 	    endTime = aEndTime;
 	    employee = aEmployee;
 		calendar = aCalendar;
+		type = aType;
 		if (aEvent != null) event = aEvent.getEventID();
 	  }
 
