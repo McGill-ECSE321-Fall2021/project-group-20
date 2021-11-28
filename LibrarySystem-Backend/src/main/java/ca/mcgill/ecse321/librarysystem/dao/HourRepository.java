@@ -11,7 +11,7 @@ import ca.mcgill.ecse321.librarysystem.model.Calendar;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource(collectionResourceRel = "hour_data", path = "hour_data")
-public interface HourRepository extends CrudRepository <Hour,String> {
+public interface HourRepository extends CrudRepository <Hour,Integer> {
 	//Find a list of hours linked to a  calendar
 	List<Hour> findBycalendar(Calendar calendar);
 	
@@ -29,6 +29,8 @@ public interface HourRepository extends CrudRepository <Hour,String> {
 	
 	//Find hour for a weekday
 	Hour findByweekday(String weekday);
+
+	Hour findByHourId(Integer hourId);
 	
 	//Checks if hour exists for an event
 	boolean existsByevent(Event event);

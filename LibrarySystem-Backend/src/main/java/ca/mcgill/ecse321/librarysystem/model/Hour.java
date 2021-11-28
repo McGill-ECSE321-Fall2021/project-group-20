@@ -4,10 +4,7 @@
 package ca.mcgill.ecse321.librarysystem.model;
 import java.sql.Time;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -28,8 +25,10 @@ public class Hour
   //------------------------
 
   //Hour Attributes
-	@Id
   private String weekday;
+  @Id
+  @GeneratedValue
+  private int hourId;
   private Time startTime;
   private Time endTime;
   private Type type;
@@ -96,6 +95,10 @@ public class Hour
     endTime = aEndTime;
     wasSet = true;
     return wasSet;
+  }
+
+  public int getId() {
+    return hourId;
   }
 
   public String getWeekday()
