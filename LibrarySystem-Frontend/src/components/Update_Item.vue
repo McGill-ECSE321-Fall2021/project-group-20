@@ -1,18 +1,20 @@
 <template>
   <div id="Update_Item">
     <template>
-      <b-input-group prepend="Search" v-model="name" id="name" class="mt-3">
-        <b-form-input></b-form-input>
-        <b-input-group-append>
-          <b-button variant="info" @click="get">Button</b-button>
-        </b-input-group-append>
-      </b-input-group>
+      <input type="input" v-model="input" id="input" class="form-control" required placeholder="Search">
+      <button class="btn btn-primary" @click="get(input)">Search</button>
     </template>
     <template>
       <div>
         <b-table striped hover :items="items"></b-table>
       </div>
     </template>
+    <input type="text" v-model="itemBarcode" id="itemBarcode" class="form-control" required placeholder="ItemBarcode">
+    <input type="text" v-model="status" id="status" class="form-control" required placeholder="Status">
+    <button class="btn btn-primary" @click="update(itemBarcode,status)">Update</button>
+    <button class="btn btn-danger" @click="delet(itemBarcode)">Delete</button>
+    <button class="btn btn-primary" @click="back()">Back</button>
+
   </div>
 </template>
 <!--  <v-data-table-->

@@ -2,8 +2,12 @@
   <div id="Customer_View">
     <div>
       <b-navbar toggleable="lg" variant="faded" type="light" >
+<<<<<<< Updated upstream
         <b-navbar-brand href="/">Menu</b-navbar-brand>
 
+=======
+        <b-navbar-brand href="#">Menu</b-navbar-brand>
+>>>>>>> Stashed changes
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
@@ -29,6 +33,10 @@
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
+      <div class="header_img">
+        <img src="https://images.pexels.com/photos/1290141/pexels-photo-1290141.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940
+" style="width:210vh; height:90vh;">
+      </div>
     </div>
 
   </div>
