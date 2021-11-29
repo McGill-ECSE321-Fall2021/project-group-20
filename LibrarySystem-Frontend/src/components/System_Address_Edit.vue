@@ -6,9 +6,9 @@
 </div>
 </template>
 
-<script src="./system_address_edit.js">
+<script>
 export default {
-  name: "system_address_edit"
+  name: 'system_address_edit'
 }
 </script>
 

@@ -10,26 +10,32 @@
     <br>
     <h1>Library Information</h1>
   </div>
-  <div class="address">
-    <p><b>Our library is located at:</b></p>
-    <div class="centered">
-      <p><br>{{civic}} {{street}}, {{city}}, {{province}}, {{postalCode}}, {{country}}</p>
+  <div class="block">
+    <div class="inline_left">
+      <div class="address">
+        <p><b>Our library is located at:</b></p>
+        <div class="centered">
+          <p><br>{{civic}} {{street}}, {{city}}, {{province}}, {{postalCode}}, {{country}}</p>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="openingHours">
-    <p><b>Our library is open on:</b></p><br>
-    <table>
-      <tr>
-        <th>Weekday</th>
-        <th>Open</th>
-        <th>Close</th>
-      </tr>
-      <tr v-for="hour in hours">
-        <td>{{hour.weekday}}</td>
-        <td>{{hour.startTime}}</td>
-        <td>{{hour.endTime}}</td>
-      </tr>
-    </table>
+    <div clas="inline_right">
+      <div class="split openingHours">
+        <p><b>Our library is open on:</b></p><br>
+        <table>
+          <tr>
+            <th>Day</th>
+            <th>Open</th>
+            <th>Close</th>
+          </tr>
+          <tr v-for="hour in hours">
+            <td>{{hour.weekday}}</td>
+            <td>{{hour.startTime}}</td>
+            <td>{{hour.endTime}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
 </template>
@@ -41,10 +47,31 @@ export default {
 </script>
 
 <style scoped>
+.block {
+  width: 100%;
+  display: block;
+  padding-top: 17vh;
+}
+
+.inline_left {
+  width: 50%;
+  float: left;
+  display: inline-block;
+}
+
+.inline_right {
+  width: 50%;
+  float: right;
+  display: inline-block;
+}
+
 .address {
+  left: 0;
   text-align: center;
-  padding-top: 5vh;
-  padding-bottom: 10vh;
+}
+
+.openingHours {
+  right: 0;
 }
 
 table {

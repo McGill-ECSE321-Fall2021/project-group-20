@@ -10,32 +10,38 @@
       <br>
       <h1>Library Information</h1>
     </div>
-    <div class="address">
-      <p><b>Our library is located at:</b></p>
-      <div class="centered">
-        <p><br>{{civic}} {{street}}, {{city}}, {{province}}, {{postalCode}}, {{country}}</p>
+    <div class="block">
+      <div class="inline_left">
+        <div class="address">
+          <p><b>Your library is located at:</b></p>
+          <div class="centered">
+            <p><br>{{civic}} {{street}}, {{city}}, {{province}}, {{postalCode}}, {{country}}</p>
+          </div>
+        </div>
+        <div class="address_edit">
+          <button class="btn btn-success" @click="openAddressEdit">Edit Address</button>
+        </div>
       </div>
-    </div>
-    <div class="edit_address">
-      <button class="btn btn-success" @click="openAddressEdit">Update Address</button>
-    </div>
-    <div class="openingHours">
-      <p><b>Our library is open on:</b></p><br>
-      <table>
-        <tr>
-          <th>Weekday</th>
-          <th>Open</th>
-          <th>Close</th>
-        </tr>
-        <tr v-for="hour in hours">
-          <td>{{hour.weekday}}</td>
-          <td>{{hour.startTime}}</td>
-          <td>{{hour.endTime}}</td>
-        </tr>
-      </table>
-    </div>
-    <div class="edit_hours">
-      <button class="btn btn-success" @click="openHoursEdit">Update Business Hours</button>
+      <div class="inline_right">
+        <div class="split openingHours">
+          <p><b>Your library is open on:</b></p><br>
+          <table>
+            <tr>
+              <th>Day</th>
+              <th>Open</th>
+              <th>Close</th>
+            </tr>
+            <tr v-for="hour in hours">
+              <td>{{hour.weekday}}</td>
+              <td>{{hour.startTime}}</td>
+              <td>{{hour.endTime}}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="hour_edit">
+          <button class="btn btn-success" @click="openHoursEdit">Edit Opening Hours</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -47,23 +53,43 @@ export default {
 </script>
 
 <style scoped>
-.address {
-  text-align: center;
-  padding-top: 5vh;
-  padding-bottom: 3vh;
+.block {
+  width: 100%;
+  display: block;
+  padding-top: 17vh;
 }
 
-.edit_address {
-  padding-bottom: 4vh;
+.inline_left {
+  width: 50%;
+  float: left;
+  display: inline-block;
+}
+
+.inline_right {
+  width: 50%;
+  float: right;
+  display: inline-block;
+}
+
+.address {
+  left: 0;
+  text-align: center;
+}
+
+.openingHours {
+  right: 0;
+}
+
+.hour_edit {
+  padding-top: 8vh;
+}
+
+.address_edit {
+  padding-top: 5vh;
 }
 
 table {
   margin-left: auto;
   margin-right: auto;
-}
-
-.openingHours {
-  padding-top: 5vh;
-  padding-bottom: 5vh;
 }
 </style>
