@@ -8,7 +8,7 @@
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item href="#">Library </b-nav-item>
+            <b-nav-item @click="openLibrary">Library </b-nav-item>
             <b-nav-item @click="openManagement">Booking </b-nav-item>
             <b-nav-item @click="openBooking">Management</b-nav-item>
             <b-nav-item @click="openHour">Organize </b-nav-item>

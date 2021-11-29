@@ -29,6 +29,9 @@ export default {
     openBooking() {
       this.$router.push('/EmployeePage/Booking')
     },
+    openLibrary() {
+      this.$router.push('/library/edit')
+    },
     openCreate() {
       this.$router.push('/createLocalAccount')
     },
@@ -80,17 +83,17 @@ export default {
       })
     }
   },
-  beforeMount() {
-    if (document.cookie.indexOf('usertype=') !== -1) {
-      let splits = document.cookie.split(';');
-      let type = splits[1].split('=');
-      if (type[1] === 'customer') {
-        this.$router.push('home');
-      } else if (type[1] === 'Librarian') {
-        this.$router.push('EmployeePage');
-      }
-    } else {
-      this.$router.push('/');
-    }
-  }
+  // beforeMount() {
+  //   if (document.cookie.indexOf('usertype=') !== -1) {
+  //     let splits = document.cookie.split(';');
+  //     let type = splits[1].split('=');
+  //     if (type[1] === 'customer') {
+  //       this.$router.push('home');
+  //     } else if (type[1] === 'Librarian') {
+  //       this.$router.push('EmployeePage');
+  //     }
+  //   } else {
+  //     this.$router.push('/');
+  //   }
+  // }
 }

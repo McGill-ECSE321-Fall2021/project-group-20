@@ -26,6 +26,9 @@ import Verify_Page from "../components/Verify_Page";
 import Fee_Page from "../components/Fee_Page";
 import Hire from "../components/Hire";
 import Fire from "../components/Fire";
+import Library_edit from "../components/Library_edit";
+import System_Address_Edit from "../components/System_Address_Edit";
+import System_Hour_Edit from "../components/System_Hour_Edit";
 
 
 Vue.use(Router)
@@ -162,7 +165,22 @@ export default new Router({
       path: '/HeadLibrarian/fire',
       name: 'fire',
       component: Fire
-    }
+    },
+    {
+      path: '/Library/edit',
+      name: 'library_edit',
+      component: Library_edit
+    },
+    {
+      path: '/Library/edit/address',
+      name: 'system_address_edit',
+      component: System_Address_Edit
+    },
+    {
+      path: '/Library/edit/hours',
+      name: 'system_hour_edit',
+      component: System_Hour_Edit
+    },
   ],
   mode: "history"
 })

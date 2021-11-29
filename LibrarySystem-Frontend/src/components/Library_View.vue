@@ -21,8 +21,8 @@
     <table>
       <tr>
         <th>Weekday</th>
-        <th>Opening at</th>
-        <th>Closing at</th>
+        <th>Open</th>
+        <th>Close</th>
       </tr>
       <tr v-for="hour in hours">
         <td>{{hour.weekday}}</td>
@@ -50,6 +50,5 @@ export default {
 table {
   margin-left: auto;
   margin-right: auto;
-  border-spacing: 5vw 0;
 }
 </style>
