@@ -127,7 +127,7 @@ export default new Router({
       component: Hour_View
     },
     {
-      path: '/CustomerPage',
+      path: '/home',
       name: 'customer_view',
       component: Customer_View
     },
