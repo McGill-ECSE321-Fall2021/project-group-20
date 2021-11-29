@@ -32,6 +32,15 @@ export default {
     onSlideEnd(slide) {
       this.sliding = false
     },
+    openCreate() {
+      this.$router.push('/createLocalAccount')
+    },
+    openFees() {
+      this.$router.push('/fees')
+    },
+    openVerify() {
+      this.$router.push('/verify')
+    },
     openBooking(){
       this.$router.push('/EmployeePage/Booking')
     },

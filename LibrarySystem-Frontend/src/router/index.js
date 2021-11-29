@@ -21,6 +21,11 @@ import Library_View from "../components/Library_View";
 import Update_Item from "../components/Update_Item";
 import Create_Author from "../components/Create_Author";
 import Create_Title from "../components/Create_Title";
+import Create_Local from "../components/Create_Local";
+import Verify_Page from "../components/Verify_Page";
+import Fee_Page from "../components/Fee_Page";
+import Hire from "../components/Hire";
+import Fire from "../components/Fire";
 
 
 Vue.use(Router)
@@ -47,7 +52,11 @@ export default new Router({
       name: 'create_account',
       component: Create_Account
     },
-
+    {
+      path: '/fees',
+      name: 'fee_page',
+      component: Fee_Page
+    },
     {
       path: '/EmployeePage',
       name: 'employee_view',
@@ -133,6 +142,26 @@ export default new Router({
       path: '/EmployeePage/Management/Create_Title',
       name: 'create_title_view',
       component: Create_Title
+    },
+    {
+      path: '/createLocalAccount',
+      name: 'create_local',
+      component: Create_Local
+    },
+    {
+      path: '/verify',
+      name: 'verify_page',
+      component: Verify_Page
+    },
+    {
+      path: '/HeadLibrarian/hire',
+      name: 'hire',
+      component: Hire
+    },
+    {
+      path: '/HeadLibrarian/fire',
+      name: 'fire',
+      component: Fire
     }
   ],
   mode: "history"

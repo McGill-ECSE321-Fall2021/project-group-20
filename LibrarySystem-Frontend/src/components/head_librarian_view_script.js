@@ -29,6 +29,21 @@ export default {
     openBooking() {
       this.$router.push('/EmployeePage/Booking')
     },
+    openCreate() {
+      this.$router.push('/createLocalAccount')
+    },
+    openVerify() {
+      this.$router.push('/verify')
+    },
+    openFees() {
+      this.$router.push('/fees')
+    },
+    openHire() {
+      this.$router.push('/HeadLibrarian/hire')
+    },
+    openFire() {
+      this.$router.push('/HeadLibrarian/fire')
+    },
     openManagement() {
       this.$router.push('/EmployeePage/Management')
     },

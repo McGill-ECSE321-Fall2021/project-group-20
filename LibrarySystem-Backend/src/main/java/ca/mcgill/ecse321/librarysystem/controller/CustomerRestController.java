@@ -242,6 +242,38 @@ public class CustomerRestController {
         return new ResponseEntity<>(customerDtos, HttpStatus.OK);
     }
 
+    @GetMapping(value = {"/customer/verified", "/customer/verified/"})
+    public ResponseEntity getNotVerified() {
+        List<CustomerDto> customerDtos = new ArrayList<>();
+        List<Customer> customers;
+        try {
+            customers = customerService.getInvalidCustomers();
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+        }
+        for (Customer c : customers) {
+            customerDtos.add(convertToDto(c));
+        }
+        if (customerDtos.size() == 0) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find unverified customers :)");
+        return new ResponseEntity<>(customerDtos, HttpStatus.OK);
+    }
+
+    @GetMapping(value = {"/customer/withBalance", "/customer/withBalance/"})
+    public ResponseEntity getWithBalance() {
+        List<CustomerDto> customerDtos = new ArrayList<>();
+        List<Customer> customers;
+        try {
+            customers = customerService.getCustomersWithBalance();
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+        }
+        for (Customer c : customers) {
+            customerDtos.add(convertToDto(c));
+        }
+        if (customerDtos.size() == 0) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find customers with balance to pay! :)");
+        return new ResponseEntity<>(customerDtos, HttpStatus.OK);
+    }
+
     @PutMapping(value = { "/customer/balance/{id}", "/customer/balance/{id}/" })
     public ResponseEntity modifyBalance(@PathVariable("id") String id, @RequestParam String toModify) {
         Customer c;
@@ -258,7 +290,7 @@ public class CustomerRestController {
         Customer c;
         try {
             c = customerService.validateCustomerByID(Integer.parseInt(id));
-        } catch (IllegalArgumentException | NullPointerException msg) {
+        } catch (IllegalArgumentException | NullPointerException | IllegalStateException msg) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
         }
         if (c == null) return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Error: Could not validate customer");

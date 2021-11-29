@@ -210,6 +210,24 @@ public class CustomerService {
         return customers;
     }
 
+    @Transactional
+    public List<Customer> getCustomersWithBalance() {
+        List<Customer> customers = new ArrayList<>();
+        for (User u : customerRepository.findAll()) {
+            if (u instanceof Customer && u.getOutstandingBalance() > 0) customers.add((Customer) u);
+        }
+        return customers;
+    }
+
+    @Transactional
+    public List<Customer> getInvalidCustomers() {
+        List<Customer> customers = new ArrayList<>();
+        for (User u : customerRepository.findUserByIsVerified(false)) {
+            if (u instanceof Customer) customers.add((Customer) u);
+        }
+        return customers;
+    }
+
     /*
     Returns a Customer account based on given Email
      */
