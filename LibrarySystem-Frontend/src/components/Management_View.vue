@@ -13,9 +13,36 @@
       <div class="tables">
 
 <!--      <div class="global">-->
-
         <label><b>List of Authors: </b></label>
         <br>
+        <div id="Author-List-Search">
+          <template>
+            <input type="input" v-model="input" id="authorInput" class="form-control" required placeholder="Search">
+            <button class="btn btn-primary" @click="get(authorInput)">Search</button>
+            <button class="btn btn-danger" @click="addNewAuthor(itemBarcode,status)">Add new Author</button>
+          </template>
+          <template>
+            <div>
+              <b-table :items="items" :fields="fields" striped responsive="sm">
+                <template #cell(show_details)="row">
+                  <!-- We call the toggleDetails function on @change -->
+                  <b-form-checkbox v-model="row.detailsShowing" @change="row.toggleDetails"></b-form-checkbox>
+                </template>
+                <template #row-details="row">
+                  <b-card>
+                    <b-row class="mb-2">
+                      <b-col sm="3" class="text-sm-right"><b>Works:</b></b-col>
+                      <b-col>{{ row.item.title }}</b-col>
+                    </b-row>
+                    <b-button size="sm" @click="row.toggleDetails">Hide Details</b-button>
+                  </b-card>
+                </template>
+              </b-table>
+            </div>
+            <br>
+
+          </template>
+        </div>
 
 <!--        <table class="table">-->
 <!--          <thead>-->
@@ -86,6 +113,35 @@
 
 
         <label><b>List of Titles: </b></label>
+
+        <br>
+        <div id="Title-List-Search">
+          <template>
+            <input type="input" v-model="input" id="titleInput" class="form-control" required placeholder="Search">
+            <button class="btn btn-primary" @click="get(authorInput)">Search</button>
+            <button class="btn btn-danger" @click="addNewTitle(itemBarcode,status)">Add new Title</button>
+          </template>
+          <template>
+            <div>
+              <b-table :items="items" :fields="fields" striped responsive="sm">
+                <template #cell(show_details)="row">
+                  <!-- We call the toggleDetails function on @change -->
+                  <b-form-checkbox v-model="row.detailsShowing" @change="row.toggleDetails"></b-form-checkbox>
+                </template>
+                <template #row-details="row">
+                  <b-card>
+                    <b-row class="mb-2">
+                      <b-col sm="3" class="text-sm-right"><b>Works:</b></b-col>
+                      <b-col>{{ row.item.title }}</b-col>
+                    </b-row>
+                    <b-button size="sm" @click="row.toggleDetails">Hide Details</b-button>
+                  </b-card>
+                </template>
+              </b-table>
+            </div>
+            <br>
+          </template>
+        </div>
 
 <!--        <label><b>Author Info: </b></label>-->
 <!--        <input value="response.firstname" type="text" v-model="firstname" id="firstname" placeholder="First Name" class="form-control" required>-->
@@ -232,6 +288,24 @@ export default {
   height: 55px;
   color: #FDEDEC;
   background-color: #a20000 ;
+}
+
+#Author-List-Search {
+  width: 24.75%;
+  min-width: 400px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 1vh;
+}
+
+#Title-List-Search {
+  width: 24.75%;
+  min-width: 400px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 1vh;
 }
 
 

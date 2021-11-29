@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, {Axios} from 'axios'
 import JQuery from 'jquery'
 
 let $ = JQuery
