@@ -2,12 +2,8 @@
   <div id="Customer_View">
     <div>
       <b-navbar toggleable="lg" variant="faded" type="light" >
-<<<<<<< Updated upstream
-        <b-navbar-brand href="/">Menu</b-navbar-brand>
 
-=======
-        <b-navbar-brand href="#">Menu</b-navbar-brand>
->>>>>>> Stashed changes
+        <b-navbar-brand href="/">Menu</b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
