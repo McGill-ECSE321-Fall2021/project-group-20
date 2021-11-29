@@ -19,7 +19,9 @@ export default {
       error: '',
       responseAuthor: [],
       responseTitle: [],
-      responseItem: []
+      responseItem: [],
+      selected: [],
+      selectedAll: []
     }
   },
 
@@ -72,6 +74,21 @@ export default {
           if (this.error === '') this.error = msg.response.data;
         })
       }
+    },
+
+    openUpdateItemPage() {
+      this.$router.push('/EmployeePage/Management/Update')
+    },
+
+    beforeMount() {
+      AXIOS.get(backendUrl + '/customer/verified').then(response => {
+        this.accounts = response.data;
+      }).catch(msg => {
+        this.error = msg.response.data;
+        console.log(this.error)
+      })
     }
   }
+
+
 }

@@ -11,147 +11,131 @@
     <b-tabs content-class="mt-3" align="center">
 
       <div class="tables">
-
 <!--      <div class="global">-->
-        <label><b>List of Authors: </b></label>
-        <br>
-        <div id="Author-List-Search">
-          <template>
-            <input type="input" v-model="input" id="authorInput" class="form-control" required placeholder="Search">
-            <button class="btn btn-primary" @click="get(authorInput)">Search</button>
-            <button class="btn btn-danger" @click="addNewAuthor(itemBarcode,status)">Add new Author</button>
-          </template>
-          <template>
-            <div>
-              <b-table :items="items" :fields="fields" striped responsive="sm">
-                <template #cell(show_details)="row">
-                  <!-- We call the toggleDetails function on @change -->
-                  <b-form-checkbox v-model="row.detailsShowing" @change="row.toggleDetails"></b-form-checkbox>
-                </template>
-                <template #row-details="row">
-                  <b-card>
-                    <b-row class="mb-2">
-                      <b-col sm="3" class="text-sm-right"><b>Works:</b></b-col>
-                      <b-col>{{ row.item.title }}</b-col>
-                    </b-row>
-                    <b-button size="sm" @click="row.toggleDetails">Hide Details</b-button>
-                  </b-card>
-                </template>
-              </b-table>
-            </div>
-            <br>
-
-          </template>
-        </div>
-
-<!--        <table class="table">-->
-<!--          <thead>-->
-<!--          <tr>-->
-<!--            <th scope="col">-->
-<!--              <div class="form-check">-->
-<!--                <input-->
-<!--                  class="form-check-input"-->
-<!--                  type="checkbox"-->
-<!--                  value=""-->
-<!--                  id="flexCheckDefault"-->
-<!--                />-->
-<!--              </div>-->
-<!--            </th>-->
-<!--            <th scope="col">Lorem</th>-->
-<!--            <th scope="col">Ipsum</th>-->
-<!--            <th scope="col">Dolor</th>-->
-<!--          </tr>-->
-<!--          </thead>-->
-<!--          <tbody>-->
-<!--          <tr>-->
-<!--            <th scope="row">-->
-<!--              <div class="form-check">-->
-<!--                <input-->
-<!--                  class="form-check-input"-->
-<!--                  type="checkbox"-->
-<!--                  value=""-->
-<!--                  id="flexCheckDefault"-->
-<!--                />-->
-<!--              </div>-->
-<!--            </th>-->
-<!--            <td>Sit</td>-->
-<!--            <td>Amet</td>-->
-<!--            <td>Consectetur</td>-->
-<!--          </tr>-->
-<!--          <tr>-->
-<!--            <th scope="row">-->
-<!--              <div class="form-check">-->
-<!--                <input-->
-<!--                  class="form-check-input"-->
-<!--                  type="checkbox"-->
-<!--                  value=""-->
-<!--                  id="flexCheckDefault"-->
-<!--                />-->
-<!--              </div>-->
-<!--            </th>-->
-<!--            <td>Adipisicing</td>-->
-<!--            <td>Elit</td>-->
-<!--            <td>Sint</td>-->
-<!--          </tr>-->
-<!--          <tr>-->
-<!--            <th scope="row">-->
-<!--              <div class="form-check">-->
-<!--                <input-->
-<!--                  class="form-check-input"-->
-<!--                  type="checkbox"-->
-<!--                  value=""-->
-<!--                  id="flexCheckDefault"-->
-<!--                />-->
-<!--              </div>-->
-<!--            </th>-->
-<!--            <td>Hic</td>-->
-<!--            <td>Fugiat</td>-->
-<!--            <td>Temporibus</td>-->
-<!--          </tr>-->
-<!--          </tbody>-->
-<!--        </table>-->
-
-
-        <label><b>List of Titles: </b></label>
+          <div><b>Author selected: {{selected}}</b></div>
+          <table class="table table-striped table-hover" id="formatted_author_table">
+            <thead>
+            <tr>
+              <th>
+                <label class="form-checkbox">
+                  <input type="checkbox" v-model="selectAllAuthors" @click="selectAuthor">
+                  <i class="form-icon"></i>
+                </label>
+              </th>
+              <th>AuthorID</th>
+              <th>firstname</th>
+              <th>lastname</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="i in items">
+              <td>
+                <label class="form-checkbox">
+                  <input type="checkbox" :value="i.AuthorID" v-model="selected">
+                  <i class="form-icon"></i>
+                </label>
+              </td>
+              <td>{{i.AuthorID}}</td>
+              <td>{{i.firstname}}</td>
+              <td>{{i.lastname}}</td>
+            </tr>
+            </tbody>
+          </table>
 
         <br>
-        <div id="Title-List-Search">
-          <template>
-            <input type="input" v-model="input" id="titleInput" class="form-control" required placeholder="Search">
-            <button class="btn btn-primary" @click="get(authorInput)">Search</button>
-            <button class="btn btn-danger" @click="addNewTitle(itemBarcode,status)">Add new Title</button>
-          </template>
-          <template>
-            <div>
-              <b-table :items="items" :fields="fields" striped responsive="sm">
-                <template #cell(show_details)="row">
-                  <!-- We call the toggleDetails function on @change -->
-                  <b-form-checkbox v-model="row.detailsShowing" @change="row.toggleDetails"></b-form-checkbox>
-                </template>
-                <template #row-details="row">
-                  <b-card>
-                    <b-row class="mb-2">
-                      <b-col sm="3" class="text-sm-right"><b>Works:</b></b-col>
-                      <b-col>{{ row.item.title }}</b-col>
-                    </b-row>
-                    <b-button size="sm" @click="row.toggleDetails">Hide Details</b-button>
-                  </b-card>
-                </template>
-              </b-table>
-            </div>
-            <br>
-          </template>
+        <br>
+
+        <div><b>Title selected: {{selected}}</b></div>
+        <table class="table table-striped table-hover" id="formatted_title_table">
+          <thead>
+          <tr>
+            <th>
+              <label class="form-checkbox">
+                <input type="checkbox" v-model="selectAllTitles" @click="selectTitle">
+                <i class="form-icon"></i>
+              </label>
+            </th>
+            <th>TitleID</th>
+            <th>TitleName</th>
+            <th>PublishDate</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="i in items">
+            <td>
+              <label class="form-checkbox">
+                <input type="checkbox" :value="i.TitleID" v-model="selected">
+                <i class="form-icon"></i>
+              </label>
+            </td>
+            <td>{{i.TitleID}}</td>
+            <td>{{i.TitleName}}</td>
+            <td>{{i.PublishDate}}</td>
+          </tr>
+          </tbody>
+        </table>
+
         </div>
 
-<!--        <label><b>Author Info: </b></label>-->
-<!--        <input value="response.firstname" type="text" v-model="firstname" id="firstname" placeholder="First Name" class="form-control" required>-->
-<!--        <input value="response.lastname" type="text" v-model="lastname" id="lastname" placeholder="Last Name" class="form-control" required>-->
+<!--        <div id="Author-List-Search">-->
+<!--          <template>-->
+<!--            <input type="input" v-model="input" id="authorInput" class="form-control" required placeholder="Search">-->
+<!--            <button class="btn btn-primary" @click="get(authorInput)">Search</button>-->
+<!--            <button class="btn btn-danger" @click="addNewAuthor(itemBarcode,status)">Add new Author</button>-->
+<!--          </template>-->
+<!--          <template>-->
+<!--            <div>-->
+<!--              <b-table :items="items" :fields="fields" striped responsive="sm">-->
+<!--                <template #cell(show_details)="row">-->
+<!--                  &lt;!&ndash; We call the toggleDetails function on @change &ndash;&gt;-->
+<!--                  <b-form-checkbox v-model="row.detailsShowing" @change="row.toggleDetails"></b-form-checkbox>-->
+<!--                </template>-->
+<!--                <template #row-details="row">-->
+<!--                  <b-card>-->
+<!--                    <b-row class="mb-2">-->
+<!--                      <b-col sm="3" class="text-sm-right"><b>Works:</b></b-col>-->
+<!--                      <b-col>{{ row.item.title }}</b-col>-->
+<!--                    </b-row>-->
+<!--                    <b-button size="sm" @click="row.toggleDetails">Hide Details</b-button>-->
+<!--                  </b-card>-->
+<!--                </template>-->
+<!--              </b-table>-->
+<!--            </div>-->
+<!--            <br>-->
+
+<!--          </template>-->
+<!--        </div>-->
+
+<!--        <label><b>List of Titles: </b></label>-->
+
 <!--        <br>-->
-<!--        <label><b>Title Info: </b></label>-->
-<!--        <input v-model="titlename" id="titlename" placeholder="Title Name" class="form-control" required>-->
-<!--        <input v-model="publishdate" id="publishdate" placeholder="Publish Date (mm/dd/yyyy)" class="form-control" required>-->
-<!--        <br>-->
-      </div>
+<!--        <div id="Title-List-Search">-->
+<!--          <template>-->
+<!--            <input type="input" v-model="input" id="titleInput" class="form-control" required placeholder="Search">-->
+<!--            <button class="btn btn-primary" @click="get(authorInput)">Search</button>-->
+<!--            <button class="btn btn-danger" @click="addNewTitle(itemBarcode,status)">Add new Title</button>-->
+<!--          </template>-->
+<!--          <template>-->
+<!--            <div>-->
+<!--              <b-table :items="items" :fields="fields" striped responsive="sm">-->
+<!--                <template #cell(show_details)="row">-->
+<!--                  &lt;!&ndash; We call the toggleDetails function on @change &ndash;&gt;-->
+<!--                  <b-form-checkbox v-model="row.detailsShowing" @change="row.toggleDetails"></b-form-checkbox>-->
+<!--                </template>-->
+<!--                <template #row-details="row">-->
+<!--                  <b-card>-->
+<!--                    <b-row class="mb-2">-->
+<!--                      <b-col sm="3" class="text-sm-right"><b>Works:</b></b-col>-->
+<!--                      <b-col>{{ row.item.title }}</b-col>-->
+<!--                    </b-row>-->
+<!--                    <b-button size="sm" @click="row.toggleDetails">Hide Details</b-button>-->
+<!--                  </b-card>-->
+<!--                </template>-->
+<!--              </b-table>-->
+<!--            </div>-->
+<!--            <br>-->
+<!--          </template>-->
+<!--        </div>-->
 
       <b-tab title="Archive" active>
         <div class="inputFrame">
@@ -209,7 +193,6 @@
           <button class="btn-success-acc" @click="createMovie(firstname, lastname, titlename, publishdate, movie_item_status, lengthmovie)">Create Movie
           </button>
         </div>
-
       </b-tab>
 
       <b-tab title="Music Album" active>
@@ -247,10 +230,14 @@
           </button>
         </div>
       </b-tab>
+      <br>
+      <br>
+      <div class="buttonUpdateItem">
+        <button class="btn-success-new-page" @click="openUpdateItemPage">Update an item</button>
+      </div>
     </b-tabs>
     <span v-if="error" style="color: red">Error: {{error}}</span>
   </div>
-
 </div>
 
 </template>
@@ -290,6 +277,15 @@ export default {
   background-color: #a20000 ;
 }
 
+.btn-success-new-page {
+  border-radius: 60px;
+  border: None;
+  width: 150px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #0cab11 ;
+}
+
 #Author-List-Search {
   width: 24.75%;
   min-width: 400px;
@@ -308,6 +304,40 @@ export default {
   padding-top: 1vh;
 }
 
+#global_portion {
+  width: 24.75%;
+  min-width: 400px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 1vh;
+}
 
+.chooseAuthor {
+  width: 30.75%;
+  min-width: 400px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 1vh;
+}
+
+#formatted_author_table {
+  width: 24.75%;
+  min-width: 600px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 1vh;
+}
+
+#formatted_title_table {
+  width: 24.75%;
+  min-width: 600px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 1vh;
+}
 
 </style>
