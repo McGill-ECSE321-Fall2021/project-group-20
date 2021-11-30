@@ -33,7 +33,7 @@ export default {
       this.sliding = false
     },
     openBooking() {
-      this.$router.push('/EmployeePage/Booking')
+      this.$router.push('/HeadLibrarian/Booking')
     },
     openLibrary() {
       this.$router.push('/library/edit')

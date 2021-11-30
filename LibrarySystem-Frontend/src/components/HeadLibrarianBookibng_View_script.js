@@ -15,7 +15,7 @@ let marepo;
 
 
 export default {
-  name: 'booking_view',
+  name: 'hdbooking_view_script',
   methods: {
     get(input){
       AXIOS.get(backendUrl+'/items/title/?titlename='+input).then(response => {
@@ -33,7 +33,7 @@ export default {
       })
 
     },
-   // await axios.post("http://localhost:8080/booking/create?startDate=12/12/2021&endDate=12/25/2021&type=Reservation&barcode=" + iid + "&LibraryId=" + cid);
+    // await axios.post("http://localhost:8080/booking/create?startDate=12/12/2021&endDate=12/25/2021&type=Reservation&barcode=" + iid + "&LibraryId=" + cid);
     Book(sdate,edate,Reservation,id){
 
       AXIOS.post(backendUrl+'/booking/create?startDate='+sdate+'&endDate='+edate+'&type='+Reservation+'&barcode='+id+'&LibraryId='+'1').then(response => {
@@ -46,13 +46,21 @@ export default {
       })
 
     },
+    Return(id){
+      AXIOS.put(backendUrl+'/booking/return/item?barcode='+id).then(response => {
+        this.uperror=''
+      }).catch(msg => {
+        console.log(msg.response.data)
+        console.log(msg.response.status)
+        this.uperror = msg.response.data;
+      })
+    },
 
-
-    back(){
-      this.$router.push('/')
+    backup(){
+      this.$router.push('/HeadLibrarian')
     },
     next(){
-      this.$router.push('/home/Booking/UpdateBooking')
+      this.$router.push('UpdateBooking')
     }
     ,
     beforeMount() {

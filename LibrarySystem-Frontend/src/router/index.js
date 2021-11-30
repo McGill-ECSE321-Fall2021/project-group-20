@@ -32,6 +32,8 @@ import System_Address_Edit from "../components/System_Address_Edit.vue";
 import System_Hour_Edit from "../components/System_Hour_Edit.vue";
 import UpdateBooking_View from "../components/UpdateBooking_View.vue";
 import Personal_Schedule from "../components/Personal_Schedule.vue";
+import EmployeeBooking_View from "../components/EmployeeBooking_View";
+import HeadLibrarianBooking_View from "../components/HeadLibrarianBooking_View";
 
 Vue.use(Router)
 
@@ -70,7 +72,7 @@ export default new Router({
     {
       path: '/EmployeePage/Booking',
       name: 'booking_view',
-      component: Booking_View
+      component: EmployeeBooking_View
     },
     {
       path: '/home/Booking',
@@ -197,7 +199,12 @@ export default new Router({
       path: '/home/Booking/UpdateBooking',
       name:'UpdateBooking_View',
       component:UpdateBooking_View
-    }
+    },
+    {
+      path: '/HeadLibrarian/Booking',
+      name: 'booking_view',
+      component: HeadLibrarianBooking_View
+    },
   ],
   mode: "history"
 })

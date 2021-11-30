@@ -1,9 +1,6 @@
 <template >
   <div class="background-template">
-    <b-navbar toggleable="lg" variant="faded" type="light" >
-      <b-navbar-brand href="/">Menu</b-navbar-brand>
-    </b-navbar>
-    <div id="Update_Item" >
+    <div id="EmoloyeeBooking_View" >
       <img src="../assets/library_source.jpg" style="width:80vh; height:auto; padding-bottom: 2vh">
       <h2><b>Book Item</b></h2>
       <template >
@@ -17,17 +14,13 @@
         </div>
       </template>
       <input type="text" v-model="itemBarcode" id="itemBarcode" class="form-control" required placeholder="ItemBarcode">
-      <input type="text" v-model="Sdate" id="Sdate" class="form-control" required placeholder="Sdate">
-      <input type="text" v-model="Edate" id="Edate" class="form-control" required placeholder="Edate">
-      <input type="text" v-model="Reservation" id="Type" class="form-control" required placeholder="Type">
-      <button class="btn btn-primary" @click="Book(Sdate,Edate,Reservation,itemBarcode)">Book</button>
+      <button class="btn btn-primary" @click="Return(itemBarcode)">Return</button>
       <button class="btn btn-primary" @click="back()">Back</button>
-      <button class="btn btn-primary" @click="next()">Browse</button>
     </div>
   </div>
 </template>
 
-<script src="./booking_view_script.js">
+<script src="./EmployeeBooking_script.js">
 export default {
   name: "booking_view_script"
 }
@@ -37,7 +30,7 @@ export default {
 
 .background-template {
   background-image: linear-gradient(to bottom right, #3eadcf, #abe9cd);
-  padding-bottom: 80px;
+  padding-bottom: 219px;
 }
 
 #Update_Item {
