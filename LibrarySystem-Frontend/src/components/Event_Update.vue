@@ -2,18 +2,18 @@
   <div id="event_update">
 
     <div class="header_img">
-      <img src="../assets/LS.png" style="width:20vh; height:auto;">
+      <img src="../assets/LS.png" style="width:50vh; height:50vh;">
     </div>
 
     <div class="mainFrame">
       <b-tabs content-class="mt-3" align="center">
 
 
-        <b-tab title="Delete the infidels from the system" class="mytabs">
+        <b-tab title="Delete Event" class="mytabs">
           <div class="inputFrame">
 
             <div class="DeleteEvent inputPersLabel">
-              <label for="dayToDelete">The Date of the Event You Want To Delete (MM/DD/YYYY)</label>
+              <label for="dayToDelete" class="InputLabel"><b>The Date of the Event You Want To Delete (MM/DD/YYYY)</b></label>
               <input type="text" v-model="dayToDelete" id="dayToDelete" class="form-control" required>
             </div>
 
@@ -43,38 +43,61 @@ export default {
 
 <style scoped>
 #event_update{
-  background-color:  #fec8cd;
-  //color: #f5b1cc;
-  color:  #a30000;
-  caret-color: #fec8cd;
-  colorful-error-color:#2e7dde;
-  colorful-error-extra-color: #2e7dde;
+  background-image: linear-gradient(to bottom right, #3eadcf, #abe9cd);
+  padding-bottom: 40vh;
 }
 
 .inputFrame {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(4, 1fr);
-  width: 25%;
-  min-width: 500px;
+  /*display: grid;*/
+  /*grid-template-columns: repeat(2, 1fr);*/
+  /*grid-template-rows: repeat(4, 1fr);*/
+  /*width: 25%;*/
+  /*min-width: 500px;*/
+  /*position: relative;*/
+  /*left: 50%;*/
+  /*transform: translateX(-50%);*/
+  /*padding-top: 2vh;*/
+  /*padding-bottom: 0;*/
+
+  width: 24.75%;
+  min-width: 400px;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
   padding-top: 2vh;
 }
 
+.InputLabel {
+
+  padding-bottom: 25px;
+
+}
+
 input[type=text] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
+  /*padding: 12px 20px;*/
+  /*margin: 8px 0;*/
   box-sizing: border-box;
   background-color: #fec8cd;
   color: #a30000;
-  border: 3px solid #333333;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
+  width: 24.75%;
+  min-width: 400px;
+  position: relative;
+  left: 10%;
+  /*border: 3px solid #333333;*/
+  /*-webkit-transition: 0.5s;*/
+  /*transition: 0.5s;*/
   outline: none;
+
 }
 
+.btn-cancel-pers {
+  border-radius: 60px;
+  border: None;
+  width: 150px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #ab0303;
+
+}
 
 </style>
