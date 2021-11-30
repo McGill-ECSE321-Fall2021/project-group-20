@@ -54,7 +54,7 @@ export default {
           this.responseCalendar=reSPOONSE.data[0]
 
           this.calendarID =reSPOONSE.data[0].calendar.calendarID
-          this.error='Success in killing Ehsan'
+          this.error=''
           //http://localhost:8080/event/create?name=test&date=01/10/2022&weekday=Tuesday&startTime=12:00:00&endTime=14:00:00&employeeUserName=johnboy&calendarID=
          // backendUrl + "/event/create?name=" + eventname + "&date=" + eventdate + "&weekday=" + eventday + "&startTime=" + startTime + "&endTime=" + endTime
           //+ "&employeeUserName=" + employeeUsername + "&calendarID=" + this.calendarID
@@ -62,7 +62,7 @@ export default {
           + "&employeeUserName=" + employeeUsername + "&calendarID=" +  this.calendarID).then(response => {
 
             this.response = response.data
-            this.error = 'Surprise Bitch'
+            this.error = ''
             console.log(response)
             this.$router.push("/EmployeePage/Event")
 
