@@ -4,7 +4,7 @@
     <img src="../assets/LS.png" style="width:20vh; height:auto;">
   </div>
   <div class="msg">
-    <h3>Welcome to Group 20's Library System Application's initial setup wizard!</h3>
+    <h3><b>Welcome to Group 20's Library System Application's initial setup wizard!</b></h3>
     <br>
     <br>
     <p><b>To setup your Library System, please fill out the following address information<br>and a new
@@ -92,6 +92,12 @@ export default {
 </script>
 
 <style scoped>
+
+#setup {
+  background-image: linear-gradient(to bottom right, #D8B5FF, #1EAE98);
+  padding-bottom: 80px;
+  font-weight: bold;
+}
 .msg {
   padding-bottom: 1vh;
 }
@@ -112,5 +118,14 @@ export default {
 
 .error {
   padding-bottom: 3vh;
+}
+
+.btn-success {
+  border-radius: 60px;
+  border: None;
+  width: 150px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #03a634;
 }
 </style>

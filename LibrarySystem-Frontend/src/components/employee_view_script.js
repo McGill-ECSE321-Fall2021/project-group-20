@@ -35,6 +35,9 @@ export default {
     openCreate() {
       this.$router.push('/createLocalAccount')
     },
+    openLibrary() {
+      this.$router.push('/library')
+    },
     openFees() {
       this.$router.push('/fees')
     },

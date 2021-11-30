@@ -4,10 +4,10 @@
       <img src="../assets/LS.png" style="width:20vh; height:auto;">
     </div>
     <div class="msg">
-      <h2>Process Fee Payments</h2>
+      <h2><b>Process Fee Payments</b></h2>
     </div>
     <div class="table">
-      <p>List of accounts with outstanding balances</p>
+      <h5><b>List of accounts with outstanding balances</b></h5>
       <table>
         <tr>
           <th>ID</th>
@@ -28,13 +28,13 @@
       </table>
     </div>
     <div class="choose">
-      <label for="select">Select account to update balance:</label><br>
+      <label for="select"><b>Select account to update balance:</b></label><br>
       <select v-model="select" name="select" id="select">
         <option v-for="account in accounts" :value="account.libraryCardID">{{account.username}}</option>
       </select>
     </div>
     <div class="amount">
-      <label for="amount">Amount to update:</label>
+      <label for="amount"><b>Amount to update:</b></label>
       <input type="text" v-model="amount" id="amount" class="form-control" required>
     </div>
     <div class="error_msg">
@@ -56,6 +56,11 @@ export default {
 </script>
 
 <style scoped>
+
+#fee_page {
+  background-image: linear-gradient(to bottom right, #3eadcf, #abe9cd);
+  padding-bottom: 50vh;
+}
 .msg {
   padding-top: 2vh;
 }
@@ -84,4 +89,24 @@ table {
   margin-left: 30%;
   margin-right: 30%;
 }
+
+.btn-danger {
+  border-radius: 60px;
+  border: None;
+  width: 150px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #ab0303;
+}
+
+.btn-success {
+  border-radius: 60px;
+  border: None;
+  width: 250px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #03a634;
+}
+
+
 </style>

@@ -1,13 +1,13 @@
 <template>
   <div id="fire">
     <div class="header_img">
-      <img src="../assets/LS.png" style="width:20vh; height:auto;">
+      <img src="../assets/LS.png" style="width:20vh; height:auto; padding-bottom: 8vh">
     </div>
     <div class="msg">
-      <h2>Fire Librarian</h2>
+      <h2><b>Fire Librarian</b></h2>
     </div>
     <div class="table">
-      <p>List of current librarians:</p>
+      <h5><b>List of current librarians:</b></h5>
       <table>
         <tr>
           <th>ID</th>
@@ -28,13 +28,13 @@
       </table>
     </div>
     <div class="choose">
-      <label for="select">Select librarian to fire in system:</label><br>
+      <label for="select"><b>Select librarian to fire in system:</b></label><br>
       <select v-model="select" name="select" id="select">
         <option v-for="account in accounts" :value="account.libraryCardID">{{account.username}}</option>
       </select>
     </div>
     <div class="confirm">
-      <label for="confirmSel">Confirm librarian to fire:</label><br>
+      <label for="confirmSel"><b>Confirm librarian to fire:</b></label><br>
       <select v-model="confirmSel" name="confirmSel" id="confirmSel">
         <option v-for="account in accounts" :value="account.libraryCardID">{{account.username}}</option>
       </select>
@@ -58,6 +58,15 @@ export default {
 </script>
 
 <style scoped>
+
+#fire {
+
+  background-image: linear-gradient(to bottom right, #11998E, #38EF7D);
+  padding-bottom: 50vh;
+
+}
+
+
 .msg {
   padding-bottom: 3vh;
 }
@@ -78,5 +87,23 @@ table {
 
 .verify_button {
   padding-top: 3vh;
+}
+
+.btn-danger {
+  border-radius: 60px;
+  border: None;
+  width: 150px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #ab0303;
+}
+
+.btn-success{
+  border-radius: 60px;
+  border: None;
+  width: 150px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #14820c;
 }
 </style>

@@ -43,6 +43,11 @@ public class HourService {
 		}
 		return hours;
 	}
+
+	@Transactional
+	public Hour getHour(int id) {
+		return hourRepository.findByHourId(id);
+	}
 	
 	
 	@Transactional
@@ -164,6 +169,15 @@ public class HourService {
 		return false;
 		
 		
+	}
+
+	@Transactional
+	public Hour updateHour(int id, Time startTime, Time endTime) {
+		Hour h = getHour(id);
+		h.setStartTime(startTime);
+		h.setEndTime(endTime);
+		hourRepository.save(h);
+		return h;
 	}
 	
 

@@ -321,6 +321,18 @@ public class CustomerRestController {
         return new ResponseEntity<>(convertToDto(c), HttpStatus.OK);
     }
 
+    @PutMapping(value = { "/customer/updateNoPass/{id}", "/customer/updateNoPass/{id}/" })
+    public ResponseEntity updateOnlineInfo(@PathVariable("id") String id, @RequestParam String username, @RequestParam String email) throws IllegalArgumentException, NullPointerException {
+        Customer c = customerService.getCustomer(Integer.parseInt(id));
+        try {
+            c = customerService.updateOnlineInfo(Integer.parseInt(id), username, c.getPassword(), email);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+        }
+        if (c == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot update this Customer's online account");
+        return new ResponseEntity<>(convertToDto(c), HttpStatus.OK);
+    }
+
     @PutMapping(value = { "/customer/update/{id}", "/customer/update/{id}/" })
     public ResponseEntity updateInfo(@PathVariable("id") String id, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String civic,
                                   @RequestParam String street, @RequestParam String city, @RequestParam String postalCode,

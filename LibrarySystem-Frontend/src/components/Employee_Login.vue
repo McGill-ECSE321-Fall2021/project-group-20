@@ -48,7 +48,9 @@ export default {
 
 <style scoped>
 #employee_login {
-  background-color: rgba(66, 185, 131, 0.91);
+  background-image: linear-gradient(to bottom right, #D8B5FF, #1EAE98);
+  padding-bottom: 80px;
+  font-weight: bold;
 }
 
 .login_msg {
