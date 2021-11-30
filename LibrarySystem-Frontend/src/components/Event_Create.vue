@@ -14,7 +14,7 @@
           <input type="text" v-model="eventname" id="eventname" class="form-control" required>
         </b-col>
         <b-col>
-          <label for="eventdate">Event Date (YYYY-MM-DD):</label>
+          <label for="eventdate">Event Date (DD/MM/YYYY):</label>
           <input type="text" v-model="eventdate" id="eventdate" class="form-control" required>
         </b-col>
         <b-col>
@@ -41,8 +41,7 @@
 
         </b-col>
         <b-col>
-          <label for="Calendarid">Calendar ID:</label>
-          <input type="text" v-model="Calendarid" id="Calendarid" class="form-control" required>
+
         </b-col>
         <b-col>
 
@@ -58,7 +57,7 @@
     </div>
 
     <div class="buttons">
-      <button class="btn" @click="createventbyEmployee(eventname, eventdate, email, eventday, starTime, endTime, employeeUsername, Calendarid)">Create Event</button>
+      <button class="btn" @click="createeventbyEmployee(eventname, eventdate, eventday, starTime, endTime, employeeUsername)">Create Event</button>
     </div>
 
   </div>

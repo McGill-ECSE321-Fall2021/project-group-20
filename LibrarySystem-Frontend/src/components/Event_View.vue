@@ -26,32 +26,40 @@
 
     <hr>
     <h2>All of our events</h2>
-    <table>
-      <tr>
-        <th>Event Name</th>
-        <th>Date</th>
-        <th> Weekday </th>
-        <th>Start</th>
-        <th>End</th>
-        <!--<th>Edit</th>-->
-      </tr>
-      <tr v-for="event in events">
-        <td>{{event.name}}</td>
-        <td>{{event.eventDate}}</td>
-        <td>{{event.eventhour.weekday}}</td>
-        <td>{{event.eventhour.startTime}}</td>
-        <td>{{event.eventhour.endTime}}</td>
+    <div class="HI">
+
+      <table style="margin-left:auto; margin-right:auto">
+
+        <tr>
+          <th>Event Name</th>
+          <th>Date</th>
+          <th> Weekday </th>
+          <th>Start</th>
+          <th>End</th>
+          <!--<th>Edit</th>-->
+        </tr>
+        <tr v-for="event in events">
+          <td>{{event.name}}</td>
+          <td>{{event.eventDate}}</td>
+          <td>{{event.eventhour.weekday}}</td>
+          <td>{{event.eventhour.startTime}}</td>
+          <td>{{event.eventhour.endTime}}</td>
 
 
 
 
 
-        <!--<td>
-          <button v-on:click="updateEvent(event.name)">Edit</button>
-        </td>-->
-      </tr>
-    </table>
-    <span v-if="errorEvent" style="color:red">Error: {{errorEvent}} </span>
+          <!--<td>
+            <button v-on:click="updateEvent(event.name)">Edit</button>
+          </td>-->
+        </tr>
+      </table>
+      <span v-if="error" style="color:red">Error: {{error}} </span>
+
+
+
+    </div>
+
     <hr>
 
 
