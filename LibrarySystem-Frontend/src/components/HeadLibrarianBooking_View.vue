@@ -31,7 +31,7 @@ export default {
 
 .background-template {
   background-image: linear-gradient(to bottom right, #3eadcf, #abe9cd);
-  padding-bottom: 219px;
+  padding-bottom: 25vh;
 }
 
 #input {

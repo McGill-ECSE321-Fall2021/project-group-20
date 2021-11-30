@@ -33,7 +33,7 @@ export default {
   padding-bottom: 219px;
 }
 
-#Update_Item {
+#EmoloyeeBooking_View {
   width: 44.75%;
   min-width: 400px;
   position: relative;
