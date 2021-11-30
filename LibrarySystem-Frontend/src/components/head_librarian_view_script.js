@@ -26,6 +26,12 @@ export default {
 
   methods: {
 
+    onSlideStart(slide) {
+      this.sliding = true
+    },
+    onSlideEnd(slide) {
+      this.sliding = false
+    },
     openBooking() {
       this.$router.push('/EmployeePage/Booking')
     },
@@ -54,7 +60,7 @@ export default {
       this.$router.push('/EmployeePage/Event')
     },
     openSchedule() {
-      this.$router.push('/EmployeePage/Schedule')
+      this.$router.push('/Schedules')
     },
     openProfile() {
       this.$router.push('Employee/Profile')
@@ -71,11 +77,9 @@ export default {
         this.response = response.data
         this.error = ''
         console.log(response)
-        if (this.response === "Logged out") {
-          document.cookie = "libraryCardID=;Max-Age=0";
-          document.cookie = "usertype=;Max-Age=0"
-          this.$router.push('/');
-        }
+        document.cookie = 'libraryCardID=;Max-Age=0';
+        document.cookie = 'usertype=;Max-Age=0';
+        this.$router.push('/');
       }).catch(msg => {
         console.log(msg.response.data)
         console.log(msg.status)

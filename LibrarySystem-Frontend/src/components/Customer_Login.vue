@@ -4,7 +4,7 @@
       <img src="../assets/LS.png" style="width:20vh; height:auto;">
     </div>
     <div class="login_msg">
-      <h1>Welcome to Group 20's Library System Application!</h1>
+      <h1>Welcome to Group 20's LibraS!</h1>
       <br>
       <h3>To continue, please log in below or create an account</h3>
     </div>
@@ -33,8 +33,6 @@
       <br><br>
       <button class="btn btn-primary" @click="create">Create Account</button>
       <button class="btn btn-danger" @click="employee">Employee Login</button>
-      <button class="btn btn-primary" @click="voirpageEmployee">Employee View</button>
-
     </div>
     <div class="easter_egg">
       <img src="../assets/Signature.png" style="width:35%; height:auto;">

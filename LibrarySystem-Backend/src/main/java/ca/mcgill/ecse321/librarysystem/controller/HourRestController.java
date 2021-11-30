@@ -5,11 +5,7 @@ import ca.mcgill.ecse321.librarysystem.dto.CalendarDto;
 import ca.mcgill.ecse321.librarysystem.dto.EmployeeDto;
 import ca.mcgill.ecse321.librarysystem.dto.EventDto;
 import ca.mcgill.ecse321.librarysystem.dto.HourDto;
-import ca.mcgill.ecse321.librarysystem.model.Address;
-import ca.mcgill.ecse321.librarysystem.model.Calendar;
-import ca.mcgill.ecse321.librarysystem.model.Employee;
-import ca.mcgill.ecse321.librarysystem.model.Event;
-import ca.mcgill.ecse321.librarysystem.model.Hour;
+import ca.mcgill.ecse321.librarysystem.model.*;
 import ca.mcgill.ecse321.librarysystem.service.CalendarService;
 import ca.mcgill.ecse321.librarysystem.service.EmployeeService;
 import ca.mcgill.ecse321.librarysystem.service.EventService;
@@ -91,6 +87,50 @@ public class HourRestController {
 
 			if (hourList.size() == 0) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cannot find any shifts in system");
 			return new ResponseEntity<>(hourList, HttpStatus.OK);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+	}
+
+	@GetMapping(value = {"/hours/shifts/day", "/hours/shifts/day/"})
+	public ResponseEntity getDayShifts(@RequestParam String day) {
+		List<HourDto> hourList =  new ArrayList<>();
+		List<Hour> hours;
+		try {
+			hours = hourService.getAllHours();
+
+			for (Hour h: hours) {
+				if (h.getType().toString().equals("Shift") && h.getWeekday().equals(day)) hourList.add(convertToDto(h));
+			}
+
+			if (hourList.size() == 0) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find any shifts in system");
+			return new ResponseEntity<>(hourList, HttpStatus.OK);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+	}
+
+	@GetMapping(value = {"/hours/shifts/notWorking", "/hours/shifts/notWorking"})
+	public ResponseEntity getNotWorking(@RequestParam String day) {
+		List<Hour> hours;
+		List<Employee> employees;
+		List<EmployeeDto> emp = new ArrayList<>();
+		try {
+			hours = hourService.getAllHours();
+			employees = employeeService.getAllEmployees();
+
+			for (Employee e: employees) {
+				if (e.getRole().equals(Employee.Role.HeadLibrarian)) employees.remove(e);
+			}
+
+			for (Hour h: hours) {
+				if (h.getType().toString().equals("Shift") && h.getWeekday().equals(day)) employees.remove(h.getEmployee());
+			}
+
+			for (Employee e: employees) {
+				emp.add(convertToDto(e));
+			}
+			return new ResponseEntity<>(emp, HttpStatus.OK);
 		} catch (IllegalArgumentException | NullPointerException msg) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
@@ -253,6 +293,16 @@ public class HourRestController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 	}
+
+	@DeleteMapping(value = {"/hour/weekday/id", "/hour/weekday/id/"})
+	public ResponseEntity deleteHourByID(@RequestParam String id) {
+		try {
+			hourService.deleteHour(Integer.valueOf(id));
+			return ResponseEntity.status(HttpStatus.OK).body("Hour has been deleted");
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+	}
 	
 	@PutMapping (value = {"/hour/update/startTime","/hour/update/startTime/" })
 	public ResponseEntity updateHourStartTimebyWeekday(@RequestParam String weekday, @RequestParam String startTime) {
@@ -359,10 +409,9 @@ public class HourRestController {
 	
 	 private EmployeeDto convertToDto(Employee e) {
 	        if (e == null) throw new IllegalArgumentException("Cannot find this Employee");
-	        return new EmployeeDto(e.getLibraryCardID(), e.getIsLoggedIn(), e.getIsOnlineAcc(), e.getFirstName(),
-	                e.getLastName(), e.getIsVerified(), e.getDemeritPts(), convertToDto(e.getAddress()),
-	                EmployeeDto.Role.valueOf(e.getRole().name()), e.getOutstandingBalance(), e.getUserbooking());
-	    }
+	        return new EmployeeDto(e.getLibraryCardID(), e.getIsOnlineAcc(), e.getIsLoggedIn(), e.getFirstName(), e.getLastName(),
+				e.getIsVerified(), e.getDemeritPts(), convertToDto(e.getAddress()), e.getUsername(), e.getEmail(), e.getOutstandingBalance(), EmployeeDto.Role.valueOf(e.getRole().toString()), e.getUserbooking());
+		 }
 
 	 private AddressDto convertToDto(Address a) {
 	        if (a == null) throw new NullPointerException("Cannot find Address");

@@ -1,5 +1,8 @@
 <template >
   <div class="background-template">
+    <b-navbar toggleable="lg" variant="faded" type="light" >
+      <b-navbar-brand href="/">Menu</b-navbar-brand>
+    </b-navbar>
     <div id="Update_Item" >
       <img src="../assets/library_source.jpg" style="width:80vh; height:auto; padding-bottom: 2vh">
       <h2><b>Book Item</b></h2>

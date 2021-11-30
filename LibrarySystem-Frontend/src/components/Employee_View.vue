@@ -61,15 +61,7 @@
         <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
         <b-carousel-slide>
           <template #img>
-            <img src="https://scontent-lga3-1.xx.fbcdn.net/v/t39.30808-6/241768511_4467095386711745_3746825865012326078_n.jpg?_nc_cat=103&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=EUb30M_58ycAX-5DDgT&_nc_ht=scontent-lga3-1.xx&oh=6568cef0b268d8c1ef5e3a85f798a65c&oe=61A5462E" style="width:auto; height:60vh;">
-
-          </template>
-        </b-carousel-slide>
-
-        <b-carousel-slide>
-          <template #img>
-            <img src="https://pbs.twimg.com/profile_images/483697632003371008/YDdxZqsm_400x400.jpeg" style="width:auto; height:60vh;">
-
+            <img src="../assets/books.jpg" style="width:auto; height:60vh;">
           </template>
         </b-carousel-slide>
       </b-carousel>

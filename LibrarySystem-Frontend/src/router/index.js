@@ -118,7 +118,7 @@ export default new Router({
       component: Organize_View
     },
     {
-      path: '/Customer/Profile',
+      path: '/home/profile',
       name: 'customer_profile_view',
       component: Customer_profile_view
     },

@@ -17,7 +17,9 @@ export default {
   data() {
     return {
       error: '',
-      response: []
+      response: [],
+      libraryID: '',
+      type: ''
     }
   },
 
@@ -68,9 +70,11 @@ export default {
                 '&country=' + document.getElementById('country').value + '&email=' + email + '&username=headlibrarian&password=headlibrarian&role=HeadLibrarian').then(response => {
                 this.error = ''
                 console.log(response)
+                this.libraryID = response.data.libraryCardID
+                this.type = response.data.role
                 if (response.data.libraryCardID !== null) {
-                  document.cookie = "libraryCardID=" + this.response.libraryCardID + "; path=/";
-                  document.cookie = "usertype=" + this.response.role + "; path=/";
+                  document.cookie = "libraryCardID=" + this.libraryID + "; path=/";
+                  document.cookie = "usertype=" + this.type + "; path=/";
                   AXIOS.post(backendUrl + '/hour/initialize?EmployeeId=' + response.data.libraryCardID + '&calendarId=' + this.response.calendar.calendarID).then(response => {
                   }).catch(msg => {
                     console.log(msg.response.data)

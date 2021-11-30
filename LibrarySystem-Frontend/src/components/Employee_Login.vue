@@ -4,7 +4,7 @@
       <img src="../assets/LS.png" style="width:20vh; height:auto;">
     </div>
     <div class="login_msg">
-      <h1>Welcome to Group 20's Library System Application!</h1>
+      <h1>Welcome to Group 20's LibraS!</h1>
       <br>
       <h3>Restricted Access to Employees Only!</h3>
       <h3>If you came here by accident: please return to the regular login page</h3>

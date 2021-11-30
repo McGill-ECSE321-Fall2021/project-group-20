@@ -130,6 +130,14 @@ public class HourService {
 	myHour.delete();
 	return;
 	}
+
+	@Transactional
+	public void deleteHour(int id) {
+		Hour myHour = hourRepository.findByHourId(id);
+		hourRepository.delete(myHour);
+		myHour.delete();
+		return;
+	}
 	
 	@Transactional
 	public boolean updateHourStartTimebyWeekday(String aWeekday, Time updateStartT) {

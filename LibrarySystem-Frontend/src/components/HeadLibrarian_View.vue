@@ -2,7 +2,7 @@
   <div id="HeadLibrarian_View">
     <div>
       <b-navbar toggleable="lg" variant="faded" type="light" >
-        <b-navbar-brand href="#">Menu</b-navbar-brand>
+        <b-navbar-brand href="/">Menu</b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -11,11 +11,11 @@
             <b-nav-item @click="openLibrary">Library </b-nav-item>
             <b-nav-item @click="openManagement">Booking </b-nav-item>
             <b-nav-item @click="openBooking">Management</b-nav-item>
-            <b-nav-item @click="openHour">Organize </b-nav-item>
-            <b-nav-item @click="openHour">Hour </b-nav-item>
+            <!--<b-nav-item @click="openHour">Organize </b-nav-item>
+            <b-nav-item @click="openHour">Hour </b-nav-item>-->
             <b-nav-item @click="openEvent">Event </b-nav-item>
             <b-nav-item @click="openSchedule">Schedule </b-nav-item>
-            <b-nav-item @click="openOrganize">Organize </b-nav-item>
+            <!--<b-nav-item @click="openOrganize">Organize </b-nav-item>-->
             <b-nav-item-dropdown>
               <template #button-content>Library Accounts Management</template>
               <b-dropdown-item @click="openCreate">Create local customer account</b-dropdown-item>
@@ -43,7 +43,32 @@
         </b-collapse>
       </b-navbar>
     </div>
+    <h1>Employees of the month</h1>
+    <div>
+      <b-carousel
+        id="carousel-1"
+        v-model="slide"
+        :interval="4500"
+        controls
+        indicators
+        background="#ababab"
+        img-width="1024"
+        img-height="200"
+        style="text-shadow: 1px 1px 2px #333;"
+        @sliding-start="onSlideStart"
+        @sliding-end="onSlideEnd"
+      >
+        <!-- Text slides with image -->
 
+        <!-- Slides with img slot -->
+        <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
+        <b-carousel-slide>
+          <template #img>
+            <img src="../assets/books.jpg" style="width:auto; height:60vh;">
+          </template>
+        </b-carousel-slide>
+      </b-carousel>
+    </div>
   </div>
 </template>
 

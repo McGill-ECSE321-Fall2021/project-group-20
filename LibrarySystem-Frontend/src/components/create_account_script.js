@@ -70,7 +70,8 @@ export default {
           if (this.response.username === username && this.response.email === email && this.response.isLoggedIn) {
             document.cookie = "libraryCardID=" + this.response.libraryCardID + "; path=/";
             document.cookie = "usertype=customer; path=/";
-            this.$router.push('home')        }
+            this.$router.push('home')
+          }
         }).catch(msg => {
           console.log(msg.response.data)
           console.log(msg.response.status)

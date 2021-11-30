@@ -20,7 +20,7 @@ public class EmployeeRestController {
     @Autowired
     private EmployeeService employeeService;
 
-    @GetMapping(value = {"/employees", "/employees/"})
+    @GetMapping(value = {"/allemployees", "/allemployees/"})
     public ResponseEntity getAllEmployees() {
         List<Employee> employeeList;
         List<EmployeeDto> employees = new ArrayList<>();
@@ -31,6 +31,22 @@ public class EmployeeRestController {
         }
         for (Employee e : employeeList) {
             employees.add(convertToDto(e));
+        }
+        if (employees.size() == 0) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find any Employees in System");
+        return new ResponseEntity<>(employees, HttpStatus.OK);
+    }
+
+    @GetMapping(value = {"/employees", "/employees/"})
+    public ResponseEntity getEmployees() {
+        List<Employee> employeeList;
+        List<EmployeeDto> employees = new ArrayList<>();
+        try {
+            employeeList = employeeService.getAllEmployees();
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+        }
+        for (Employee e : employeeList) {
+            if (e.getRole().equals(Employee.Role.Librarian)) employees.add(convertToDto(e));
         }
         if (employees.size() == 0) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find any Employees in System");
         return new ResponseEntity<>(employees, HttpStatus.OK);
