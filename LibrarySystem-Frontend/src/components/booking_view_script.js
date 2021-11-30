@@ -15,7 +15,7 @@ let marepo;
 
 
 export default {
-  name: 'update_item_view',
+  name: 'booking_view',
   methods: {
     get(input){
       AXIOS.get(backendUrl+'/items/title/?titlename='+input).then(response => {
@@ -34,11 +34,21 @@ export default {
 
     },
    // await axios.post("http://localhost:8080/booking/create?startDate=12/12/2021&endDate=12/25/2021&type=Reservation&barcode=" + iid + "&LibraryId=" + cid);
-    Book(sdate,edate,Reservation,id,status){
-      //AXIOS.GET(backendUrl)
-      AXIOS.POST(backendUrl+'/booking/create?startDate='+sdate+'&endDate='+edate+'&type='+Reservation+'&barcode='+id+'&LibraryId='+status).then(response => {
+    Book(sdate,edate,Reservation,id){
+
+      AXIOS.post(backendUrl+'/booking/create?startDate='+sdate+'&endDate='+edate+'&type='+Reservation+'&barcode='+id+'&LibraryId='+'1').then(response => {
         this.uperror= ''
 
+      }).catch(msg => {
+        console.log(msg.response.data)
+        console.log(msg.response.status)
+        this.uperror = msg.response.data;
+      })
+
+    },
+    Return(id){
+      AXIOS.put(backendUrl+'/booking/return/item?barcode='+id).then(response => {
+        this.uperror=''
       }).catch(msg => {
         console.log(msg.response.data)
         console.log(msg.response.status)
@@ -49,12 +59,22 @@ export default {
     back(){
       this.$router.push('/')
       this.$router.push('home')
+    },
+    next(){
+      this.$router.push('UpdateBooking')
+    }
+    ,
+    beforeMount() {
+      let split = document.cookie.split(';')
+      let id = split[0].split('=');
+      this.myid= id
     }
 
   },
   data() {
 
     return {
+      myid:'',
       error: '',
       response: [],
       items:[],
@@ -70,5 +90,7 @@ export default {
   mounted(){
     this.get();
   }
+
+
 
 }

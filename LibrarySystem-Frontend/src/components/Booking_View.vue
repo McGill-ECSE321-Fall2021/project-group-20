@@ -16,13 +16,11 @@
       <input type="text" v-model="itemBarcode" id="itemBarcode" class="form-control" required placeholder="ItemBarcode">
       <input type="text" v-model="Sdate" id="Sdate" class="form-control" required placeholder="Sdate">
       <input type="text" v-model="Edate" id="Edate" class="form-control" required placeholder="Edate">
-      <input type="text" v-model="Type" id="Type" class="form-control" required placeholder="Type">
-
-      <br>
-      <input type="text" v-model="status" id="status" class="form-control" required placeholder="Status">
-      <br>
-      <button class="btn btn-primary" @click="update(itemBarcode,status)">Update</button>
+      <input type="text" v-model="Reservation" id="Type" class="form-control" required placeholder="Type">
+      <button class="btn btn-primary" @click="Book(Sdate,Edate,Reservation,itemBarcode)">Book</button>
+      <button class="btn btn-primary" @click="Return(itemBarcode)">Return</button>
       <button class="btn btn-primary" @click="back()">Back</button>
+      <button class="btn btn-primary" @click="next()">Browse</button>
     </div>
   </div>
 </template>
