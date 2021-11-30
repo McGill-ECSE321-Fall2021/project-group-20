@@ -33,7 +33,7 @@ export default {
       this.$router.push('/Library/edit/address')
     },
     openHoursEdit() {
-      this.$router.push('Library/edit/hours')
+      this.$router.push('/Library/edit/hours')
     }
   },
 

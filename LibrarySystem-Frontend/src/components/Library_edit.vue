@@ -18,9 +18,6 @@
             <p><br>{{civic}} {{street}}, {{city}}, {{province}}, {{postalCode}}, {{country}}</p>
           </div>
         </div>
-        <div class="address_edit">
-          <button class="btn btn-success" @click="openAddressEdit">Edit Address</button>
-        </div>
       </div>
       <div class="inline_right">
         <div class="split openingHours">
@@ -28,27 +25,44 @@
           <table>
             <tr>
               <th>Day</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
               <th>Open</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
               <th>Close</th>
             </tr>
             <tr v-for="hour in hours">
               <td>{{hour.weekday}}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td>{{hour.startTime}}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td>{{hour.endTime}}</td>
             </tr>
           </table>
         </div>
-        <div class="hour_edit">
-          <button class="btn btn-success" @click="openHoursEdit">Edit Opening Hours</button>
-        </div>
       </div>
+    </div>
+    <div class="edit">
+      <button class="btn btn-success" @click="openAddressEdit">Edit Address</button>
+      <button class="btn btn-success" @click="openHoursEdit">Edit Opening Hours</button>
     </div>
   </div>
 </template>
 
 <script src="./library_edit_script.js">
 export default {
-  name: "library_View"
+  name: "library_edit"
 }
 </script>
 
@@ -80,16 +94,13 @@ export default {
   right: 0;
 }
 
-.hour_edit {
-  padding-top: 8vh;
-}
-
-.address_edit {
-  padding-top: 5vh;
+.edit {
+  padding-top: 35vh;
 }
 
 table {
   margin-left: auto;
   margin-right: auto;
+  width: 20px;
 }
 </style>
