@@ -9,7 +9,7 @@
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item href="#">Library </b-nav-item>
+            <b-nav-item @click="openLibrary">Library </b-nav-item>
             <b-nav-item @click="openBooking">Booking </b-nav-item>
             <b-nav-item @click="openManagement">Management</b-nav-item>
             <b-nav-item @click="openEvent">Event </b-nav-item>

@@ -15,6 +15,7 @@ import ca.mcgill.ecse321.librarysystem.service.EmployeeService;
 import ca.mcgill.ecse321.librarysystem.service.EventService;
 import ca.mcgill.ecse321.librarysystem.service.HourService;
 
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -285,6 +286,17 @@ public class HourRestController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 	}
+
+	@PutMapping (value = {"/hour/update", "/hour/update/"})
+	public ResponseEntity updateSystemHour(@RequestParam String id, @RequestParam String startTime, @RequestParam String endTime) {
+		try {
+			Hour h = hourService.updateHour(Integer.parseInt(id), Time.valueOf(startTime), Time.valueOf(endTime));
+			if (h == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find/update this Hour");
+			return new ResponseEntity<>(convertToDto(h), HttpStatus.OK);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+	}
 	
 	@PostMapping (value = {"/hour/create", "/hour/create/"})
 	public ResponseEntity createHour(@RequestParam String weekday, @RequestParam String startTime, @RequestParam String endTime, @RequestParam String EmployeeId,
@@ -301,6 +313,37 @@ public class HourRestController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
 		}
 	}
+
+	@PostMapping (value = {"/hour/initialize", "hour/initialize/"})
+	public ResponseEntity initialize(@RequestParam String EmployeeId, @RequestParam String calendarId) {
+		try {
+			List<Hour> hList = new ArrayList<>();
+			List<HourDto> dtoList = new ArrayList<>();
+			Employee e = employeeService.getEmployee(Integer.valueOf(EmployeeId));
+			Calendar c = calendarService.getCalendar(calendarId);
+			Hour monday = hourService.createHour("Monday", Time.valueOf("00:00:00"), Time.valueOf("00:00:00"), e, c, "System");
+			Hour tuesday = hourService.createHour("Tuesday", Time.valueOf("00:00:00"), Time.valueOf("00:00:00"), e, c, "System");
+			Hour wednesday = hourService.createHour("Wednesday", Time.valueOf("00:00:00"), Time.valueOf("00:00:00"), e, c, "System");
+			Hour thursday = hourService.createHour("Thursday", Time.valueOf("00:00:00"), Time.valueOf("00:00:00"), e, c, "System");
+			Hour friday = hourService.createHour("Friday", Time.valueOf("00:00:00"), Time.valueOf("00:00:00"), e, c, "System");
+			Hour saturday = hourService.createHour("Saturday", Time.valueOf("00:00:00"), Time.valueOf("00:00:00"), e, c, "System");
+			Hour sunday = hourService.createHour("Sunday", Time.valueOf("00:00:00"), Time.valueOf("00:00:00"), e, c, "System");
+			hList.add(monday);
+			hList.add(tuesday);
+			hList.add(wednesday);
+			hList.add(thursday);
+			hList.add(friday);
+			hList.add(saturday);
+			hList.add(sunday);
+
+			for (Hour h : hList) {
+				dtoList.add(convertToDto(h));
+			}
+			return new ResponseEntity<>(dtoList, HttpStatus.OK);
+		} catch (IllegalArgumentException | NullPointerException msg) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+		}
+	}
 	
 	private EventDto convertToDto (Event e ) {
 		if (e == null) throw new IllegalArgumentException("Cannot find this event");
@@ -309,7 +352,7 @@ public class HourRestController {
 	
 	private HourDto convertToDto(Hour h){
 		if (h== null) throw new IllegalArgumentException("Cannot find this hour");
-		return new HourDto(h.getEvent(), h.getWeekday(),h.getStartTime(),h.getEndTime(),convertToDto(h.getEmployee()),
+		return new HourDto(h.getId(), h.getEvent(), h.getWeekday(),h.getStartTime(),h.getEndTime(),convertToDto(h.getEmployee()),
 				convertToDto(h.getCalendar()), HourDto.Type.valueOf(h.getType().toString()));
 		
 	}

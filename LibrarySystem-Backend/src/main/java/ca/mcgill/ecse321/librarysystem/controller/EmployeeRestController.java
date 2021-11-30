@@ -264,6 +264,19 @@ public class EmployeeRestController {
         return new ResponseEntity<>(convertToDto(e), HttpStatus.OK);
     }
 
+    @PutMapping(value = {"/employee/updateNoPass/{id}", "/employee/updateNoPass/{id}/"})
+    public ResponseEntity updateOnline(@PathVariable("id") String id, @RequestParam String username, @RequestParam String email) {
+        Employee e = employeeService.getEmployee(Integer.parseInt(id));
+        try {
+            e = employeeService.updateOnlineInfo(Integer.parseInt(id), username, e.getPassword(), email);
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+        }
+        if (e == null) return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Error: Could not update online Employee");
+        return new ResponseEntity<>(convertToDto(e), HttpStatus.OK);
+    }
+
+
     @PutMapping(value = { "/employee/update/{id}", "/employee/update/{id}/" })
     public ResponseEntity updateInfo(@PathVariable("id") String id, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String civic,
                                   @RequestParam String street, @RequestParam String city, @RequestParam String postalCode,

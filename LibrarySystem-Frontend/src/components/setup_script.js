@@ -9,7 +9,7 @@ var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPo
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { 'Access-Control-Allow-Origin': frontendUrl }
+  headers: { 'Access-Control-Allow-Origin': frontendUrl, backendUrl}
 })
 
 export default {
@@ -66,12 +66,17 @@ export default {
               AXIOS.post(backendUrl + '/employee/create?firstName=' + firstname + '&lastName=' + lastname + '&civic=' + civic + '&street=' + street +
                 '&city=' + city + '&postalCode=' + postalCode + '&province=' + document.getElementById('province').value +
                 '&country=' + document.getElementById('country').value + '&email=' + email + '&username=headlibrarian&password=headlibrarian&role=HeadLibrarian').then(response => {
-                this.response = response.data
                 this.error = ''
                 console.log(response)
-                if (this.response.libraryCardID !== null) {
+                if (response.data.libraryCardID !== null) {
                   document.cookie = "libraryCardID=" + this.response.libraryCardID + "; path=/";
                   document.cookie = "usertype=" + this.response.role + "; path=/";
+                  AXIOS.post(backendUrl + '/hour/initialize?EmployeeId=' + response.data.libraryCardID + '&calendarId=' + this.response.calendar.calendarID).then(response => {
+                  }).catch(msg => {
+                    console.log(msg.response.data)
+                    console.log(msg.response.status)
+                    this.error = msg.response.data;
+                  })
                   this.error = 'You may now log in!';
                   this.$router.push('HeadLibrarian');
                 }

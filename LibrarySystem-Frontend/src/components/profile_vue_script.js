@@ -39,6 +39,20 @@ export default {
       if (confirm !== newPassword) {
         this.error = "Please enter the new password twice"
       }
+      else if (newPassword == null) {
+        AXIOS.put(backendUrl + '/employee/updateNoPass/' + this.libraryCardID + '?username=' + userName + '&email=' + email).then(response => {
+          this.response = response.data
+          this.error = ''
+          console.log(response)
+          if (this.response != '') {
+            this.$router.push('/')
+          }
+        }).catch(msg => {
+          console.log(msg.response.data)
+          console.log(msg.response.status)
+          this.error = msg.response.data;
+        })
+      }
       else {
         AXIOS.put(backendUrl + '/employee/updateOnline/' + this.libraryCardID + '?username=' + userName + '&password=' + newPassword +
           '&email=' + email).then(response => {

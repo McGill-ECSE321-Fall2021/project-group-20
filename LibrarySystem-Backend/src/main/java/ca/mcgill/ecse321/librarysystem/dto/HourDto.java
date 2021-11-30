@@ -4,6 +4,7 @@ import ca.mcgill.ecse321.librarysystem.model.Event;
 import java.sql.Time;
 
 public class HourDto {
+	private int hourId;
 	 private String weekday;
 	  private Time startTime;
 	  private Time endTime;
@@ -20,7 +21,7 @@ public class HourDto {
 		  
 	  }
 	  
-	  public HourDto(Event aEvent, String aWeekday, Time aStartTime, Time aEndTime, EmployeeDto aEmployee, CalendarDto aCalendar, Type aType)
+	  public HourDto(int id, Event aEvent, String aWeekday, Time aStartTime, Time aEndTime, EmployeeDto aEmployee, CalendarDto aCalendar, Type aType)
 	  {
 	    weekday = aWeekday;
 	    startTime = aStartTime;
@@ -28,6 +29,7 @@ public class HourDto {
 	    employee = aEmployee;
 		calendar = aCalendar;
 		type = aType;
+		hourId = id;
 		if (aEvent != null) event = aEvent.getEventID();
 	  }
 
@@ -78,6 +80,14 @@ public class HourDto {
 	  public String getEvent()
 	  {
 	    return event;
+	  }
+
+	  public int getHourId() {
+		  return hourId;
+	  }
+
+	  public Type getType() {
+		  return type;
 	  }
 
 	  public boolean hasEvent()
