@@ -14,27 +14,29 @@
         <label><b>Title Info: </b></label>
         <br>
         <br>
-        <input value="response.titlename" type="text" v-model="titlename" id="titlename" placeholder="Title Name" class="form-control" required>
+        <input type="text" v-model="titlename" id="titlename" placeholder="Title Name" class="form-control" required>
         <br>
         <br>
-        <input value="response.pubdate" type="text" v-model="pubdate" id="pubdate" placeholder="Publish Date" class="form-control" required>
+        <input type="text" v-model="pubdate" id="pubdate" placeholder="Publish Date" class="form-control" required>
         <br>
         <br>
+        <input type="text" v-model="authorids" id="authorids" placeholder="AuthorIDs" class="form-control" required>
         <br>
       </div>
 
       <div class="buttonPersonalFrame inputPersLabel">
         <button class="btn-cancel" @click="cancel">Back
         </button>
-        <button class="btn-success" @click="addTitle(titlename, pubdate)">Create Title
+        <button class="btn-success" @click="addTitle(titlename, pubdate, authorids)">Create Title
         </button>
       </div>
       <span v-if="error" style="color: red">Error: {{error}}</span>
+      <span v-if="success" style="color: green">Added New Title: {{success}}</span>
     </div>
   </div>
 </template>
 
-<script>
+<script src="./create_title_script.js">
 export default {
   name: "Create_Title"
 }

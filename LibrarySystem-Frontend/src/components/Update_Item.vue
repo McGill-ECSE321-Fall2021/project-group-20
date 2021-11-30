@@ -42,7 +42,7 @@
 
 <script src="./update_item_view.js">
 export default {
-  name: "management_view_script"
+  name: "Update_Item"
 }
 </script>
 

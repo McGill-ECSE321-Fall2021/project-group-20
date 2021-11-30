@@ -12,68 +12,72 @@
 
       <div class="tables">
 <!--      <div class="global">-->
-          <div><b>Author selected: {{selected}}</b></div>
-          <table class="table table-striped table-hover" id="formatted_author_table">
-            <thead>
-            <tr>
-              <th>
-                <label class="form-checkbox">
-                  <input type="checkbox" v-model="selectAllAuthors" @click="selectAuthor">
-                  <i class="form-icon"></i>
-                </label>
-              </th>
-              <th>AuthorID</th>
-              <th>firstname</th>
-              <th>lastname</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="i in items">
-              <td>
-                <label class="form-checkbox">
-                  <input type="checkbox" :value="i.AuthorID" v-model="selected">
-                  <i class="form-icon"></i>
-                </label>
-              </td>
-              <td>{{i.AuthorID}}</td>
-              <td>{{i.firstname}}</td>
-              <td>{{i.lastname}}</td>
-            </tr>
-            </tbody>
-          </table>
+<!--          <div><b>Author selected: {{selected}}</b></div>-->
 
+<!--          <table class="table table-striped table-hover" id="formatted_author_table">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--              <th>-->
+<!--                <label class="form-checkbox">-->
+<!--                  <input type="checkbox" v-model="selectAllAuthors" @click="selectAuthor">-->
+<!--                  <i class="form-icon"></i>-->
+<!--                </label>-->
+<!--              </th>-->
+<!--              <th>AuthorID</th>-->
+<!--              <th>firstname</th>-->
+<!--              <th>lastname</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr v-for="i in items">-->
+<!--              <td>-->
+<!--                <label class="form-checkbox">-->
+<!--                  <input type="checkbox" :value="i.AuthorID" v-model="selected">-->
+<!--                  <i class="form-icon"></i>-->
+<!--                </label>-->
+<!--              </td>-->
+<!--              <td>{{i.AuthorID}}</td>-->
+<!--              <td>{{i.firstname}}</td>-->
+<!--              <td>{{i.lastname}}</td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--          </table>-->
+
+
+        <h4><b>Title ID: </b></h4>
         <br>
+        <input type="text" v-model="titleid" id="titleid" placeholder="TitleID" class="form-control" required>
         <br>
 
-        <div><b>Title selected: {{selected}}</b></div>
-        <table class="table table-striped table-hover" id="formatted_title_table">
-          <thead>
-          <tr>
-            <th>
-              <label class="form-checkbox">
-                <input type="checkbox" v-model="selectAllTitles" @click="selectTitle">
-                <i class="form-icon"></i>
-              </label>
-            </th>
-            <th>TitleID</th>
-            <th>TitleName</th>
-            <th>PublishDate</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="i in items">
-            <td>
-              <label class="form-checkbox">
-                <input type="checkbox" :value="i.TitleID" v-model="selected">
-                <i class="form-icon"></i>
-              </label>
-            </td>
-            <td>{{i.TitleID}}</td>
-            <td>{{i.TitleName}}</td>
-            <td>{{i.PublishDate}}</td>
-          </tr>
-          </tbody>
-        </table>
+<!--        <div><b>Title selected: {{selected}}</b></div>-->
+<!--        <table class="table table-striped table-hover" id="formatted_title_table">-->
+<!--          <thead>-->
+<!--          <tr>-->
+<!--            <th>-->
+<!--              <label class="form-checkbox">-->
+<!--                <input type="checkbox" v-model="selectAllTitles" @click="selectTitle">-->
+<!--                <i class="form-icon"></i>-->
+<!--              </label>-->
+<!--            </th>-->
+<!--            <th>TitleID</th>-->
+<!--            <th>TitleName</th>-->
+<!--            <th>PublishDate</th>-->
+<!--          </tr>-->
+<!--          </thead>-->
+<!--          <tbody>-->
+<!--          <tr v-for="i in items">-->
+<!--            <td>-->
+<!--              <label class="form-checkbox">-->
+<!--                <input type="checkbox" :value="i.TitleID" v-model="selected">-->
+<!--                <i class="form-icon"></i>-->
+<!--              </label>-->
+<!--            </td>-->
+<!--            <td>{{i.TitleID}}</td>-->
+<!--            <td>{{i.TitleName}}</td>-->
+<!--            <td>{{i.PublishDate}}</td>-->
+<!--          </tr>-->
+<!--          </tbody>-->
+<!--        </table>-->
 
         </div>
 
@@ -147,7 +151,7 @@
         </div>
         <br>
         <div class="buttonArchiveFrame inputLabel">
-          <button class="btn-success-acc" @click="createArchive(firstname, lastname, titlename, publishdate, archive_item_status)">Create Archive
+          <button class="btn-success-acc" @click="createArchive(titleid)">Create Archive
           </button>
         </div>
       </b-tab>
@@ -170,7 +174,7 @@
         </div>
         <br>
         <div class="buttonBookFrame inputPersLabel">
-          <button class="btn-success-acc" @click="createBook(firstname, lastname, titlename, publishdate, book_item_status, isbncode, numberpages)">Create Book
+          <button class="btn-success-acc" @click="createBook(titleid,isbncode, numberpages)">Create Book
           </button>
         </div>
 
@@ -190,7 +194,7 @@
         </div>
         <br>
         <div class="buttonMovieFrame inputLabel">
-          <button class="btn-success-acc" @click="createMovie(firstname, lastname, titlename, publishdate, movie_item_status, lengthmovie)">Create Movie
+          <button class="btn-success-acc" @click="createMovie(titleid, lengthmovie)">Create Movie
           </button>
         </div>
       </b-tab>
@@ -210,7 +214,7 @@
         </div>
         <br>
         <div class="buttonMusicAlbumFrame inputLabel">
-          <button class="btn-success-acc" @click="createMusicAlbum(firstname, lastname, titlename, publishdate, music_item_status, lengthmusic)">Create Music Album
+          <button class="btn-success-acc" @click="createMusicAlbum(titleid,lengthmusic)">Create Music Album
           </button>
         </div>
 
@@ -226,7 +230,7 @@
         </div>
         <br>
         <div class="buttonNewspaperFrame inputLabel">
-          <button class="btn-success-acc" @click="createNewsPaper(firstname, lastname, titlename, publishdate, newspaper_item_status)">Create Newspaper
+          <button class="btn-success-acc" @click="createNewsPaper(titleid)">Create Newspaper
           </button>
         </div>
       </b-tab>
@@ -234,17 +238,20 @@
       <br>
       <div class="buttonUpdateItem">
         <button class="btn-success-new-page" @click="openUpdateItemPage">Update an item</button>
+        <button class="btn-success-new-page" @click="openCreateAuthorPage">Create new Author</button>
+        <button class="btn-success-new-page" @click="openCreateTitlePage">Create new title</button>
       </div>
     </b-tabs>
     <span v-if="error" style="color: red">Error: {{error}}</span>
+    <span v-if="success" style="color: green">Added New Item: {{success}}</span>
   </div>
 </div>
 
 </template>
 
-<script>
+<script src="./management_view_script.js">
 export default {
-  name: "management_view_script"
+  name: "Management"
 }
 </script>
 
@@ -284,6 +291,15 @@ export default {
   height: 55px;
   color: #FDEDEC;
   background-color: #0cab11 ;
+}
+
+#titleid {
+  width: 24.75%;
+  min-width: 400px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 1vh;
 }
 
 #Author-List-Search {

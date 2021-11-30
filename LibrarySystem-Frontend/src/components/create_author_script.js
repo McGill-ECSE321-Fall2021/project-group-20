@@ -34,7 +34,7 @@ export default {
       else {
         AXIOS.post(backendUrl + '/author/create?firstname=' + firstname + '&lastname=' + lastname).then(response => {
           this.response = response.data
-          this.success = firstname + ' ' + lastname
+          this.success = response.data.authorID
           console.log(response)
         }).catch(msg => {
           console.log(msg.response.data)
