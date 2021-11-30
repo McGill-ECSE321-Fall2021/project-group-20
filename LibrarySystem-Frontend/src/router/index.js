@@ -31,6 +31,7 @@ import Library_edit from "../components/Library_edit.vue";
 import System_Address_Edit from "../components/System_Address_Edit.vue";
 import System_Hour_Edit from "../components/System_Hour_Edit.vue";
 import UpdateBooking_View from "../components/UpdateBooking_View.vue";
+import Personal_Schedule from "../components/Personal_Schedule.vue";
 
 Vue.use(Router)
 
@@ -87,9 +88,14 @@ export default new Router({
       component: Event_View
     },
     {
-      path: '/EmployeePage/Schedule',
+      path: '/schedules',
       name: 'schedule_view',
       component: Schedule_View
+    },
+    {
+      path: '/schedule',
+      name: 'personal_schedule',
+      component: Personal_Schedule
     },
     {
       path: '/Employee/Profile',

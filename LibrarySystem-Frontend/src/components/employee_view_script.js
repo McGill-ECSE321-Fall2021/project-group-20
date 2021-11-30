@@ -54,7 +54,7 @@ export default {
       this.$router.push('/EmployeePage/Event')
     },
     openSchedule(){
-      this.$router.push('/EmployeePage/Schedule')
+      this.$router.push('/Schedule')
     },
     openProfile(){
       this.$router.push('Employee/Profile')
