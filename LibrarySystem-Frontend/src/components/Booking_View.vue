@@ -1,6 +1,29 @@
-<template>
-  <div class="header_img">
-    <img src="../assets/LS.png" style="width:20vh; height:auto;">
+<template >
+  <div class="background-template">
+    <div id="Update_Item" >
+      <img src="../assets/library_source.jpg" style="width:80vh; height:auto; padding-bottom: 2vh">
+      <h2><b>Book Item</b></h2>
+      <template >
+        <input type="input" v-model="input" id="input" class="form-control" required placeholder="Search">
+        <br>
+        <button class="btn btn-primary" @click="get(input)">Search</button>
+      </template>
+      <template>
+        <div>
+          <b-table striped hover :items="items"></b-table>
+        </div>
+      </template>
+      <input type="text" v-model="itemBarcode" id="itemBarcode" class="form-control" required placeholder="ItemBarcode">
+      <input type="text" v-model="Sdate" id="Sdate" class="form-control" required placeholder="Sdate">
+      <input type="text" v-model="Edate" id="Edate" class="form-control" required placeholder="Edate">
+      <input type="text" v-model="Type" id="Type" class="form-control" required placeholder="Type">
+
+      <br>
+      <input type="text" v-model="status" id="status" class="form-control" required placeholder="Status">
+      <br>
+      <button class="btn btn-primary" @click="update(itemBarcode,status)">Update</button>
+      <button class="btn btn-primary" @click="back()">Back</button>
+    </div>
   </div>
 </template>
 
@@ -12,4 +35,18 @@ export default {
 
 <style scoped>
 
+.background-template {
+  background-image: linear-gradient(to bottom right, #3eadcf, #abe9cd);
+  padding-bottom: 80px;
+}
+
+#Update_Item {
+  width: 44.75%;
+  min-width: 400px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 10vh;
+  padding-bottom: 20vh;
+}
 </style>

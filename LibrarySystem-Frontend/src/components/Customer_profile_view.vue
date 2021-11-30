@@ -132,8 +132,13 @@ export default {
 
 <style scoped>
 
+#profile_view {
+  background-image: linear-gradient(to bottom right, #C6EA8D , #ED1E79);
+  padding-bottom: 50vh;
+}
 
 .inputFrame {
+  font-weight: bold;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(4, 1fr);

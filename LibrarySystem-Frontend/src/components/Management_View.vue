@@ -266,6 +266,11 @@ export default {
 /*  padding-top: 2vh;*/
 /*}*/
 
+#Management {
+  background-image: linear-gradient(to bottom right, #3eadcf, #abe9cd);
+  padding-bottom: 50vh;
+}
+
 .inputFrame {
   width: 24.75%;
   min-width: 400px;

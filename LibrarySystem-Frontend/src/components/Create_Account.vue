@@ -104,7 +104,9 @@ export default {
 
 <style scoped>
 #create_account {
-  background-color: rgba(66, 185, 131, 0.91);
+  background-image: linear-gradient(to bottom right, #D8B5FF, #1EAE98);
+  padding-bottom: 80px;
+  font-weight: bold;
 }
 
 #province {
@@ -133,5 +135,23 @@ export default {
 
 .error {
   padding-bottom: 5vh;
+}
+
+.btn-success {
+  border-radius: 60px;
+  border: None;
+  width: 150px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #03a634;
+}
+
+.btn-danger {
+  border-radius: 60px;
+  border: None;
+  width: 150px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #ab0303;
 }
 </style>

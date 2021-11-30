@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import Customer_Login from "../components/Customer_Login.vue";
 import Employee_Login from "../components/Employee_Login.vue";
 import Create_Account from "../components/Create_Account.vue";
@@ -29,7 +30,7 @@ import Fire from "../components/Fire.vue";
 import Library_edit from "../components/Library_edit.vue";
 import System_Address_Edit from "../components/System_Address_Edit.vue";
 import System_Hour_Edit from "../components/System_Hour_Edit.vue";
-
+import UpdateBooking_View from "../components/UpdateBooking_View.vue";
 
 Vue.use(Router)
 
@@ -67,6 +68,11 @@ export default new Router({
     },
     {
       path: '/EmployeePage/Booking',
+      name: 'booking_view',
+      component: Booking_View
+    },
+    {
+      path: '/home/Booking',
       name: 'booking_view',
       component: Booking_View
     },
@@ -181,6 +187,11 @@ export default new Router({
       name: 'system_hour_edit',
       component: System_Hour_Edit
     },
+    {
+      path: '/home/Booking/UpdateBooking',
+      name:'UpdateBooking_View',
+      component:UpdateBooking_View
+    }
   ],
   mode: "history"
 })

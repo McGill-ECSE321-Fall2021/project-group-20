@@ -5,12 +5,13 @@
       <img src="../assets/LS.png" style="width:20vh; height:auto;">
     </div>
 
-    <h2>
-      View Employee Shifts
+    <h2 class="main_title">
+      <b>View Employee Shifts</b>
+
     </h2>
 
     <div class="calendar">
-      <b-calendar v-model="value" :date-disabled-fn="dateDisabled" locale="en"></b-calendar>
+      <b-calendar v-model="value" :date-disabled-fn="dateDisabled" locale="en" class="wrapper"></b-calendar>
     </div>
 
     <div class="shiftTable">
@@ -82,12 +83,18 @@ export default {
 <style scoped>
 
 .calendar {
-  width: 25%;
-  min-width: 500px;
+  width: 50%;
+  min-width: 200vh;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
-  padding-top: 2vh;
+  padding-top: 4vh;
+}
+
+
+#profile_view {
+  background-image: linear-gradient(to bottom right, #3eadcf, #abe9cd);
+  padding-bottom: 50vh;
 }
 
 </style>

@@ -122,8 +122,14 @@ export default {
 
 <style scoped>
 
+#profile_view {
+  background-image: linear-gradient(to bottom right, #3eadcf, #abe9cd);
+  padding-bottom: 80vh;
+}
+
 
 .inputFrame {
+  font-weight: bold;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(4, 1fr);
@@ -179,7 +185,7 @@ label {
   width: 150px;
   height: 55px;
   color: #FDEDEC;
-  background-color: #45B39D ;
+  background-color: #14820c;
 }
 
 .btn-cancel-acc {
@@ -187,8 +193,8 @@ label {
   border: None;
   width: 150px;
   height: 55px;
-  color: #45B39D ;
-  background-color: #F5B7B1;
+  color: #FDEDEC;
+  background-color: #ab0303;
 }
 
 .inputPersLabel {
@@ -199,10 +205,10 @@ label {
 .btn-success-pers {
   border-radius: 60px;
   border: None;
-  width: 150px;
+  width: 250px;
   height: 55px;
   color: #FDEDEC;
-  background-color: #45B39D ;
+  background-color: #14820c;
 }
 
 .btn-cancel-pers {
@@ -210,8 +216,8 @@ label {
   border: None;
   width: 150px;
   height: 55px;
-  color: #45B39D ;
-  background-color: #F5B7B1;
+  color: #FDEDEC;
+  background-color: #ab0303;
 }
 
 a:link {
