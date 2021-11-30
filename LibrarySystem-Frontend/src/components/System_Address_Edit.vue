@@ -78,6 +78,14 @@ export default {
 </script>
 
 <style scoped>
+
+#address_edit {
+  font-weight: bold;
+  background-image: linear-gradient(to bottom right, #93A5CF, #E4EfE9);
+  padding-bottom: 40vh;
+}
+
+
 .msg {
   padding-bottom: 5vh;
 }
@@ -98,5 +106,23 @@ export default {
 
 .buttons {
   padding-bottom: 5vh;
+}
+
+.btn-danger {
+  border-radius: 60px;
+  border: None;
+  width: 150px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #ab0303;
+}
+
+.btn-success {
+  border-radius: 60px;
+  border: None;
+  width: 150px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #03a634;
 }
 </style>
