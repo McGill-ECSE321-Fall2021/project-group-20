@@ -4,7 +4,7 @@
       <img src="../assets/LS.png" style="width:20vh; height:auto;">
     </div>
     <div class="msg">
-      <h3>Edit Library Hours</h3>
+      <h3><b>Edit Library Hours</b></h3>
     </div>
     <div class="table">
       <table>

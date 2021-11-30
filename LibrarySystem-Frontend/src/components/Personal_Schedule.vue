@@ -9,6 +9,10 @@
       <b>Your Shifts</b>
     </h2>
 
+    <div>
+      <img src="../assets/shift.jpg" style="width:80vh; height:auto;">
+    </div>
+
     <div class="table">
       <table>
         <tr>
@@ -54,7 +58,7 @@ table {
 
 #profile_view {
   background-image: linear-gradient(to bottom right, #3eadcf, #abe9cd);
-  padding-bottom: 50vh;
+  padding-bottom: 70vh;
 }
 
 tr {
@@ -63,5 +67,14 @@ tr {
 
 .button {
   padding-top: 4vh;
+}
+
+.btn-success {
+  border-radius: 60px;
+  border: None;
+  width: 150px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #03a634;
 }
 </style>

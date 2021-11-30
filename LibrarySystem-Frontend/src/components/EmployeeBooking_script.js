@@ -18,13 +18,12 @@ export default {
   name: 'employee_booking_view',
   methods: {
     get(input){
-      AXIOS.get(backendUrl+'/items/title/?titlename='+input).then(response => {
+      AXIOS.get(backendUrl+'/booking/user/?libraryId='+input).then(response => {
         this.response = response.data
         this.items = response.data
         marepo=response.data
         this.error = ''
         console.log(response)
-        console.log(response.data[0].itemBarcode)
 
       }).catch(msg => {
         console.log(msg.response.data)
