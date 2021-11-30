@@ -4,10 +4,12 @@
       <img src="../assets/LS.png" style="width:20vh; height:auto;">
     </div>
     <div class="msg">
-      <h2>Verify Accounts</h2>
+      <h2><b>Verify Accounts</b></h2>
     </div>
+    <img src="../assets/cyber-security.jpg" style="width:45vh; height:30vh;">
     <div class="table">
-      <p>List of un-verified accounts:</p>
+      <br>
+      <h5><b>List of un-verified accounts:</b></h5>
       <table>
         <tr>
           <th>ID</th>
@@ -64,5 +66,28 @@ table {
 
 .choose {
   align-content: center;
+}
+
+#verify_page {
+  background-image: linear-gradient(to bottom right, #3eadcf, #abe9cd);
+  padding-bottom: 50vh;
+}
+
+.btn-success {
+  border-radius: 60px;
+  border: None;
+  width: 150px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #03a634;
+}
+
+.btn-danger {
+  border-radius: 60px;
+  border: None;
+  width: 150px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #ab0303;
 }
 </style>

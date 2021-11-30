@@ -86,7 +86,13 @@ export default {
 
 <style scoped>
 #create_account {
-  background-color: rgba(66, 185, 131, 0.91);
+  background-image: linear-gradient(to bottom right, #C6EA8D , #ED1E79);
+  padding-bottom: 50vh;
+}
+
+.input {
+  padding-bottom: 3vh;
+  font-weight: bold;
 }
 
 #province {
@@ -97,6 +103,24 @@ export default {
 #country {
   width: 100%;
   height: 56%;
+}
+
+.btn-danger {
+  border-radius: 60px;
+  border: None;
+  width: 150px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #ab0303;
+}
+
+.btn-success{
+  border-radius: 60px;
+  border: None;
+  width: 150px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #14820c;
 }
 
 .msg {

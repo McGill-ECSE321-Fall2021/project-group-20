@@ -4,7 +4,7 @@
       <img src="../assets/LS.png" style="width:20vh; height:auto;">
     </div>
     <div class="msg">
-      <h2>Hire a new Librarian!</h2>
+      <h2><b>Hire a new Librarian!</b></h2>
     </div>
     <b-container class="input">
       <b-row>
@@ -101,6 +101,12 @@ export default {
 </script>
 
 <style scoped>
+
+#hire {
+  background-image: linear-gradient(to bottom right, #11998E, #38EF7D);
+  padding-bottom: 50vh;
+}
+
 .msg {
   padding-bottom: 3vh;
 }
@@ -117,9 +123,28 @@ export default {
 
 .input {
   padding-bottom: 3vh;
+  font-weight: bold;
 }
 
 .buttons {
   padding-top: 3vh;
+}
+
+.btn-danger {
+  border-radius: 60px;
+  border: None;
+  width: 150px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #ab0303;
+}
+
+.btn-success{
+  border-radius: 60px;
+  border: None;
+  width: 250px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #14820c;
 }
 </style>

@@ -95,6 +95,7 @@ export default {
 .input {
   padding-bottom: 5vh;
   text-align: left;
+
 }
 
 .buttons {
@@ -111,6 +112,8 @@ img {vertical-align: middle;}
   position: relative;
   margin: auto;
 }
+
+
 
 /* Caption text */
 .text {
