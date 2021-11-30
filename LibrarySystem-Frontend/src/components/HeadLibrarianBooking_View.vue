@@ -34,13 +34,22 @@ export default {
   padding-bottom: 219px;
 }
 
-#Update_Item {
+#input {
   width: 44.75%;
+  height: auto;
   min-width: 400px;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
-  padding-top: 10vh;
-  padding-bottom: 20vh;
 }
+
+#itemBarcode {
+  width: 44.75%;
+  height: auto;
+  min-width: 400px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 </style>
