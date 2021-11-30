@@ -29,6 +29,7 @@ import Fire from "../components/Fire";
 import Library_edit from "../components/Library_edit";
 import System_Address_Edit from "../components/System_Address_Edit";
 import System_Hour_Edit from "../components/System_Hour_Edit";
+import UpdateBooking_View from "../components/UpdateBooking_View";
 
 
 Vue.use(Router)
@@ -67,6 +68,11 @@ export default new Router({
     },
     {
       path: '/EmployeePage/Booking',
+      name: 'booking_view',
+      component: Booking_View
+    },
+    {
+      path: '/home/Booking',
       name: 'booking_view',
       component: Booking_View
     },
@@ -181,6 +187,11 @@ export default new Router({
       name: 'system_hour_edit',
       component: System_Hour_Edit
     },
+    {
+      path: '/home/Booking/UpdateBooking',
+      name:'UpdateBooking_View',
+      component:UpdateBooking_View
+    }
   ],
   mode: "history"
 })

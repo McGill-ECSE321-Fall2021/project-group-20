@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, {Axios} from 'axios'
 import JQuery from 'jquery'
 
 let $ = JQuery
@@ -11,17 +11,64 @@ var AXIOS = axios.create({
   baseURL: backendUrl,
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
+let marepo;
+
 
 export default {
-  name: 'booking_view_script',
-
+  name: 'update_item_view',
   methods: {
+    get(input){
+      AXIOS.get(backendUrl+'/items/title/?titlename='+input).then(response => {
+        this.response = response.data
+        this.items = response.data
+        marepo=response.data
+        this.error = ''
+        console.log(response)
+        console.log(response.data[0].itemBarcode)
+
+      }).catch(msg => {
+        console.log(msg.response.data)
+        console.log(msg.response.status)
+        this.error = msg.response.data;
+      })
+
+    },
+   // await axios.post("http://localhost:8080/booking/create?startDate=12/12/2021&endDate=12/25/2021&type=Reservation&barcode=" + iid + "&LibraryId=" + cid);
+    Book(sdate,edate,Reservation,id,status){
+      //AXIOS.GET(backendUrl)
+      AXIOS.POST(backendUrl+'/booking/create?startDate='+sdate+'&endDate='+edate+'&type='+Reservation+'&barcode='+id+'&LibraryId='+status).then(response => {
+        this.uperror= ''
+
+      }).catch(msg => {
+        console.log(msg.response.data)
+        console.log(msg.response.status)
+        this.uperror = msg.response.data;
+      })
+    },
+
+    back(){
+      this.$router.push('/')
+      this.$router.push('home')
+    }
 
   },
+  data() {
 
-  beforeMount() {
-    if (document.cookie.indexOf('usertype=') === -1) {
-      this.$router.push('/');
+    return {
+      error: '',
+      response: [],
+      items:[],
+      uperror: '',
+      heads:{
+
+      },
+      slide: 0,
+      sliding: null
     }
+  },
+
+  mounted(){
+    this.get();
   }
+
 }
