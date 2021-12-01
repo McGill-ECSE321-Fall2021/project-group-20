@@ -26,6 +26,6 @@ jobs:
         uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: "e560edaf-3a36-466c-8f8f-f7cde407c280"
-          heroku_app_name: "librarysystem-backend-20" #Must be unique in Heroku
+          heroku_app_name: "librarysystem-frontend-20" #Must be unique in Heroku
           heroku_email: "alexandru.bangala@mail.mcgill.ca"
           dontuseforce: false
