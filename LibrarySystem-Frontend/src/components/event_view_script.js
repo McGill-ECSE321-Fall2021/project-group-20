@@ -6,8 +6,8 @@ import JQuery from 'jquery'
 let $ = JQuery
 var config = require('../../config')
 
-var frontendUrl = 'http://' + config.build.host + ':' + config.build.port
-var backendUrl = 'http://' + config.build.backendHost + ':' + config.build.backendPort
+var frontendUrl = 'http://' + config.build.host
+var backendUrl = 'http://' + config.build.backendHost
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
