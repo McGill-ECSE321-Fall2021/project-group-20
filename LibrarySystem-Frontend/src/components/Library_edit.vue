@@ -9,6 +9,10 @@
       <br>
       <br>
       <h1>Library Information</h1>
+      <br>
+    </div>
+    <div>
+      <img src="../assets/Public_Library.jpg" style="width:60vh; height:auto;">
     </div>
     <div class="block">
       <div class="inline_left">
@@ -67,10 +71,17 @@ export default {
 </script>
 
 <style scoped>
+
+#library_view {
+  font-weight: bold;
+  background-image: linear-gradient(to bottom right, #93A5CF, #E4EfE9);
+  padding-bottom: 9vh;
+}
+
 .block {
   width: 100%;
   display: block;
-  padding-top: 17vh;
+  padding-top: 1vh;
 }
 
 .inline_left {
@@ -95,12 +106,21 @@ export default {
 }
 
 .edit {
-  padding-top: 35vh;
+  padding-top: 25vh;
 }
 
 table {
   margin-left: auto;
   margin-right: auto;
   width: 20px;
+}
+
+.btn-success {
+  border-radius: 60px;
+  border: None;
+  width: 150px;
+  height: 55px;
+  color: #FDEDEC;
+  background-color: #03a634;
 }
 </style>
