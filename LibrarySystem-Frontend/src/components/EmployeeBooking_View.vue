@@ -8,14 +8,34 @@
         <br>
         <button class="btn btn-primary" @click="get(input)">Search</button>
       </template>
-      <template>
-        <div>
-          <b-table striped hover :items="items"></b-table>
-        </div>
-      </template>
+      <div class="table">
+        <table>
+          <tr>
+            <th>Booking ID</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Type</th>
+            <th>Item</th>
+            <th>User</th>
+          </tr>
+          <tr v-for="item in items">
+            <td>{{item.bookingID}}</td>
+            <td>{{item.startDate}}</td>
+            <td>{{item.endDate}}</td>
+            <td>{{item.type}}</td>
+            <td>{{item.item.title.name}} (Barcode: {{item.item.itemBarcode}})</td>
+            <td>{{item.user.firstName}} {{item.user.lastName}} (ID: {{item.user.libraryCardID}})</td>
+          </tr>
+        </table>
+      </div>
       <input type="text" v-model="itemBarcode" id="itemBarcode" class="form-control" required placeholder="ItemBarcode">
       <button class="btn btn-primary" @click="Return(itemBarcode)">Return</button>
       <button class="btn btn-primary" @click="back()">Back</button>
+      <p>
+        <span v-if="error" style="color: red">Error: {{error}}</span>
+      </p>
+    </div>
+    <div class="error">
       <p>
         <span v-if="error" style="color: red">Error: {{error}}</span>
       </p>
@@ -37,12 +57,26 @@ export default {
 }
 
 #EmoloyeeBooking_View {
-  width: 44.75%;
+  width: 50%;
   min-width: 400px;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
   padding-top: 10vh;
   padding-bottom: 20vh;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.table {
+  padding-top: 3vh;
+  padding-bottom: 2vh;
+}
+
+.buttons {
+  padding-top: 2vh;
 }
 </style>

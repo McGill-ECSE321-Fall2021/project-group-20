@@ -32,8 +32,9 @@ import System_Address_Edit from "../components/System_Address_Edit.vue";
 import System_Hour_Edit from "../components/System_Hour_Edit.vue";
 import UpdateBooking_View from "../components/UpdateBooking_View.vue";
 import Personal_Schedule from "../components/Personal_Schedule.vue";
-import EmployeeBooking_View from "../components/EmployeeBooking_View";
-import HeadLibrarianBooking_View from "../components/HeadLibrarianBooking_View";
+import EmployeeBooking_View from "../components/EmployeeBooking_View.vue";
+import HeadLibrarianBooking_View from "../components/HeadLibrarianBooking_View.vue";
+import Convert_Local_Account from "../components/Convert_Local_Account.vue";
 
 Vue.use(Router)
 
@@ -201,10 +202,15 @@ export default new Router({
       component:UpdateBooking_View
     },
     {
+      path: '/account/convert',
+      name: 'convert_local_account',
+      component: Convert_Local_Account
+    },
+    {
       path: '/HeadLibrarian/Booking',
       name: 'booking_view',
       component: HeadLibrarianBooking_View
-    },
+    }
   ],
   mode: "history"
 })

@@ -114,13 +114,18 @@ public class HourRestController {
 	public ResponseEntity getNotWorking(@RequestParam String day) {
 		List<Hour> hours;
 		List<Employee> employees;
+		List<Employee> emps = new ArrayList<>();
 		List<EmployeeDto> emp = new ArrayList<>();
 		try {
 			hours = hourService.getAllHours();
 			employees = employeeService.getAllEmployees();
 
 			for (Employee e: employees) {
-				if (e.getRole().equals(Employee.Role.HeadLibrarian)) employees.remove(e);
+				emps.add(e);
+			}
+
+			for (Employee e: employees) {
+				if (e.getRole().equals(Employee.Role.HeadLibrarian)) emps.remove(e);
 			}
 
 			for (Hour h: hours) {

@@ -11,12 +11,13 @@
           <b-navbar-nav>
             <b-nav-item @click="openLibrary">Library </b-nav-item>  <!-- Will delete -->
             <b-nav-item @click="openBooking">Booking </b-nav-item>
-            <b-nav-item @click="openManagement">Management</b-nav-item>
+            <b-nav-item @click="openManagement">Inventory</b-nav-item>
             <b-nav-item @click="openEvent">Event </b-nav-item>      <!-- Put On main page -->
             <b-nav-item @click="openSchedule">Schedule </b-nav-item> <!-- Shifts of the day  -->
             <b-nav-item-dropdown>
               <template #button-content>Library Accounts Management</template>
               <b-dropdown-item @click="openCreate">Create local customer account</b-dropdown-item>
+              <b-dropdown-item @click="openConvert">Convert local customer account</b-dropdown-item>
               <b-dropdown-item @click="openVerify">Verify customer account</b-dropdown-item>
               <b-dropdown-item @click="openFees">Process customer fees</b-dropdown-item>
             </b-nav-item-dropdown>
@@ -158,6 +159,11 @@
       </div>
 
     </div>
+    <div class="error">
+      <p>
+        <span v-if="error" style="color: red">Error: {{error}}</span>
+      </p>
+    </div>
   </div>
 
 </template>
@@ -262,7 +268,7 @@ img {vertical-align: middle;}
 
 table {
   border-collapse: separate;
-  border-spacing: 100px 0;
+  border-spacing: 40px 0;
   position: relative;
   left: 50%;
   transform: translateX(-50%);

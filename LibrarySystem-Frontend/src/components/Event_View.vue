@@ -20,7 +20,7 @@
 
     <div class="event_buttons">
 
-      <button class="btn btn-primary" @click="updateEvent">Update an Event</button>
+      <button class="btn btn-primary" @click="updateEvent">Delete an Event</button>
       <button class="btn btn-primary" @click="CreateEvent">Create an Event</button>
 
     </div>

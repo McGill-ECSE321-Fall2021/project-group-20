@@ -31,6 +31,9 @@
       </b-tabs>
 
     </div>
+    <div class="cancel">
+      <button class="btn-success" @click="cancel">Cancel</button>
+    </div>
 
   </div>
 </template>
@@ -87,7 +90,10 @@ input[type=text] {
   /*-webkit-transition: 0.5s;*/
   /*transition: 0.5s;*/
   outline: none;
+}
 
+#dayToDelete {
+  padding-bottom: 2vh;
 }
 
 .btn-cancel-pers {
@@ -97,7 +103,10 @@ input[type=text] {
   height: 55px;
   color: #FDEDEC;
   background-color: #ab0303;
+}
 
+.cancel {
+  padding-top: 3vh;
 }
 
 </style>

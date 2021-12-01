@@ -8,11 +8,22 @@
       <br>
       <button class="btn btn-primary" @click="get(input)">Search</button>
     </template>
-    <template>
-      <div>
-        <b-table striped hover :items="items"></b-table>
-      </div>
-    </template>
+    <div class="table">
+      <table>
+        <tr>
+          <th>Status</th>
+          <th>Barcode</th>
+          <th>Title</th>
+          <th>Booking</th>
+        </tr>
+        <tr v-for="item in items">
+          <td>{{item.status}}</td>
+          <td>{{item.itemBarcode}}</td>
+          <td>{{item.title.name}}</td>
+          <td>{{item.booking}}</td>
+        </tr>
+      </table>
+    </div>
     <input type="text" v-model="itemBarcode" id="itemBarcode" class="form-control" required placeholder="ItemBarcode">
     <br>
     <input type="text" v-model="status" id="status" class="form-control" required placeholder="Status">
@@ -64,5 +75,13 @@ export default {
   transform: translateX(-50%);
   padding-top: 10vh;
   padding-bottom: 20vh;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+}
+.table {
+  padding-top: 2vh;
 }
 </style>

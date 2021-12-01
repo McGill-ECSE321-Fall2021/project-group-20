@@ -9,7 +9,7 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item href="/Library">Library </b-nav-item>
-            <b-nav-item @click="openBooking">Booking </b-nav-item>
+            <b-nav-item @click="openBooking" v-if="info.outstandingBalance === 0 && info.demeritPts < 3">Booking </b-nav-item>
 
 
 
@@ -17,7 +17,6 @@
 
           <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto">
-
             <b-nav-item-dropdown right>
               <!-- Using 'button-content' slot -->
               <template #button-content>
@@ -30,11 +29,118 @@
         </b-collapse>
       </b-navbar>
       <div class="header_img">
-        <img src="https://images.pexels.com/photos/1290141/pexels-photo-1290141.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940
-" style="width:210vh; height:90vh;">
+        <img src="https://www.commbox.io/wp-content/uploads/2019/10/32-1-1024x597.jpg" style="width:20vh; height:auto;">
+      </div>
+      <h1>Employees of the Month</h1>
+      <div>
+        <b-carousel
+          id="carousel-1"
+          v-model="slide"
+          :interval="4500"
+          controls
+          indicators
+          background="#ababab"
+          img-width="1024"
+          img-height="200"
+          style="text-shadow: 1px 1px 2px #333;"
+          @sliding-start="onSlideStart"
+          @sliding-end="onSlideEnd"
+        >
+          <!-- Text slides with image -->
+
+          <!-- Slides with img slot -->
+          <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
+          <b-carousel-slide>
+            <template #img>
+              <img src="../assets/books.jpg" style="width:auto; height:30vh;">
+            </template>
+          </b-carousel-slide>
+        </b-carousel>
+      </div>
+
+      <div class="bottomFrame">
+
+        <!-- THIS IS THE LIBRARY INFORMATION SECTION OF THE MAIN PAGE -->
+        <div class="libraryInfoFrame" id="library_view">
+          <div class="head">
+            <br>
+            <h2><u><b>Library Information</b></u></h2>
+          </div>
+          <div class="block">
+            <div class="inline_left">
+              <div class="address">
+                <p><b>The library is located at:</b></p>
+                <div class="centered">
+                  <p>{{civic}} {{street}}, {{city}}, {{province}}, {{postalCode}}, {{country}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="inline_right">
+              <div class="split openingHours">
+                <p><b>The library is open on:</b></p>
+                <table>
+                  <tr>
+                    <th>Day</th>
+                    <th>Open</th>
+                    <th>Close</th>
+                  </tr>
+                  <tr v-for="hour in hours">
+                    <td>{{hour.weekday}}</td>
+                    <td>{{hour.startTime}}</td>
+                    <td>{{hour.endTime}}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- THIS IS THE BOOKING SECTION OF THE MAIN PAGE -->
+        <div class="bookingFrame">
+          <h2 class="main_title">
+            <u><b>Your Bookings</b></u>
+          </h2>
+
+          <div class="table">
+            <table>
+              <tr>
+                <th>Type</th>
+                <th>Item</th>
+                <th>Start</th>
+                <th>End</th>
+              </tr>
+              <tr v-for="booking in bookings">
+                <td>{{booking.type}}</td>
+                <td>{{booking.item.title.name}}</td>
+                <td>{{booking.startDate}}</td>
+                <td>{{booking.endDate}}</td>
+              </tr>
+            </table>
+          </div>
+          <span v-if="error" style="color:red"> Error: {{error}}</span>
+        </div>
+
+
+
+        <!-- THIS IS THE PERSONAL SECTION OF THE MAIN PAGE -->
+        <div class="personalFrame">
+          <br>
+          <h2><u><b>Your Information</b></u></h2><br>
+          <div class="HI">
+            <p><b>Card ID:</b> {{info.libraryCardID}}</p>
+            <p><b>Current Balance:</b> {{info.outstandingBalance}}</p>
+            <p><b>Demerit Points:</b> {{info.demeritPts}}</p>
+          </div>
+          <div class="LO_BALANCE" v-if="info.outstandingBalance !== 0">
+            <h3>Your account cannot be used to book or reserve until the balance of <b>{{info.outstandingBalance}}</b> is paid off!</h3>
+          </div>
+          <div class="LO_PTS" v-if="info.demeritPts >= 3">
+            <h3>Your account cannot be used to book or reserve until you meet with management!</h3>
+          </div>
+        </div>
+
       </div>
     </div>
-
   </div>
 </template>
 
@@ -45,11 +151,33 @@ export default {
 </script>
 
 <style scoped>
+.msg {
+  padding-top: 2vh;
+  padding-bottom: 5vh;
+}
+
+.input {
+  padding-bottom: 5vh;
+  text-align: left;
+
+}
+
+.buttons {
+  padding-bottom: 3vh;
+}
+{box-sizing: border-box;}
+body {font-family: Verdana, sans-serif;}
+.mySlides {display: none;}
+img {vertical-align: middle;}
+
+/* Slideshow container */
 .slideshow-container {
   max-width: 1000px;
   position: relative;
   margin: auto;
 }
+
+
 
 /* Caption text */
 .text {
@@ -107,5 +235,32 @@ export default {
 /* On smaller screens, decrease text size */
 @media only screen and (max-width: 300px) {
   .text {font-size: 11px}
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 40px 0;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+tr {
+  width: 40px;
+}
+
+.main_title {
+  padding-top: 2vh;
+}
+
+.bottomFrame {
+  position: fixed;
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+}
+
+.LO_BALANCE, .LO_PTS {
+  color: #ff0008;
 }
 </style>

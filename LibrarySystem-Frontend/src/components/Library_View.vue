@@ -21,7 +21,26 @@
         <div class="address">
           <p><b>Your library is located at:</b></p>
           <div class="centered">
-            <p><br>{{civic}} {{street}}, {{city}}, {{province}}, {{postalCode}}, {{country}}</p>
+            <p><br>{{civic}} {{street}}, {{city}}, {{province}}, {{postalCode}}, {{country}}</p><br><br>
+            <p><b>Upcoming Events:</b></p>
+            <table style="margin-left:auto; margin-right:auto">
+              <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Weekday</th>
+                <th>Start</th>
+                <th>End</th>
+
+              </tr>
+              <tr v-for="event in events">
+                <td>{{event.name}}</td>
+                <td>{{event.eventDate}}</td>
+                <td>{{event.eventhour.weekday}}</td>
+                <td>{{event.eventhour.startTime}}</td>
+                <td>{{event.eventhour.endTime}}</td>
+
+              </tr>
+            </table>
           </div>
         </div>
       </div>
@@ -108,5 +127,8 @@ table {
   margin-left: auto;
   margin-right: auto;
   width: 20px;
+  border-collapse: separate;
+  border-spacing: 30px 0;
+  position: relative;
 }
 </style>

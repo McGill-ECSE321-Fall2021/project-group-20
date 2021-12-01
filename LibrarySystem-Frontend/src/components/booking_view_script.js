@@ -4,8 +4,8 @@ import JQuery from 'jquery'
 let $ = JQuery
 var config = require('../../config')
 
-var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+var frontendUrl = 'http://' + config.build.host + ':' + config.build.port
+var backendUrl = 'http://' + config.build.backendHost + ':' + config.build.backendPort
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
@@ -36,9 +36,9 @@ export default {
    // await axios.post("http://localhost:8080/booking/create?startDate=12/12/2021&endDate=12/25/2021&type=Reservation&barcode=" + iid + "&LibraryId=" + cid);
     Book(sdate,edate,Reservation,id){
 
-      AXIOS.post(backendUrl+'/booking/create?startDate='+sdate+'&endDate='+edate+'&type='+Reservation+'&barcode='+id+'&LibraryId='+'1').then(response => {
+      AXIOS.post(backendUrl+'/booking/create?startDate='+sdate+'&endDate='+edate+'&type='+Reservation+'&barcode='+id+'&LibraryId='+ this.myid).then(response => {
         this.uperror= ''
-
+        this.$router.push('/')
       }).catch(msg => {
         console.log(msg.response.data)
         console.log(msg.response.status)
@@ -54,13 +54,6 @@ export default {
     next(){
       this.$router.push('/home/Booking/UpdateBooking')
     }
-    ,
-    beforeMount() {
-      let split = document.cookie.split(';')
-      let id = split[0].split('=');
-      this.myid= id
-    }
-
   },
   data() {
 
@@ -80,8 +73,12 @@ export default {
 
   mounted(){
     this.get();
+  },
+
+  beforeMount() {
+    let split = document.cookie.split(';')
+    let id = split[0].split('=');
+    this.myid= id[1]
   }
-
-
 
 }

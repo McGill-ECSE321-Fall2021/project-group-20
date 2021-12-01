@@ -13,38 +13,37 @@ var AXIOS = axios.create({
 })
 
 export default {
-  name: 'verify_page_script',
+  name: 'convert_local_script',
   data() {
     return {
       error: '',
       response: [],
-      accounts: []
+      customers: []
     }
   },
 
   methods: {
-    cancel: function () {
+    cancel() {
       this.$router.push('/')
     },
-    verify: function() {
-      AXIOS.put(backendUrl + '/customer/validate/' + document.getElementById('select').value).then(response => {
+    convert: function (username, email) {
+      AXIOS.put(backendUrl + '/customer/convert/' + document.getElementById('select').value + '?username=' + username + '&password=password&email=' + email).then(response => {
         this.response = response.data;
-        if (this.response.isVerified) {
-          location.reload()
-        }
+        location.reload();
       }).catch(msg => {
-        this.error = msg.response.data;
+        this.error = msg.response.data
         console.log(this.error)
       })
     }
-  },
+    },
 
-  beforeMount() {
-    AXIOS.get(backendUrl + '/customer/verified').then(response => {
-      this.accounts = response.data;
-    }).catch(msg => {
-      this.error = msg.response.data;
-      console.log(this.error)
-    })
-  }
+    beforeMount() {
+      AXIOS.get(backendUrl + '/customers/local').then(response => {
+        this.customers = response.data;
+        console.log(this.customers)
+      }).catch(msg => {
+        this.error = msg.response.data
+        console.log(this.error)
+      })
+    }
 }

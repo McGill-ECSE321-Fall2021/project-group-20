@@ -51,6 +51,7 @@ public class BookingService {
 		if (aUser == null) throw new IllegalArgumentException ("Please enter a valid user");
 		if (aUser.numberOfUserbooking() >= 5) throw new IllegalArgumentException("Cannot book more than 5 items at a time");
 		if (aUser.getDemeritPts() >= 3) throw new IllegalArgumentException("Cannot book because of demerit points");
+		if (aUser.getOutstandingBalance() > 0) throw new IllegalArgumentException("Cannot because because of Outstanding Balance");
 		Booking myBooking = new Booking (aStartDate, aEndDate,aType,aitem,aUser);
 		bookingRepository.save(myBooking);
 		return myBooking;

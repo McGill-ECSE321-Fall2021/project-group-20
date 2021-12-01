@@ -242,6 +242,22 @@ public class CustomerRestController {
         return new ResponseEntity<>(customerDtos, HttpStatus.OK);
     }
 
+    @GetMapping(value = {"/customers/local", "/customers/local/"})
+    public ResponseEntity getLocalCustomers() {
+        List<CustomerDto> customerDtos = new ArrayList<>();
+        List<Customer> customers;
+        try {
+            customers = customerService.getLocalCustomers();
+        } catch (IllegalArgumentException | NullPointerException msg) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.getMessage());
+        }
+        for (Customer c : customers) {
+            customerDtos.add(convertToDto(c));
+        }
+        if (customerDtos.size() == 0) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find local customers");
+        return new ResponseEntity<>(customerDtos, HttpStatus.OK);
+    }
+
     @GetMapping(value = {"/customer/verified", "/customer/verified/"})
     public ResponseEntity getNotVerified() {
         List<CustomerDto> customerDtos = new ArrayList<>();

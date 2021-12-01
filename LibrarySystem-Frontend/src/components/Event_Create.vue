@@ -14,7 +14,7 @@
           <input type="text" v-model="eventname" id="eventname" class="form-control" required>
         </b-col>
         <b-col>
-          <label for="eventdate">Event Date (DD/MM/YYYY):</label>
+          <label for="eventdate">Event Date (MM/DD/YYYY):</label>
           <input type="text" v-model="eventdate" id="eventdate" class="form-control" required>
         </b-col>
         <b-col>
@@ -24,11 +24,11 @@
       </b-row><br>
       <b-row>
         <b-col>
-          <label for="starTime">Start Time:</label>
+          <label for="starTime">Start Time (HH:MM:SS):</label>
           <input type="text" v-model="starTime" id="starTime" class="form-control" required>
         </b-col>
         <b-col>
-          <label for="endTime">End Time:</label>
+          <label for="endTime">End Time (HH:MM:SS):</label>
           <input type="text" v-model="endTime" id="endTime" class="form-control" required>
         </b-col>
         <b-col>

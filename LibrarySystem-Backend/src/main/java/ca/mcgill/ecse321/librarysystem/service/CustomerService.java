@@ -237,6 +237,17 @@ public class CustomerService {
         return (Customer) customerRepository.findUserByEmail(email);
     }
 
+    @Transactional
+    public List<Customer> getLocalCustomers() {
+        List<User> users = customerRepository.findUserByIsOnlineAcc(false);
+        List<Customer> customers = new ArrayList<>();
+
+        for (User u : users) {
+            customers.add((Customer) u);
+        }
+        return customers;
+    }
+
     /*
     Returns a list of customers based on first and last names
      */

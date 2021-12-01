@@ -10,7 +10,7 @@
           <b-navbar-nav>
             <b-nav-item @click="openLibrary">Library </b-nav-item>
             <b-nav-item @click="openBooking">Booking </b-nav-item>
-            <b-nav-item @click="openManagement">Management</b-nav-item>
+            <b-nav-item @click="openManagement">Inventory</b-nav-item>
             <!--<b-nav-item @click="openHour">Organize </b-nav-item>
             <b-nav-item @click="openHour">Hour </b-nav-item>-->
             <b-nav-item @click="openEvent">Event </b-nav-item>
@@ -19,6 +19,7 @@
             <b-nav-item-dropdown>
               <template #button-content>Library Accounts Management</template>
               <b-dropdown-item @click="openCreate">Create local customer account</b-dropdown-item>
+              <b-dropdown-item @click="openConvert">Convert local customer account</b-dropdown-item>
               <b-dropdown-item @click="openVerify">Verify customer account</b-dropdown-item>
               <b-dropdown-item @click="openFees">Process customer fees</b-dropdown-item>
               <b-dropdown-item @click="openHire">Hire Librarian</b-dropdown-item>
@@ -83,7 +84,7 @@
       <div class="libraryInfoFrame" id="library_view">
         <div class="head">
           <br>
-          <h2><b>Library Information</b></h2>
+          <h2><b><u>Library Information</u></b></h2>
         </div>
         <div class="block">
           <div class="inline_left">
@@ -104,11 +105,9 @@
                   <th>Close</th>
                 </tr>
                 <tr v-for="hour in hours">
-                  <div v-if="dayOfTheWeek == hour.weekday">
                     <td>{{hour.weekday}}</td>
                     <td>{{hour.startTime}}</td>
                     <td>{{hour.endTime}}</td>
-                  </div>
                 </tr>
               </table>
             </div>
@@ -118,20 +117,22 @@
 
       <div class="allTodayShiftsFrame">
         <h2 class="main_title">
-          <b>Employee Shifts</b>
+          <u><b>Employee Shifts</b></u>
         </h2>
 
         <div class="table">
           <table>
             <tr>
               <th>Day</th>
+              <th>Employee Username</th>
               <th>Start</th>
               <th>End</th>
             </tr>
             <tr v-for="hour in shifts">
-              <td>{{hour.weekday}}</td>
-              <td>{{hour.startTime}}</td>
-              <td>{{hour.endTime}}</td>
+                <td>{{hour.weekday}}</td>
+                <td>{{hour.employee.username}}</td>
+                <td>{{hour.startTime}}</td>
+                <td>{{hour.endTime}}</td>
             </tr>
           </table>
         </div>
@@ -141,7 +142,7 @@
       <!-- THIS IS THE EVENT SECTION IN THE MAIN PAGE -->
       <div class="eventFrame">
         <br>
-        <h2><b>Upcoming Events</b></h2>
+        <h2><u><b>Upcoming Events</b></u></h2>
         <div class="HI">
 
           <table style="margin-left:auto; margin-right:auto">
@@ -189,7 +190,7 @@ export default {
 
 table {
   border-collapse: separate;
-  border-spacing: 100px 0;
+  border-spacing: 40px 0;
   position: relative;
   left: 50%;
   transform: translateX(-50%);

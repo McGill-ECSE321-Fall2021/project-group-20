@@ -4,8 +4,8 @@ import JQuery from 'jquery'
 let $ = JQuery
 var config = require('../../config')
 
-var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+var frontendUrl = 'http://' + config.build.host + ':' + config.build.port
+var backendUrl = 'http://' + config.build.backendHost + ':' + config.build.backendPort
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
@@ -43,6 +43,9 @@ export default {
     },
     onSlideEnd(slide) {
       this.sliding = false
+    },
+    openConvert() {
+      this.$router.push('/account/convert')
     },
     openBooking() {
       this.$router.push('/HeadLibrarian/Booking')
@@ -117,7 +120,7 @@ export default {
 
     let splits = document.cookie.split(';');
     let type = splits[0].split('=');
-    AXIOS.get(backendUrl + '/hours/shifts/' + type[1]).then(response => {
+    AXIOS.get(backendUrl + '/hours/shifts').then(response => {
       this.shifts = response.data;
       const date = new Date();
       this.dayOfTheWeek = date.getDay();
@@ -144,6 +147,11 @@ export default {
       }).catch(msg => {
         this.error = msg.response.data
         console.log(this.error)
-      });
+      }),
+      AXIOS.get('/events').then(response => {
+        this.events = response.data
+      }).catch(e => {
+        this.eventError = e
+      })
   }
 }

@@ -17,12 +17,17 @@
         </div>
       </template>
       <input type="text" v-model="itemBarcode" id="itemBarcode" class="form-control" required placeholder="ItemBarcode">
-      <input type="text" v-model="Sdate" id="Sdate" class="form-control" required placeholder="Sdate">
-      <input type="text" v-model="Edate" id="Edate" class="form-control" required placeholder="Edate">
+      <input type="text" v-model="Sdate" id="Sdate" class="form-control" required placeholder="Sdate (mm/dd/yyyy)">
+      <input type="text" v-model="Edate" id="Edate" class="form-control" required placeholder="Edate (mm/dd/yyyy)">
       <input type="text" v-model="Reservation" id="Type" class="form-control" required placeholder="Type">
       <button class="btn btn-primary" @click="Book(Sdate,Edate,Reservation,itemBarcode)">Book</button>
       <button class="btn btn-primary" @click="back()">Back</button>
-      <button class="btn btn-primary" @click="next()">Browse</button>
+      <!--<button class="btn btn-primary" @click="next()">Browse</button>-->
+    </div>
+    <div class="error">
+      <p>
+        <span v-if="error" style="color: red">Error: {{error}}</span>
+      </p>
     </div>
   </div>
 </template>
