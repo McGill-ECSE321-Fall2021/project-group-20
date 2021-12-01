@@ -20,7 +20,18 @@ export default {
       error: '',
       response: [],
       slide: 0,
-      sliding: null
+      sliding: null,
+      shifts: [],
+      hours: [],
+      civic: '',
+      street: '',
+      city: '',
+      postalCode: '',
+      province: '',
+      country: '',
+      shiftError: '',
+      eventError: '',
+      events: []
     }
   },
 
@@ -100,4 +111,37 @@ export default {
   //     this.$router.push('/');
   //   }
   // }
+
+
+  beforeMount() {
+
+    let splits = document.cookie.split(';');
+    let type = splits[0].split('=');
+    AXIOS.get(backendUrl + '/hours/shifts/' + type[1]).then(response => {
+      this.shifts = response.data;
+    }).catch(msg => {
+      this.shiftError = msg.response.data
+      console.log(this.shiftError)
+    }),
+
+    AXIOS.get(backendUrl + '/librarySystem').then(response => {
+      this.response = response.data[0].businessaddress;
+      this.civic = this.response.civicNumber;
+      this.street = this.response.street;
+      this.city = this.response.city;
+      this.postalCode = this.response.postalCode;
+      this.province = this.response.province;
+      this.country = this.response.country;
+    }).catch(msg => {
+      this.error = msg.response.data;
+      console.log(this.error)
+    }),
+
+      AXIOS.get(backendUrl + '/hours/system').then(response => {
+        this.hours = response.data
+      }).catch(msg => {
+        this.error = msg.response.data
+        console.log(this.error)
+      });
+  }
 }
