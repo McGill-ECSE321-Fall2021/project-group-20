@@ -63,25 +63,8 @@ export default {
     create: function () {
       this.$router.push('create')
     },
-    voirpageEmployee: function () {
-      this.$router.push('EmployeePage')
-    }
   },
   beforeMount(){
-    if (document.cookie.indexOf('libraryCardID=') !== -1) {
-      let splits = document.cookie.split(';');
-      let type = splits[1].split('=');
-      if (type[1] === 'Librarian') {
-        this.$router.push('EmployeePage');
-      }
-      else if (type[1] === 'HeadLibrarian') {
-        this.$router.push('HeadLibrarian');
-      }
-      else {
-        this.$router.push('home');
-      }
-    }
-    else {
       AXIOS.get(backendUrl + '/librarySystem').then(response => {
         this.response = response.data
         this.error = ''
@@ -94,6 +77,5 @@ export default {
           this.$router.push('setup')
         }
       })
-    }
-  },
+  }
 }
