@@ -87,7 +87,8 @@ export default {
       this.$router.push('HeadLibrarian/Hour')
     },
     signout() {
-      let id = document.cookie.split('=');
+      let splits = document.cookie.split(';');
+      let id = splits[0].split('=');
       AXIOS.put(backendUrl + "/employee/logout/" + id[1]).then(response => {
         this.response = response.data
         this.error = ''

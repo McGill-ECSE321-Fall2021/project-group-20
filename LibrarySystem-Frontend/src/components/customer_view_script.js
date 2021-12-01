@@ -37,7 +37,8 @@ export default {
 
   methods: {
     signout() {
-      let id = document.cookie.split('=');
+      let splits = document.cookie.split(';');
+      let id = splits[0].split('=');
       AXIOS.put(backendUrl + "/customer/logout/" + id[1]).then(response => {
         this.response = response.data
         this.error = ''
