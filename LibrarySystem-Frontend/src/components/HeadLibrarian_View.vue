@@ -9,8 +9,8 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item @click="openLibrary">Library </b-nav-item>
-            <b-nav-item @click="openManagement">Booking </b-nav-item>
-            <b-nav-item @click="openBooking">Management</b-nav-item>
+            <b-nav-item @click="openBooking">Booking </b-nav-item>
+            <b-nav-item @click="openManagement">Management</b-nav-item>
             <!--<b-nav-item @click="openHour">Organize </b-nav-item>
             <b-nav-item @click="openHour">Hour </b-nav-item>-->
             <b-nav-item @click="openEvent">Event </b-nav-item>
@@ -104,9 +104,11 @@
                   <th>Close</th>
                 </tr>
                 <tr v-for="hour in hours">
-                  <td>{{hour.weekday}}</td>
-                  <td>{{hour.startTime}}</td>
-                  <td>{{hour.endTime}}</td>
+                  <div v-if="dayOfTheWeek == hour.weekday">
+                    <td>{{hour.weekday}}</td>
+                    <td>{{hour.startTime}}</td>
+                    <td>{{hour.endTime}}</td>
+                  </div>
                 </tr>
               </table>
             </div>
@@ -178,6 +180,9 @@
 export default {
   name: "head_librarian_view_script"
 }
+
+
+
 </script>
 
 <style scoped>

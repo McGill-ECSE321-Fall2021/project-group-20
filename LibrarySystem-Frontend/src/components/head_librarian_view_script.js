@@ -31,7 +31,8 @@ export default {
       country: '',
       shiftError: '',
       eventError: '',
-      events: []
+      events: [],
+      dayOfTheWeek: ''
     }
   },
 
@@ -112,13 +113,14 @@ export default {
   //   }
   // }
 
-
   beforeMount() {
 
     let splits = document.cookie.split(';');
     let type = splits[0].split('=');
     AXIOS.get(backendUrl + '/hours/shifts/' + type[1]).then(response => {
       this.shifts = response.data;
+      const date = new Date();
+      this.dayOfTheWeek = date.getDay();
     }).catch(msg => {
       this.shiftError = msg.response.data
       console.log(this.shiftError)
