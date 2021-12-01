@@ -65,19 +65,32 @@ export default {
     },
   },
   beforeMount(){
+    if (document.cookie.indexOf('libraryCardID=') !== -1) {
+      let splits = document.cookie.split(';');
+      let type = splits[1].split('=');
+      if (type[1] === 'Librarian') {
+        this.$router.push('EmployeePage');
+      }
+      else if (type[1] === 'HeadLibrarian') {
+        this.$router.push('HeadLibrarian');
+      }
+      else {
+        this.$router.push('home');
+      }
+    }
+    else {
       AXIOS.get(backendUrl + '/librarySystem').then(response => {
         this.response = response.data
         this.error = ''
-        console.log(this.response)
         if (this.response === 'No Library Systems found') {
           this.$router.push('setup')
         }
       }).catch(msg => {
         this.error = msg.response.data;
-        console.log(this.error)
         if (this.error === 'No Library Systems found') {
           this.$router.push('setup')
         }
       })
+    }
   }
 }
