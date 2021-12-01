@@ -18,130 +18,146 @@ export default {
     return {
       error: '',
       response: [],
-      success: []
+      success: [],
+      authors: [],
+      titles: [],
+      selectedTitles: [],
+      selectedAuthors: [],
     }
   },
 
   methods: {
 
-    createArchive: function(titleid) {
+    selectAuthor() {
 
-      AXIOS.post(backendUrl + '/Archives/create?status=' + document.getElementById('archive_item_status').value + '&titleId=' + titleid).then(response => {
-        this.response = response.data
-        this.success = 'success'
-        console.log(response)
+      this.selectedAuthors = [];
+      for (let author in this.authors) {
+        this.selectedAuthors.push(this.authors[author].authorID)
+      }
+    },
+
+
+    createArchive: function(titleName, titlePubDate) {
+      let listOfAuthors = '';
+      for (let author in this.selectedAuthors) {
+        listOfAuthors += author +','
+      }
+      AXIOS.post(backendUrl + '/title/create?name=' + titleName + '&pubDate=' + titlePubDate + '&authors=' + listOfAuthors).then(titleResponse => {
+        this.response = titleResponse.data
+        this.error = ''
+        AXIOS.post(backendUrl + '/items/create?status=' + document.getElementById("archive_item_status").value + '&titleId=' + this.response.titleID).then(itemResponse => {
+        this.response = itemResponse.data
+        this.error = ''
+        }).catch(msg => {
+          console.log(msg.response.data)
+          console.log(msg.response.status)
+          this.error = msg.response.data;
+        })
       }).catch(msg => {
         console.log(msg.response.data)
         console.log(msg.response.status)
         this.error = msg.response.data;
-      });
+      })
     },
 
-    createBook: function(titleid,isbncode, numberpages) {
+    createBook: function(titleName, titlePubDate, isbncode, numberpages) {
+      let listOfAuthors = '';
+      for (let author in this.selectedAuthors) {
+        listOfAuthors += author + ','
+      }
 
-      AXIOS.post(backendUrl + '/Books/create?status=' + document.getElementById('book_item_status').value + '&titleId=' + titleid
-        + '&isbn=' + isbncode + '&pages=' + numberpages).then(response => {
-        this.response = response.data
-        this.success = 'success'
-        console.log(response)
+      AXIOS.post(backendUrl + '/title/create?name=' + titleName + '&pubDate=' + titlePubDate + '&authors=' + listOfAuthors).then(titleResponse => {
+        this.response = titleResponse.data
+        this.error = ''
+        AXIOS.post(backendUrl + '/Books/create?status=' + document.getElementById("book_item_status").value +
+          '&titleId=' + this.response.titleID + '&isbn=' + isbncode + '&pages=' + numberpages).then(itemResponse => {
+          this.response = itemResponse.data
+          this.error = ''
+        }).catch(msg => {
+          console.log(msg.response.data)
+          console.log(msg.response.status)
+          this.error = msg.response.data;
+        })
       }).catch(msg => {
         console.log(msg.response.data)
         console.log(msg.response.status)
         this.error = msg.response.data;
-      });
+      })
     },
 
-    createMovie: function(titleid, lengthmovie) {
 
-      AXIOS.post(backendUrl + '/Movies/create?status=' + document.getElementById('movie_item_status').value + '&titleId=' + titleid
-        + '&length=' + lengthmovie).then(response => {
-        this.response = response.data
-        this.success = 'success'
-        console.log(response)
+    createMovie: function(titleName, titlePubDate, lengthmovie) {
+      let listOfAuthors = '';
+      for (let author in this.selectedAuthors) {
+        listOfAuthors += author + ','
+      }
+      AXIOS.post(backendUrl + '/title/create?name=' + titleName + '&pubDate=' + titlePubDate + '&authors=' + listOfAuthors).then(titleResponse => {
+        this.response = titleResponse.data
+        this.error = ''
+        AXIOS.post(backendUrl + '/Movies/create?status=' + document.getElementById("movie_item_status").value +
+          '&titleId=' + this.response.titleID + '&length=' + lengthmovie).then(itemResponse => {
+          this.response = itemResponse.data
+          this.error = ''
+        }).catch(msg => {
+          console.log(msg.response.data)
+          console.log(msg.response.status)
+          this.error = msg.response.data;
+        })
       }).catch(msg => {
         console.log(msg.response.data)
         console.log(msg.response.status)
         this.error = msg.response.data;
-      });
+      })
     },
 
-    createMusicAlbum: function(titleid, lengthmusic) {
-
-      AXIOS.post(backendUrl + '/MusicAlbums/create?status=' + document.getElementById('music_item_status').value + '&titleId=' + titleid
-        + '&length=' + lengthmusic).then(response => {
-        this.response = response.data
-        this.success = 'success'
-        console.log(response)
+    createMusicAlbum: function(titleName, titlePubDate, lengthmusic) {
+      let listOfAuthors = '';
+      for (let author in this.selectedAuthors) {
+        listOfAuthors += author + ','
+      }
+      AXIOS.post(backendUrl + '/title/create?name=' + titleName + '&pubDate=' + titlePubDate + '&authors=' + listOfAuthors).then(titleResponse => {
+        this.response = titleResponse.data
+        this.error = ''
+        AXIOS.post(backendUrl + '/MusicAlbums/create?status=' + document.getElementById("music_item_status").value +
+          '&titleId=' + this.response.titleID + '&length=' + lengthmusic).then(itemResponse => {
+          this.response = itemResponse.data
+          this.error = ''
+        }).catch(msg => {
+          console.log(msg.response.data)
+          console.log(msg.response.status)
+          this.error = msg.response.data;
+        })
       }).catch(msg => {
         console.log(msg.response.data)
         console.log(msg.response.status)
         this.error = msg.response.data;
-      });
+      })
+
     },
 
-
-
-
-    createNewsPaper: function(titleid) {
-
-      AXIOS.post(backendUrl + '/Newspapers/create?status=' + document.getElementById('newspaper_item_status').value + '&titleId=' + titleid).then(response => {
-        this.response = response.data
-        this.success = 'success'
-        console.log(response)
+    createNewsPaper: function(titleName, titlePubDate) {
+      let listOfAuthors = '';
+      for (let author in this.selectedAuthors) {
+        listOfAuthors += author + ','
+      }
+      AXIOS.post(backendUrl + '/title/create?name=' + titleName + '&pubDate=' + titlePubDate + '&authors=' + listOfAuthors).then(titleResponse => {
+          this.response = titleResponse.data
+          this.error = ''
+        AXIOS.post(backendUrl + '/Newspapers/create?status=' + document.getElementById("music_item_status").value
+        + '&titleId=' + this.response.titleID).then(itemResponse => {
+          this.response = itemResponse.data
+          this.error = ''
+        }).catch(msg => {
+          console.log(msg.response.data)
+          console.log(msg.response.status)
+          this.error = msg.response.data;
+        })
       }).catch(msg => {
         console.log(msg.response.data)
         console.log(msg.response.status)
         this.error = msg.response.data;
-      });
+      })
     },
-
-
-    // createArchive: function (archive_item_status) {
-    //
-    //     // AXIOS.post(backendUrl + '/author/create?firstname=' + firstname + '&lastname=' + lastname).then(response => {
-    //     //   this.responseAuthor = response.data
-    //     //   AXIOS.post(backendUrl + '/title/create?name=' + titlename + '&publishdate=' + publishdate + '&authors=' + this.responseAuthor.authorID).then(response =>
-    //     //     {
-    //     //       this.responseTitle = response.data
-    //     //       AXIOS.post(backendUrl+'/items/create?status=' + archive_item_status + '&titleId=' + this.responseTitle.titleID).then(response =>
-    //     //         {
-    //     //           this.responseItem = response.data
-    //     //         }
-    //     //       ).catch(msg =>
-    //     //         {
-    //     //           console.log(msg.response.data)
-    //     //           this.error = msg.response.data;
-    //     //         }
-    //     //       )
-    //     //       //this.error = ''
-    //     //       console.log(repsonse)
-    //     //     }).catch(msg => {
-    //     //       console.log(msg.response.data)
-    //     //     if (this.error === '') this.error = msg.response.data;
-    //     //     })
-    //     //   //this.error = ''
-    //     //   console.log(response)
-    //     // }).catch(msg => {
-    //     //   console.log(msg.response.data)
-    //     //   if (this.error === '') this.error = msg.response.data;
-    //     // })
-    //
-    //
-    //   AXIOS.post(backendUrl+'/items/create?status=' + archive_item_status + '&titleId=' + this.responseTitle.titleID).then(response =>
-    //     {
-    //       this.responseItem = response.data
-    //     }
-    //   ).catch(msg =>
-    //     {
-    //       console.log(msg.response.data)
-    //       this.error = msg.response.data;
-    //     }
-    //   )
-    //
-    //
-    //
-    // },
-    //
     openUpdateItemPage() {
       this.$router.push('/EmployeePage/Management/Update')
     },
@@ -149,19 +165,17 @@ export default {
     openCreateAuthorPage() {
       this.$router.push('/EmployeePage/Management/Create_Author')
     },
+  },
 
-    openCreateTitlePage() {
-      this.$router.push('/EmployeePage/Management/Create_Title')
-    },
-    //
-    // beforeMount() {
-    //   AXIOS.get(backendUrl + '/customer/verified').then(response => {
-    //     this.accounts = response.data;
-    //   }).catch(msg => {
-    //     this.error = msg.response.data;
-    //     console.log(this.error)
-    //   })
-    // }
+  beforeMount() {
+      AXIOS.get(backendUrl + '/authors').then(response => {
+        this.authors = response.data
+        this.error = ''
+      }).catch(msg => {
+        console.log(msg.response.data)
+        console.log(msg.response.status)
+        this.error = msg.response.data;
+      })
   }
 
 
