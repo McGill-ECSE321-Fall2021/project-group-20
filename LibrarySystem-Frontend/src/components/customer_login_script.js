@@ -4,8 +4,8 @@ import JQuery from 'jquery'
 let $ = JQuery
 var config = require('../../config')
 
-var frontendUrl = 'https://' + config.build.host + ':' + config.build.port
-var backendUrl = 'https://' + config.build.backendHost + ':' + config.build.backendPort
+var frontendUrl = 'http://' + config.build.host + ':' + config.build.port
+var backendUrl = 'http://' + config.build.backendHost + ':' + config.build.backendPort
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
@@ -68,11 +68,13 @@ export default {
       AXIOS.get(backendUrl + '/librarySystem').then(response => {
         this.response = response.data
         this.error = ''
+        console.log(this.response)
         if (this.response === 'No Library Systems found') {
           this.$router.push('setup')
         }
       }).catch(msg => {
         this.error = msg.response.data;
+        console.log(this.error)
         if (this.error === 'No Library Systems found') {
           this.$router.push('setup')
         }
