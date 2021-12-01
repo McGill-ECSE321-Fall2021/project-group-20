@@ -16,6 +16,9 @@
       <input type="text" v-model="itemBarcode" id="itemBarcode" class="form-control" required placeholder="ItemBarcode">
       <button class="btn btn-primary" @click="Return(itemBarcode)">Return</button>
       <button class="btn btn-primary" @click="backup()">Back</button>
+      <p>
+        <span v-if="error" style="color: red">Error: {{error}}</span>
+      </p>
     </div>
   </div>
 </template>

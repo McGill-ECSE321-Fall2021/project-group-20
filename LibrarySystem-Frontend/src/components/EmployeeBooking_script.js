@@ -36,7 +36,7 @@ export default {
     Book(sdate,edate,Reservation,id){
 
       AXIOS.post(backendUrl+'/booking/create?startDate='+sdate+'&endDate='+edate+'&type='+Reservation+'&barcode='+id+'&LibraryId='+'1').then(response => {
-        this.uperror= ''
+        this.error= ''
 
       }).catch(msg => {
         console.log(msg.response.data)
@@ -47,7 +47,7 @@ export default {
     },
     Return(id){
       AXIOS.put(backendUrl+'/booking/return/item?barcode='+id).then(response => {
-        this.uperror=''
+        this.error=''
       }).catch(msg => {
         console.log(msg.response.data)
         console.log(msg.response.status)

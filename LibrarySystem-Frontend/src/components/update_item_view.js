@@ -35,7 +35,7 @@ export default {
     },
     update(id,status){
       AXIOS.put(backendUrl+'/items/upstatus/?itemBarcode='+id+'&status='+status).then(response => {
-        this.uperror= ''
+        this.error= ''
 
       }).catch(msg => {
         console.log(msg.response.data)
@@ -45,7 +45,7 @@ export default {
     },
     delet(id){
       AXIOS.delete(backendUrl+'/items/delitem/?itemBarcode='+id).then(response => {
-        this.uperror= ''
+        this.error= ''
       }).catch(msg => {
         console.log(msg.response.data)
         console.log(msg.response.status)

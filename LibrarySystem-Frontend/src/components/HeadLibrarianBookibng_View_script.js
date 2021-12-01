@@ -41,7 +41,7 @@ export default {
       }).catch(msg => {
         console.log(msg.response.data)
         console.log(msg.response.status)
-        this.uperror = msg.response.data;
+        this.error = msg.response.data;
       })
 
     },
@@ -51,7 +51,7 @@ export default {
       }).catch(msg => {
         console.log(msg.response.data)
         console.log(msg.response.status)
-        this.uperror = msg.response.data;
+        this.error = msg.response.data;
       })
     },
 

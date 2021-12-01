@@ -20,6 +20,9 @@
     <button class="btn btn-primary" @click="update(itemBarcode,status)">Update</button>
     <button class="btn btn-danger" @click="delet(itemBarcode)">Delete</button>
     <button class="btn btn-primary" @click="back()">Back</button>
+    <p>
+      <span v-if="error" style="color: red">Error: {{error}}</span>
+    </p>
   </div>
   </div>
 </template>
