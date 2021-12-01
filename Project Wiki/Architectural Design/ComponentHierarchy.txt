@@ -1,0 +1,68 @@
+
+- Customer Loging Page
+	
+	- /Home
+
+		- Library Information Page
+
+		- Book Item Page
+
+		- Edit Profile Account
+
+
+
+- Employee Login Page
+
+	- /HeadLibrarian
+
+		- Edit Library Info Page
+
+		- Book Item Page
+
+		- Add Item to Inventory Page
+			- Create Author Page
+
+		- View/Update/Find Event Page
+
+		- Event Page
+			- Update Event Page
+			- Create Event Page
+
+		- Create local customer Page
+
+		- Verify Customer account Page
+
+		- Process Customer fees Page
+
+		- Hire/Fire Page
+
+		- Edit Profile Account Page
+
+		- Convert offline to online Page
+
+	- /EmployeePage
+
+		- Book Item Page
+
+		- Add Item to Inventory Page
+			- Create Author Page
+
+		- Event Page
+			- Update Event Page
+			- Create Event Page
+
+		- Create local customer Page
+
+		- Verify Customer account Page
+
+		- Process Customer fees Page
+
+		- Edit Profile Account Page
+
+		- View Own Shifts Page
+	
+
+- /setup
+
+	
+	

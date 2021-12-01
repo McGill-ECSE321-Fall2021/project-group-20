@@ -35,7 +35,7 @@ The website and application is accessed by two types of users: the employees whi
 |---|---|---|---|---|---|
 |  Alexandru Bangala |  38|40|31|0|   109|
 | Harsh Patel   | 32 |35|28|0|  95 |
-| Ehsan Ahmed  | 32 |35|28|0| 95 |
+| Ehsan Ahmed  | 32 |35|30|0| 97 |
 | Dan Hosi  | 32  |30|28|0|  90 |
 | Abdelmadjid Kamli  | 32  |36|30|0| 98  |
 
