@@ -114,11 +114,6 @@ export default new Router({
       component: HeadLibrarian_View
     },
     {
-      path: '/HeadLibrarian/Organize',
-      name: 'organize_view',
-      component: Organize_View
-    },
-    {
       path: '/home/profile',
       name: 'customer_profile_view',
       component: Customer_profile_view
@@ -133,11 +128,6 @@ export default new Router({
       path: '/EmployeePage/Event/Create',
       name: 'event_create',
       component: Event_Create
-    },
-    {
-      path: '/HeadLibrarian/Hour',
-      name: 'hour_view',
-      component: Hour_View
     },
     {
       path: '/home',
