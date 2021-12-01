@@ -39,8 +39,8 @@ export default {
 
     createArchive: function(titleName, titlePubDate) {
       let listOfAuthors = '';
-      for (let author in this.selectedAuthors) {
-        listOfAuthors += author +','
+      for (var i = 0; i < this.selectedAuthors.length; i++) {
+        listOfAuthors += this.selectedAuthors[i] + ','
       }
       AXIOS.post(backendUrl + '/title/create?name=' + titleName + '&pubDate=' + titlePubDate + '&authors=' + listOfAuthors).then(titleResponse => {
         this.response = titleResponse.data
@@ -62,8 +62,8 @@ export default {
 
     createBook: function(titleName, titlePubDate, isbncode, numberpages) {
       let listOfAuthors = '';
-      for (let author in this.selectedAuthors) {
-        listOfAuthors += author + ','
+      for (var i = 0; i < this.selectedAuthors.length; i++) {
+        listOfAuthors += this.selectedAuthors[i] + ','
       }
 
       AXIOS.post(backendUrl + '/title/create?name=' + titleName + '&pubDate=' + titlePubDate + '&authors=' + listOfAuthors).then(titleResponse => {
@@ -88,8 +88,8 @@ export default {
 
     createMovie: function(titleName, titlePubDate, lengthmovie) {
       let listOfAuthors = '';
-      for (let author in this.selectedAuthors) {
-        listOfAuthors += author + ','
+      for (var i = 0; i < this.selectedAuthors.length; i++) {
+        listOfAuthors += this.selectedAuthors[i] + ','
       }
       AXIOS.post(backendUrl + '/title/create?name=' + titleName + '&pubDate=' + titlePubDate + '&authors=' + listOfAuthors).then(titleResponse => {
         this.response = titleResponse.data
@@ -112,8 +112,8 @@ export default {
 
     createMusicAlbum: function(titleName, titlePubDate, lengthmusic) {
       let listOfAuthors = '';
-      for (let author in this.selectedAuthors) {
-        listOfAuthors += author + ','
+      for (var i = 0; i < this.selectedAuthors.length; i++) {
+        listOfAuthors += this.selectedAuthors[i] + ','
       }
       AXIOS.post(backendUrl + '/title/create?name=' + titleName + '&pubDate=' + titlePubDate + '&authors=' + listOfAuthors).then(titleResponse => {
         this.response = titleResponse.data
@@ -137,8 +137,8 @@ export default {
 
     createNewsPaper: function(titleName, titlePubDate) {
       let listOfAuthors = '';
-      for (let author in this.selectedAuthors) {
-        listOfAuthors += author + ','
+      for (var i = 0; i < this.selectedAuthors.length; i++) {
+        listOfAuthors += this.selectedAuthors[i] + ','
       }
       AXIOS.post(backendUrl + '/title/create?name=' + titleName + '&pubDate=' + titlePubDate + '&authors=' + listOfAuthors).then(titleResponse => {
           this.response = titleResponse.data
