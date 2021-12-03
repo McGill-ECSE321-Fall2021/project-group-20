@@ -1,0 +1,6 @@
+{
+	"appId": "com.libras.app",
+	"appName": "LibraS",
+	"webDir": "dist",
+	"bundledWebRuntime": false
+}

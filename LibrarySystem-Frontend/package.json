@@ -14,15 +14,18 @@
     "test": "npm run unit && npm run e2e"
   },
   "dependencies": {
+    "@capacitor/android": "^3.3.2",
+    "@capacitor/cli": "^3.3.2",
+    "@capacitor/core": "^3.3.2",
     "axios": "^0.24.0",
     "bootstrap": "^4.0.0-beta.2",
     "bootstrap-vue": "latest",
+    "express": "^4.17.1",
     "jquery": "^3.6.0",
     "popper.js": "^1.12.9",
     "serve-static": "^1.14.1",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1",
-    "express": "^4.17.1"
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
