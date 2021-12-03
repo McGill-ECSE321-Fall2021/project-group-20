@@ -199,6 +199,5 @@ export default new Router({
       name: 'booking_view',
       component: HeadLibrarianBooking_View
     }
-  ],
-  mode: "history"
+  ]
 })
