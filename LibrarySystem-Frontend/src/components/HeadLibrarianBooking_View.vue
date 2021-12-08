@@ -34,7 +34,7 @@
       <button class="btn btn-primary" @click="Return(itemBarcode)">Return</button>
       <button class="btn btn-primary" @click="backup()">Back</button>
       <p>
-        <span v-if="error" style="color: red">Error: {{error}}</span>
+        <span v-if="uperror" style="color: red">Error: {{error}}</span>
       </p>
     </div>
   </div>
