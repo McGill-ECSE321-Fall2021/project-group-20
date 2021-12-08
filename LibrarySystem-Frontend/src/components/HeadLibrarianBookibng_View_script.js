@@ -22,7 +22,7 @@ export default {
         this.response = response.data
         this.items = response.data
         marepo=response.data
-        this.error = ''
+        this.uperror = ''
         console.log(response)
 
       }).catch(msg => {

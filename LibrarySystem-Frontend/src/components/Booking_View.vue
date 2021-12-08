@@ -1,19 +1,34 @@
 <template >
-  <div id="background-template">
+  <div class="background-template">
     <b-navbar toggleable="lg" variant="faded" type="light" >
       <b-navbar-brand href="/">Menu</b-navbar-brand>
     </b-navbar>
-    <div class="Update_Item" >
+    <div id="Update_Item" >
       <img src="../assets/library_source.jpg" style="width:80vh; height:auto; padding-bottom: 2vh">
       <h2><b>Book Item</b></h2>
       <template >
         <input type="input" v-model="input" id="input" class="form-control" required placeholder="Search">
         <br>
-        <button class="btn btn-primary" @click="get(input)">Search</button>
+        <div class="search">
+          <button class="btn btn-primary" @click="get(input)">Search</button>
+        </div>
       </template>
       <template>
-        <div>
-          <b-table striped hover :items="items"></b-table>
+        <div class="table">
+          <table>
+            <tr>
+              <th>Status</th>
+              <th>Item Barcode</th>
+              <th>Title</th>
+              <th>Main Author</th>
+            </tr>
+            <tr v-for="item in items">
+              <td>{{item.status}}</td>
+              <td>{{item.itemBarcode}}</td>
+              <td>{{item.title.name}}</td>
+              <td>{{item.title.author[0].firstName}} {{item.title.author[0].lastName}}</td>
+            </tr>
+          </table>
         </div>
       </template>
       <input type="text" v-model="itemBarcode" id="itemBarcode" class="form-control" required placeholder="ItemBarcode">
@@ -26,7 +41,7 @@
     </div>
     <div class="error">
       <p>
-        <span v-if="error" style="color: red">Error: {{error}}</span>
+        <span v-if="uperror" style="color: red">Error: {{error}}</span>
       </p>
     </div>
   </div>
@@ -40,19 +55,28 @@ export default {
 
 <style scoped>
 
-#background-template {
+.background-template {
   background-image: linear-gradient(to bottom right, #3eadcf, #abe9cd);
   padding-bottom: 80px;
-  position: fixed;
-  overflow: hidden;
 }
 
-.Update_Item {
+#Update_Item {
   width: 44.75%;
   min-width: 400px;
+  position: relative;
   left: 50%;
   transform: translateX(-50%);
   padding-top: 10vh;
   padding-bottom: 20vh;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 95%;
+}
+
+.search {
+  padding-bottom: 3vh;
 }
 </style>

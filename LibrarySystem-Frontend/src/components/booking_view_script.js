@@ -38,11 +38,14 @@ export default {
 
       AXIOS.post(backendUrl+'/booking/create?startDate='+sdate+'&endDate='+edate+'&type='+Reservation+'&barcode='+id+'&LibraryId='+ this.myid).then(response => {
         this.uperror= ''
+        this.error = this.uperror
         this.$router.push('/')
       }).catch(msg => {
         console.log(msg.response.data)
         console.log(msg.response.status)
         this.uperror = msg.response.data;
+        this.error = this.uperror
+
       })
 
     },
