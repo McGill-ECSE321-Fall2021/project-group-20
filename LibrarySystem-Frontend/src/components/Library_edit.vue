@@ -76,7 +76,7 @@ export default {
   background-size: cover;
   overflow: hidden;
   position: fixed;
-  padding-bottom: 10vh;
+  padding-bottom: 30vh;
 
 }
 

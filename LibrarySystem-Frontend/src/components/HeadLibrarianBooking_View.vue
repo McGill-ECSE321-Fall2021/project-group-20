@@ -1,5 +1,8 @@
 <template >
   <div class="background-template">
+    <b-navbar toggleable="lg" variant="faded" type="light" >
+      <b-navbar-brand href="/">Menu</b-navbar-brand>
+    </b-navbar>
     <div id="EmoloyeeBooking_View" >
       <img src="../assets/library_source.jpg" style="width:100%; height:auto; padding-bottom: 2vh">
       <h2><b>Book Item</b></h2>

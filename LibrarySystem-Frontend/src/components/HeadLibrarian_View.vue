@@ -78,44 +78,7 @@
 
 
 
-    <div class="bottomFrame">
-
-      <!-- THIS IS THE LIBRARY INFORMATION SECTION ON THE MAIN PAGE -->
-      <div class="libraryInfoFrame" id="library_view">
-        <div class="head">
-          <br>
-          <h2><b><u>Library Information</u></b></h2>
-        </div>
-        <div class="block">
-          <div class="inline_left">
-            <div class="address">
-              <p><b>The library is located at:</b></p>
-              <div class="centered">
-                <p>{{civic}} {{street}}, {{city}}, {{province}}, {{postalCode}}, {{country}}</p>
-              </div>
-            </div>
-          </div>
-          <div class="inline_right">
-            <div class="split openingHours">
-              <p><b>The library is open on:</b></p>
-              <table>
-                <tr>
-                  <th>Day</th>
-                  <th>Open</th>
-                  <th>Close</th>
-                </tr>
-                <tr v-for="hour in hours">
-                    <td>{{hour.weekday}}</td>
-                    <td>{{hour.startTime}}</td>
-                    <td>{{hour.endTime}}</td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="allTodayShiftsFrame">
+    <div class="allTodayShiftsFrame">
         <h2 class="main_title">
           <u><b>Employee Shifts</b></u>
         </h2>
@@ -136,16 +99,16 @@
             </tr>
           </table>
         </div>
-        <span v-if="shiftError" style="color:red"> Error: {{shiftError}}</span>
+        <br><span v-if="shiftError" style="color:red"> Error: {{shiftError}}</span>
       </div>
 
       <!-- THIS IS THE EVENT SECTION IN THE MAIN PAGE -->
-      <div class="eventFrame">
+      <div class="table">
         <br>
         <h2><u><b>Upcoming Events</b></u></h2>
         <div class="HI">
 
-          <table style="margin-left:auto; margin-right:auto">
+          <table>
             <tr>
               <th>Event Name</th>
               <th>Date</th>
@@ -171,10 +134,6 @@
 
 
     </div>
-
-
-
-  </div>
 </template>
 
 <script src="./head_librarian_view_script.js">
@@ -190,21 +149,13 @@ export default {
 
 table {
   border-collapse: separate;
-  border-spacing: 40px 0;
   position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 tr {
-  width: 40px;
-}
-
-.bottomFrame {
-  position: fixed;
-  display: grid;
-  grid-auto-columns: minmax(0, 1fr);
-  grid-auto-flow: column;
+  max-width: 95%;
 }
 
 .main_title {
