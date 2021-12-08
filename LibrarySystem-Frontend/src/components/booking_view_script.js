@@ -89,10 +89,6 @@ export default {
     }
   },
 
-  mounted(){
-    this.get();
-  },
-
   beforeMount() {
     let split = document.cookie.split(';')
     let id = split[0].split('=');
