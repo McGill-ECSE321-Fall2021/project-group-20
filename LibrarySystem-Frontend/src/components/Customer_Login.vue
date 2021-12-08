@@ -1,17 +1,15 @@
 <template>
   <div id="customer_login">
     <div class="header_img">
-      <img src="../assets/LS.png" style="width:20vh; height:auto;">
+      <img src="../assets/LS.png" style="width:20%; height:auto;">
     </div>
     <div class="login_msg">
-      <h1>Welcome to Group 20's LibraS!</h1>
-      <br>
-      <h3>To continue, please log in below or create an account</h3>
+      <h2>Welcome to Group 20's LibraS!</h2>
     </div>
     <div class="input">
       <form>
         <label for="username">
-          <label for="loginType">Choose method of login:</label>
+          <label for="loginType">Choose login method:</label>
           <select id="loginType">
             <option selected value="name">Username/Email</option>
             <option value="id">Library Card ID</option>
@@ -49,12 +47,14 @@ export default {
 <style scoped>
 #customer_login {
   background-color: rgb(255, 216, 167);
+  position: fixed;
+  overflow: hidden;
 }
 
 .login_msg {
   position: relative;
   text-align: center;
-  padding-bottom: 5vh;
+  padding-bottom: 2vh;
   padding-top: 5vh;
 }
 

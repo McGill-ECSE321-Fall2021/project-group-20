@@ -20,6 +20,8 @@
     "axios": "^0.24.0",
     "bootstrap": "^4.0.0-beta.2",
     "bootstrap-vue": "latest",
+    "capacitor": "^0.5.5",
+    "cordova": "^10.0.0",
     "express": "^4.17.1",
     "jquery": "^3.6.0",
     "popper.js": "^1.12.9",

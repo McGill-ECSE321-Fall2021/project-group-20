@@ -1,9 +1,9 @@
 <template >
-  <div class="background-template">
+  <div id="background-template">
     <b-navbar toggleable="lg" variant="faded" type="light" >
       <b-navbar-brand href="/">Menu</b-navbar-brand>
     </b-navbar>
-    <div id="Update_Item" >
+    <div class="Update_Item" >
       <img src="../assets/library_source.jpg" style="width:80vh; height:auto; padding-bottom: 2vh">
       <h2><b>Book Item</b></h2>
       <template >
@@ -40,15 +40,16 @@ export default {
 
 <style scoped>
 
-.background-template {
+#background-template {
   background-image: linear-gradient(to bottom right, #3eadcf, #abe9cd);
   padding-bottom: 80px;
+  position: fixed;
+  overflow: hidden;
 }
 
-#Update_Item {
+.Update_Item {
   width: 44.75%;
   min-width: 400px;
-  position: relative;
   left: 50%;
   transform: translateX(-50%);
   padding-top: 10vh;

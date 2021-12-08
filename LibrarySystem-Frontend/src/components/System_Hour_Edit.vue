@@ -1,5 +1,10 @@
 <template>
   <div id="hour_edit">
+    <div class="bar">
+      <b-navbar toggleable="lg" variant="faded" type="light" >
+        <b-navbar-brand href="/">Menu</b-navbar-brand>
+      </b-navbar>
+    </div>
     <div class="header_img">
       <img src="../assets/LS.png" style="width:20vh; height:auto;">
     </div>

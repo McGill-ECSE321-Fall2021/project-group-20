@@ -4,15 +4,12 @@
       <img src="../assets/LS.png" style="width:20vh; height:auto;">
     </div>
     <div class="login_msg">
-      <h1>Welcome to Group 20's LibraS!</h1>
-      <br>
-      <h3>Restricted Access to Employees Only!</h3>
-      <h3>If you came here by accident: please return to the regular login page</h3>
+      <h3>LibraS: Restricted Access to Employees Only!</h3>
     </div>
     <div class="input">
       <form>
         <label for="username">
-          <label for="loginType">Choose method of login:</label>
+          <label for="loginType">Choose login method:</label>
           <select id="loginType">
             <option selected value="name">Username/Email</option>
             <option value="id">Library Card ID</option>
@@ -51,13 +48,15 @@ export default {
   background-image: linear-gradient(to bottom right, #D8B5FF, #1EAE98);
   padding-bottom: 80px;
   font-weight: bold;
+  position: fixed;
+  overflow: hidden;
 }
 
 .login_msg {
   position: relative;
   text-align: center;
-  padding-bottom: 5vh;
-  padding-top: 5vh;
+  padding-bottom: 2vh;
+  padding-top: 2vh;
 }
 
 .input {

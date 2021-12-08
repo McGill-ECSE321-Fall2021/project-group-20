@@ -34,7 +34,7 @@ export default {
     },
     openHoursEdit() {
       this.$router.push('/Library/edit/hours')
-    }
+    },
   },
 
   beforeMount() {

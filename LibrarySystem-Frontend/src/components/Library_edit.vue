@@ -6,26 +6,24 @@
       </b-navbar>
     </div>
     <div class="head">
-      <br>
-      <br>
-      <h1>Library Information</h1>
+      <h2><b>Library Information</b></h2>
       <br>
     </div>
     <div>
-      <img src="../assets/Public_Library.jpg" style="width:60vh; height:auto;">
+      <img src="../assets/Public_Library.jpg" style="width:100%; height:70%;">
     </div>
     <div class="block">
       <div class="inline_left">
         <div class="address">
           <p><b>Your library is located at:</b></p>
           <div class="centered">
-            <p><br>{{civic}} {{street}}, {{city}}, {{province}}, {{postalCode}}, {{country}}</p>
+            <p>{{civic}} {{street}}, {{city}}, {{province}}, {{postalCode}}, {{country}}</p>
           </div>
         </div>
       </div>
       <div class="inline_right">
         <div class="split openingHours">
-          <p><b>Your library is open on:</b></p><br>
+          <p><br><b>Your library is open on:</b></p>
           <table>
             <tr>
               <th>Day</th>
@@ -75,25 +73,17 @@ export default {
 #library_view {
   font-weight: bold;
   background-image: linear-gradient(to bottom right, #93A5CF, #E4EfE9);
-  padding-bottom: 9vh;
+  background-size: cover;
+  overflow: hidden;
+  position: fixed;
+  padding-bottom: 10vh;
+
 }
 
 .block {
   width: 100%;
   display: block;
   padding-top: 1vh;
-}
-
-.inline_left {
-  width: 50%;
-  float: left;
-  display: inline-block;
-}
-
-.inline_right {
-  width: 50%;
-  float: right;
-  display: inline-block;
 }
 
 .address {
@@ -106,7 +96,7 @@ export default {
 }
 
 .edit {
-  padding-top: 25vh;
+  padding-top: 5vh;
 }
 
 table {
@@ -121,6 +111,5 @@ table {
   width: 150px;
   height: 55px;
   color: #FDEDEC;
-  background-color: #03a634;
-}
+  background-color: #03a634;}
 </style>

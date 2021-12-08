@@ -1,4 +1,0 @@
-com/libras/app/BuildConfig.java
- com.libras.app.BuildConfig
-com/libras/app/MainActivity.java
- com.libras.app.MainActivity

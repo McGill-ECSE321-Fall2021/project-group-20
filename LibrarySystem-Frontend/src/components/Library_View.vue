@@ -6,47 +6,24 @@
       </b-navbar>
     </div>
     <div class="head">
-      <br>
-      <br>
-      <h1>Library Information</h1>
-      <br>
+      <h2><b>Library Information</b></h2>
       <br>
     </div>
-
     <div>
-      <img src="../assets/Public_Library2.jpg" style="width:60vh; height:auto;">
+      <img src="../assets/Public_Library.jpg" style="width:100%; height:70%;">
     </div>
     <div class="block">
       <div class="inline_left">
         <div class="address">
           <p><b>Your library is located at:</b></p>
           <div class="centered">
-            <p><br>{{civic}} {{street}}, {{city}}, {{province}}, {{postalCode}}, {{country}}</p><br><br>
-            <p><b>Upcoming Events:</b></p>
-            <table style="margin-left:auto; margin-right:auto">
-              <tr>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Weekday</th>
-                <th>Start</th>
-                <th>End</th>
-
-              </tr>
-              <tr v-for="event in events">
-                <td>{{event.name}}</td>
-                <td>{{event.eventDate}}</td>
-                <td>{{event.eventhour.weekday}}</td>
-                <td>{{event.eventhour.startTime}}</td>
-                <td>{{event.eventhour.endTime}}</td>
-
-              </tr>
-            </table>
+            <p>{{civic}} {{street}}, {{city}}, {{province}}, {{postalCode}}, {{country}}</p>
           </div>
         </div>
       </div>
       <div class="inline_right">
         <div class="split openingHours">
-          <p><b>Your library is open on:</b></p><br>
+          <p><br><b>Your library is open on:</b></p>
           <table>
             <tr>
               <th>Day</th>
@@ -83,7 +60,7 @@
 
 <script src="./library_view_script.js">
 export default {
-  name: "library_View"
+  name: "library_edit"
 }
 </script>
 
@@ -92,26 +69,17 @@ export default {
 #library_view {
   font-weight: bold;
   background-image: linear-gradient(to bottom right, #93A5CF, #E4EfE9);
-  padding-bottom: 40vh;
-}
+  background-size: cover;
+  overflow: hidden;
+  position: fixed;
+  padding-bottom: 30vh;
 
+}
 
 .block {
   width: 100%;
   display: block;
-  padding-top: 5vh;
-}
-
-.inline_left {
-  width: 50%;
-  float: left;
-  display: inline-block;
-}
-
-.inline_right {
-  width: 50%;
-  float: right;
-  display: inline-block;
+  padding-top: 1vh;
 }
 
 .address {
@@ -127,8 +95,5 @@ table {
   margin-left: auto;
   margin-right: auto;
   width: 20px;
-  border-collapse: separate;
-  border-spacing: 30px 0;
-  position: relative;
 }
 </style>

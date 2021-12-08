@@ -19,7 +19,6 @@
               <tr>
                 <th>Day</th>
                 <th>Name</th>
-                <th>username</th>
                 <th>Employee ID</th>
                 <th>Start Time</th>
                 <th>End Time</th>
@@ -27,7 +26,6 @@
               <tr v-for="monday in mondayShifts">
                 <td>{{monday.weekday}}</td>
                 <td>{{monday.employee.firstName}}  {{monday.employee.lastName}}</td>
-                <td>{{monday.employee.username}}</td>
                 <td>{{monday.employee.libraryCardID}}</td>
                 <td>{{monday.startTime}}</td>
                 <td>{{monday.endTime}}</td>
@@ -61,7 +59,6 @@
           <tr>
             <th>Day</th>
             <th>Name</th>
-            <th>username</th>
             <th>Employee ID</th>
             <th>Start Time</th>
             <th>End Time</th>
@@ -69,7 +66,6 @@
           <tr v-for="tuesday in tuesdayShifts">
             <td>{{tuesday.weekday}}</td>
             <td>{{tuesday.employee.firstName}}  {{tuesday.employee.lastName}}</td>
-            <td>{{tuesday.employee.username}}</td>
             <td>{{tuesday.employee.libraryCardID}}</td>
             <td>{{tuesday.startTime}}</td>
             <td>{{tuesday.endTime}}</td>
@@ -104,7 +100,6 @@
           <tr>
             <th>Day</th>
             <th>Name</th>
-            <th>username</th>
             <th>Employee ID</th>
             <th>Start Time</th>
             <th>End Time</th>
@@ -112,7 +107,6 @@
           <tr v-for="wed in wednesdayShifts">
             <td>{{wed.weekday}}</td>
             <td>{{wed.employee.firstName}}  {{wed.employee.lastName}}</td>
-            <td>{{wed.employee.username}}</td>
             <td>{{wed.employee.libraryCardID}}</td>
             <td>{{wed.startTime}}</td>
             <td>{{wed.endTime}}</td>
@@ -146,7 +140,6 @@
           <tr>
             <th>Day</th>
             <th>Name</th>
-            <th>username</th>
             <th>Employee ID</th>
             <th>Start Time</th>
             <th>End Time</th>
@@ -154,7 +147,6 @@
           <tr v-for="thu in thursdayShifts">
             <td>{{thu.weekday}}</td>
             <td>{{thu.employee.firstName}}  {{thu.employee.lastName}}</td>
-            <td>{{thu.employee.username}}</td>
             <td>{{thu.employee.libraryCardID}}</td>
             <td>{{thu.startTime}}</td>
             <td>{{thu.endTime}}</td>
@@ -189,7 +181,6 @@
           <tr>
             <th>Day</th>
             <th>Name</th>
-            <th>username</th>
             <th>Employee ID</th>
             <th>Start Time</th>
             <th>End Time</th>
@@ -197,7 +188,6 @@
           <tr v-for="fri in fridayShifts">
             <td>{{fri.weekday}}</td>
             <td>{{fri.employee.firstName}}  {{fri.employee.lastName}}</td>
-            <td>{{fri.employee.username}}</td>
             <td>{{fri.employee.libraryCardID}}</td>
             <td>{{fri.startTime}}</td>
             <td>{{fri.endTime}}</td>
@@ -232,7 +222,6 @@
           <tr>
             <th>Day</th>
             <th>Name</th>
-            <th>username</th>
             <th>Employee ID</th>
             <th>Start Time</th>
             <th>End Time</th>
@@ -240,7 +229,6 @@
           <tr v-for="sat in saturdayShifts">
             <td>{{sat.weekday}}</td>
             <td>{{sat.employee.firstName}}  {{sat.employee.lastName}}</td>
-            <td>{{sat.employee.username}}</td>
             <td>{{sat.employee.libraryCardID}}</td>
             <td>{{sat.startTime}}</td>
             <td>{{sat.endTime}}</td>
@@ -275,7 +263,6 @@
           <tr>
             <th>Day</th>
             <th>Name</th>
-            <th>username</th>
             <th>Employee ID</th>
             <th>Start Time</th>
             <th>End Time</th>
@@ -283,7 +270,6 @@
           <tr v-for="sun in sundayShifts">
             <td>{{sun.weekday}}</td>
             <td>{{sun.employee.firstName}}  {{sun.employee.lastName}}</td>
-            <td>{{sun.employee.username}}</td>
             <td>{{sun.employee.libraryCardID}}</td>
             <td>{{sun.startTime}}</td>
             <td>{{sun.endTime}}</td>
@@ -330,10 +316,9 @@ export default {
 
 table {
   border-collapse: separate;
-  border-spacing: 100px 0;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  max-width: 95%;
+  margin-left: auto;
+  margin-right: auto;
   padding-top: 4vh;
 }
 
@@ -364,7 +349,7 @@ tr {
 #sun_start, #sun_end {
   margin-right: auto;
   margin-left: auto;
-  width: 10%;
+  width: 40%;
   height: auto;
 }
 

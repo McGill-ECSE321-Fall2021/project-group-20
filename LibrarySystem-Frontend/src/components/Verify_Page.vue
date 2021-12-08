@@ -1,5 +1,8 @@
 <template>
   <div id="verify_page">
+    <b-navbar toggleable="lg" variant="faded" type="light" >
+      <b-navbar-brand href="/">Menu</b-navbar-brand>
+    </b-navbar>
     <div class="header_img">
       <img src="../assets/LS.png" style="width:20vh; height:auto;">
     </div>
@@ -16,7 +19,6 @@
           <th>First Name</th>
           <th>Last Name</th>
           <th>Username</th>
-          <th>Email</th>
           <th>Fees</th>
         </tr>
         <tr v-for="account in accounts">
@@ -24,7 +26,6 @@
           <td>{{account.firstName}}</td>
           <td>{{account.lastName}}</td>
           <td>{{account.username}}</td>
-          <td>{{account.email}}</td>
           <td>{{account.outstandingBalance}}</td>
         </tr>
       </table>
@@ -62,6 +63,7 @@ table {
   margin-left: auto;
   margin-right: auto;
   padding-bottom: 5vh;
+  max-width: 100%;
 }
 
 .choose {

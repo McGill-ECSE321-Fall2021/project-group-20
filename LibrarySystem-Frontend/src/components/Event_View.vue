@@ -11,12 +11,7 @@
 
 
 
-    <div class="jumbotron jumbotron-fluid">
-      <div class="container">
-        <h1 class="display-4">At the service of our commmunity</h1>
-        <p class="lead">This is the event page!! See all the fun activities going on!</p>
-      </div>
-    </div>
+    <h1>At the service of our commmunity</h1><br>
 
     <div class="event_buttons">
 
@@ -109,9 +104,10 @@ export default {
 }
 table {
   border-collapse: separate;
-  border-spacing: 50px 0;
+  border-spacing: 20px 0;
   background-color: #73e2f5;
   padding-bottom: 100%;
+  max-width: 100%;
 
 }
 

@@ -1,6 +1,8 @@
 <template>
   <div id="event_create">
-
+    <b-navbar toggleable="lg" variant="faded" type="light" >
+      <b-navbar-brand href="/">Menu</b-navbar-brand>
+    </b-navbar>
     <div class="header_img">
       <img src="../assets/LS.png" style="width:20vh; height:auto;">
     </div>
@@ -74,6 +76,8 @@ export default {
 #event_create{
   background-color: #4f4b57;
   color: #F5B7B1;
+  position: fixed;
+  overflow: hidden;
 }
 .msg {
   padding-top: 2vh;

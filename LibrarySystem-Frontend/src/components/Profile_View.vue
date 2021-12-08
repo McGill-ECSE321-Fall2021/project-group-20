@@ -1,5 +1,8 @@
 <template>
   <div id="profile_view">
+    <b-navbar toggleable="lg" variant="faded" type="light" >
+      <b-navbar-brand href="/">Menu</b-navbar-brand>
+    </b-navbar>
     <div class="header_img">
       <img src="../assets/LS.png" style="width:20vh; height:auto;">
     </div>
@@ -92,7 +95,7 @@
 
           <div class="buttonPersonalFrame inputPersLabel">
             <button class="btn-cancel-pers" @click="cancel">Back
-            </button>
+            </button><br>
             <button class="btn-success-pers" @click="updateInfo(firstname, lastname, civicNumber, street, city, postalCode,
               province, country)">Save Changes
             </button>
@@ -133,8 +136,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(4, 1fr);
-  width: 25%;
-  min-width: 500px;
+  width: 80%;
   position: relative;
   left: 50%;
   transform: translateX(-50%);

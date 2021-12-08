@@ -1,7 +1,7 @@
 <template >
   <div class="background-template">
     <div id="EmoloyeeBooking_View" >
-      <img src="../assets/library_source.jpg" style="width:80vh; height:auto; padding-bottom: 2vh">
+      <img src="../assets/library_source.jpg" style="width:100%; height:auto; padding-bottom: 2vh">
       <h2><b>Book Item</b></h2>
       <template >
         <input type="input" v-model="input" id="input" class="form-control" required placeholder="User ID">
@@ -34,7 +34,7 @@
       <button class="btn btn-primary" @click="Return(itemBarcode)">Return</button>
       <button class="btn btn-primary" @click="backup()">Back</button>
       <p>
-        <span v-if="error" style="color: red">Error: {{error}}</span>
+        <br><span v-if="error" style="color: red">Error: {{error}}</span>
       </p>
     </div>
   </div>
@@ -54,22 +54,22 @@ export default {
   padding-bottom: 25vh;
 }
 
+#EmoloyeeBooking_View {
+  position: center;
+}
 #input {
-  width: 44.75%;
+  width: 50%;
   height: auto;
-  min-width: 400px;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  position: center;
+  margin: auto;
+  display: block;
 }
 
 #itemBarcode {
-  width: 44.75%;
+  width: 50%;
   height: auto;
-  min-width: 400px;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  margin: auto;
+  display: block;
 }
 
 table {
@@ -83,7 +83,7 @@ table {
 }
 
 .buttons {
-  padding-top: 2vh;
+  padding-top: 5vh;
 }
 
 </style>

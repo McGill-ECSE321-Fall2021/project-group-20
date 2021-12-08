@@ -1,8 +1,10 @@
 <template>
   <div id="profile_view">
-
+    <b-navbar toggleable="lg" variant="faded" type="light" >
+      <b-navbar-brand href="/">Menu</b-navbar-brand>
+    </b-navbar>
     <div class="header_img">
-      <img src="../assets/LS.png" style="width:20vh; height:auto;">
+      <img src="../assets/LS.png" style="width:20%; height:auto;">
     </div>
 
     <h2 class="main_title">
@@ -10,7 +12,7 @@
     </h2>
 
     <div>
-      <img src="../assets/shift.jpg" style="width:80vh; height:auto;">
+      <img src="../assets/shift.jpg" style="width:100%; height:auto;">
     </div>
 
     <div class="table">
@@ -49,10 +51,10 @@ export default {
 
 table {
   border-collapse: separate;
-  border-spacing: 100px 0;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-left: auto;
+  margin-right: auto;
+  position: center;
+  max-width: 95%;
   padding-top: 4vh;
 }
 

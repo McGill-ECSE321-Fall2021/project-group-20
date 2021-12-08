@@ -4,7 +4,7 @@
     <b-navbar-brand href="/">Menu</b-navbar-brand>
   </b-navbar>
   <div class="header_img">
-    <img src="../assets/LS.png" style="width:20vh; height:auto; padding-bottom: 2vh">
+    <img src="../assets/LS.png" style="width:10%; height:auto; padding-bottom: 2vh">
   </div>
 
 
@@ -440,8 +440,6 @@ export default {
   width: 24.75%;
   min-width: 600px;
   position: relative;
-  left: 50%;
-  transform: translateX(-50%);
   padding-top: 1vh;
 }
 
@@ -460,11 +458,10 @@ export default {
 }
 
 .titleFields {
-  width: 10%;
-  min-width: 300px;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 50%;
+  margin: auto;
+  display: block;
+  position: center;
   padding-top: 1vh;
 }
 

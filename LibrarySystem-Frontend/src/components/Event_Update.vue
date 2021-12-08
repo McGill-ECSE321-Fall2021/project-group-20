@@ -1,8 +1,10 @@
 <template>
   <div id="event_update">
-
+    <b-navbar toggleable="lg" variant="faded" type="light" >
+      <b-navbar-brand href="/">Menu</b-navbar-brand>
+    </b-navbar>
     <div class="header_img">
-      <img src="../assets/LS.png" style="width:50vh; height:50vh;">
+      <img src="../assets/LS.png" style="width:50%; height:auto;">
     </div>
 
     <div class="mainFrame">
@@ -48,6 +50,8 @@ export default {
 #event_update{
   background-image: linear-gradient(to bottom right, #3eadcf, #abe9cd);
   padding-bottom: 40vh;
+  position: fixed;
+  overflow: hidden;
 }
 
 .inputFrame {
@@ -62,12 +66,12 @@ export default {
   /*padding-top: 2vh;*/
   /*padding-bottom: 0;*/
 
-  width: 24.75%;
-  min-width: 400px;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 40%;
+  position: center;
+  margin: auto;
+  display: block;
   padding-top: 2vh;
+  padding-bottom: 3vh;
 }
 
 .InputLabel {
@@ -82,10 +86,8 @@ input[type=text] {
   box-sizing: border-box;
   background-color: #fec8cd;
   color: #a30000;
-  width: 24.75%;
-  min-width: 400px;
-  position: relative;
-  left: 10%;
+  margin: auto;
+  display: block;
   /*border: 3px solid #333333;*/
   /*-webkit-transition: 0.5s;*/
   /*transition: 0.5s;*/

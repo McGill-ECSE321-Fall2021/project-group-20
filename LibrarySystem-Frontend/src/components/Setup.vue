@@ -6,9 +6,7 @@
   <div class="msg">
     <h3><b>Welcome to Group 20's Library System Application's initial setup wizard!</b></h3>
     <br>
-    <br>
-    <p><b>To setup your Library System, please fill out the following address information<br>and a new
-    Head Librarian account will also be created for you with the following information:</b></p>
+    <p><b>Default Head Librarian account will also be created for you with the following information:</b></p>
     <br>
     <p><b>Username:</b> headlibrarian     |     <b>Password:</b> headlibrarian</p>
     <br>
@@ -17,7 +15,7 @@
   <b-container class="input">
     <b-row>
       <b-col>
-        <label for="civic">Civic Number:</label>
+        <label for="civic">Civic:</label>
         <input type="text" v-model="civic" id="civic" class="form-control" required>
       </b-col>
       <b-col>

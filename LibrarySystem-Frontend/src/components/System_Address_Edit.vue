@@ -14,7 +14,7 @@
     <b-container class="input">
       <b-row>
         <b-col>
-          <label for="civic">Civic Number:</label>
+          <label for="civic">Civic:</label>
           <input type="text" v-model="civic" id="civic" class="form-control" required>
         </b-col>
         <b-col>
@@ -60,6 +60,7 @@
       </b-row>
     </b-container>
     <div class="buttons">
+      <br>
       <button class="btn btn-danger" @click="cancel">Cancel</button>&nbsp
       <button class="btn btn-success" @click="update(civic, street, city, postalCode, systemID)">Update Address</button>
     </div>
@@ -83,6 +84,7 @@ export default {
   font-weight: bold;
   background-image: linear-gradient(to bottom right, #93A5CF, #E4EfE9);
   padding-bottom: 40vh;
+  position: fixed;
 }
 
 

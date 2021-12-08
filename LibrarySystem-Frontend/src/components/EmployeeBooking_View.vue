@@ -1,10 +1,13 @@
 <template >
   <div class="background-template">
+    <b-navbar toggleable="lg" variant="faded" type="light" >
+      <b-navbar-brand href="/">Menu</b-navbar-brand>
+    </b-navbar>
     <div id="EmoloyeeBooking_View" >
-      <img src="../assets/library_source.jpg" style="width:80vh; height:auto; padding-bottom: 2vh">
+      <img src="../assets/library_source.jpg" style="width:100%; height:auto; padding-bottom: 2vh">
       <h2><b>Book Item</b></h2>
       <template >
-        <input type="input" v-model="input" id="input" class="form-control" required placeholder="Search">
+        <input type="input" v-model="input" id="input" class="form-control" required placeholder="User ID">
         <br>
         <button class="btn btn-primary" @click="get(input)">Search</button>
       </template>
@@ -29,15 +32,12 @@
         </table>
       </div>
       <input type="text" v-model="itemBarcode" id="itemBarcode" class="form-control" required placeholder="ItemBarcode">
+    </div>
+    <div class="buttons">
       <button class="btn btn-primary" @click="Return(itemBarcode)">Return</button>
       <button class="btn btn-primary" @click="back()">Back</button>
       <p>
-        <span v-if="error" style="color: red">Error: {{error}}</span>
-      </p>
-    </div>
-    <div class="error">
-      <p>
-        <span v-if="error" style="color: red">Error: {{error}}</span>
+        <br><span v-if="error" style="color: red">Error: {{error}}</span>
       </p>
     </div>
   </div>
@@ -47,23 +47,32 @@
 export default {
   name: "booking_view_script"
 }
+
 </script>
 
 <style scoped>
 
 .background-template {
   background-image: linear-gradient(to bottom right, #3eadcf, #abe9cd);
-  padding-bottom: 219px;
+  padding-bottom: 25vh;
 }
 
 #EmoloyeeBooking_View {
+  position: center;
+}
+#input {
   width: 50%;
-  min-width: 400px;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  padding-top: 10vh;
-  padding-bottom: 20vh;
+  height: auto;
+  position: center;
+  margin: auto;
+  display: block;
+}
+
+#itemBarcode {
+  width: 50%;
+  height: auto;
+  margin: auto;
+  display: block;
 }
 
 table {
@@ -77,6 +86,7 @@ table {
 }
 
 .buttons {
-  padding-top: 2vh;
+  padding-top: 5vh;
 }
+
 </style>

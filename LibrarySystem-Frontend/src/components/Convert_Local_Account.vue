@@ -1,12 +1,15 @@
 <template>
   <div id="convert_account">
+    <b-navbar toggleable="lg" variant="faded" type="light" >
+      <b-navbar-brand href="/">Menu</b-navbar-brand>
+    </b-navbar>
     <div class="header_img">
       <img src="../assets/LS.png" style="width:20vh; height:auto;">
     </div>
     <div class="msg">
       <h1>Management Page to convert a customer's offline account</h1>
       <br>
-      <h3>Default password is 'password', advice customer to change on first login!</h3>
+      <p><b>Default password is 'password', advice customer to change on first login!</b></p>
     </div>
     <div class="table">
       <table>
@@ -34,7 +37,7 @@
     </div>
     <div class="error">
       <p>
-        <span v-if="error" style="color: red">{{error}}</span>
+        <br><span v-if="error" style="color: red">{{error}}</span>
       </p>
     </div>
     <div class="buttons">
@@ -84,6 +87,10 @@ table {
   padding-bottom: 5vh;
 }
 
+.dropdown {
+  padding-bottom: 1vh;
+}
+
 .buttons {
   padding-bottom: 20vh;
 }
@@ -95,7 +102,7 @@ table {
 .inputs {
   margin-left: auto;
   margin-right: auto;
-  width: 20%;
+  width: 60%;
   height: auto;
 }
 </style>

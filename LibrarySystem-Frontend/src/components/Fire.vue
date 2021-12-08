@@ -1,7 +1,10 @@
 <template>
   <div id="fire">
+    <b-navbar toggleable="lg" variant="faded" type="light" >
+      <b-navbar-brand href="/">Menu</b-navbar-brand>
+    </b-navbar>
     <div class="header_img">
-      <img src="../assets/LS.png" style="width:20vh; height:auto; padding-bottom: 8vh">
+      <img src="../assets/LS.png" style="width:30%; height:auto; padding-bottom: 4vh">
     </div>
     <div class="msg">
       <h2><b>Fire Librarian</b></h2>
@@ -14,7 +17,6 @@
           <th>First Name</th>
           <th>Last Name</th>
           <th>Username</th>
-          <th>Email</th>
           <th>Role</th>
         </tr>
         <tr v-for="account in accounts">
@@ -22,7 +24,6 @@
           <td>{{account.firstName}}</td>
           <td>{{account.lastName}}</td>
           <td>{{account.username}}</td>
-          <td>{{account.email}}</td>
           <td>{{account.role}}</td>
         </tr>
       </table>
@@ -74,6 +75,7 @@ export default {
 table {
   margin-left: auto;
   margin-right: auto;
+  max-width: 95%;
 }
 
 .table {
