@@ -4,7 +4,7 @@
       <b-navbar-brand href="/">Menu</b-navbar-brand>
     </b-navbar>
     <div id="Update_Item" >
-      <img src="../assets/library_source.jpg" style="width:80vh; height:auto; padding-bottom: 2vh">
+      <img src="../assets/library_source.jpg" style="width:100%; height:auto; padding-bottom: 1vh">
       <h2><b>Book Item</b></h2>
       <template >
         <input type="input" v-model="input" id="input" class="form-control" required placeholder="Search">
@@ -65,11 +65,9 @@ export default {
 }
 
 #Update_Item {
-  width: 44.75%;
-  min-width: 400px;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  position: center;
+  margin-left: auto;
+  margin-right: auto;
   padding-top: 10vh;
   padding-bottom: 20vh;
 }
@@ -80,7 +78,10 @@ table {
   max-width: 95%;
 }
 
-.button {
-  padding-bottom: 3vh;
+#itemBarcode, #Sdate, #Edate, #input {
+  max-width: 85%;
+  align-content: center;
+  margin: auto;
+  display: block;
 }
 </style>

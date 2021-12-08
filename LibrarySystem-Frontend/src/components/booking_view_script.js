@@ -89,14 +89,11 @@ export default {
     }
   },
 
-  mounted(){
-    this.get();
-  },
-
   beforeMount() {
     let split = document.cookie.split(';')
     let id = split[0].split('=');
-    this.myid= id[1]
+    this.myid= id[1];
+    this.uperror = ''
   }
 
 }

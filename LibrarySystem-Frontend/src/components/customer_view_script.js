@@ -88,7 +88,7 @@ export default {
       AXIOS.get(backendUrl + '/booking/user/?libraryId=' + id[1]).then(response => {
         this.bookings = response.data;
       }).catch(e => {
-        this.error = e
+        
       }),
 
       AXIOS.get(backendUrl + '/customer/' + id[1]).then(response => {
