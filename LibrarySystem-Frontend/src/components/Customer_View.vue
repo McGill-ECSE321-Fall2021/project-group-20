@@ -11,14 +11,9 @@
             <b-nav-item href="/Library">Library </b-nav-item>
             <b-nav-item @click="openBooking" v-if="info.outstandingBalance === 0 && info.demeritPts < 3">Booking </b-nav-item>
 
-
-
           </b-navbar-nav>
-
-          <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto">
             <b-nav-item-dropdown right>
-              <!-- Using 'button-content' slot -->
               <template #button-content>
                 <em>User</em>
               </template>
@@ -46,10 +41,6 @@
           @sliding-start="onSlideStart"
           @sliding-end="onSlideEnd"
         >
-          <!-- Text slides with image -->
-
-          <!-- Slides with img slot -->
-          <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
           <b-carousel-slide>
             <template #img>
               <img src="../assets/books.jpg" style="width:auto; height:30vh;">
@@ -59,42 +50,6 @@
       </div>
 
       <div class="bottomFrame">
-
-        <!-- THIS IS THE LIBRARY INFORMATION SECTION OF THE MAIN PAGE -->
-        <div class="libraryInfoFrame" id="library_view">
-          <div class="head">
-            <br>
-            <h2><u><b>Library Information</b></u></h2>
-          </div>
-          <div class="block">
-            <div class="inline_left">
-              <div class="address">
-                <p><b>The library is located at:</b></p>
-                <div class="centered">
-                  <p>{{civic}} {{street}}, {{city}}, {{province}}, {{postalCode}}, {{country}}</p>
-                </div>
-              </div>
-            </div>
-            <div class="inline_right">
-              <div class="split openingHours">
-                <p><b>The library is open on:</b></p>
-                <table>
-                  <tr>
-                    <th>Day</th>
-                    <th>Open</th>
-                    <th>Close</th>
-                  </tr>
-                  <tr v-for="hour in hours">
-                    <td>{{hour.weekday}}</td>
-                    <td>{{hour.startTime}}</td>
-                    <td>{{hour.endTime}}</td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <!-- THIS IS THE BOOKING SECTION OF THE MAIN PAGE -->
         <div class="bookingFrame">
           <h2 class="main_title">
@@ -177,8 +132,6 @@ img {vertical-align: middle;}
   margin: auto;
 }
 
-
-
 /* Caption text */
 .text {
   color: #f2f2f2;
@@ -239,10 +192,8 @@ img {vertical-align: middle;}
 
 table {
   border-collapse: separate;
-  border-spacing: 40px 0;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 tr {
@@ -254,10 +205,12 @@ tr {
 }
 
 .bottomFrame {
-  position: fixed;
   display: grid;
-  grid-auto-columns: minmax(0, 1fr);
-  grid-auto-flow: column;
+  grid-template-rows: repeat(2, 1fr);
+  border-collapse: separate;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .LO_BALANCE, .LO_PTS {

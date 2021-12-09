@@ -1,7 +1,7 @@
 <template >
   <div class="background-template">
   <div id="Update_Item" >
-    <img src="../assets/library_source.jpg" style="width:80vh; height:auto; padding-bottom: 2vh">
+    <img src="../assets/library_source.jpg" style="width:100%; height:auto; padding-bottom: 2vh">
     <h2><b>Update Item</b></h2>
     <template >
       <input type="input" v-model="input" id="input" class="form-control" required placeholder="Search">
@@ -32,27 +32,11 @@
     <button class="btn btn-danger" @click="delet(itemBarcode)">Delete</button>
     <button class="btn btn-primary" @click="back()">Back</button>
     <p>
-      <span v-if="error" style="color: red">Error: {{error}}</span>
+      <span v-if="uperror" style="color: red">Error: {{uperror}}</span>
     </p>
   </div>
   </div>
 </template>
-<!--  <v-data-table-->
-<!--    :headers="heads"-->
-<!--    :items="items"-->
-<!--    hide-actions-->
-<!--    class="elevation-1"-->
-<!--  >-->
-<!--    <template slot="items" slot-scope="props">-->
-<!--      <td>{{ props.item.name }}</td>-->
-<!--      <td class="text-xs-right">{{ props.item.calories }}</td>-->
-<!--      <td class="text-xs-right">{{ props.item.fat }}</td>-->
-<!--      <td class="text-xs-right">{{ props.item.carbs }}</td>-->
-<!--      <td class="text-xs-right">{{ props.item.protein }}</td>-->
-<!--      <td class="text-xs-right">{{ props.item.iron }}</td>-->
-<!--    </template>-->
-<!--  </v-data-table>-->
-
 
 <script src="./update_item_view.js">
 export default {
@@ -68,8 +52,7 @@ export default {
 }
 
 #Update_Item {
-  width: 44.75%;
-  min-width: 400px;
+  width: 60%;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
