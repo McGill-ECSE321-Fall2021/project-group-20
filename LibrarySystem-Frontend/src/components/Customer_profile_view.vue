@@ -87,13 +87,31 @@
             </div>
 
             <div class="provinceLabel inputPersLabel">
-              <label for="province">Province</label>
-              <input type="text" v-model="province" id="province" class="form-control" required>
+              <label for="province">Province:</label><br>
+              <select v-model="province" name="province" id="province">
+                <option value="AB">Alberta</option>
+                <option value="BC">British Columbia</option>
+                <option value="MB">Manitoba</option>
+                <option value="NB">New Brunswick</option>
+                <option value="NL">Newfoundland and Labrador</option>
+                <option value="NT">Northwest Territories</option>
+                <option value="NS">Nova Scotia</option>
+                <option value="NU">Nunavut</option>
+                <option value="ON">Ontario</option>
+                <option value="PE">Prince Edward Island</option>
+                <option value="QC">Quebec</option>
+                <option value="SK">Saskatchewan</option>
+                <option value="YK">Yukon</option>
+                <option value="Other">Other</option>
+              </select>
             </div>
 
             <div class="countryLabel inputPersLabel">
-              <label for="country">Country</label>
-              <input type="text" v-model="country" id="country" class="form-control" required>
+              <label for="country">Country:</label><br>
+              <select name="country" id="country" v-model="country">
+                <option value="Canada">Canada</option>
+                <option value="Other">Other</option>
+              </select>
             </div>
 
             <div class="postalCodeLabel inputPersLabel">
