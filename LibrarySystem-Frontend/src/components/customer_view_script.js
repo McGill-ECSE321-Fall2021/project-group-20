@@ -59,6 +59,9 @@ export default {
     },
     openBooking(){
       this.$router.push('/home/Booking');
+    },
+    openLibrary() {
+      this.$router.push('/library');
     }
   },
 

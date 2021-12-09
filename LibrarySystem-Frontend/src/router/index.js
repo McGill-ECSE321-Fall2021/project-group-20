@@ -104,7 +104,7 @@ export default new Router({
       component: Profile_View
     },
     {
-      path: '/Library',
+      path: '/library',
       name: 'library_view',
       component: Library_View
     },

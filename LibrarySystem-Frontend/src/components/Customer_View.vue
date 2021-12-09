@@ -8,7 +8,7 @@
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item href="/Library">Library </b-nav-item>
+            <b-nav-item @click="openLibrary">Library </b-nav-item>
             <b-nav-item @click="openBooking" v-if="info.outstandingBalance === 0 && info.demeritPts < 3">Booking </b-nav-item>
 
 
