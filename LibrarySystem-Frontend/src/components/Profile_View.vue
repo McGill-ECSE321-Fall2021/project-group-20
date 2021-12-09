@@ -76,7 +76,7 @@
               <input type="text" v-model="city" id="city" class="form-control" required>
             </div>
 
-            <div class="provinceLabel inputPersLabel">
+            <div class="province">
               <label for="province">Province:</label><br>
               <select v-model="province" name="province" id="province">
                 <option value="AB">Alberta</option>
@@ -96,7 +96,7 @@
               </select>
             </div>
 
-            <div class="countryLabel inputPersLabel">
+            <div class="country">
               <label for="country">Country:</label><br>
               <select name="country" id="country" v-model="country">
                 <option value="Canada">Canada</option>
@@ -190,9 +190,8 @@ export default {
   grid-column: span 2;
 }
 
-.provinceLabel {
-  width: 70%;
-  height: auto;
+#province, #country {
+  width: 60%;
 }
 
 label {

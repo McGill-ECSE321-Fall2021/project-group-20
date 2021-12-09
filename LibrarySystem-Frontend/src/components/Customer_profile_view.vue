@@ -72,7 +72,7 @@
             </div>
 
             <div class="civicNumberLabel inputPersLabel">
-              <label for="civic">Civic Number</label>
+              <label for="civicNumber">Civic Number</label>
               <input type="text" v-model="civicNumber" id="civicNumber" class="form-control" required>
             </div>
 
@@ -86,7 +86,7 @@
               <input type="text" v-model="city" id="city" class="form-control" required>
             </div>
 
-            <div class="provinceLabel">
+            <div class="province">
               <label for="province">Province:</label><br>
               <select v-model="province" name="province" id="province">
                 <option value="AB">Alberta</option>
@@ -106,7 +106,7 @@
               </select>
             </div>
 
-            <div class="countryLabel">
+            <div class="country">
               <label for="country">Country:</label><br>
               <select name="country" id="country" v-model="country">
                 <option value="Canada">Canada</option>
@@ -193,6 +193,10 @@ export default {
 
 #email {
   width: 85%;
+}
+
+#province, #country {
+  width: 60%;
 }
 
 .emailLabel {
