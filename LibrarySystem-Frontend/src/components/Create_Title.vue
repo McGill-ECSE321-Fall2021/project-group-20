@@ -1,6 +1,8 @@
 <template >
   <div id="Create_Title">
-
+    <b-navbar toggleable="lg" variant="faded" type="light" >
+      <b-navbar-brand href="/">Menu</b-navbar-brand>
+    </b-navbar>
     <div class="header_img">
       <br>
       <img src="../assets/books_management.jpg" style="width:70vh; height:auto; padding-bottom: 2vh">

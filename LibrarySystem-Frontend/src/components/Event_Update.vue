@@ -1,6 +1,8 @@
 <template>
   <div id="event_update">
-
+    <b-navbar toggleable="lg" variant="faded" type="light" >
+      <b-navbar-brand href="/">Menu</b-navbar-brand>
+    </b-navbar>
     <div class="header_img">
       <img src="../assets/LS.png" style="width:50vh; height:50vh;">
     </div>

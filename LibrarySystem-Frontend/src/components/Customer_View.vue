@@ -254,7 +254,9 @@ tr {
 }
 
 .bottomFrame {
-  position: fixed;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
   display: grid;
   grid-auto-columns: minmax(0, 1fr);
   grid-auto-flow: column;

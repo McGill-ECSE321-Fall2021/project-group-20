@@ -1,5 +1,8 @@
 <template>
     <div id="Create_Author">
+      <b-navbar toggleable="lg" variant="faded" type="light" >
+        <b-navbar-brand href="/">Menu</b-navbar-brand>
+      </b-navbar>
       <div class="header_img">
         <br>
         <img src="../assets/author.jpg" style="width:80vh; height:auto; padding-bottom: 2vh">
