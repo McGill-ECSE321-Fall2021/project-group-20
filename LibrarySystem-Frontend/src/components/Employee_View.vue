@@ -69,46 +69,10 @@
     </div>
 
     <div class="bottomFrame">
-
-      <!-- THIS IS THE LIBRARY INFORMATION SECTION OF THE MAIN PAGE -->
-<!--      <div class="libraryInfoFrame" id="library_view">-->
-<!--        <div class="head">-->
-<!--          <br>-->
-<!--          <h2><b>Library Information</b></h2>-->
-<!--        </div>-->
-<!--        <div class="block">-->
-<!--          <div class="inline_left">-->
-<!--            <div class="address">-->
-<!--              <p><b>The library is located at:</b></p>-->
-<!--              <div class="centered">-->
-<!--                <p>{{civic}} {{street}}, {{city}}, {{province}}, {{postalCode}}, {{country}}</p>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="inline_right">-->
-<!--            <div class="split openingHours">-->
-<!--              <p><b>The library is open on:</b></p>-->
-<!--              <table>-->
-<!--                <tr>-->
-<!--                  <th>Day</th>-->
-<!--                  <th>Open</th>-->
-<!--                  <th>Close</th>-->
-<!--                </tr>-->
-<!--                <tr v-for="hour in hours">-->
-<!--                  <td>{{hour.weekday}}</td>-->
-<!--                  <td>{{hour.startTime}}</td>-->
-<!--                  <td>{{hour.endTime}}</td>-->
-<!--                </tr>-->
-<!--              </table>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-
       <!-- THIS IS THE SHIFT SECTION OF THE MAIN PAGE -->
       <div class="shiftFrame">
         <h2 class="main_title">
-          <b>Your Shifts</b>
+          <u><b>Your Shifts</b></u>
         </h2>
 
         <div class="table">
@@ -129,22 +93,20 @@
       </div>
 
 
-
       <!-- THIS IS THE EVENT SECTION OF THE MAIN PAGE -->
       <div class="eventFrame">
         <br>
-        <h2><b>Upcoming Events</b></h2>
+        <h2><u><b>Upcoming Events</b></u></h2>
         <div class="HI">
 
           <div class="table">
             <table>
               <tr>
-                <th>Name</th>
+                <th>Event Name</th>
                 <th>Date</th>
                 <th>Weekday</th>
                 <th>Start</th>
                 <th>End</th>
-
               </tr>
               <tr v-for="event in events">
                 <td>{{event.name}}</td>
@@ -152,10 +114,8 @@
                 <td>{{event.eventhour.weekday}}</td>
                 <td>{{event.eventhour.startTime}}</td>
                 <td>{{event.eventhour.endTime}}</td>
-
               </tr>
             </table>
-
           </div>
           <span v-if="eventError" style="color:red">Error: {{eventError}} </span>
         </div>
@@ -271,25 +231,17 @@ img {vertical-align: middle;}
 
 table {
   border-collapse: separate;
+  position: relative;
   margin-left: auto;
   margin-right: auto;
 }
 
 tr {
-  width: 40px;
+  max-width: 95%;
 }
 
 .main_title {
   padding-top: 2vh;
-}
-
-.bottomFrame {
-  display: grid;
-  grid-template-rows: repeat(2, 1fr);
-  border-collapse: separate;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 </style>
