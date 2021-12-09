@@ -4,10 +4,10 @@
       <b-navbar-brand href="/">Menu</b-navbar-brand>
     </b-navbar>
     <div class="header_img">
-      <img src="../assets/LS.png" style="width:20vh; height:auto;">
+      <img src="../assets/LS.png" style="width:20%; height:auto;">
     </div>
     <hr>
-    <h2>Add an Event to our Glorious System</h2>
+    <h2>Add an Event</h2>
     <hr>
     <b-container class="input">
       <b-row>

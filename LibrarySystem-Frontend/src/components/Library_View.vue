@@ -60,7 +60,7 @@
 
 <script src="./library_view_script.js">
 export default {
-  name: "library_edit"
+  name: "library_view"
 }
 </script>
 

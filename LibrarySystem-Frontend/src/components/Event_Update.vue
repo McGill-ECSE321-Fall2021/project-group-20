@@ -4,7 +4,7 @@
       <b-navbar-brand href="/">Menu</b-navbar-brand>
     </b-navbar>
     <div class="header_img">
-      <img src="../assets/LS.png" style="width:50%; height:auto;">
+      <img src="../assets/LS.png" style="width:30%; height:auto;">
     </div>
 
     <div class="mainFrame">
