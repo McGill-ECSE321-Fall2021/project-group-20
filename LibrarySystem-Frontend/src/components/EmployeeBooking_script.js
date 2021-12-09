@@ -22,13 +22,11 @@ export default {
         this.response = response.data
         this.items = response.data
         marepo=response.data
-        this.error = ''
         console.log(response)
 
       }).catch(msg => {
         console.log(msg.response.data)
         console.log(msg.response.status)
-        this.error = msg.response.data;
       })
 
     },
@@ -36,7 +34,7 @@ export default {
     Book(sdate,edate,Reservation,id){
 
       AXIOS.post(backendUrl+'/booking/create?startDate='+sdate+'&endDate='+edate+'&type='+Reservation+'&barcode='+id+'&LibraryId='+'1').then(response => {
-        this.error= ''
+        this.uperror= ''
 
       }).catch(msg => {
         console.log(msg.response.data)
@@ -47,7 +45,7 @@ export default {
     },
     Return(id){
       AXIOS.put(backendUrl+'/booking/return/item?barcode='+id).then(response => {
-        this.error=''
+        this.uperror=''
       }).catch(msg => {
         console.log(msg.response.data)
         console.log(msg.response.status)

@@ -68,7 +68,7 @@ export default {
   position: center;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 10vh;
+  padding-top: 2vh;
   padding-bottom: 20vh;
 }
 

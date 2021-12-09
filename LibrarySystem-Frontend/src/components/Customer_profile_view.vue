@@ -73,7 +73,7 @@
 
             <div class="civicNumberLabel inputPersLabel">
               <label for="civic">Civic Number</label>
-              <input type="text" v-model="civicNumber" id="civic" class="form-control" required>
+              <input type="text" v-model="civicNumber" id="civicNumber" class="form-control" required>
             </div>
 
             <div class="streetLabel inputPersLabel">
@@ -86,7 +86,7 @@
               <input type="text" v-model="city" id="city" class="form-control" required>
             </div>
 
-            <div class="provinceLabel inputPersLabel">
+            <div class="provinceLabel">
               <label for="province">Province:</label><br>
               <select v-model="province" name="province" id="province">
                 <option value="AB">Alberta</option>
@@ -106,7 +106,7 @@
               </select>
             </div>
 
-            <div class="countryLabel inputPersLabel">
+            <div class="countryLabel">
               <label for="country">Country:</label><br>
               <select name="country" id="country" v-model="country">
                 <option value="Canada">Canada</option>
@@ -124,7 +124,7 @@
           <div class="buttonPersonalFrame inputPersLabel">
             <button class="btn-cancel-pers" @click="cancel">Back
             </button>
-            <button class="btn-success-pers" @click="customerUpdateInfo(firstname, lastname, civic, street, city, postalCode,
+            <button class="btn-success-pers" @click="customerUpdateInfo(firstname, lastname, civicNumber, street, city, postalCode,
               province, country)">Save Changes
             </button>
           </div>

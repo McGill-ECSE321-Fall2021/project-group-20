@@ -190,6 +190,11 @@ export default {
   grid-column: span 2;
 }
 
+.provinceLabel {
+  width: 70%;
+  height: auto;
+}
+
 label {
   display: block;
 }
