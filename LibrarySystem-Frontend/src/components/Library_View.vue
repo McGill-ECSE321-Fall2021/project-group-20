@@ -83,7 +83,7 @@
 
 <script src="./library_view_script.js">
 export default {
-  name: "library_View"
+  name: "library_view"
 }
 </script>
 
