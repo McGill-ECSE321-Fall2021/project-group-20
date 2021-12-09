@@ -50,6 +50,22 @@
       </div>
 
       <div class="bottomFrame">
+        <!-- THIS IS THE PERSONAL SECTION OF THE MAIN PAGE -->
+        <div class="personalFrame">
+          <br>
+          <h2><u><b>Your Information</b></u></h2><br>
+          <div class="HI">
+            <p><b>Card ID:</b> {{info.libraryCardID}}</p>
+            <p><b>Current Balance:</b> {{info.outstandingBalance}}</p>
+            <p><b>Demerit Points:</b> {{info.demeritPts}}</p>
+          </div>
+          <div class="LO_BALANCE" v-if="info.outstandingBalance !== 0">
+            <h3>Your account cannot be used to book or reserve until the balance of <b>{{info.outstandingBalance}}</b> is paid off!</h3>
+          </div>
+          <div class="LO_PTS" v-if="info.demeritPts >= 3">
+            <h3>Your account cannot be used to book or reserve until you meet with management!</h3>
+          </div>
+        </div>
         <!-- THIS IS THE BOOKING SECTION OF THE MAIN PAGE -->
         <div class="bookingFrame">
           <h2 class="main_title">
@@ -74,26 +90,6 @@
           </div>
           <span v-if="error" style="color:red"> Error: {{error}}</span>
         </div>
-
-
-
-        <!-- THIS IS THE PERSONAL SECTION OF THE MAIN PAGE -->
-        <div class="personalFrame">
-          <br>
-          <h2><u><b>Your Information</b></u></h2><br>
-          <div class="HI">
-            <p><b>Card ID:</b> {{info.libraryCardID}}</p>
-            <p><b>Current Balance:</b> {{info.outstandingBalance}}</p>
-            <p><b>Demerit Points:</b> {{info.demeritPts}}</p>
-          </div>
-          <div class="LO_BALANCE" v-if="info.outstandingBalance !== 0">
-            <h3>Your account cannot be used to book or reserve until the balance of <b>{{info.outstandingBalance}}</b> is paid off!</h3>
-          </div>
-          <div class="LO_PTS" v-if="info.demeritPts >= 3">
-            <h3>Your account cannot be used to book or reserve until you meet with management!</h3>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>

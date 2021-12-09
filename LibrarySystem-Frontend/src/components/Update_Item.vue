@@ -1,5 +1,8 @@
 <template >
   <div class="background-template">
+    <b-navbar toggleable="lg" variant="faded" type="light" >
+      <b-navbar-brand href="/">Menu</b-navbar-brand>
+    </b-navbar>
   <div id="Update_Item" >
     <img src="../assets/library_source.jpg" style="width:100%; height:auto; padding-bottom: 2vh">
     <h2><b>Update Item</b></h2>
@@ -52,11 +55,9 @@ export default {
 }
 
 #Update_Item {
-  width: 60%;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  padding-top: 10vh;
+  display: block;
+  margin: auto;
+  padding-top: 1vh;
   padding-bottom: 20vh;
 }
 
@@ -66,5 +67,10 @@ table {
 }
 .table {
   padding-top: 2vh;
+}
+
+#input, #itemBarcode, #status {
+  width: 90%;
+  margin: auto;
 }
 </style>
