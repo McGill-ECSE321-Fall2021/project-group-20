@@ -32,12 +32,7 @@
       <button class="btn btn-primary" @click="Return(itemBarcode)">Return</button>
       <button class="btn btn-primary" @click="back()">Back</button>
       <p>
-        <span v-if="error" style="color: red">Error: {{error}}</span>
-      </p>
-    </div>
-    <div class="error">
-      <p>
-        <span v-if="error" style="color: red">Error: {{error}}</span>
+        <br><span v-if="uperror" style="color: red">Error: {{uperror}}</span>
       </p>
     </div>
   </div>

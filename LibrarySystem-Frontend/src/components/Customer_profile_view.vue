@@ -69,8 +69,8 @@
             </div>
 
             <div class="civicNumberLabel inputPersLabel">
-              <label for="civic">Civic Number</label>
-              <input type="text" v-model="civicNumber" id="civic" class="form-control" required>
+              <label for="civicNumber">Civic Number</label>
+              <input type="text" v-model="civicNumber" id="civicNumber" class="form-control" required>
             </div>
 
             <div class="streetLabel inputPersLabel">
@@ -121,7 +121,7 @@
           <div class="buttonPersonalFrame inputPersLabel">
             <button class="btn-cancel-pers" @click="cancel">Back
             </button>
-            <button class="btn-success-pers" @click="customerUpdateInfo(firstname, lastname, civic, street, city, postalCode,
+            <button class="btn-success-pers" @click="customerUpdateInfo(firstname, lastname, civicNumber, street, city, postalCode,
               province, country)">Save Changes
             </button>
           </div>
