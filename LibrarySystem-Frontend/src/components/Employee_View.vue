@@ -131,7 +131,7 @@
 
 
       <!-- THIS IS THE EVENT SECTION OF THE MAIN PAGE -->
-      <div class="eventFrame">
+      <div class="eventFrame" style="align-content: center">
         <br>
         <h2><b>Upcoming Events</b></h2>
         <div class="HI">
@@ -270,8 +270,8 @@ table {
   border-collapse: separate;
   border-spacing: 40px 0;
   position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 tr {

@@ -241,8 +241,8 @@ table {
   border-collapse: separate;
   border-spacing: 40px 0;
   position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 tr {
