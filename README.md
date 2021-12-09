@@ -52,4 +52,6 @@ The website and application is accessed by two types of users: the employees whi
 
 [<h3> Sprint 3: Project Report</h3>](https://github.com/McGill-ECSE321-Fall2021/project-group-20/wiki/Sprint-3-Project-Report)
 
+[<h3> Sprint 4 Wiki 🏃</h3>](https://github.com/McGill-ECSE321-Fall2021/project-group-20/wiki/Sprint-4-%F0%9F%8F%83%E2%80%8D%E2%99%80%EF%B8%8F)
 
+[<h3> Sprint 4: Project Report</h3>](https://github.com/McGill-ECSE321-Fall2021/project-group-20/wiki/Project-Report-4)
