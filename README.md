@@ -33,11 +33,11 @@ The website and application is accessed by two types of users: the employees whi
 
 |  Name | Time Spent in Hours (Sprint 1)  |Time Spent in Hours (Sprint 2)|Time Spent in Hours (Sprint 3)|Time Spent in Hours (Sprint 4)| Total Hours  |
 |---|---|---|---|---|---|
-|  Alexandru Bangala |  38|40|31|0|   109|
-| Harsh Patel   | 32 |35|28|0|  95 |
-| Ehsan Ahmed  | 32 |35|30|0| 97 |
-| Dan Hosi  | 32  |30|28|0|  90 |
-| Abdelmadjid Kamli  | 32  |36|30|0| 98  |
+|  Alexandru Bangala |  38|40|31|8|   117|
+| Harsh Patel   | 32 |35|28|5|  100 |
+| Ehsan Ahmed  | 32 |35|30|5| 102 |
+| Dan Hosi  | 32  |30|28|5|  95 |
+| Abdelmadjid Kamli  | 32  |36|30|7| 103  |
 
 
 [<h3> Sprint 1 Wiki 🏃</h3>](https://github.com/McGill-ECSE321-Fall2021/project-group-20/wiki/Sprint-1-🏃)
